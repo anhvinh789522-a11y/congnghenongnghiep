@@ -2271,8 +2271,8 @@ body {
 
   .module-nav-inner {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 4px !important;
+    grid-template-columns: repeat(auto-fit, minmax(58px, 1fr)) !important;
+    gap: 3px !important;
   }
 
   .module-tab-btn {
@@ -2478,6 +2478,290 @@ body {
     max-width: 100% !important;
     box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.3) !important;
   }
+}
+
+/* ============================================================================
+   VIETCOMBANK-STYLE PORTAL HUB & SMOOTH LAZY REVEAL SYSTEM
+   - Zero-scroll / Single-view Above-the-Fold Landing (Tránh áp lực quá tải thông tin)
+   - 4 Clean Minimalist Enterprise Cards (#0f3d24 tone)
+   - Smooth Reveal Transition khi chọn từng Phân hệ
+   ============================================================================ */
+.vcb-portal-hub {
+  padding: 24px 0 36px;
+  max-width: 1360px;
+  margin: 0 auto;
+  animation: revealContentSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vcb-hero-welcome {
+  text-align: center;
+  margin-bottom: 26px;
+  padding: 0 16px;
+}
+
+.vcb-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #dcfce7;
+  color: #0f3d24;
+  border: 1px solid #86efac;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 999px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.vcb-hero-title {
+  font-size: clamp(1.35rem, 3.8vw, 2.05rem);
+  font-weight: 800;
+  color: #0f3d24;
+  line-height: 1.32;
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+
+.vcb-hero-sub {
+  font-size: clamp(0.95rem, 2.4vw, 1.08rem);
+  color: #475569;
+  max-width: 780px;
+  margin: 0 auto;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* Lưới 4 Thẻ Phân Hệ Kiểu Vietcombank */
+.vcb-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 0 16px;
+  margin-bottom: 26px;
+}
+
+@media (max-width: 1100px) {
+  .vcb-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .vcb-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+.vcb-portal-card {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 22px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.vcb-portal-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #0f3d24, #15803d, #22c55e);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.vcb-portal-card:hover {
+  transform: translateY(-5px);
+  border-color: #15803d;
+  box-shadow: 0 12px 28px rgba(15, 61, 36, 0.12);
+}
+
+.vcb-portal-card:hover::before {
+  opacity: 1;
+}
+
+.vcb-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.vcb-card-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.vcb-portal-card:hover .vcb-card-icon {
+  transform: scale(1.08);
+  background: #dcfce7;
+}
+
+.vcb-card-tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #15803d;
+  background: #f0fdf4;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid #bbf7d0;
+  display: inline-block;
+}
+
+.vcb-card-title {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #0f3d24;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.vcb-card-desc {
+  font-size: 12.5px;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.vcb-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vcb-card-list li {
+  font-size: 12px;
+  color: #334155;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.vcb-card-list li::before {
+  content: "✔";
+  color: #16a34a;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.vcb-card-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 14px;
+  background: #0f3d24;
+  color: #ffffff !important;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: 9px;
+  border: 1px solid #15803d;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.vcb-portal-card:hover .vcb-card-btn {
+  background: #15803d;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.25);
+}
+
+/* Thanh tiện ích nhanh kiểu Vietcombank */
+.vcb-quick-strip {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 12px 18px;
+  margin: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+}
+
+.vcb-quick-strip__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f3d24;
+}
+
+.vcb-quick-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Nút Trở Về Cổng Chọn Phân Hệ (Hub) */
+.btn-back-hub {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  color: #0f3d24 !important;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-back-hub:hover {
+  background: #0f3d24;
+  color: #ffffff !important;
+  border-color: #0f3d24;
+}
+
+/* Animation Hiện Nội Dung Từ Từ (Lazy Reveal) */
+@keyframes revealContentSmooth {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-module-view.active {
+  animation: revealContentSmooth 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 

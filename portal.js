@@ -1,4 +1,4 @@
-﻿// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
+// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
 // Phần 1: Kiến thức tóm tắt từng bài, câu hỏi nâng cao & Công cụ phân tích lý thuyết
 // Phần 2: Tổng hợp 77 bài giảng PPT trình chiếu & dạy nhanh (+ 42 Chuyên đề)
 // Phần 3: Soạn đề theo học kì (Chuẩn Công văn 7991 - 6 bước + Kho 97 Đề học kì)
@@ -244,13 +244,58 @@ function detectStandaloneModule() {
   return 0;
 }
 
+function returnToWelcomeHub() {
+  portalState.activeModule = 0;
+  const hub = document.getElementById("portalWelcomeHub");
+  if (hub) {
+    hub.style.display = "block";
+    hub.classList.remove("reveal-smooth");
+    void hub.offsetWidth;
+    hub.classList.add("reveal-smooth");
+  }
+
+  // Ẩn tất cả view nội dung
+  document.querySelectorAll(".main-module-view").forEach(view => {
+    view.classList.remove("active");
+  });
+
+  // Tắt active trên thanh module nav bar, bật active cho Hub
+  const hubBtn = document.getElementById("btnNavHub");
+  if (hubBtn) hubBtn.classList.add("active");
+  document.querySelectorAll(".module-tab-btn:not(#btnNavHub)").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  const stepperBar = document.getElementById("cv7991StepperBar");
+  if (stepperBar) stepperBar.style.display = "none";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 function switchMainModule(modNum) {
   portalState.activeModule = modNum;
-  document.querySelectorAll(".module-tab-btn").forEach((btn, idx) => {
+
+  // Ẩn/Hiện Cổng Chọn Phân Hệ (Hub)
+  const hub = document.getElementById("portalWelcomeHub");
+  if (hub) {
+    hub.style.display = modNum === 0 ? "block" : "none";
+  }
+
+  const hubBtn = document.getElementById("btnNavHub");
+  if (hubBtn) hubBtn.classList.toggle("active", modNum === 0);
+  document.querySelectorAll(".module-tab-btn:not(#btnNavHub)").forEach((btn, idx) => {
     btn.classList.toggle("active", idx + 1 === modNum);
   });
+
+  // Hiển thị nội dung từ từ (Lazy reveal transition)
   document.querySelectorAll(".main-module-view").forEach((view, idx) => {
-    view.classList.toggle("active", idx + 1 === modNum);
+    const isTarget = idx + 1 === modNum;
+    view.classList.toggle("active", isTarget);
+    if (isTarget) {
+      view.classList.remove("reveal-smooth");
+      void view.offsetWidth;
+      view.classList.add("reveal-smooth");
+    }
   });
 
   // Ẩn/hiện thanh Stepper 6 bước (chỉ hiện khi đang ở Phần 3: Soạn đề theo học kì)
@@ -321,6 +366,14 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
     switchMainModule(standaloneMod);
+  } else {
+    // Nếu vào trang chủ index.html -> Hiển thị Cổng Chọn Phân Hệ (Hub) kiểu Vietcombank tránh quá tải thông tin!
+    const hub = document.getElementById("portalWelcomeHub");
+    if (hub) {
+      returnToWelcomeHub();
+    } else {
+      switchMainModule(1);
+    }
   }
 
   // Phím tắt bàn phím cho Trình chiếu Slide ở Phần 2
@@ -1609,7 +1662,10 @@ function renderModule3ArchiveBanner() {
                   </div>
                   <div class="exam-card-title" title="${escapeHtml(ex.name)}">Đề số ${idx + 1} — ${escapeHtml(ex.term)} (${ex.grade.toUpperCase()})</div>
                 </div>
-                <a href="${ex.serverUrl}" download="${escapeHtml(ex.name)}" class="btn btn-outline btn-sm" style="text-decoration:none; flex-shrink:0;">📥 Tải</a>
+                <div style="display:flex; gap:5px; align-items:center; flex-shrink:0;">
+                  <a href="${ex.serverUrl}" download="${escapeHtml(ex.name)}" class="btn btn-outline btn-sm" style="text-decoration:none; padding:3px 8px; font-size:11.5px;" title="Tải file Word (.docx) gốc">📥 Tải</a>
+                  <button class="btn btn-primary btn-sm" style="padding:3px 8px; font-size:11.5px;" onclick="loadAndUseSampleExam('${escapeHtml(ex.name)}', '${ex.grade}', '${escapeHtml(ex.term)}')" title="Đưa đề mẫu này vào quy trình soạn đề CV 7991">⚡ Dùng Đề</button>
+                </div>
               </div>
             `).join("")}
           </div>

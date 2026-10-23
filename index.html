@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -33,10 +33,17 @@
     </div>
   </header>
 
-  <!-- 4 MAIN MODULES NAVIGATION BAR -->
+  <!-- MAIN MODULES NAVIGATION BAR (5 TABS: HUB + 4 PHÂN HỆ) -->
   <nav class="module-nav-bar">
-    <div class="module-nav-inner">
-      <button class="module-tab-btn active" onclick="switchMainModule(1)">
+    <div class="module-nav-inner" style="grid-template-columns: 210px repeat(4, 1fr);">
+      <button class="module-tab-btn hub-btn active" id="btnNavHub" onclick="returnToWelcomeHub()" style="border-color:#86efac; background:#f0fdf4; color:#0f3d24;">
+        <div class="module-tab-icon" style="background:#dcfce7; color:#0f3d24;">🏠</div>
+        <div class="module-tab-text">
+          <strong>CỔNG TRUNG TÂM</strong>
+          <span>Màn hình chọn phân hệ</span>
+        </div>
+      </button>
+      <button class="module-tab-btn" onclick="switchMainModule(1)">
         <div class="module-tab-icon">📖</div>
         <div class="module-tab-text">
           <strong>PHẦN 1: KIẾN THỨC & PHÂN TÍCH</strong>
@@ -97,13 +104,117 @@
     </div>
   </nav>
 
+  <!-- CỔNG CHÀO & CHỌN PHÂN HỆ KIỂU VIETCOMBANK (WELCOME PORTAL HUB - ZERO STRESS) -->
+  <section class="vcb-portal-hub" id="portalWelcomeHub">
+    <div class="vcb-hero-welcome">
+      <div class="vcb-hero-badge">🌱 CỔNG HỌC LIỆU TRUNG TÂM • THPT LỘC NINH</div>
+      <h2 class="vcb-hero-title">CHÀO MỪNG ĐẾN VỚI HỆ SINH THÁI DẠY &amp; HỌC CÔNG NGHỆ NÔNG NGHIỆP</h2>
+      <p class="vcb-hero-sub">
+        Vui lòng chọn 1 phân hệ bạn muốn làm việc bên dưới. Hệ thống sẽ mở ra không gian chuyên biệt, tránh quá tải thông tin.
+      </p>
+    </div>
+
+    <!-- 4 THẺ PHÂN HỆ LỚN CHUẨN VIETCOMBANK ENTERPRISE -->
+    <div class="vcb-cards-grid">
+      <!-- THẺ 1: KIẾN THỨC & SGK -->
+      <div class="vcb-portal-card" onclick="switchMainModule(1)">
+        <div>
+          <div class="vcb-card-header">
+            <div class="vcb-card-icon">📖</div>
+            <span class="vcb-card-tag">PHÂN HỆ 1</span>
+          </div>
+          <h3 class="vcb-card-title">KIẾN THỨC &amp; LÝ THUYẾT SGK</h3>
+          <p class="vcb-card-desc">Tóm tắt chuẩn 77 bài học Kết nối tri thức 10, 11, 12 cùng sơ đồ tư duy trực quan.</p>
+          <ul class="vcb-card-list">
+            <li>Tóm tắt 77 bài học K10, K11, K12</li>
+            <li>Sơ đồ tư duy (Mindmap) &amp; Flashcard</li>
+            <li>Tool AI phân tích bản chất sinh học</li>
+          </ul>
+        </div>
+        <button type="button" class="vcb-card-btn">Vào Học &amp; Tra Cứu ➔</button>
+      </div>
+
+      <!-- THẺ 2: HỒ SƠ 5512 & PPT -->
+      <div class="vcb-portal-card" onclick="switchMainModule(2)">
+        <div>
+          <div class="vcb-card-header">
+            <div class="vcb-card-icon">📑</div>
+            <span class="vcb-card-tag">PHÂN HỆ 2</span>
+          </div>
+          <h3 class="vcb-card-title">HỒ SƠ 5512 &amp; BÀI GIẢNG PPT</h3>
+          <p class="vcb-card-desc">Hồ sơ nộp Tổ chuyên môn theo CV 5512, soạn giáo án số và kho bài giảng trình chiếu.</p>
+          <ul class="vcb-card-list">
+            <li>Đồng bộ 3 Phụ lục nộp Tổ theo CV 5512</li>
+            <li>Soạn Giáo án 5512 tích hợp AI &amp; NLS</li>
+            <li>Kho 77 Slide PPT chuẩn gắn Google Drive</li>
+          </ul>
+        </div>
+        <button type="button" class="vcb-card-btn">Vào Soạn Giáo Án &amp; PPT ➔</button>
+      </div>
+
+      <!-- THẺ 3: SOẠN ĐỀ CV 7991 -->
+      <div class="vcb-portal-card" onclick="switchMainModule(3)">
+        <div>
+          <div class="vcb-card-header">
+            <div class="vcb-card-icon">📝</div>
+            <span class="vcb-card-tag">PHÂN HỆ 3</span>
+          </div>
+          <h3 class="vcb-card-title">SOẠN ĐỀ THEO HỌC KÌ (CV 7991)</h3>
+          <p class="vcb-card-desc">Quy trình chuẩn 6 bước Công văn 7991/BGDĐT-GDTrH từ ma trận, đặc tả đến đề &amp; đáp án.</p>
+          <ul class="vcb-card-list">
+            <li>Ma trận PL1 &amp; Bản đặc tả PL2 CV 7991</li>
+            <li>Kho 97 Đề thi học kì mẫu chuẩn Bộ</li>
+            <li>Tool AI kiểm định đề &amp; Xuất Word (.doc)</li>
+          </ul>
+        </div>
+        <button type="button" class="vcb-card-btn">Bắt Đầu Soạn Đề ➔</button>
+      </div>
+
+      <!-- THẺ 4: ÔN HSG & THI THPT -->
+      <div class="vcb-portal-card" onclick="switchMainModule(4)">
+        <div>
+          <div class="vcb-card-header">
+            <div class="vcb-card-icon">🏆</div>
+            <span class="vcb-card-tag">PHÂN HỆ 4</span>
+          </div>
+          <h3 class="vcb-card-title">ÔN THI HSG &amp; TỐT NGHIỆP THPT</h3>
+          <p class="vcb-card-desc">Hệ thống khảo thí kép trắc nghiệm định dạng mới Bộ GD&amp;ĐT và chuyên đề bồi dưỡng HSG.</p>
+          <ul class="vcb-card-list">
+            <li>Luyện thi trắc nghiệm Đúng/Sai, 4 lựa chọn</li>
+            <li>48 Đề thi chính thức &amp; Đề tham khảo Bộ GD&amp;ĐT</li>
+            <li>Bồi dưỡng HSG VDC &amp; Máy tính Nông nghiệp</li>
+          </ul>
+        </div>
+        <button type="button" class="vcb-card-btn">Bắt Đầu Luyện Thi ➔</button>
+      </div>
+    </div>
+
+    <!-- THANH TIỆN ÍCH NHANH KIỂU VIETCOMBANK DIGIBANK -->
+    <div class="vcb-quick-strip">
+      <div class="vcb-quick-strip__label">
+        <span>⚡ Tiện ích nhanh hệ thống:</span>
+      </div>
+      <div class="vcb-quick-links">
+        <button class="btn btn-outline btn-sm" onclick="openCorpusModal()">📚 Kho Ngữ liệu SGK/SGV</button>
+        <button class="btn btn-outline btn-sm" onclick="openAiConfigModal()">⚙️ Cấu hình AI</button>
+        <a href="/thietke.html" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;">🎨 Studio UI (Tab 5)</a>
+        <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="text-decoration:none;">💬 Nhắn Zalo Thầy Nam</a>
+      </div>
+    </div>
+  </section>
+
   <!-- MAIN CONTAINER -->
   <main class="container">
 
     <!-- ================================================================== -->
     <!-- PHẦN 1: KIẾN THỨC TÓM TẮT TỪNG BÀI, CÂU HỎI NÂNG CAO & PHÂN TÍCH LÝ THUYẾT -->
     <!-- ================================================================== -->
-    <div class="main-module-view active" id="moduleView1">
+    <div class="main-module-view" id="moduleView1">
+      <!-- THANH TRỞ VỀ CỔNG CHỌN PHÂN HỆ -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#f0fdf4; border:1px solid #bbf7d0; padding:8px 14px; border-radius:10px;">
+        <button type="button" class="btn-back-hub" onclick="returnToWelcomeHub()">🏠 ‹ Trở về Cổng Chọn Phân Hệ</button>
+        <span style="font-size:12.5px; font-weight:700; color:#0f3d24;">✨ Không gian làm việc chuyên biệt • Tránh áp lực thông tin</span>
+      </div>
       <div class="portal-split-layout">
         <aside class="lesson-sidebar">
           <div style="font-weight:700; color:var(--primary-dark); margin-bottom:8px;">📚 Chọn Khối & Bài học (77 Bài SGK)</div>
@@ -123,6 +234,11 @@
     <!-- PHẦN 2: TỔNG HỢP BÀI GIẢNG PPT ĐỂ TRÌNH CHIẾU VÀ DẠY NHANH -->
     <!-- ================================================================== -->
     <div class="main-module-view" id="moduleView2">
+      <!-- THANH TRỞ VỀ CỔNG CHỌN PHÂN HỆ -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#f0fdf4; border:1px solid #bbf7d0; padding:8px 14px; border-radius:10px;">
+        <button type="button" class="btn-back-hub" onclick="returnToWelcomeHub()">🏠 ‹ Trở về Cổng Chọn Phân Hệ</button>
+        <span style="font-size:12.5px; font-weight:700; color:#0f3d24;">✨ Không gian làm việc chuyên biệt • Tránh áp lực thông tin</span>
+      </div>
       <div class="portal-split-layout">
         <aside class="lesson-sidebar">
           <div style="font-weight:700; color:var(--primary-dark); margin-bottom:8px;">🖥️ Học liệu cho GV (77 Bài & Link Drive)</div>
@@ -142,6 +258,11 @@
     <!-- PHẦN 3: SOẠN ĐỀ THEO HỌC KÌ (QUY TRÌNH 6 BƯỚC CV 7991 + KHO 97 ĐỀ MẪU) -->
     <!-- ================================================================== -->
     <div class="main-module-view" id="moduleView3">
+      <!-- THANH TRỞ VỀ CỔNG CHỌN PHÂN HỆ -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#f0fdf4; border:1px solid #bbf7d0; padding:8px 14px; border-radius:10px;">
+        <button type="button" class="btn-back-hub" onclick="returnToWelcomeHub()">🏠 ‹ Trở về Cổng Chọn Phân Hệ</button>
+        <span style="font-size:12.5px; font-weight:700; color:#0f3d24;">✨ Không gian làm việc chuyên biệt • Tránh áp lực thông tin</span>
+      </div>
       <div id="mod3SemesterExamArchiveBox"></div>
 
     <!-- ================================================================== -->
@@ -467,6 +588,11 @@
     <!-- PHẦN 4: ÔN TẬP HỌC SINH GIỎI (HSG) & LUYỆN THI TỐT NGHIỆP THPT -->
     <!-- ================================================================== -->
     <div class="main-module-view" id="moduleView4">
+      <!-- THANH TRỞ VỀ CỔNG CHỌN PHÂN HỆ -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#f0fdf4; border:1px solid #bbf7d0; padding:8px 14px; border-radius:10px;">
+        <button type="button" class="btn-back-hub" onclick="returnToWelcomeHub()">🏠 ‹ Trở về Cổng Chọn Phân Hệ</button>
+        <span style="font-size:12.5px; font-weight:700; color:#0f3d24;">✨ Không gian làm việc chuyên biệt • Tránh áp lực thông tin</span>
+      </div>
       <div id="mod4MainContainer"></div>
     </div>
 

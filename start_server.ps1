@@ -42,12 +42,28 @@ while ($listener.IsListening) {
         } elseif ($urlPath.StartsWith("/ppts/") -and $pptBase) {
             $rel = $urlPath.Substring(6).Replace("/", "\")
             $filePath = Join-Path $pptBase $rel
-        } elseif ($urlPath.StartsWith("/exams/") -and $dayHocDir) {
+        } elseif ($urlPath.StartsWith("/exams/")) {
             $rel = $urlPath.Substring(7).Replace("/", "\")
-            $filePath = Join-Path $dayHocDir $rel
-        } elseif ($urlPath.StartsWith("/chuyende/") -and $dayHocDir) {
+            $filePath = Join-Path "D:\congnghenongnghiep\exams" $rel
+            if (-not (Test-Path $filePath -PathType Leaf)) {
+                $filePath = Join-Path "D:\congnghenongnghiep\corpus\extracted_exams" $rel
+            }
+            if (-not (Test-Path $filePath -PathType Leaf) -and $dayHocDir) {
+                $filePath = Join-Path $dayHocDir $rel
+            }
+            if (-not (Test-Path $filePath -PathType Leaf)) {
+                $fname = [System.IO.Path]::GetFileName($rel)
+                $found = Get-ChildItem -Path "D:\congnghenongnghiep\corpus\extracted_exams" -Filter $fname -Recurse -File -ErrorAction SilentlyContinue | Select-Object -First 1
+                if ($found) { $filePath = $found.FullName }
+            }
+        } elseif ($urlPath.StartsWith("/chuyende/")) {
             $rel = $urlPath.Substring(10).Replace("/", "\")
-            $filePath = Join-Path $dayHocDir $rel
+            $filePath = if ($dayHocDir) { Join-Path $dayHocDir $rel } else { $null }
+            if (-not ($filePath -and (Test-Path $filePath -PathType Leaf))) {
+                $fname = [System.IO.Path]::GetFileName($rel)
+                $found = Get-ChildItem -Path "D:\" -Filter $fname -Recurse -File -ErrorAction SilentlyContinue | Select-Object -First 1
+                if ($found) { $filePath = $found.FullName }
+            }
         } elseif ($urlPath.StartsWith("/ministry_exams/") -and $ministryDir) {
             $rel = $urlPath.Substring(16).Replace("/", "\")
             $filePath = Join-Path $ministryDir $rel
@@ -74,6 +90,6 @@ while ($listener.IsListening) {
             $response.OutputStream.Close()
         }
     } catch {
-        # continue serving
+        Start-Sleep -Milliseconds 50
     }
 }

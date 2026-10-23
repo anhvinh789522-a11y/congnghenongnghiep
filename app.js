@@ -2303,6 +2303,14 @@ function applySchoolPreset(preset) {
     state.meta.department = "SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC";
     state.meta.school = "TRƯỜNG THPT LỘC NINH";
     state.meta.group = "TỔ TIN - CÔNG NGHỆ";
+  } else if (preset === "dong_nai") {
+    state.meta.department = "SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI";
+    if (!state.meta.school || state.meta.school === "TRƯỜNG THPT ...") {
+      state.meta.school = "TRƯỜNG THPT LỘC NINH";
+    }
+    if (!state.meta.group) {
+      state.meta.group = "TỔ TIN - CÔNG NGHỆ";
+    }
   } else if (preset === "clear") {
     state.meta.department = "";
     state.meta.school = "";
@@ -2331,21 +2339,97 @@ function createWordBlobDoc(title, bodyContent) {
     <head>
       <meta charset="utf-8">
       <title>${escapeHtml(title)}</title>
+      <!--[if gte mso 9]>
+      <xml>
+        <w:WordDocument>
+          <w:View>Print</w:View>
+          <w:Zoom>100</w:Zoom>
+          <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+      </xml>
+      <![endif]-->
       <style>
-        body { font-family: "Times New Roman", serif; font-size: 12pt; line-height: 1.4; color: #000; }
-        h1, h2, h3, h4 { text-align: center; margin: 6pt 0; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin: 8pt 0; }
-        th, td { border: 1px solid #000; padding: 4pt 6pt; font-size: 11pt; vertical-align: top; }
-        th { background-color: #f0f0f0; font-weight: bold; text-align: center; }
-        .page-break { page-break-before: always; }
+        @page WordSection1 {
+          size: 210mm 297mm;
+          margin: 20mm 15mm 20mm 30mm; /* Chuan Nghi dinh 30/2020: Tren 20mm, Duoi 20mm, Trai 30mm (dong gay), Phai 15mm */
+          mso-header-margin: 15mm;
+          mso-footer-margin: 15mm;
+          mso-paper-source: 0;
+        }
+        div.WordSection1 {
+          page: WordSection1;
+        }
+        body {
+          font-family: "Times New Roman", Times, serif;
+          font-size: 13pt;
+          line-height: 1.3;
+          color: #000000;
+          text-align: justify;
+        }
+        p {
+          font-family: "Times New Roman", Times, serif;
+          font-size: 13pt;
+          line-height: 1.3;
+          margin-top: 0;
+          margin-bottom: 5pt;
+          text-align: justify;
+        }
+        h1, h2, h3, h4 {
+          font-family: "Times New Roman", Times, serif;
+          text-align: center;
+          margin: 8pt 0 4pt 0;
+          font-weight: bold;
+          page-break-after: avoid;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 6pt 0;
+          font-family: "Times New Roman", Times, serif;
+        }
+        th, td {
+          border: 1px solid #000000;
+          padding: 4pt 6pt;
+          font-size: 11pt;
+          vertical-align: top;
+          line-height: 1.25;
+        }
+        th {
+          background-color: #f2f2f2;
+          font-weight: bold;
+          text-align: center;
+        }
+        thead {
+          display: table-header-group;
+        }
+        tr {
+          page-break-inside: avoid;
+        }
+        .header-tbl, .header-tbl td, .header-tbl th {
+          border: none !important;
+          padding: 2pt 4pt;
+        }
+        .question-item {
+          page-break-inside: avoid;
+          break-inside: avoid;
+          margin-bottom: 8pt;
+          display: block;
+        }
+        .page-break {
+          page-break-before: always;
+          break-before: page;
+          mso-break-type: section-break;
+        }
       </style>
     </head>
     <body>
-      ${bodyContent}
+      <div class="WordSection1">
+        ${bodyContent}
+      </div>
     </body>
     </html>
   `;
-  return new Blob(['\ufeff', fullDoc], { type: 'application/msword' });
+  return new Blob(['\ufeff', fullDoc], { type: 'application/msword;charset=utf-8' });
 }
 
 function downloadWordBlob(blob, filename) {
@@ -3609,6 +3693,13 @@ function selectSampleForSimilarExam(sampleName, gradeKey, termName) {
   state.similarState.examData = buildSingleExamVariantFromCurrentMatrix(Math.floor(Math.random() * 3) + 1, String(Math.floor(200 + Math.random() * 700)));
   state.similarState.activeSubTab = "exam";
   renderSimilarExamModal();
+}
+
+// Hàm nạp thẳng đề mẫu từ Kho 97 đề vào quy trình soạn đề (Bước 5)
+function loadAndUseSampleExam(sampleName, gradeKey, termName) {
+  selectSampleForSimilarExam(sampleName, gradeKey, termName);
+  applySimilarExamToMainEditor();
+  alert(`✨ Đã nạp thành công Đề mẫu "${sampleName}" vào quy trình soạn đề (Bước 5) chuẩn CV 7991!`);
 }
 
 function handleSimilarExamFileUpload(event) {

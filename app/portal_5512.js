@@ -1,4 +1,4 @@
-﻿// ============================================================================
+// ============================================================================
 // HỆ THỐNG QUẢN LÝ HỒ SƠ CV 5512, SOẠN GIÁO ÁN & KHO BÀI GIẢNG PPT GẮN DRIVE
 // Dành cho môn Công nghệ Nông nghiệp 10, 11, 12 (Bộ sách Kết nối tri thức)
 // Trường THPT Lộc Ninh - Sở GD&ĐT Đồng Nai
@@ -2129,6 +2129,7 @@ function exportPhuLucWord(plNum) {
       </style>
     </head>
     <body>
+      <div class="WordSection1">
       <table class="header-tbl" style="width:100%;">
         <tr>
           <td style="width:45%; text-align:center;">
@@ -2161,6 +2162,7 @@ function exportPhuLucWord(plNum) {
           </td>
         </tr>
       </table>
+          </div>
     </body>
     </html>
   `;
@@ -2257,6 +2259,7 @@ function exportFull3PhuLucWord() {
           </td>
         </tr>
       </table>
+          </div>
     </body>
     </html>
   `;
@@ -2274,19 +2277,41 @@ function exportLessonPlanWord() {
     <head>
       <meta charset="utf-8">
       <title>GIAO_AN_5512_${escapeHtml(ed.title)}</title>
+      <!--[if gte mso 9]>
+      <xml>
+        <w:WordDocument>
+          <w:View>Print</w:View>
+          <w:Zoom>100</w:Zoom>
+          <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+      </xml>
+      <![endif]-->
       <style>
-        body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.45; color: #000; }
-        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
-        th, td { border: 1px solid #000; padding: 6px 8px; vertical-align: top; font-size: 13pt; }
-        th { background-color: #f2f2f2; font-weight: bold; }
+        @page WordSection1 {
+          size: 210mm 297mm;
+          margin: 20mm 15mm 20mm 30mm; /* Chuan Nghi dinh 30/2020: Tren 20mm, Duoi 20mm, Trai 30mm (dong gay), Phai 15mm */
+          mso-header-margin: 15mm;
+          mso-footer-margin: 15mm;
+          mso-paper-source: 0;
+        }
+        div.WordSection1 { page: WordSection1; }
+        body { font-family: 'Times New Roman', Times, serif; font-size: 13pt; line-height: 1.3; color: #000; text-align: justify; }
+        p { font-family: 'Times New Roman', Times, serif; font-size: 13pt; line-height: 1.3; margin: 0 0 5pt 0; text-align: justify; }
+        table { border-collapse: collapse; width: 100%; margin-top: 8pt; margin-bottom: 8pt; font-family: 'Times New Roman', Times, serif; }
+        th, td { border: 1px solid #000; padding: 5pt 7pt; vertical-align: top; font-size: 12pt; line-height: 1.25; }
+        th { background-color: #f2f2f2; font-weight: bold; text-align: center; }
+        thead { display: table-header-group; }
+        tr { page-break-inside: avoid; }
         .header-tbl { border: none !important; margin-bottom: 15px; }
         .header-tbl td { border: none !important; padding: 2px 0; font-size: 12pt; }
-        .title { font-size: 16pt; font-weight: bold; text-align: center; margin: 15px 0 5px 0; text-transform: uppercase; }
-        .sec-title { font-size: 14pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px; color: #000; text-transform: uppercase; border-bottom: 1px solid #000; padding-bottom: 2px; }
-        .act-box { border: 1px solid #000; padding: 10px; margin-top: 12px; margin-bottom: 12px; }
+        .title { font-size: 14pt; font-weight: bold; text-align: center; margin: 14pt 0 4pt 0; text-transform: uppercase; }
+        .sec-title { font-size: 13.5pt; font-weight: bold; margin-top: 14pt; margin-bottom: 6pt; color: #000; text-transform: uppercase; page-break-after: avoid; }
+        .act-box { border: 1px solid #000; padding: 10pt; margin-top: 10pt; margin-bottom: 10pt; page-break-inside: avoid; }
+        .page-break { page-break-before: always; mso-break-type: section-break; }
       </style>
     </head>
     <body>
+      <div class="WordSection1">
       <table class="header-tbl" style="width:100%;">
         <tr>
           <td style="width:45%; text-align:center;">
@@ -2396,6 +2421,7 @@ function exportLessonPlanWord() {
           </td>
         </tr>
       </table>
+          </div>
     </body>
     </html>
   `;

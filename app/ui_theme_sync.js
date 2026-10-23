@@ -61,15 +61,24 @@
   // Chuẩn hóa nhãn Thanh Đáy (Bottom Navigation Bar) gọn đẹp trên Mobile & đầy đủ trên PC
   function enhanceMobileBottomBarLabels() {
     const btns = document.querySelectorAll(".module-nav-bar .module-tab-btn");
-    const shortLabels = ["Kiến thức SGK", "Giáo án & PPT", "Soạn đề 7991", "Ôn thi THPT"];
-    btns.forEach((btn, idx) => {
+    btns.forEach((btn) => {
       const strongEl = btn.querySelector(".module-tab-text strong");
       if (!strongEl) return;
       if (!strongEl.dataset.fullText) {
         strongEl.dataset.fullText = strongEl.textContent.trim();
       }
       if (window.innerWidth <= 768) {
-        strongEl.textContent = shortLabels[idx] || strongEl.dataset.fullText;
+        if (btn.id === "btnNavHub" || btn.classList.contains("hub-btn")) {
+          strongEl.textContent = "Cổng Hub";
+        } else if (strongEl.dataset.fullText.includes("PHẦN 1")) {
+          strongEl.textContent = "Kiến thức";
+        } else if (strongEl.dataset.fullText.includes("PHẦN 2")) {
+          strongEl.textContent = "Hồ sơ/PPT";
+        } else if (strongEl.dataset.fullText.includes("PHẦN 3")) {
+          strongEl.textContent = "Soạn đề";
+        } else if (strongEl.dataset.fullText.includes("PHẦN 4")) {
+          strongEl.textContent = "Ôn THPT";
+        }
       } else {
         strongEl.textContent = strongEl.dataset.fullText;
       }
