@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>🎨 Studio Thiết Kế & Tùy Biến Giao Diện — THPT Lộc Ninh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --st-primary: #0f3d24;
+      --st-primary-light: #15803d;
+      --st-accent: #d97706;
+      --st-bg: #f1f5f9;
+      --st-surface: #ffffff;
+      --st-surface-alt: #f8fafc;
+      --st-border: #cbd5e1;
+      --st-text: #0f172a;
+      --st-muted: #475569;
+      --st-canvas: #e2e8f0;
+    }
+
+    body.studio-dark {
+      --st-bg: #0f172a;
+      --st-surface: #1e293b;
+      --st-surface-alt: #0f172a;
+      --st-border: #334155;
+      --st-text: #f8fafc;
+      --st-muted: #94a3b8;
+      --st-canvas: #090d16;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif;
+      background: var(--st-bg);
+      color: var(--st-text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    /* TOP BAR — MOBILE FIRST & DESKTOP */
+    .studio-topbar {
+      background: linear-gradient(145deg, #082213 0%, #0f3d24 55%, #15803d 100%);
+      border-bottom: 2px solid rgba(134, 239, 172, 0.3);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+      box-shadow: 0 3px 12px rgba(9, 38, 22, 0.18);
+      z-index: 100;
+      flex-shrink: 0;
+    }
+    .studio-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .studio-badge {
+      background: rgba(220, 252, 231, 0.18);
+      border: 1px solid rgba(134, 239, 172, 0.5);
+      color: #bbf7d0;
+      font-weight: 800;
+      font-size: 11.5px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .studio-title {
+      min-width: 0;
+    }
+    .studio-title h1 {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .studio-title p {
+      font-size: 11px;
+      color: #dcfce7;
+      opacity: 0.9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .studio-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .st-btn {
+      padding: 7px 11px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      min-height: 36px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .st-btn:hover { background: rgba(255, 255, 255, 0.22); }
+    .st-btn.primary {
+      background: #22c55e;
+      border-color: #86efac;
+      color: #052e16;
+      font-weight: 800;
+    }
+    .st-btn.primary:hover { background: #16a34a; color: #ffffff; }
+    .st-btn.accent {
+      background: #d97706;
+      border-color: #fbbf24;
+      color: #fff;
+    }
+    .st-btn.danger {
+      background: #dc2626;
+      border-color: #f87171;
+      color: #fff;
+    }
+
+    /* THANH CHUYỂN ĐỔI CHẾ ĐỘ MOBILE (CHỈ HIỆN TRÊN MOBILE/TABLET) */
+    .mobile-view-switcher {
+      display: none;
+      background: var(--st-surface);
+      border-bottom: 1.5px solid var(--st-border);
+      padding: 6px 10px;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .mv-tab-btn {
+      flex: 1;
+      padding: 9px 8px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1.5px solid var(--st-border);
+      background: var(--st-surface-alt);
+      color: var(--st-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .mv-tab-btn.active {
+      background: #0f3d24;
+      color: #ffffff;
+      border-color: #15803d;
+      box-shadow: 0 2px 8px rgba(15, 61, 36, 0.2);
+    }
+
+    /* MAIN WORKSPACE */
+    .studio-workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 410px 1fr;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* LEFT INSPECTOR PANEL */
+    .studio-sidebar {
+      background: var(--st-surface);
+      border-right: 1px solid var(--st-border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 100%;
+    }
+    .inspector-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--st-surface-alt);
+      border-bottom: 1px solid var(--st-border);
+      flex-shrink: 0;
+    }
+    .insp-tab {
+      padding: 11px 4px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--st-muted);
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .insp-tab.active {
+      color: #15803d;
+      border-bottom-color: #15803d;
+      background: var(--st-surface);
+    }
+    body.studio-dark .insp-tab.active {
+      color: #4ade80;
+      border-bottom-color: #4ade80;
+    }
+    .inspector-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .insp-pane { display: none; }
+    .insp-pane.active { display: block; }
+
+    .sec-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #15803d;
+      margin: 14px 0 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    body.studio-dark .sec-title { color: #4ade80; }
+    .sec-title:first-child { margin-top: 0; }
+
+    /* PRESET GRID */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .preset-card {
+      background: var(--st-surface-alt);
+      border: 1.5px solid var(--st-border);
+      border-radius: 9px;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .preset-card:hover, .preset-card.active {
+      border-color: #16a34a;
+      box-shadow: 0 3px 10px rgba(22, 163, 74, 0.14);
+    }
+    .preset-swatches {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .swatch-dot {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+    .preset-name {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--st-text);
+      line-height: 1.25;
+    }
+    .preset-desc {
+      font-size: 10.5px;
+      color: var(--st-muted);
+      margin-top: 2px;
+      line-height: 1.25;
+    }
+
+    /* CONTROLS (TOUCH FRIENDLY) */
+    .ctrl-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--st-surface-alt);
+      border: 1px solid var(--st-border);
+      padding: 9px 12px;
+      border-radius: 9px;
+      margin-bottom: 8px;
+      min-height: 46px;
+    }
+    .ctrl-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--st-text);
+    }
+    .ctrl-sub {
+      font-size: 10.5px;
+      color: var(--st-muted);
+    }
+    input[type="color"] {
+      width: 44px;
+      height: 32px;
+      border: 1.5px solid var(--st-border);
+      border-radius: 7px;
+      cursor: pointer;
+      background: transparent;
+      flex-shrink: 0;
+    }
+    .ctrl-block {
+      background: var(--st-surface-alt);
+      border: 1px solid var(--st-border);
+      padding: 11px 12px;
+      border-radius: 9px;
+      margin-bottom: 8px;
+    }
+    .ctrl-block label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--st-text);
+      margin-bottom: 6px;
+    }
+    .ctrl-block select,
+    .ctrl-block input[type="text"],
+    .ctrl-block textarea {
+      width: 100%;
+      background: var(--st-surface);
+      border: 1.5px solid var(--st-border);
+      color: var(--st-text);
+      padding: 9px 11px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-family: inherit;
+      min-height: 42px;
+    }
+    .ctrl-block textarea {
+      min-height: 70px;
+    }
+    .ctrl-block input[type="range"] {
+      width: 100%;
+      accent-color: #15803d;
+      height: 24px;
+    }
+
+    /* RIGHT LIVE PREVIEW AREA */
+    .studio-preview-area {
+      display: flex;
+      flex-direction: column;
+      background: var(--st-canvas);
+      overflow: hidden;
+      height: 100%;
+    }
+    .preview-toolbar {
+      background: var(--st-surface);
+      border-bottom: 1px solid var(--st-border);
+      padding: 7px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .preview-tab-group {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+    }
+    .preview-tab-group::-webkit-scrollbar { display: none; }
+    .pv-tab-btn {
+      padding: 6px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid var(--st-border);
+      background: var(--st-surface-alt);
+      color: var(--st-text);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+    .pv-tab-btn.active {
+      background: #0f3d24;
+      border-color: #15803d;
+      color: #fff;
+    }
+    .preview-frame-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 10px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    #livePreviewIframe {
+      width: 100%;
+      height: 100%;
+      border: 1.5px solid var(--st-border);
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.1);
+      transition: width 0.25s ease;
+    }
+
+    /* NÚT THAO TÁC NỔI GÓC DƯỚI (FLOATING BAR TRÊN MOBILE) */
+    .mobile-float-actions {
+      display: none;
+      position: fixed;
+      bottom: 14px;
+      left: 12px;
+      right: 12px;
+      z-index: 990;
+      gap: 8px;
+    }
+    .mobile-float-btn {
+      flex: 1;
+      padding: 12px 14px;
+      border-radius: 11px;
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+    }
+    .mobile-float-btn.save {
+      background: #22c55e;
+      color: #052e16;
+    }
+    .mobile-float-btn.view {
+      background: #0f3d24;
+      color: #ffffff;
+    }
+
+    /* THỰC THI GIAO DIỆN CHUẨN MOBILE CHO MÀN HÌNH <= 900PX */
+    @media (max-width: 900px) {
+      .mobile-view-switcher {
+        display: flex;
+      }
+      .studio-actions .st-btn:not(.primary):not(#btnToggleStudioMode) {
+        display: none; /* Thu gọn các nút phụ trên topbar, dồn vào menu tiện ích */
+      }
+      .studio-actions .st-btn.primary span.full-text {
+        display: none;
+      }
+      .studio-workspace {
+        grid-template-columns: 1fr;
+      }
+      body.mobile-mode-editor .studio-preview-area {
+        display: none !important;
+      }
+      body.mobile-mode-editor .studio-sidebar {
+        display: flex !important;
+        height: 100%;
+      }
+      body.mobile-mode-preview .studio-sidebar {
+        display: none !important;
+      }
+      body.mobile-mode-preview .studio-preview-area {
+        display: flex !important;
+        height: 100%;
+      }
+      .inspector-tabs {
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .inspector-tabs::-webkit-scrollbar { display: none; }
+      .preview-frame-wrap {
+        padding: 4px;
+      }
+      #livePreviewIframe {
+        border-radius: 6px;
+        width: 100% !important;
+      }
+      .preview-width-controls {
+        display: none !important; /* Trên mobile iframe luôn full width */
+      }
+      .mobile-float-actions {
+        display: flex;
+      }
+      .inspector-body {
+        padding-bottom: 74px; /* Tránh bị nút nổi che */
+      }
+    }
+
+    .status-toast {
+      position: fixed;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f3d24;
+      border: 1px solid #4ade80;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 9999;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body class="mobile-mode-editor">
+
+  <!-- TOP BAR -->
+  <header class="studio-topbar">
+    <div class="studio-brand">
+      <div class="studio-badge">🌱 TAB 5</div>
+      <div class="studio-title">
+        <h1>🎨 STUDIO THIẾT KẾ UI</h1>
+        <p>THPT Lộc Ninh (CV 5512 & 7991)</p>
+      </div>
+    </div>
+    <div class="studio-actions">
+      <button class="st-btn" id="btnToggleStudioMode" onclick="toggleStudioDarkLight()" title="Chuyển chế độ Sáng / Tối">🌙</button>
+      <a href="/phan1.html" target="_blank" class="st-btn">📘 Tab 1</a>
+      <a href="/phan2.html" target="_blank" class="st-btn">🖥️ Tab 2</a>
+      <a href="/phan3.html" target="_blank" class="st-btn">📝 Tab 3</a>
+      <a href="/phan4.html" target="_blank" class="st-btn">🏆 Tab 4</a>
+      <button class="st-btn accent" onclick="exportThemeCssModal()">📤 CSS</button>
+      <button class="st-btn danger" onclick="resetDefaultTheme()">🔄 Gốc</button>
+      <button class="st-btn primary" onclick="saveThemePermanent()">💾 <span class="full-text">Lưu Áp Dụng</span></button>
+    </div>
+  </header>
+
+  <!-- THANH CHUYỂN ĐỔI CHẾ ĐỘ MOBILE (EDITOR vs PREVIEW) -->
+  <nav class="mobile-view-switcher">
+    <button class="mv-tab-btn active" id="btnMobileTabEditor" onclick="setMobileView('editor')">
+      🛠️ Bảng Tùy Chỉnh
+    </button>
+    <button class="mv-tab-btn" id="btnMobileTabPreview" onclick="setMobileView('preview')">
+      👁️ Xem Trước Live
+    </button>
+  </nav>
+
+  <!-- WORKSPACE -->
+  <div class="studio-workspace">
+    <!-- LEFT SIDEBAR: DESIGN CONTROLS -->
+    <aside class="studio-sidebar">
+      <div class="inspector-tabs">
+        <button class="insp-tab active" onclick="switchInspectorTab('palette', this)">🎨 Màu sắc</button>
+        <button class="insp-tab" onclick="switchInspectorTab('brand', this)">🏫 Banner/Zalo</button>
+        <button class="insp-tab" onclick="switchInspectorTab('typo', this)">🔤 Chữ & Cỡ</button>
+        <button class="insp-tab" onclick="switchInspectorTab('layout', this)">📐 Bố cục</button>
+      </div>
+
+      <div class="inspector-body">
+        <!-- TAB 1: PALETTE & PRESETS -->
+        <div class="insp-pane active" id="pane_palette">
+          <div class="sec-title"><span>✨ 6 Bộ Giao Diện Mẫu (1-Chạm)</span></div>
+          <div class="preset-grid" id="presetGridBox"></div>
+
+          <div class="sec-title"><span>🖌️ Tùy Chỉnh Từng Màu Sắc</span></div>
+          <div class="ctrl-row">
+            <div>
+              <div class="ctrl-label">Màu chủ đạo (Primary)</div>
+              <div class="ctrl-sub">Xanh nông nghiệp (#0f3d24)</div>
+            </div>
+            <input type="color" id="clrPrimary" value="#0f3d24" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-row">
+            <div>
+              <div class="ctrl-label">Màu chủ đạo đậm (Primary Dark)</div>
+              <div class="ctrl-sub">Nền dải chuyển sắc (#092616)</div>
+            </div>
+            <input type="color" id="clrPrimaryDark" value="#092616" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-row">
+            <div>
+              <div class="ctrl-label">Màu phụ trợ (Secondary)</div>
+              <div class="ctrl-sub">Chuyển sắc, nút phụ (#15803d)</div>
+            </div>
+            <input type="color" id="clrSecondary" value="#15803d" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-row">
+            <div>
+              <div class="ctrl-label">Màu điểm nhấn (Accent)</div>
+              <div class="ctrl-sub">Nút xuất file, lưu ý</div>
+            </div>
+            <input type="color" id="clrAccent" value="#d97706" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-row">
+            <div>
+              <div class="ctrl-label">Màu nền trang (Background)</div>
+              <div class="ctrl-sub">Nền sáng tổng thể</div>
+            </div>
+            <input type="color" id="clrBg" value="#f1f5f9" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-row">
+            <div>
+              <div class="ctrl-label">Màu nền thẻ (Card Surface)</div>
+              <div class="ctrl-sub">Nền bài học & câu hỏi</div>
+            </div>
+            <input type="color" id="clrCardBg" value="#ffffff" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-row">
+            <div>
+              <div class="ctrl-label">Màu chữ chính (Text)</div>
+              <div class="ctrl-sub">Chữ nội dung SGK</div>
+            </div>
+            <input type="color" id="clrText" value="#0f172a" oninput="onControlChange()" />
+          </div>
+        </div>
+
+        <!-- TAB 2: SCHOOL BRANDING, ZALO & CUSTOM CSS -->
+        <div class="insp-pane" id="pane_brand">
+          <div class="sec-title"><span>🏫 Banner Mobile-First (THPT Lộc Ninh)</span></div>
+          <div class="ctrl-block">
+            <label><span>Huy hiệu góc trên (Badge)</span></label>
+            <input type="text" id="inpCustomBadge" value="🌱 THPT LỘC NINH • CNNN 10•11•12" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Tiêu đề chính Header</span></label>
+            <input type="text" id="inpCustomTitle" value="CỔNG HỌC LIỆU & HỖ TRỢ SOẠN GIẢNG ĐIỆN TỬ (CV 5512)" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Khẩu hiệu (Slogan)</span></label>
+            <textarea id="inpCustomSub" rows="2" oninput="onControlChange()">Đồng hành cùng giáo viên & học sinh THPT Lộc Ninh trên hành trình chuyển đổi số nông nghiệp</textarea>
+          </div>
+          <div class="ctrl-block">
+            <label><span>Tác giả hiển thị trên Banner</span></label>
+            <input type="text" id="inpCustomAuthor" value="Thầy Trương Khắc Nam – GV CNNN" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Nhãn nút Zalo trên điện thoại</span></label>
+            <input type="text" id="inpCustomZaloText" value="Nhắn Zalo: 0978.405.879" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Đường dẫn link Zalo</span></label>
+            <input type="text" id="inpCustomZaloUrl" value="https://zalo.me/0978405879" oninput="onControlChange()" />
+          </div>
+
+          <div class="sec-title"><span>💻 CSS Tùy Biến Nâng Cao</span></div>
+          <div class="ctrl-block">
+            <label><span>Nhập quy tắc CSS bổ sung</span></label>
+            <textarea id="txtCustomCss" rows="3" placeholder="/* CSS bổ sung */" oninput="onControlChange()" style="font-family:Consolas, monospace;"></textarea>
+          </div>
+        </div>
+
+        <!-- TAB 3: TYPOGRAPHY -->
+        <div class="insp-pane" id="pane_typo">
+          <div class="sec-title"><span>🔤 Phông Chữ & Hiển Thị Văn Bản</span></div>
+          <div class="ctrl-block">
+            <label><span>Kiểu Phông chữ</span></label>
+            <select id="selFontFamily" onchange="onControlChange()">
+              <option value="'Plus Jakarta Sans', 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif">Plus Jakarta Sans / Be Vietnam Pro (Chuẩn hiện đại)</option>
+              <option value="'Segoe UI', system-ui, -apple-system, sans-serif">Segoe UI / Hệ thống (Gọn gàng)</option>
+              <option value="'Arial', 'Helvetica Neue', sans-serif">Arial / Helvetica (Rõ nét máy chiếu)</option>
+              <option value="'Times New Roman', Times, serif">Times New Roman (Chuẩn Văn bản Bộ GD&ĐT)</option>
+              <option value="Georgia, 'Cambria', serif">Georgia / Cambria (Sách giáo khoa)</option>
+            </select>
+          </div>
+
+          <div class="ctrl-block">
+            <label>
+              <span>Cỡ chữ cơ sở</span>
+              <strong id="lblFontSize" style="color:#15803d;">14.5px</strong>
+            </label>
+            <input type="range" id="rngFontSize" min="12" max="20" step="0.5" value="14.5" oninput="onControlChange()" />
+          </div>
+
+          <div class="ctrl-block">
+            <label>
+              <span>Độ giãn dòng</span>
+              <strong id="lblLineHeight" style="color:#15803d;">1.55</strong>
+            </label>
+            <input type="range" id="rngLineHeight" min="1.3" max="2.0" step="0.05" value="1.55" oninput="onControlChange()" />
+          </div>
+        </div>
+
+        <!-- TAB 4: LAYOUT & SPACING -->
+        <div class="insp-pane" id="pane_layout">
+          <div class="sec-title"><span>📐 Kích Thước Khung & Bố Cục</span></div>
+
+          <div class="ctrl-block">
+            <label><span>Độ rộng tối đa khung trang</span></label>
+            <select id="selContainerWidth" onchange="onControlChange()">
+              <option value="1240px">Gọn gàng (1240px)</option>
+              <option value="1440px" selected>Chuẩn cân đối (1440px)</option>
+              <option value="1650px">Màn hình rộng (1650px)</option>
+              <option value="98%">Toàn màn hình (98% Full)</option>
+            </select>
+          </div>
+
+          <div class="ctrl-block">
+            <label>
+              <span>Độ bo tròn góc thẻ</span>
+              <strong id="lblBorderRadius" style="color:#15803d;">10px</strong>
+            </label>
+            <input type="range" id="rngBorderRadius" min="0" max="22" step="1" value="10" oninput="onControlChange()" />
+          </div>
+
+          <div class="ctrl-block">
+            <label><span>Hiệu ứng đổ bóng thẻ</span></label>
+            <select id="selShadowStyle" onchange="onControlChange()">
+              <option value="normal" selected>Đổ bóng nhẹ hiện đại (Mặc định)</option>
+              <option value="none">Phẳng tối giản</option>
+              <option value="strong">Nổi khối sâu 3D</option>
+            </select>
+          </div>
+
+          <div class="sec-title"><span>👁️ Ẩn / Hiện Thanh Công Cụ</span></div>
+          <label class="ctrl-row" style="cursor:pointer;">
+            <div>
+              <div class="ctrl-label">Thu gọn chiều cao Header</div>
+              <div class="ctrl-sub">Tối ưu chiều dọc cho bài học</div>
+            </div>
+            <input type="checkbox" id="chkCompactHeader" onchange="onControlChange()" />
+          </label>
+          <label class="ctrl-row" style="cursor:pointer;">
+            <div>
+              <div class="ctrl-label">Ẩn thanh chuyển 4 Phân hệ</div>
+              <div class="ctrl-sub">Dành trọn diện tích cho bài đọc</div>
+            </div>
+            <input type="checkbox" id="chkHideTopNav" onchange="onControlChange()" />
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT LIVE PREVIEW AREA -->
+    <section class="studio-preview-area">
+      <div class="preview-toolbar">
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:nowrap; overflow-x:auto; width:100%; justify-content:space-between;">
+          <div class="preview-tab-group">
+            <button class="pv-tab-btn active" onclick="switchPreviewUrl('/phan1.html', this)">📘 Tab 1: SGK</button>
+            <button class="pv-tab-btn" onclick="switchPreviewUrl('/phan2.html', this)">🖥️ Tab 2: 5512</button>
+            <button class="pv-tab-btn" onclick="switchPreviewUrl('/phan3.html', this)">📝 Tab 3: Đề thi</button>
+            <button class="pv-tab-btn" onclick="switchPreviewUrl('/phan4.html', this)">🏆 Tab 4: HSG</button>
+            <button class="pv-tab-btn" onclick="switchPreviewUrl('/index.html', this)">🏠 Tổng hợp</button>
+          </div>
+
+          <div class="preview-width-controls" style="display:flex; gap:4px; align-items:center;">
+            <button class="pv-tab-btn active" onclick="setPreviewWidth('100%', this)">💻 PC</button>
+            <button class="pv-tab-btn" onclick="setPreviewWidth('390px', this)">📲 ĐT (390px)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-frame-wrap">
+        <iframe id="livePreviewIframe" src="/phan1.html"></iframe>
+      </div>
+    </section>
+  </div>
+
+  <!-- NÚT THAO TÁC NỔI CHO MOBILE (BẢNG ĐIỀU KHIỂN & XEM TRƯỚC) -->
+  <div class="mobile-float-actions">
+    <button type="button" class="mobile-float-btn view" onclick="setMobileView('preview')">
+      👁️ Xem Trước Live
+    </button>
+    <button type="button" class="mobile-float-btn save" onclick="saveThemePermanent()">
+      💾 Lưu & Áp Dụng
+    </button>
+  </div>
+
+  <div class="status-toast" id="statusToast">✅ Đã lưu và đồng bộ giao diện sang toàn bộ 4 Tab!</div>
+
+  <script>
+    const STORAGE_KEY = "cnnn_ui_theme_v1";
+    const STUDIO_MODE_KEY = "cnnn_studio_dark_mode";
+    const bc = typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("cnnn_ui_channel") : null;
+
+    const THEME_PRESETS = [
+      {
+        id: "locninh_green",
+        name: "🌿 THPT Lộc Ninh (#0f3d24)",
+        desc: "Xanh lá đậm Nông nghiệp chuẩn CV 5512",
+        primary: "#0f3d24",
+        primaryDark: "#092616",
+        primaryLight: "#dcfce7",
+        secondary: "#15803d",
+        accent: "#d97706",
+        bg: "#f1f5f9",
+        cardBg: "#ffffff",
+        text: "#0f172a",
+        border: "#cbd5e1"
+      },
+      {
+        id: "sgk_green",
+        name: "🌱 Nông nghiệp Tươi SGK",
+        desc: "Chuẩn sách Kết nối tri thức",
+        primary: "#15803d",
+        primaryDark: "#14532d",
+        primaryLight: "#dcfce7",
+        secondary: "#0284c7",
+        accent: "#d97706",
+        bg: "#f1f5f9",
+        cardBg: "#ffffff",
+        text: "#0f172a",
+        border: "#cbd5e1"
+      },
+      {
+        id: "aqua_ocean",
+        name: "🌊 Thủy sản Đại dương",
+        desc: "Xanh lam & Ngọc bích dịu mắt",
+        primary: "#0369a1",
+        primaryDark: "#0c4a6e",
+        primaryLight: "#e0f2fe",
+        secondary: "#0d9488",
+        accent: "#ea580c",
+        bg: "#f0f9ff",
+        cardBg: "#ffffff",
+        text: "#0f172a",
+        border: "#bae6fd"
+      },
+      {
+        id: "forest_eco",
+        name: "🌲 Lâm nghiệp Sinh thái",
+        desc: "Xanh rừng sâu & Nâu gỗ ấm",
+        primary: "#166534",
+        primaryDark: "#052e16",
+        primaryLight: "#dcfce7",
+        secondary: "#4d7c0f",
+        accent: "#b45309",
+        bg: "#f7fee7",
+        cardBg: "#ffffff",
+        text: "#1a2e05",
+        border: "#d9f99d"
+      },
+      {
+        id: "ministry_royal",
+        name: "🏛️ Khảo thí Bộ GD&ĐT",
+        desc: "Xanh Navy & Vàng trang trọng",
+        primary: "#1d4ed8",
+        primaryDark: "#1e3a8a",
+        primaryLight: "#dbeafe",
+        secondary: "#0f766e",
+        accent: "#d97706",
+        bg: "#f8fafc",
+        cardBg: "#ffffff",
+        text: "#0f172a",
+        border: "#cbd5e1"
+      },
+      {
+        id: "dark_projector",
+        name: "🌙 Nền Tối Trình Chiếu",
+        desc: "Tương phản cao, dịu mắt",
+        primary: "#22c55e",
+        primaryDark: "#020617",
+        primaryLight: "#14532d",
+        secondary: "#38bdf8",
+        accent: "#f59e0b",
+        bg: "#0f172a",
+        cardBg: "#1e293b",
+        text: "#f8fafc",
+        border: "#334155"
+      }
+    ];
+
+    function setMobileView(viewMode) {
+      const isEditor = viewMode === 'editor';
+      document.body.classList.toggle('mobile-mode-editor', isEditor);
+      document.body.classList.toggle('mobile-mode-preview', !isEditor);
+      const bEd = document.getElementById('btnMobileTabEditor');
+      const bPv = document.getElementById('btnMobileTabPreview');
+      if (bEd && bPv) {
+        bEd.classList.toggle('active', isEditor);
+        bPv.classList.toggle('active', !isEditor);
+      }
+      if (!isEditor) {
+        const cfg = collectCurrentConfig();
+        pushThemeLive(cfg);
+      }
+    }
+
+    function toggleStudioDarkLight() {
+      const isDark = document.body.classList.toggle("studio-dark");
+      localStorage.setItem(STUDIO_MODE_KEY, isDark ? "1" : "0");
+      const btn = document.getElementById("btnToggleStudioMode");
+      if (btn) btn.textContent = isDark ? "☀️" : "🌙";
+    }
+
+    function renderPresetCards() {
+      const box = document.getElementById("presetGridBox");
+      box.innerHTML = THEME_PRESETS.map(p => `
+        <div class="preset-card" onclick="applyPreset('${p.id}')">
+          <div class="preset-swatches">
+            <span class="swatch-dot" style="background:${p.primary};"></span>
+            <span class="swatch-dot" style="background:${p.secondary};"></span>
+            <span class="swatch-dot" style="background:${p.accent};"></span>
+            <span class="swatch-dot" style="background:${p.bg};"></span>
+          </div>
+          <div class="preset-name">${p.name}</div>
+          <div class="preset-desc">${p.desc}</div>
+        </div>
+      `).join("");
+    }
+
+    function applyPreset(presetId) {
+      const p = THEME_PRESETS.find(x => x.id === presetId);
+      if (!p) return;
+      document.getElementById("clrPrimary").value = p.primary;
+      document.getElementById("clrPrimaryDark").value = p.primaryDark;
+      document.getElementById("clrSecondary").value = p.secondary;
+      document.getElementById("clrAccent").value = p.accent;
+      document.getElementById("clrBg").value = p.bg;
+      document.getElementById("clrCardBg").value = p.cardBg;
+      document.getElementById("clrText").value = p.text;
+      onControlChange();
+    }
+
+    function collectCurrentConfig() {
+      const fSize = document.getElementById("rngFontSize").value;
+      const lHeight = document.getElementById("rngLineHeight").value;
+      const rad = document.getElementById("rngBorderRadius").value;
+
+      document.getElementById("lblFontSize").textContent = fSize + "px";
+      document.getElementById("lblLineHeight").textContent = lHeight;
+      document.getElementById("lblBorderRadius").textContent = rad + "px";
+
+      return {
+        primary: document.getElementById("clrPrimary").value,
+        primaryDark: document.getElementById("clrPrimaryDark").value,
+        secondary: document.getElementById("clrSecondary").value,
+        accent: document.getElementById("clrAccent").value,
+        bg: document.getElementById("clrBg").value,
+        cardBg: document.getElementById("clrCardBg").value,
+        text: document.getElementById("clrText").value,
+        fontFamily: document.getElementById("selFontFamily").value,
+        fontSize: Number(fSize),
+        lineHeight: Number(lHeight),
+        containerWidth: document.getElementById("selContainerWidth").value,
+        sidebarWidth: 310,
+        borderRadius: Number(rad),
+        shadowStyle: document.getElementById("selShadowStyle").value,
+        compactHeader: document.getElementById("chkCompactHeader").checked,
+        hideTopNav: document.getElementById("chkHideTopNav").checked,
+        customBadge: document.getElementById("inpCustomBadge").value.trim(),
+        customHeaderTitle: document.getElementById("inpCustomTitle").value.trim(),
+        customHeaderSub: document.getElementById("inpCustomSub").value.trim(),
+        customAuthor: document.getElementById("inpCustomAuthor").value.trim(),
+        customZaloText: document.getElementById("inpCustomZaloText").value.trim(),
+        customZaloUrl: document.getElementById("inpCustomZaloUrl").value.trim(),
+        customCss: document.getElementById("txtCustomCss").value
+      };
+    }
+
+    function populateControlsFromConfig(cfg) {
+      if (!cfg) return;
+      if (cfg.primary) document.getElementById("clrPrimary").value = cfg.primary;
+      if (cfg.primaryDark) document.getElementById("clrPrimaryDark").value = cfg.primaryDark;
+      if (cfg.secondary) document.getElementById("clrSecondary").value = cfg.secondary;
+      if (cfg.accent) document.getElementById("clrAccent").value = cfg.accent;
+      if (cfg.bg) document.getElementById("clrBg").value = cfg.bg;
+      if (cfg.cardBg) document.getElementById("clrCardBg").value = cfg.cardBg;
+      if (cfg.text) document.getElementById("clrText").value = cfg.text;
+      if (cfg.fontFamily) document.getElementById("selFontFamily").value = cfg.fontFamily;
+      if (cfg.fontSize) document.getElementById("rngFontSize").value = cfg.fontSize;
+      if (cfg.lineHeight) document.getElementById("rngLineHeight").value = cfg.lineHeight;
+      if (cfg.containerWidth) document.getElementById("selContainerWidth").value = cfg.containerWidth;
+      if (cfg.borderRadius !== undefined) document.getElementById("rngBorderRadius").value = cfg.borderRadius;
+      if (cfg.shadowStyle) document.getElementById("selShadowStyle").value = cfg.shadowStyle;
+      document.getElementById("chkCompactHeader").checked = Boolean(cfg.compactHeader);
+      document.getElementById("chkHideTopNav").checked = Boolean(cfg.hideTopNav);
+      if (cfg.customBadge !== undefined) document.getElementById("inpCustomBadge").value = cfg.customBadge;
+      if (cfg.customHeaderTitle !== undefined) document.getElementById("inpCustomTitle").value = cfg.customHeaderTitle;
+      if (cfg.customHeaderSub !== undefined) document.getElementById("inpCustomSub").value = cfg.customHeaderSub;
+      if (cfg.customAuthor !== undefined) document.getElementById("inpCustomAuthor").value = cfg.customAuthor;
+      if (cfg.customZaloText !== undefined) document.getElementById("inpCustomZaloText").value = cfg.customZaloText;
+      if (cfg.customZaloUrl !== undefined) document.getElementById("inpCustomZaloUrl").value = cfg.customZaloUrl;
+      if (cfg.customCss !== undefined) document.getElementById("txtCustomCss").value = cfg.customCss;
+      collectCurrentConfig();
+    }
+
+    function pushThemeLive(cfg) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+      const iframe = document.getElementById("livePreviewIframe");
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ type: "CNNN_UI_THEME_UPDATE", config: cfg }, "*");
+        if (typeof iframe.contentWindow.applyCnnnUiTheme === "function") {
+          iframe.contentWindow.applyCnnnUiTheme(cfg);
+        }
+      }
+      if (bc) {
+        bc.postMessage({ type: "CNNN_UI_THEME_UPDATE", config: cfg });
+      }
+    }
+
+    function onControlChange() {
+      const cfg = collectCurrentConfig();
+      pushThemeLive(cfg);
+    }
+
+    function saveThemePermanent() {
+      const cfg = collectCurrentConfig();
+      pushThemeLive(cfg);
+      showToast("✅ Đã lưu & áp dụng giao diện Lộc Ninh (#0f3d24)!");
+    }
+
+    function resetDefaultTheme() {
+      localStorage.removeItem(STORAGE_KEY);
+      if (bc) bc.postMessage({ type: "CNNN_UI_THEME_RESET" });
+      applyPreset("locninh_green");
+      document.getElementById("selFontFamily").value = "'Plus Jakarta Sans', 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif";
+      document.getElementById("rngFontSize").value = 14.5;
+      document.getElementById("rngLineHeight").value = 1.55;
+      document.getElementById("selContainerWidth").value = "1440px";
+      document.getElementById("rngBorderRadius").value = 10;
+      document.getElementById("selShadowStyle").value = "normal";
+      document.getElementById("chkCompactHeader").checked = false;
+      document.getElementById("chkHideTopNav").checked = false;
+      document.getElementById("inpCustomBadge").value = "🌱 THPT LỘC NINH • CNNN 10•11•12";
+      document.getElementById("inpCustomTitle").value = "CỔNG HỌC LIỆU & HỖ TRỢ SOẠN GIẢNG ĐIỆN TỬ (CV 5512)";
+      document.getElementById("inpCustomSub").value = "Đồng hành cùng giáo viên & học sinh THPT Lộc Ninh trên hành trình chuyển đổi số nông nghiệp";
+      document.getElementById("inpCustomAuthor").value = "Thầy Trương Khắc Nam – GV CNNN";
+      document.getElementById("inpCustomZaloText").value = "Nhắn Zalo: 0978.405.879";
+      document.getElementById("inpCustomZaloUrl").value = "https://zalo.me/0978405879";
+      document.getElementById("txtCustomCss").value = "";
+      localStorage.removeItem(STORAGE_KEY);
+      const iframe = document.getElementById("livePreviewIframe");
+      if (iframe) iframe.contentWindow.location.reload();
+      showToast("🔄 Đã khôi phục giao diện chuẩn Lộc Ninh!");
+    }
+
+    function exportThemeCssModal() {
+      const cfg = collectCurrentConfig();
+      const cssText = `:root {\n  --primary: ${cfg.primary};\n  --primary-dark: ${cfg.primaryDark};\n  --secondary: ${cfg.secondary};\n  --accent: ${cfg.accent};\n  --bg: ${cfg.bg};\n  --card-bg: ${cfg.cardBg};\n  --text: ${cfg.text};\n  --radius: ${cfg.borderRadius}px;\n}\nbody {\n  font-family: ${cfg.fontFamily};\n  font-size: ${cfg.fontSize}px;\n  line-height: ${cfg.lineHeight};\n}\n.container { max-width: ${cfg.containerWidth}; }\n${cfg.customCss || ""}`;
+      navigator.clipboard?.writeText(cssText);
+      showToast("📋 Đã sao chép CSS vào Clipboard!");
+    }
+
+    function switchInspectorTab(tabId, btn) {
+      document.querySelectorAll(".insp-tab").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".insp-pane").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("pane_" + tabId).classList.add("active");
+    }
+
+    function switchPreviewUrl(url, btn) {
+      btn.parentElement.querySelectorAll(".pv-tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const iframe = document.getElementById("livePreviewIframe");
+      iframe.src = url;
+      iframe.onload = () => {
+        const cfg = collectCurrentConfig();
+        pushThemeLive(cfg);
+      };
+    }
+
+    function setPreviewWidth(w, btn) {
+      btn.parentElement.querySelectorAll(".pv-tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("livePreviewIframe").style.width = w;
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("statusToast");
+      t.textContent = msg;
+      t.style.display = "block";
+      setTimeout(() => { t.style.display = "none"; }, 2400);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem(STUDIO_MODE_KEY) === "1") {
+        document.body.classList.add("studio-dark");
+        const btn = document.getElementById("btnToggleStudioMode");
+        if (btn) btn.textContent = "☀️";
+      }
+      renderPresetCards();
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) populateControlsFromConfig(JSON.parse(saved));
+      } catch (_) {}
+      const iframe = document.getElementById("livePreviewIframe");
+      iframe.addEventListener("load", () => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) pushThemeLive(JSON.parse(saved));
+        } catch (_) {}
+      });
+    });
+  </script>
+</body>
+</html>

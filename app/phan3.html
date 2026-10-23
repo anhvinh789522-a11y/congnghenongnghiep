@@ -1,0 +1,883 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📝 Soạn Đề Kiểm Tra CV 7991 (6 Bước Tối Giản) — CNNN 10•11•12</title>
+  <link rel="stylesheet" href="styles.css?v=4" />
+  <style>
+    /* Tối giản hóa quy trình 6 bước CV 7991 — Gọn, thoáng, tập trung vào con số & thao tác */
+    .cv-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      padding: 8px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .stepper-bar {
+      padding: 6px 0 !important;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .stepper-inner {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+    }
+    .step-btn {
+      padding: 7px 10px !important;
+      border-radius: 8px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 38px;
+    }
+    .step-btn .step-num {
+      width: 24px;
+      height: 24px;
+      font-size: 12.5px;
+      flex-shrink: 0;
+    }
+    .step-btn .step-label {
+      font-size: 12.5px;
+      line-height: 1.2;
+      text-align: left;
+      white-space: nowrap;
+    }
+    .compact-meta-bar {
+      display: grid;
+      grid-template-columns: 2fr 1.3fr 1fr 80px 75px;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      align-items: end;
+    }
+    @media (max-width: 960px) {
+      .compact-meta-bar { grid-template-columns: 1fr 1fr; }
+      .stepper-inner { grid-template-columns: repeat(3, 1fr); }
+    }
+    .compact-meta-bar label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 3px;
+      display: block;
+    }
+    .compact-meta-bar input, .compact-meta-bar select {
+      padding: 5px 8px;
+      font-size: 13px;
+      height: 33px;
+    }
+    .std-table th {
+      padding: 7px 8px !important;
+      font-size: 12px !important;
+    }
+    .std-table td {
+      padding: 6px 8px !important;
+      font-size: 13px !important;
+      vertical-align: middle;
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 10px !important;
+    }
+    .metric-box {
+      padding: 10px 14px !important;
+      border-radius: 8px !important;
+    }
+    .metric-box .label {
+      font-size: 11px !important;
+    }
+    .metric-box .value {
+      font-size: 18px !important;
+      margin-top: 2px !important;
+    }
+    .audit-check-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 10px;
+    }
+    .q-compact-row {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      transition: border-color 0.15s;
+    }
+    .q-compact-row:hover {
+      border-color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER MOBILE-FIRST THPT LỘC NINH -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-badge">🌱 THPT LỘC NINH • CNNN 10•11•12</div>
+        <div class="brand-title">
+          <h1>CỔNG HỌC LIỆU &amp; HỖ TRỢ SOẠN GIẢNG ĐIỆN TỬ (CV 5512)</h1>
+          <p class="brand-slogan">Đồng hành cùng giáo viên &amp; học sinh THPT Lộc Ninh trên hành trình chuyển đổi số nông nghiệp</p>
+          <div class="header-contact-bar">
+            <div class="author-badge">👨‍🏫 <span>Tác giả: Thầy Trương Khắc Nam – GV CNNN</span></div>
+            <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="zalo-cta-btn">
+              💬 <span>Nhắn Zalo: 0978.405.879</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline btn-sm" onclick="openHistoryModal()">🕒 Lịch sử (<span id="historyCountBadge">0</span>)</button>
+        <button class="btn btn-outline btn-sm" onclick="openSimilarExamModal()">🔄 Đề Tương Tự</button>
+        <button class="btn btn-secondary btn-sm" onclick="openVariantsModal()">⚡ 3 Đề Biến Thể</button>
+        <button class="btn btn-primary btn-sm" onclick="openStudyGuideModal()">📖 Đề Cương</button>
+        <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Xuất Word (.doc)</button>
+        <button class="btn btn-outline btn-sm" onclick="openAiConfigModal()" title="Cấu hình API AI">⚙️ AI</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 4 MAIN MODULES NAVIGATION BAR -->
+  <nav class="module-nav-bar">
+    <div class="module-nav-inner">
+      <button class="module-tab-btn" onclick="switchMainModule(1)">
+        <div class="module-tab-icon">📖</div>
+        <div class="module-tab-text">
+          <strong>PHẦN 1: KIẾN THỨC & PHÂN TÍCH</strong>
+          <span>77 bài SGK • Sơ đồ • Flashcard</span>
+        </div>
+      </button>
+      <button class="module-tab-btn" onclick="switchMainModule(2)">
+        <div class="module-tab-icon">📑</div>
+        <div class="module-tab-text">
+          <strong>PHẦN 2: HỒ SƠ 5512 & PPT</strong>
+          <span>Giáo án 5512 • 77 PPT</span>
+        </div>
+      </button>
+      <button class="module-tab-btn active" onclick="switchMainModule(3)">
+        <div class="module-tab-icon">📝</div>
+        <div class="module-tab-text">
+          <strong>PHẦN 3: SOẠN ĐỀ HỌC KÌ</strong>
+          <span>6 bước CV 7991 • 97 Đề mẫu</span>
+        </div>
+      </button>
+      <button class="module-tab-btn" onclick="switchMainModule(4)">
+        <div class="module-tab-icon">🏆</div>
+        <div class="module-tab-text">
+          <strong>PHẦN 4: HSG & TỐT NGHIỆP</strong>
+          <span>Luyện đề VDC • 48 Đề Bộ</span>
+        </div>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 6-STEP WIZARD NAVIGATION (TỐI GIẢN 1 DÒNG GỌN GÀNG) -->
+  <nav class="stepper-bar" id="cv7991StepperBar" style="display:block;">
+    <div class="stepper-inner">
+      <button class="step-btn active" onclick="goToStep(1)">
+        <div class="step-num">1</div>
+        <div class="step-label"><strong>Chọn Bài Học</strong></div>
+      </button>
+      <button class="step-btn" onclick="goToStep(2)">
+        <div class="step-num">2</div>
+        <div class="step-label"><strong>Cấu Hình Điểm</strong></div>
+      </button>
+      <button class="step-btn" onclick="goToStep(3)">
+        <div class="step-num">3</div>
+        <div class="step-label"><strong>Ma Trận Đề</strong></div>
+      </button>
+      <button class="step-btn" onclick="goToStep(4)">
+        <div class="step-num">4</div>
+        <div class="step-label"><strong>Bản Đặc Tả</strong></div>
+      </button>
+      <button class="step-btn" onclick="goToStep(5)">
+        <div class="step-num">5</div>
+        <div class="step-label"><strong>Đề & Đáp Án</strong></div>
+      </button>
+      <button class="step-btn" onclick="goToStep(6)">
+        <div class="step-num">6</div>
+        <div class="step-label"><strong>AI Kiểm Định</strong></div>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container" style="padding-top:12px;">
+
+    <!-- PHẦN 1 -->
+    <div class="main-module-view" id="moduleView1">
+      <div class="portal-split-layout">
+        <aside class="lesson-sidebar">
+          <div style="font-weight:700; color:var(--primary-dark); margin-bottom:8px;">📚 Chọn Khối & Bài học (77 Bài SGK)</div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:8px;">
+            <button id="mod1GradeBtn_cn10" class="btn btn-primary btn-sm" onclick="selectMod1Grade('cn10')">Khối 10 (28)</button>
+            <button id="mod1GradeBtn_cn11" class="btn btn-outline btn-sm" onclick="selectMod1Grade('cn11')">Khối 11 (22)</button>
+            <button id="mod1GradeBtn_cn12" class="btn btn-outline btn-sm" onclick="selectMod1Grade('cn12')">Khối 12 (27)</button>
+          </div>
+          <input type="text" placeholder="🔍 Tìm nhanh tên bài..." oninput="portalState.mod1Search=this.value; renderModule1Theory();" />
+          <div class="lesson-list-scroll" id="mod1LessonList"></div>
+        </aside>
+        <div id="mod1MainContent"></div>
+      </div>
+    </div>
+
+    <!-- PHẦN 2 -->
+    <div class="main-module-view" id="moduleView2">
+      <div class="portal-split-layout">
+        <aside class="lesson-sidebar">
+          <div style="font-weight:700; color:var(--primary-dark); margin-bottom:8px;">🖥️ Học liệu cho GV (77 Bài & Link Drive)</div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:8px;">
+            <button id="mod2GradeBtn_cn10" class="btn btn-primary btn-sm" onclick="selectMod2Grade('cn10')">Học liệu 10 (28)</button>
+            <button id="mod2GradeBtn_cn11" class="btn btn-outline btn-sm" onclick="selectMod2Grade('cn11')">Học liệu 11 (22)</button>
+            <button id="mod2GradeBtn_cn12" class="btn btn-outline btn-sm" onclick="selectMod2Grade('cn12')">Học liệu 12 (27)</button>
+          </div>
+          <input type="text" placeholder="🔍 Tìm bài giảng..." oninput="portalState.mod2Search=this.value; renderModule2PptPresenter();" />
+          <div class="lesson-list-scroll" id="mod2LessonList"></div>
+        </aside>
+        <div id="mod2PresenterArea"></div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- PHẦN 3: SOẠN ĐỀ THEO HỌC KÌ (TỐI GIẢN - NHANH - DỄ NHÌN) -->
+    <!-- ================================================================== -->
+    <div class="main-module-view active" id="moduleView3">
+
+      <!-- THANH CÔNG CỤ GỌN 1 DÒNG -->
+      <div class="cv-toolbar">
+        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+          <span class="badge badge-ok" style="padding:4px 8px; font-size:11.5px;">CV 7991</span>
+          <button class="btn btn-outline btn-sm" onclick="openSimilarExamModal()">🔄 Tạo Đề Tương Tự (Từ 97 Đề mẫu)</button>
+          <button class="btn btn-outline btn-sm" onclick="openVariantsModal()">⚡ Sinh 3 Đề Biến Thể (101•102•103)</button>
+          <button class="btn btn-outline btn-sm" onclick="openCorpusModal()">📚 Kho Ngữ liệu & 97 Đề</button>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+          <label class="btn btn-outline btn-sm" style="cursor:pointer; margin:0;" title="Tải file Ma trận / Đề có sẵn để nhảy thẳng sang Bước 5">
+            🚀 Nhập nhanh Ma trận/Đề
+            <input type="file" accept=".json,.html,.txt,.csv,.doc,.docx" style="display:none;" onchange="handleQuickShortcutUpload(event)" />
+          </label>
+          <button class="btn btn-primary btn-sm" onclick="generateExamFromMatrix(false); goToStep(5);">⚡ Sinh Đề Ngay →</button>
+        </div>
+      </div>
+
+      <!-- Khung 97 đề thu gọn (ẩn mặc định, chỉ mở khi bấm) -->
+      <div id="mod3SemesterExamArchiveBox" style="display:none;"></div>
+
+      <!-- ================================================================== -->
+      <!-- BƯỚC 1: CHỌN BÀI HỌC (GỌN GÀNG, BẢNG 1 DÒNG/BÀI) -->
+      <!-- ================================================================== -->
+      <section class="step-panel active" id="stepPanel1">
+        <div class="card" style="padding:14px;">
+          <!-- Thanh cấu hình Đơn vị ra đề: Trường THPT Lộc Ninh & Tổ Tin - Công nghệ (Có sẵn nút bấm nhanh hoặc tự điền) -->
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:8px 12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1;">
+              <span style="font-weight:700; color:#166534; font-size:12px; text-transform:uppercase; display:flex; align-items:center; gap:4px; flex-shrink:0;">
+                🏫 ĐƠN VỊ RA ĐỀ:
+              </span>
+              <div style="display:flex; gap:6px; flex-wrap:wrap; flex:1; min-width:320px;">
+                <input type="text" id="metaDepartment" style="flex:1; min-width:180px; padding:4px 8px; font-size:12px; border:1px solid #cbd5e1; border-radius:4px; background:#fff;" 
+                       value="SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC" list="deptSuggestions" placeholder="Sở GD&ĐT..." 
+                       onchange="state.meta.department = this.value; localStorage.setItem('cv7991_department', this.value)" title="Sở GD&ĐT (hoặc tự điền)" />
+                <input type="text" id="metaSchool" style="flex:1.2; min-width:190px; padding:4px 8px; font-size:12.5px; font-weight:700; color:#14532d; border:1px solid #86efac; border-radius:4px; background:#fff;" 
+                       value="TRƯỜNG THPT LỘC NINH" list="schoolSuggestions" placeholder="Trường / Đơn vị..." 
+                       onchange="state.meta.school = this.value; localStorage.setItem('cv7991_school', this.value)" title="Trường THPT (hoặc tự điền)" />
+                <input type="text" id="metaGroup" style="flex:1; min-width:160px; padding:4px 8px; font-size:12px; font-weight:700; color:#15803d; border:1px solid #86efac; border-radius:4px; background:#fff;" 
+                       value="TỔ TIN - CÔNG NGHỆ" list="groupSuggestions" placeholder="Tổ chuyên môn..." 
+                       onchange="state.meta.group = this.value; localStorage.setItem('cv7991_group', this.value)" title="Tổ chuyên môn (hoặc tự điền)" />
+              </div>
+            </div>
+            <div style="display:flex; gap:5px; flex-shrink:0;">
+              <button type="button" class="btn btn-primary btn-sm" style="padding:4px 10px; font-size:11.5px; font-weight:600;" onclick="applySchoolPreset('loc_ninh')" title="Điền nhanh chuẩn: THPT Lộc Ninh • Tổ Tin - Công nghệ">
+                🏫 THPT Lộc Ninh
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px; font-size:11.5px;" onclick="applySchoolPreset('clear')" title="Xóa trắng để tự điền trường và tổ khác">
+                ✏️ Tự điền
+              </button>
+            </div>
+          </div>
+
+          <datalist id="deptSuggestions">
+            <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC">
+            <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI">
+            <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH DƯƠNG">
+            <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TP. HỒ CHÍ MINH">
+            <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TÂY NINH">
+          </datalist>
+          <datalist id="schoolSuggestions">
+            <option value="TRƯỜNG THPT LỘC NINH">
+            <option value="TRƯỜNG THPT CHUYÊN QUANG TRUNG">
+            <option value="TRƯỜNG THPT BÌNH LONG">
+            <option value="TRƯỜNG THPT ĐỒNG XOÀI">
+            <option value="TRƯỜNG THPT LỘC HIỆP">
+          </datalist>
+          <datalist id="groupSuggestions">
+            <option value="TỔ TIN - CÔNG NGHỆ">
+            <option value="TỔ TIN HỌC - CÔNG NGHỆ">
+            <option value="TỔ KHOA HỌC TỰ NHIÊN">
+            <option value="TỔ CÔNG NGHỆ NÔNG NGHIỆP">
+            <option value="TỔ SINH - CÔNG NGHỆ">
+          </datalist>
+
+          <!-- Hàng cấu hình thông tin đề gọn 1 dòng -->
+          <div class="compact-meta-bar">
+            <div>
+              <label>1. Kỳ kiểm tra / Dạng đề:</label>
+              <select onchange="loadPresetCurriculum(this.value)">
+                <optgroup label="⭐ Đề Tự chọn bài & Chuyển đổi môn">
+                  <option value="custom_chuyendoi">⚡ Đề Chuyển đổi môn / Khảo sát (Tự chọn trong 77 bài)</option>
+                  <option value="custom_cn10">⚡ Công nghệ 10 - Trồng trọt (Tự chọn bài)</option>
+                  <option value="custom_cn11">⚡ Công nghệ 11 - Chăn nuôi (Tự chọn bài)</option>
+                  <option value="custom_cn12">⚡ Công nghệ 12 - Lâm & Thủy sản (Tự chọn bài)</option>
+                </optgroup>
+                <optgroup label="Khối 10 - Trồng trọt">
+                  <option value="cn10_trongtrot_gk1" selected>CN 10 — Giữa kì 1 (Bài 1–8)</option>
+                  <option value="cn10_trongtrot_ck1">CN 10 — Cuối kì 1 (Bài 1–14)</option>
+                  <option value="cn10_trongtrot_gk2">CN 10 — Giữa kì 2 (Bài 15–21)</option>
+                  <option value="cn10_trongtrot_ck2">CN 10 — Cuối kì 2 (Bài 15–28)</option>
+                </optgroup>
+                <optgroup label="Khối 11 - Chăn nuôi">
+                  <option value="cn11_channuoi_gk1">CN 11 — Giữa kì 1 (Bài 1–6)</option>
+                  <option value="cn11_channuoi_ck1">CN 11 — Cuối kì 1 (Bài 1–10)</option>
+                  <option value="cn11_channuoi_gk2">CN 11 — Giữa kì 2 (Bài 11–17)</option>
+                  <option value="cn11_channuoi_ck2">CN 11 — Cuối kì 2 (Bài 11–22)</option>
+                </optgroup>
+                <optgroup label="Khối 12 - Lâm & Thủy sản">
+                  <option value="cn12_lamthuy_gk1">CN 12 — Giữa kì 1 (Bài 1–7)</option>
+                  <option value="cn12_lnts_ck1">CN 12 — Cuối kì 1 (Bài 1–12)</option>
+                  <option value="cn12_lnts_gk2">CN 12 — Giữa kì 2 (Bài 13–20)</option>
+                  <option value="cn12_lnts_ck2">CN 12 — Cuối kì 2 (Bài 13–27)</option>
+                </optgroup>
+              </select>
+            </div>
+            <div>
+              <label>Tên Môn:</label>
+              <input type="text" id="metaSubject" value="CÔNG NGHỆ 10" onchange="state.meta.subjectName = this.value" />
+            </div>
+            <div>
+              <label>Học kì:</label>
+              <input type="text" id="metaTerm" value="GIỮA HỌC KỲ I" onchange="state.meta.examTerm = this.value" />
+            </div>
+            <div>
+              <label>Mã Đề:</label>
+              <input type="text" id="metaExamCode" class="compact-num" style="width:100%; text-align:center; font-weight:700;" value="101" onchange="state.meta.examCode = this.value" />
+            </div>
+            <div>
+              <label>Phút:</label>
+              <input type="number" id="metaDuration" class="compact-num" style="width:100%;" value="45" min="15" max="180" onchange="state.meta.duration = Number(this.value)" />
+            </div>
+          </div>
+
+          <!-- Thanh con số tóm tắt + nút thao tác nhanh -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+            <div id="ppctSummaryText"></div>
+            <div style="display:flex; gap:5px; flex-wrap:wrap;">
+              <button class="btn btn-primary btn-sm" onclick="openLessonPickerModal()">➕ Chọn thêm bài (77 bài SGK)</button>
+              <button class="btn btn-outline btn-sm" onclick="selectAllUnits(true)">✅ Chọn hết</button>
+              <button class="btn btn-outline btn-sm" onclick="selectAllUnits(false)">⬜ Bỏ chọn</button>
+              <button class="btn btn-outline btn-sm" onclick="addNewUnit()">+ Thêm bài</button>
+              <label class="btn btn-outline btn-sm" style="cursor:pointer; margin:0;">
+                📂 Nhập PPCT
+                <input type="file" accept=".json,.csv,.txt,.tsv" style="display:none;" onchange="handlePpctFileUpload(event)" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Bảng danh sách bài học tối giản 1 dòng/bài -->
+          <div class="table-wrap">
+            <table class="std-table">
+              <thead>
+                <tr>
+                  <th style="width:42px;">Chọn</th>
+                  <th style="width:36px;">TT</th>
+                  <th>Bài học / Chủ đề kiến thức</th>
+                  <th style="width:78px;">Số tiết</th>
+                  <th style="width:82px;">Trọng số</th>
+                  <th style="width:120px;">Năng lực</th>
+                  <th style="width:110px;">YCCĐ</th>
+                  <th style="width:42px;">Xóa</th>
+                </tr>
+              </thead>
+              <tbody id="ppctTableBody"></tbody>
+            </table>
+          </div>
+
+          <div class="step-footer-nav" style="margin-top:10px; padding-top:10px;">
+            <div></div>
+            <button class="btn btn-primary" onclick="goToStep(2)">Bước 2: Cấu hình Điểm & Số câu →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- BƯỚC 2: CẤU HÌNH ĐIỂM & SỐ CÂU -->
+      <!-- ================================================================== -->
+      <section class="step-panel" id="stepPanel2">
+        <div class="card" style="padding:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+            <strong style="font-size:15px; color:var(--primary-dark);">⚖️ Bước 2: Phân bổ Điểm & Số câu (Chuẩn 10,0 điểm)</strong>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('cv7991_70_30')">⚡ Mẫu 70% TN - 30% TL (40:30:30)</button>
+              <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('cv7991_4parts')">⚡ Mẫu Đủ 4 Phần (MCQ+Đ/S+TLN+TL)</button>
+              <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('tn100_thpt')">⚡ Mẫu 100% TN (28 câu)</button>
+            </div>
+          </div>
+
+          <!-- 3 Ô CON SỐ GIÁ TRỊ -->
+          <div class="metrics-grid">
+            <div class="metric-box" id="metricTotalPointsBox">
+              <div class="label">TỔNG ĐIỂM ĐỀ</div>
+              <div class="value" id="metricTotalPointsVal">10.00 / 10.00 đ</div>
+            </div>
+            <div class="metric-box">
+              <div class="label">TRẮC NGHIỆM / TỰ LUẬN</div>
+              <div class="value" id="metricTnVsTlVal">TN: 7.0đ (70%) | TL: 3.0đ (30%)</div>
+            </div>
+            <div class="metric-box">
+              <div class="label">BIẾT : HIỂU : VẬN DỤNG</div>
+              <div class="value" id="metricCognitiveRatioVal">40% : 30% : 30%</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <div class="stacked-bar" id="cognitiveStackedBar" style="height:22px; font-size:11.5px;"></div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="std-table">
+              <thead>
+                <tr>
+                  <th style="width:45px;">Bật</th>
+                  <th>Phần / Dạng thức</th>
+                  <th style="width:110px;">Điểm / câu</th>
+                  <th style="width:110px;">Nhận biết</th>
+                  <th style="width:110px;">Thông hiểu</th>
+                  <th style="width:110px;">Vận dụng</th>
+                  <th style="width:105px;">Số câu/ý</th>
+                  <th style="width:95px;">Tổng điểm</th>
+                </tr>
+              </thead>
+              <tbody id="partConfigTableBody"></tbody>
+            </table>
+          </div>
+
+          <div class="step-footer-nav" style="margin-top:10px; padding-top:10px;">
+            <button class="btn btn-outline" onclick="goToStep(1)">← Bước 1</button>
+            <button class="btn btn-primary" onclick="autoGenerateMatrix(); goToStep(3);">Bước 3: Xem Ma trận Đề →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- BƯỚC 3: MA TRẬN ĐỀ (PHỤ LỤC 1) -->
+      <!-- ================================================================== -->
+      <section class="step-panel" id="stepPanel3">
+        <div class="card" style="padding:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+            <strong style="font-size:15px; color:var(--primary-dark);">📊 Bước 3: Ma trận Đề kiểm tra (Phụ lục 1 - CV 7991)</strong>
+            <button class="btn btn-outline btn-sm" onclick="autoGenerateMatrix(); renderMatrixTable();">🔄 Cân bằng tự động theo số tiết</button>
+          </div>
+
+          <div class="table-wrap" id="matrixExportArea">
+            <table class="std-table">
+              <thead>
+                <tr>
+                  <th rowspan="2" style="width:34px;">TT</th>
+                  <th rowspan="2">Bài học / Đơn vị kiến thức</th>
+                  <th colspan="3">I. TN 4 lựa chọn</th>
+                  <th colspan="3">II. Đúng - Sai (Ý)</th>
+                  <th colspan="3">III. Trả lời ngắn</th>
+                  <th colspan="3">IV. Tự luận (Câu/Điểm)</th>
+                  <th rowspan="2" style="width:55px;">Lệnh hỏi</th>
+                  <th rowspan="2" style="width:65px;">Điểm</th>
+                  <th rowspan="2" style="width:55px;">%</th>
+                </tr>
+                <tr>
+                  <th>B</th><th>H</th><th>VD</th>
+                  <th>B</th><th>H</th><th>VD</th>
+                  <th>B</th><th>H</th><th>VD</th>
+                  <th>B</th><th>H</th><th>VD</th>
+                </tr>
+              </thead>
+              <tbody id="matrixTableBody"></tbody>
+              <tfoot id="matrixTableFoot"></tfoot>
+            </table>
+          </div>
+
+          <div class="step-footer-nav" style="margin-top:10px; padding-top:10px;">
+            <button class="btn btn-outline" onclick="goToStep(2)">← Bước 2</button>
+            <button class="btn btn-primary" onclick="goToStep(4)">Bước 4: Bản Đặc tả →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- BƯỚC 4: BẢN ĐẶC TẢ (PHỤ LỤC 2 - GỌN, ĐẸP NHƯ VĂN BẢN IN) -->
+      <!-- ================================================================== -->
+      <section class="step-panel" id="stepPanel4">
+        <div class="card" style="padding:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+            <strong style="font-size:15px; color:var(--primary-dark);">📋 Bước 4: Bản Đặc tả Đề kiểm tra (Phụ lục 2 - CV 7991)</strong>
+            <div style="display:flex; gap:4px; flex-wrap:wrap;">
+              <span class="badge badge-nl">NCCN</span>
+              <span class="badge badge-nl">SDCN</span>
+              <span class="badge badge-nl">ĐGCN</span>
+              <span class="badge badge-nl">TKKT</span>
+            </div>
+          </div>
+
+          <div class="table-wrap" id="specExportArea">
+            <table class="std-table">
+              <thead>
+                <tr>
+                  <th style="width:34px;">TT</th>
+                  <th style="width:210px;">Bài học / Chủ đề</th>
+                  <th>Yêu cầu cần đạt (Nhấp vào dòng để sửa nhanh nếu cần)</th>
+                  <th style="width:70px;">Mã NL</th>
+                  <th style="width:90px;">I. MCQ</th>
+                  <th style="width:90px;">II. Đ/S</th>
+                  <th style="width:80px;">III. TLN</th>
+                  <th style="width:85px;">IV. Tự luận</th>
+                </tr>
+              </thead>
+              <tbody id="specTableBody"></tbody>
+            </table>
+          </div>
+
+          <div class="step-footer-nav" style="margin-top:10px; padding-top:10px;">
+            <button class="btn btn-outline" onclick="goToStep(3)">← Bước 3</button>
+            <button class="btn btn-primary" onclick="generateExamFromMatrix(false); goToStep(5);">Bước 5: Sinh Đề & Đáp án →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- BƯỚC 5: ĐỀ KIỂM TRA & ĐÁP ÁN -->
+      <!-- ================================================================== -->
+      <section class="step-panel" id="stepPanel5">
+        <div class="card" style="padding:12px 14px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+              <button class="btn btn-sm" id="btnExamViewClean" onclick="setExamViewMode('clean')" style="background:var(--primary); color:#fff;">📄 Xem Đề Gọn Đẹp</button>
+              <button class="btn btn-outline btn-sm" id="btnExamViewEdit" onclick="setExamViewMode('edit')">✏️ Sửa Từng Câu</button>
+              <select id="questionSourceModeSelect" style="width:auto; padding:4px 8px; font-size:12px; font-weight:600;" onchange="setQuestionSourceMode(this.value)">
+                <option value="exact">🎯 Nguồn: Chuẩn Ngân hàng</option>
+                <option value="adapt">🧪 Nguồn: Biến đổi bối cảnh thực tế</option>
+              </select>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+              <span style="font-size:12.5px; font-weight:600;">Mã đề:</span>
+              <input type="text" id="metaExamCode" value="101" style="width:52px; padding:4px; font-weight:700; text-align:center;" onchange="state.meta.examCode = this.value" />
+              <button class="btn btn-outline btn-sm" onclick="generateExamFromMatrix(true)">🔄 Đổi đề</button>
+              <button class="btn btn-secondary btn-sm" onclick="openVariantsModal()">⚡ 3 Đề Biến Thể</button>
+              <button class="btn btn-outline btn-sm" onclick="saveCurrentExamToHistory()">💾 Lưu</button>
+              <button class="btn btn-primary btn-sm" onclick="openStudyGuideModal()">📖 Đề Cương (.doc)</button>
+              <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Xuất Word (.doc)</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="examEditorContainer"></div>
+
+        <div class="card" style="padding:10px 14px; margin-top:10px;">
+          <div class="step-footer-nav" style="margin-top:0; padding-top:0; border-top:none;">
+            <button class="btn btn-outline" onclick="goToStep(4)">← Bước 4</button>
+            <button class="btn btn-primary" onclick="goToStep(6)">Bước 6: AI Kiểm định Đề →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- BƯỚC 6: AI KIỂM ĐỊNH ĐỀ (GỌN 2 CỘT + TỰ ĐỘNG SỬA KHI < 90Đ) -->
+      <!-- ================================================================== -->
+      <section class="step-panel" id="stepPanel6">
+        <div class="card" style="padding:14px;">
+          <div class="audit-score-banner" style="padding:12px 16px; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div class="audit-circle" id="auditScoreCircle" style="width:68px; height:68px; font-size:20px;">100<span>/100</span></div>
+              <div>
+                <h3 id="auditSummaryTitle" style="font-size:15.5px; color:var(--primary-dark); margin:0 0 3px;"></h3>
+                <p style="font-size:12.5px; color:var(--text-muted); margin:0;">
+                  Đối soát tự động: PPCT (Bước 1) ↔ Điểm (Bước 2) ↔ Ma trận (Bước 3) ↔ Đặc tả (Bước 4) ↔ Đề thi (Bước 5).
+                </p>
+              </div>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn btn-outline btn-sm" onclick="simulateLowScoreExamForTest()" title="Giả lập đề lỗi dưới 90đ để kiểm tra tính năng AI tự sửa">🧪 Giả lập Đề &lt; 90đ</button>
+              <button class="btn btn-outline btn-sm" onclick="runAiAuditTool()">🔍 Quét lại</button>
+              <button class="btn btn-secondary btn-sm" onclick="autoFixAllByAi()">🛠️ Tự chỉnh lại Đề theo gợi ý AI</button>
+              <button class="btn btn-primary btn-sm" onclick="callDeepAiInspector()">✨ AI Nhận xét</button>
+              <button class="btn btn-accent btn-sm" id="btnExportFromStep6" onclick="handleStep6ExportWord()">📥 Xuất Hồ sơ Word (.doc)</button>
+            </div>
+          </div>
+
+          <!-- BANNER YÊU CẦU TỰ CẬP NHẬT & CHỈNH LẠI ĐỀ KHI ĐIỂM < 90Đ -->
+          <div id="aiAutoFixRequiredBanner" style="display:none; margin-bottom:12px;"></div>
+
+          <!-- HỘP NHẬT KÝ CẬP NHẬT TỰ ĐỘNG CỦA AI -->
+          <div id="aiAutoFixLogBox" style="display:none; margin-bottom:12px;"></div>
+
+          <div class="audit-check-list" id="auditCheckList"></div>
+
+          <!-- KHU VỰC TẢI ĐỀ, MA TRẬN ĐẶC TẢ, HƯỚNG DẪN CHẤM SAU KIỂM ĐỊNH -->
+          <div class="card" id="step6DownloadArea" style="margin-top:14px; padding:16px; border:1.5px solid var(--primary-light); background:linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+              <div>
+                <h4 style="margin:0; font-size:15px; color:var(--primary-dark); display:flex; align-items:center; gap:6px;">
+                  <span>📥</span> TẢI HỒ SƠ ĐỀ KIỂM TRA (CHUẨN CÔNG VĂN 7991)
+                </h4>
+                <div style="font-size:12.5px; color:var(--text-muted); margin-top:2px;">
+                  Sau khi AI kiểm định đề xong, thầy/cô có thể tải riêng từng file theo nhu cầu hoặc tải trọn gói:
+                </div>
+              </div>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button class="btn btn-primary btn-sm" onclick="exportAllSeparatedFiles()" style="font-weight:600;" title="Tự động tải cả 3 file riêng lẻ về máy tính cùng lúc">
+                  📦 Tải Cả 3 File Rời (1-Click)
+                </button>
+                <button class="btn btn-accent btn-sm" onclick="handleStep6ExportWord()" style="font-weight:600;" title="Gộp cả 4 phần vào 1 file Word duy nhất">
+                  📁 Tải Trọn Bộ Hồ Sơ (4-trong-1)
+                </button>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+              <!-- 1. TẢI ĐỀ THI -->
+              <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div>
+                  <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:8px;">
+                    <span style="font-size:26px;">📄</span>
+                    <div>
+                      <strong style="color:var(--primary-dark); font-size:14px; display:block;">1. Đề thi (In cho HS)</strong>
+                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4; display:block; margin-top:2px;">
+                        File Word chỉ gồm đề bài, thông tin thí sinh, mã đề, điểm số. <strong>Không lộ đáp án</strong> để in phát trực tiếp cho học sinh làm bài.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-outline btn-sm" style="width:100%; margin-top:10px; font-weight:600;" onclick="exportExamOnlyWord()">
+                  📄 Tải Đề thi (.doc)
+                </button>
+              </div>
+
+              <!-- 2. TẢI MA TRẬN & BẢN ĐẶC TẢ -->
+              <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div>
+                  <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:8px;">
+                    <span style="font-size:26px;">📊</span>
+                    <div>
+                      <strong style="color:var(--primary-dark); font-size:14px; display:block;">2. Ma trận & Bản đặc tả</strong>
+                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4; display:block; margin-top:2px;">
+                        Đầy đủ <strong>Phụ lục 1 (Ma trận)</strong> và <strong>Phụ lục 2 (Bản đặc tả)</strong> theo đúng thể thức lưu hồ sơ chuyên môn nộp BGH/Tổ trưởng.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-outline btn-sm" style="width:100%; margin-top:10px; font-weight:600;" onclick="exportMatrixSpecWord()">
+                  📊 Tải Ma trận & Đặc tả (.doc)
+                </button>
+              </div>
+
+              <!-- 3. TẢI HƯỚNG DẪN CHẤM & ĐÁP ÁN -->
+              <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div>
+                  <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:8px;">
+                    <span style="font-size:26px;">🎯</span>
+                    <div>
+                      <strong style="color:var(--primary-dark); font-size:14px; display:block;">3. Hướng dẫn chấm & Đáp án</strong>
+                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4; display:block; margin-top:2px;">
+                        Bảng đáp án trắc nghiệm + <strong>Bảng giải thích 4 ý Đúng/Sai</strong> + Đáp án trả lời ngắn + Biểu điểm rubric tự luận cho giám khảo.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-outline btn-sm" style="width:100%; margin-top:10px; font-weight:600;" onclick="exportAnswerKeyWord()">
+                  🎯 Tải Hướng dẫn chấm (.doc)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="deepAiOutputBox" style="display:none; margin-top:12px; padding:14px; border-radius:8px; border:1.5px solid #86efac; background:#f0fdf4;"></div>
+
+          <div class="step-footer-nav" style="margin-top:12px; padding-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <button class="btn btn-outline" onclick="goToStep(5)">← Bước 5: Biên tập đề</button>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn btn-outline btn-sm" onclick="exportExamOnlyWord()">📄 Tải Đề thi</button>
+              <button class="btn btn-outline btn-sm" onclick="exportMatrixSpecWord()">📊 Tải Ma trận & Đặc tả</button>
+              <button class="btn btn-outline btn-sm" onclick="exportAnswerKeyWord()">🎯 Tải Hướng dẫn chấm</button>
+              <button class="btn btn-primary btn-sm" onclick="handleStep6ExportWord()">📁 Tải Trọn bộ Hồ sơ (4 trong 1)</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- End moduleView3 -->
+
+    <!-- PHẦN 4 -->
+    <div class="main-module-view" id="moduleView4">
+      <div id="mod4MainContainer"></div>
+    </div>
+
+  </main>
+
+  <!-- MODAL CẤU HÌNH API AI -->
+  <div class="modal-backdrop" id="aiModalBackdrop">
+    <div class="modal-box">
+      <h3 style="margin-bottom:10px; color:var(--primary-dark);">⚙️ Cấu hình kết nối Gemini AI (Tùy chọn)</h3>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">
+        Ứng dụng đã tích hợp sẵn <strong>Bộ máy AI Khảo thí Nội bộ & Ngân hàng câu hỏi chuẩn CV 7991</strong> nên hoạt động ngay lập tức mà không cần khóa API. Nếu muốn kết nối Gemini API, hãy nhập Key bên dưới:
+      </p>
+      <div class="form-group" style="margin-bottom:14px;">
+        <label>Google Gemini API Key:</label>
+        <input type="password" id="aiKeyInput" placeholder="AIzaSy..." />
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn btn-outline" onclick="closeAiConfigModal()">Đóng</button>
+        <button class="btn btn-primary" onclick="saveAiConfig()">Lưu cấu hình</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KHO NGỮ LIỆU SGK PDF, SGV WORD & NGÂN HÀNG CÂU HỎI -->
+  <div class="modal-backdrop" id="corpusModalBackdrop">
+    <div class="modal-box" style="max-width:980px; width:95%; max-height:88vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <div>
+          <h3 style="color:var(--primary-dark); margin-bottom:2px;">📚 Kho Ngữ Liệu: 3 SGK (PDF), 3 SGV (Word), 97 Đề Học kì & Ngân Hàng Câu Hỏi</h3>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="closeCorpusModal()">✕ Đóng</button>
+      </div>
+      <div id="corpusModalContent"></div>
+    </div>
+  </div>
+
+  <!-- MODAL TÍCH CHỌN BÀI TỪ KHO 77 BÀI SGK -->
+  <div class="modal-backdrop" id="lessonPickerModalBackdrop">
+    <div class="modal-box" style="max-width:980px; width:95%; max-height:88vh; display:flex; flex-direction:column;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+        <div>
+          <h3 style="color:var(--primary-dark); margin:0 0 2px;">📚 Tích Chọn Bài Ra Đề Từ 77 Bài SGK (Đề Định kỳ / Đề Chuyển đổi môn)</h3>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="closeLessonPickerModal()">✕ Đóng</button>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+        <div style="display:flex; gap:6px;">
+          <button class="btn btn-sm picker-tab-btn active" data-grade="all" onclick="setPickerGrade('all')">Tất cả (77)</button>
+          <button class="btn btn-sm picker-tab-btn" data-grade="cn10" onclick="setPickerGrade('cn10')">Khối 10 (28)</button>
+          <button class="btn btn-sm picker-tab-btn" data-grade="cn11" onclick="setPickerGrade('cn11')">Khối 11 (22)</button>
+          <button class="btn btn-sm picker-tab-btn" data-grade="cn12" onclick="setPickerGrade('cn12')">Khối 12 (27)</button>
+        </div>
+        <div style="display:flex; gap:6px; flex:1; max-width:300px;">
+          <input type="text" placeholder="🔍 Lọc nhanh theo tên bài..." oninput="onPickerSearch(this.value)" style="font-size:13px;" />
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="btn btn-outline btn-sm" onclick="toggleAllPickerVisible(true)">✅ Chọn hết</button>
+          <button class="btn btn-outline btn-sm" onclick="toggleAllPickerVisible(false)">⬜ Bỏ chọn</button>
+        </div>
+      </div>
+
+      <div id="lessonPickerGrid" style="flex:1; overflow-y:auto; display:grid; grid-template-columns:repeat(auto-fill, minmax(290px, 1fr)); gap:8px; padding-right:4px; max-height:55vh;"></div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:10px; margin-top:12px;">
+        <div style="font-size:13px; font-weight:600; color:var(--primary-dark);">
+          Đang chọn: <span id="pickerSelectedCount" style="color:var(--primary); font-size:15px;">0</span> bài học
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-outline" onclick="closeLessonPickerModal()">Hủy</button>
+          <button class="btn btn-primary" onclick="applyLessonPickerSelection()">✅ Áp dụng vào Đề thi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ĐỀ CƯƠNG ÔN TẬP -->
+  <div class="modal-backdrop" id="studyGuideModalBackdrop">
+    <div class="modal-box" style="max-width:1000px; width:95%; max-height:90vh; display:flex; flex-direction:column;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+        <div>
+          <h3 style="color:var(--primary-dark); margin:0;">📖 Đề Cương Ôn Tập Theo Đề Vừa Ra</h3>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="btn btn-accent btn-sm" onclick="exportStudyGuideWordDocument()">📥 Tải Đề Cương (.doc)</button>
+          <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ In / PDF</button>
+          <button class="btn btn-outline btn-sm" onclick="closeStudyGuideModal()">✕ Đóng</button>
+        </div>
+      </div>
+      <div id="studyGuideContent" style="flex:1; overflow-y:auto; padding:12px; background:#fff; border:1px solid #cbd5e1; border-radius:6px; max-height:72vh;"></div>
+    </div>
+  </div>
+
+  <!-- MODAL CHẾ ĐỘ 3: SINH 3 ĐỀ BIẾN THỂ -->
+  <div class="modal-backdrop" id="variantsModalBackdrop">
+    <div class="modal-box" style="max-width:1180px; width:96%; max-height:90vh; display:flex; flex-direction:column;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+        <div>
+          <h3 style="color:var(--primary-dark); margin:0;">⚡ Bộ 3 Đề Biến Thể (Mã 101 • 102 • 103)</h3>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+          <button class="btn btn-outline btn-sm" onclick="generateThreeVariantExams()">🔄 Sinh lại 3 Đề</button>
+          <button class="btn btn-accent btn-sm" onclick="exportAllThreeVariantsWord()">📥 Xuất Gộp 3 Đề + Giải (1 File .doc)</button>
+          <button class="btn btn-outline btn-sm" onclick="closeVariantsModal()">✕ Đóng</button>
+        </div>
+      </div>
+      <div id="variantsModalContent" style="flex:1; overflow-y:auto; padding-right:4px; max-height:74vh;"></div>
+    </div>
+  </div>
+
+  <!-- MODAL CHẾ ĐỘ 2: TẠO ĐỀ TƯƠNG TỰ -->
+  <div class="modal-backdrop" id="similarExamModalBackdrop">
+    <div class="modal-box" style="max-width:1060px; width:96%; max-height:90vh; display:flex; flex-direction:column;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+        <div>
+          <h3 style="color:var(--primary-dark); margin:0;">🔄 Tạo Đề Tương Tự (Từ 97 Đề Mẫu / File Tải Lên)</h3>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="closeSimilarExamModal()">✕ Đóng</button>
+      </div>
+      <div id="similarExamModalContent" style="flex:1; overflow-y:auto; padding-right:4px; max-height:74vh;"></div>
+    </div>
+  </div>
+
+  <!-- MODAL LỊCH SỬ TẠO ĐỀ -->
+  <div class="modal-backdrop" id="historyModalBackdrop">
+    <div class="modal-box" style="max-width:860px; width:95%; max-height:86vh; display:flex; flex-direction:column;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+        <div>
+          <h3 style="color:var(--primary-dark); margin:0;">🕒 Lịch Sử Đề Đã Tạo</h3>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="btn btn-primary btn-sm" onclick="saveCurrentExamToHistory()">💾 Lưu đề hiện tại</button>
+          <button class="btn btn-outline btn-sm" onclick="closeHistoryModal()">✕ Đóng</button>
+        </div>
+      </div>
+      <div id="historyModalContent" style="flex:1; overflow-y:auto; max-height:68vh;"></div>
+    </div>
+  </div>
+
+  <script>window.FORCED_MODULE = 3;</script>
+  <script src="data.js?v=2"></script>
+  <script src="corpus_bank.js?v=2"></script>
+  <script src="portal_data.js?v=2"></script>
+  <script src="portal_5512_data.js?v=2"></script>
+  <script src="portal_5512.js?v=2"></script>
+  <script src="app.js?v=4"></script>
+  <script src="portal.js?v=4"></script>
+  <script src="portal_hsg_master.js?v=1"></script>
+  <script src="ui_theme_sync.js?v=1"></script>
+</body>
+</html>

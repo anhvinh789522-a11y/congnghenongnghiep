@@ -1,4 +1,4 @@
-// Kho Ngữ liệu Sách Giáo Khoa (PDF), Sách Giáo Viên (Word) & Ngân hàng 442 Câu hỏi Sách Ôn Tập Huấn CNNN
+﻿// Kho Ngữ liệu Sách Giáo Khoa (PDF), Sách Giáo Viên (Word) & Ngân hàng 442 Câu hỏi Sách Ôn Tập Huấn CNNN
 const CORPUS_BANK = {
   "textbooks": [
     {
@@ -6,7 +6,7 @@ const CORPUS_BANK = {
       "grade": "Lớp 10",
       "title": "SGK Công nghệ 10 – Công nghệ Trồng trọt (Kết nối tri thức với cuộc sống)",
       "pdfPath": "/pdfs/sgk10.pdf",
-      "sgvDocxPath": "file:///c:/Users/66666666666666666666/Downloads/SÁCH GV-WORD-CNNN/SGV CN10 - Chuyen de Cong nghe trong trot.docx",
+      "sgvDocxPath": "file:///D:/01_DẠY HỌC/001_TRƯỜNG/DAY HOC/SÁCH GV-WORD-CNNN/SGV CN10 - Chuyen de Cong nghe trong trot.docx",
       "pages": 146,
       "chapters": 8,
       "lessonsCount": 28,
@@ -17,7 +17,7 @@ const CORPUS_BANK = {
       "grade": "Lớp 11",
       "title": "SGK Công nghệ 11 – Công nghệ Chăn nuôi (Kết nối tri thức với cuộc sống)",
       "pdfPath": "/pdfs/sgk11.pdf",
-      "sgvDocxPath": "file:///c:/Users/66666666666666666666/Downloads/SÁCH GV-WORD-CNNN/SGV CN11 - Cong nghe chan nuoi.docx",
+      "sgvDocxPath": "file:///D:/01_DẠY HỌC/001_TRƯỜNG/DAY HOC/SÁCH GV-WORD-CNNN/SGV CN11 - Cong nghe chan nuoi.docx",
       "pages": 122,
       "chapters": 6,
       "lessonsCount": 22,
@@ -28,7 +28,7 @@ const CORPUS_BANK = {
       "grade": "Lớp 12",
       "title": "SGK Công nghệ 12 – Lâm nghiệp – Thủy sản (Kết nối tri thức với cuộc sống)",
       "pdfPath": "/pdfs/sgk12.pdf",
-      "sgvDocxPath": "file:///c:/Users/66666666666666666666/Downloads/SÁCH GV-WORD-CNNN/SGV CN12 - Chuyen de Lam nghiep - Thuy san.docx",
+      "sgvDocxPath": "file:///D:/01_DẠY HỌC/001_TRƯỜNG/DAY HOC/SÁCH GV-WORD-CNNN/SGV CN12 - Chuyen de Lam nghiep - Thuy san.docx",
       "pages": 147,
       "chapters": 10,
       "lessonsCount": 27,
@@ -3007,7 +3007,7 @@ const CORPUS_BANK = {
           "level": "biet",
           "stem": "Tưới nước cho cây rừng có vai trò nào sau đây?",
           "options": [
-            "Hạn chế sự phát triển của sâu, bệnh hại. quinon",
+            "Hạn chế sự phát triển của sâu, bệnh hại.",
             "Giảm khuyết tật của cây rừng và nâng cao chất lượng gỗ thu hoạch.",
             "Nâng cao tỉ lệ sống và khả năng sinh trưởng, phát triển của cây rừng.",
             "Kìm hãm sự phát triển của cỏ dại."
@@ -3057,7 +3057,7 @@ const CORPUS_BANK = {
         {
           "qNum": 45,
           "level": "biet",
-          "stem": "Hoạt động tỉa thưa nhằm mục đích nào sau đây? lưu nhi một and Mead",
+          "stem": "Hoạt động tỉa thưa nhằm mục đích nào sau đây?",
           "options": [
             "Đảm bảo mật độ cây rừng thích hợp.",
             "Thay thế những cây khuyết tật bằng cây khoẻ.",
@@ -9051,8 +9051,17 @@ const CORPUS_BANK = {
           QUESTION_BANK.tf.push({
             unitId: uId,
             competency: "NCCN, SDCN, ĐGCN",
-            context: tfQ.context,
-            statements: tfQ.statements,
+            stem: tfQ.context || tfQ.stem,
+            context: tfQ.context || tfQ.stem,
+            statements: (tfQ.statements || []).map((st, sIdx) => ({
+              label: st.label || st.key || ["a", "b", "c", "d"][sIdx],
+              key: st.key || st.label || ["a", "b", "c", "d"][sIdx],
+              level: st.level || (sIdx === 0 ? "biet" : sIdx === 1 ? "hieu" : "vandung"),
+              text: st.text,
+              isTrue: st.isTrue !== undefined ? st.isTrue : Boolean(st.answer),
+              answer: st.answer !== undefined ? st.answer : Boolean(st.isTrue),
+              explanation: st.explanation || tfQ.explanation || ""
+            })),
             explanation: tfQ.explanation
           });
         });
@@ -9487,5 +9496,19 @@ const CORPUS_BANK = {
         ]
       }
     );
+      // Chuẩn hóa toàn bộ câu hỏi Đúng - Sai trong QUESTION_BANK.tf để tương thích 100% với cả stem/context và label/isTrue
+      QUESTION_BANK.tf.forEach(tfItem => {
+        if (!tfItem.stem && tfItem.context) tfItem.stem = tfItem.context;
+        if (!tfItem.context && tfItem.stem) tfItem.context = tfItem.stem;
+        if (Array.isArray(tfItem.statements)) {
+          tfItem.statements.forEach((st, sIdx) => {
+            if (!st.label) st.label = st.key || ["a", "b", "c", "d"][sIdx];
+            if (!st.key) st.key = st.label;
+            if (st.isTrue === undefined) st.isTrue = Boolean(st.answer);
+            if (st.answer === undefined) st.answer = Boolean(st.isTrue);
+            if (!st.explanation) st.explanation = "Đối chiếu chuẩn kiến thức SGK Công nghệ Kết nối tri thức.";
+          });
+        }
+      });
   }
 })();

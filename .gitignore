@@ -1,0 +1,8 @@
+# Ignore large extracted lesson presentations (>100MB violates GitHub limits)
+corpus/extracted_lessons/
+*.zip
+*.rar
+*.7z
+*.log
+.DS_Store
+Thumbs.db
