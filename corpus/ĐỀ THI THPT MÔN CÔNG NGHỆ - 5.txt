@@ -1,0 +1,213 @@
+SỞ GD & ĐT BÌNH PHƯỚC                  ĐỀ THI TỐT NHIỆP THPT
+MÔN: CÔNG NGHỆ NN
+Thời gian: 45 phút (không kể thời gian phát đề)
+(Đề có 3 trang)
+Họ và tên thí sinh……………………………..
+Số báo danh ………………………….
+PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN
+Câu 1. Chăn nuôi công nghệ cao là gì? (B. nhận thức công nghệ- a3.1)
+A. Là mô hình chăn nuôi ứng dụng những công nghệ hiện đại nhằm nâng cao năng suất, chất lượng sản phẩm và hiệu quả chăn nuôi.
+B. Là mô hình chăn nuôi sử dụng robot thay thế cho con người.
+C. Là mô hình chăn nuôi sử dụng máy móc trong nhà kính để kiểm soát chất lượng vật nuôi.
+D. Là mô hình chăn nuôi ứng dụng những năng lượng tái tạo vào vận hành trang trại chăn nuôi.
+Câu 2. Đâu không phải là yêu cầu cơ bản của người lao động làm việc trong các ngành nghề chăn nuôi? (B. nhận thức công nghệ- a3.2)
+A. Có sức khỏe tốt, có đạo đức nghề nghiệp.   B. Có khả năng áp dụng công nghệ tiên tiến.
+C. Có ý thức bảo vệ môi trường       D. Có kiến thức và hiểu biết về các loại giống cây trồng.
+Câu 3. Tại sao nên cho gà đẻ trứng ăn tự do bột vỏ trứng? (B. nhận thức công nghệ- a3.1)
+A.  Bổ sung Canxi.
+B. Bổ sung Protein
+C. Bổ sung Vitamin C
+D. Bổ sung chất béo.
+Câu 4. Chuồng kín có nhược điểm nào? (B. nhận thức công nghệ a3.1)
+A. Cần hệ thống điện, nước hiện đại.
+B. Khó kểm soát khí hậu
+C. Khó đảm bảo an toàn sinh học
+D. Không phù hợp với chăn nuôi công nghiệp
+Câu 5. Cho các hoạt động như sau. (VD.Đánh giá công nghệ d3.1)
+(1) Bảo vệ hệ sinh thái rừng. (2) Chăm sóc rừng. (3) Bảo vệ thực vật rừng, động vật rừng.
+(4) Phòng và chữa cháy rừng. (5) Phòng, trừ sinh vật gây hại rừng.
+Các hoạt động bảo vệ rừng là:
+A. (1), (2), (3), (4). B. (2), (3), (4), (5).   C. (1), (3), 4), (5).    D. (1), (2), (4, (5)
+Câu 6. Cho các hoạt động như sau: (VD.Đánh giá công nghệd3.1)
+(1) Trồng cây xanh trong khuôn viên các trụ sở, trường học.
+(2) Trồng cây xanh trong các nhà máy, xí nghiệp, khu công nghiệp.
+(3) Tuyên truyền, giáo dục ý thức, trách nhiệm của các tổ chức, cá nhân đối với việc chấp hành pháp luật về lâm nghiệp.
+(4) Khuyến khích người dân trồng cây ăn quả, cây công nghiệp trên đất rừng.
+(5) Tăng cường chăn thả gia súc trong các khu rừng phòng hộ, rừng đầu nguồn.
+(6) Trồng cây trên vỉa hè đường phố, công viên.
+Các hoạt động có vai trò bảo vệ tài nguyên rừng là:
+A. (1), (2), (3), (4). B. (1), (2), (3), (6).  C. (1), (2), (3), (5).  D. (1), (2), (4), (6).
+Câu 7. Vai trò của giống cây trồng là gì? (B. nhận thức công nghệa3.1)
+A. Năng suất và chất lượng cây trồng.
+B. Năng suất và phẩm chất cây trồng.
+C. Chất lượng và khả năng chống chịu của cây trồng.
+D. Phẩm chất và khả năng kháng sâu bệnh.
+Câu 8. Thời gian sử dụng nhà kính đơn giản là. (B. nhận thức công nghệ a3.1)
+A. từ 5 đến 10 năm.                  B. phụ thuộc vật liệu làm mái.
+C. trên 15 năm.                             D. không quá 5 năm
+Câu 9: Phân nào sau đây là phân hữu cơ? (B. nhận thức công nghệ a3.1)
+A. Phân NPK.                                                     B. Phân bắc.
+C. Phân lân.                                                         D. Phân urê.
+Câu 10. Biện pháp phòng trừ sâu, bệnh hại cây trồng nào sau đây có nhiều ưu điểm nhất? (H. nhận thức công nghệ a3.1)
+A. Biện pháp kỹ thuật .                     B. Biện pháp hóa học.
+C. Biện pháp cơ giới vật lý .            D. Biện pháp sinh học .
+Câu 11 . Khi đi thực tế tại nhà máy sản xuất thức ăn thủy sản dạng hỗn hợp, nhóm học sinh viết báo cáo thu hoạch và rút ra được một số nhận định. Nhận định nào sau đây đúng? (VD. Đánh giá công nghệ d3.1)
+A. Thức ăn cần được bảo quản ở nơi khô, mát, thông thoáng.
+B. Thức ăn được đặt trực tiếp xuống nền kho chứa.
+C. Thời hạn bảo quản thức ăn từ một đến hai năm.
+D. Tuân thủ nguyên tắc, thức ăn nhập trước thì xuất sau.
+Câu 12. Trầm hương là sản phẩm sinh ra do vết thương từ cây gió bầu. Đây là loại trầm có giá trị cao nên bị khai thác triệt để và ngày càng khan hiếm. Theo em, làm thế nào để  vừa bảo vệ và vừa khai thác bền vững trầm hương? (VD. Sử dụng công nghệ c3.1)
+A. Nghiêm cấm các hành vi khai thác trầm hương trong cộng đồng.
+B. Hướng dẫn và phát triển trồng ó bầu lấy trầm hương.
+C. Nghiêm cấm các hành vi buôn bán, sử dụng trầm hương.
+D. Khuyến khích người dân khai thác trầm hương tự nhiên trong rừng.
+Câu 13. Nước dùng để ương nuôi ấu trùng tôm biển thường được khử trùng bằng chlorine, biện pháp nào sau đây thường được sử dụng để loại bỏ chlorine trước khi cấp vào bể ương? (H. Sử dụng công nghệc3.2 )
+A. Tăng độ mặnB. Sục khí mạnh    C. Giảm độ mặnD. Tăng  pH
+Câu 14. Sử dụng công nghệ Biofloc trong nuôi tôm thẻ chân trắng giúp giảm lượng thức ăn công nghiệp sử dụng do: (H. Sử dụng công nghệ c3.2 )
+A. Dễ quản lý lượng thức ăn đưa vào nên ít bị thừa.
+B. Tôm ít vận động nên ít tiêu thụ nhiều thức ăn.
+C. Tôm bị stress nên ăn ít.
+D. Tôm có thể sử dụng hạt floc làm thức ăn
+Câu 15. Tác dụng gián tiếp của việc sử dụng vaccine để phòng các bệnh vi khuẩn trong thuỷ sản là: (H. nhận thức cn a3.2)
+A.  Tăng hiệu quả tiêu hoá
+B. Thúc đẩy tốc độ tăng trưởng
+C. Giảm thiểu sử dụng kháng sinh điều trị
+D. Đẩy nhanh quá trình thành thục ở cá
+Câu 16. Biểu hiện đặc trưng nhất trên cá song nhiễm bệnh hoại tử thần kinh là: : (H. nhận thức công nghệa3.2 )
+A. Cá bỏ ăn, bơi xoay tròn, không định hướng
+B. Cá ăn nhiều, bơi theo đàn.
+C. Cá bơi nhanh, thân màu sáng.
+D. Cá bị mòn vây, bơi yếu.
+Câu 17. Biện pháp nào không phù hợp để giảm thiểu chất thải hữu cơ và khí độc cho ao nuôi thuỷ sản là? (H. Nhận thức công nghệ a3.2)
+A. Sử dụng thức ăn có kích cỡ phù hợp với từng giai đoạn, độ tuổi của động vật thuỷ sản, thức ăn có độ kết dính tốt.
+B. Định kì siphon đáy kết hợp thay nước để loại bỏ thức ăn thừa, phân thải ra khỏi hệ thống nuôi.
+C. Cho ăn dư thừa
+D. Định kì bón chế phẩm sinh học để tăng cường phân giải chất hữu cơ trong nước và nền đáy
+Câu 18. Nhận định nào dưới đây là không đúng về quy luật sinh trưởng, phát triển của cây rừng? (H. Nhận thức công nghệ a3.2)
+A. Cây rừng bắt đâù ra hoa, kết quả ở giai đoạn gần thành thục.
+B. Sinh trưởng của cây rừng chậm dần ở giai đoạn già cỗi.
+C. Tốc độ sinh trưởng của cây rừng ở giai đoạn non rất nhanh.
+D. Cây rừng ra hoa kết quả đạt số lượng nhiều nhất ở giai đoạn thành thục
+Câu 19. Trồng rừng có vai trò nào sau đây? (Biết- NTCN- a3.1).
+A. Cung cấp lương thực cho con người.
+B. Phủ xanh đất trống, đồi núi trọc.
+C. Tạo công ăn việc làm cho người lao động.
+D. Cung cấp thức ăn để phát triển chăn nuôi.
+Câu 20. Nội dung nào sau đây là một trong những biểu hiện của cây rừng ở giai đoạn già cỗi? ( BIẾT- NTCN- a3.1)
+A. Ít bị sâu, bệnh phá hại so với các gia đoạn khác.
+B. Khả năng ra hoa, đậu quả giảm.
+C. Thích ứng tốt với các điều kiện bất lợi của môi trường như hạn hán, nắng nóng.
+D. Các quá trình trao đổi chất diễn ra nhanh.
+Câu 21. Nhận định nào sau đây là không đúng về vai trò của thuỷ sản? (Biết- NTCN- a3.1)
+A. Cung cấp thực phẩm cho con người.
+B. Cung cấp nguyên liệu cho chế biến thực phẩm.
+C. Cung cấp nguyên liệu cho thức ăn chăn nuôi.
+D. Cung cấp lương thực.
+Câu 22. Biện pháp nào sau đây là phù hợp giúp tăng khả năng kháng bệnh đốm trắng cho tôm nuôi nước mặn, lợ.(BIẾT- SDCN- c3.1)
+A. Bổ sung men vi sinh, vitamin C, chất kích thích miễn dịch qua đường ngâm.
+B. Bổ sung men vi sinh, vitamin C, chất kích thích miễn dịch qua đường thức ăn.
+C. Định kì tắm cho tôm bằng nước ngọt.
+D. Định kì tắm cho tôm bằng thuốc khử trùng.
+Câu 23. Ứng dụng công nghệ sinh học trong chẩn đoán sớm bệnh thuỷ sản có nghĩa là (BIẾT- SDCN - c3.1)
+A. phát hiện sự hiện diện của tác nhân gây bệnh ngay khi bệnh chưa biểu hiện.
+B. chẩn đoán chính xác bệnh cho các cá thể bị bệnh.
+C. rút ngắn quy trình chẩn đoán bệnh thuỷ sản.
+D. chẩn đoán bệnh cho thuỷ sản ngay ở giai đoạn giống.
+Câu 24. Trong các phương thức nuôi thuỷ sản ở Việt Nam hiện nay, phương thức nào thu được năng suất và hiệu quả kinh tế cao nhất? (BIẾT- ĐGCN- d3.1)
+A. Nuôi trồng thuỷ sản bán thâm canh. B. Nuôi trồng thuỷ sản quảng canh.
+C. Nuôi trồng thuỷ sản quảng canh cải tiến. D. Nuôi trồng thuỷ sản thâm canh.
+Phần II: Học sinh trả lời từ câu 1 đến câu 4. Trong mỗi ý a), b), c), d) ở mỗi câu học sinh chọn đúng hoặc sai.
+Câu 1. Cho Bảng số liệu sau:
+Bảng I. Số vụ vi phạm pháp luật về lâm nghiệp tại Vườn quốc gia Ba Bể
+| Hành vi vi phạm | Số vụ vi phạm | Tổng |
+|  | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 |  |
+| Khai thác lâm sản trái phép | 22 | 11 | 26 | 10 | 8 | 7 | 84 |
+| Vận chuyển lâm sản trái phép | 39 | 27 | 18 | 7 | 3 | 3 | 97 |
+| Phá rừng trồng cây nông nghiệp | 3 | 1 | 2 | 1 | - | - | 7 |
+Nguồn: Vườn Quốc gia Ba Bể, 2021
+Từ Bảng 1 có một số nhận định về thực trạng bảo vệ rừng ở Vườn quốc gia Ba Bể trong giai đoạn từ năm 2015 đến năm 2020 như sau:
+NB-NTCN-a3.1 a) Năm 2020 các hành vi vi phạm luật về lâm nghiệp tại vườn quốc gia Ba Bể giảm đáng kể. Đ
+HIỂU-NTCN-a3.1 b) Từ năm 2015 đến nay, việc phá rừng trồng cây nông nghiệp tại rừng quốc gia Ba Bể không còn. S
+VD-GTCN-b3.1 b) Công tác bảo vệ rừng đã có những chuyển biến tích cực nhờ làm tốt các hoạt động tuyên truyền, giáo dục ý thức bảo vệ rừng đối với các tổ chức, cá nhân. Đ
+VD-SDCN-c3.3 c) Ban quản lí rừng ba bể thường xuyên tuần tra, giám sát, xử lí các vụ vi phạm pháp luật về lâm nghiệp. Đ
+Câu 2: Một nhóm học sinh được yêu cầu tìm hiểu và đề xuất một số việc nên làm để bảo vệ môi trường nuôi thủy sản, góp phần phát triển thủy sản bền vững. Sau khi tìm hiểu đã đưa ra một số nhận định như sau:
+BIẾT-NTCN-a3.1 a) Thức ăn thừa, chất thải của động vật thủy sản không phải là nguyên nhân gây ô nhiễm nước áo nuôi thủy sản. S
+HIỂU- SDCN-c3.4 b) Định kì xử lí nước ao nuôi thủy sản bằng chế phẩm vi sinh để tiêu diệt mầm bệnh và tạo môi trường thuận lợi cho thủy sản phát triển. Đ
+VD-SDCN-c3.4 c) Nước sau khi nuôi thủy sản cần được xử lí mầm bệnh và chất gây ô nhiễm trước khi xả ra môi trường để hạn chế lây lan nguồn bệnh và bảo vệ môi trường. Đ
+VD-SDCN-c3-3 d) Ưu tiên áp dụng các công nghệ tiên tiến trong nuôi trồng thủy sản để nâng cao hiệu quả kinh tế và hạn chế ô nhiễm môi trường. Đ
+Câu 3: Khi quan sát ao nuôi cá rô phi thấy cá có các biểu hiện như: than cá có có màu đen, bơi tách đàn, bỏ ăn, xuất huyết trên da, xuất huyết mắt, lồi mắt, bơi xoay tròn hoặc bơi không có định hướng. Sau đây là một số nhận định:
+BIẾT-NTCN -a3.1a) Nguyên nhân gây bệnh là virus Streptococcus agalatiae. S
+HIỂU-NTCN-a3.1 b) Các biểu hiện cho thấy cá bị bệnh lồi mắt ở giai đoạn nặng. Đ
+VD-SDCN-c3.4 c) Người nuôi cần bổ sung chế phẩm vi sinh, vitamin vào thức ăn giúp trị bệnh hoàn toàn cho cá. S
+VD-SDCN- c3.4 d) Thu toàn bộ cá trong ao, tiến hành sát khuẩn, khử trùng ao cũng như nguồn nước trước khi nuôi lứa trước. Đ
+Câu 4: Một thí nghiệm để đánh giá ảnh hưởng của hormone giới tính tới sự thành thục sinh dục của cá rô phi. Người ta đã sử dụng hormone điều khiển giới tính đực là 17α-methyl testosterone (17α-MT) để trộn đều vào thức ăn cho cá bột (giai đoạn ngay sau khi cá vừa sử dụng hết noãn hoàng); sau đó cho ăn liên tục trong vòng 21 ngày. Kết quả nghiên cứu cho thấy, tỉ lệ cá rô phi đực trong đàn có để đạt từ 85% đến 95%. Một số nhận định sau đây:
+BIẾT-NTCN- a3.1  a) Hormone 17α-MT tác động điều khiển giới tính đực ở cá rô phi. Đ
+HIỂU-ĐGCN- d3.1 b) Tỉ lệ cá rô phi sống sót sau thí nghiệm phụ thuộc vào các yếu tố khác nhau như nồng độ hormone 17α-MT, số lần cho ăn trong ngày và thời gian cho ăn. Đ
+VD-SDCN – c3.4 c) Sử dụng phương pháp ngâm cá trong hormone 17α-MT hoặc tiêm hormone trực tiếp vào cá với nồng độ thích hợp đạt hiệu quả, tiết kiệm và nhanh hơn so với các phương pháp cho ăn. S
+VD-SDCN- c3.4 d) Sau khi cá bột được nuôi đủ 21 ngày tuổi, cần tiếp tục đưa cá ra ương nuôi tiếp trong ao và dừng cho ăn thức ăn bổ sung có chứa hormone 17α-MT. S
+BÀI THU HOẠCH NHÓM 5
+| STT | HỌ VÀ TÊN | TRƯỜNG |
+| 1 | Nguyễn Thị Thúy Hường | THPT Bù Đăng |
+| 2 | Phan Thị Thái | THPT Nguyễn Du |
+| 3 | Ngô Khánh Hòa | THPT Đồng Xoài |
+| 4 | Nguyễn Thị Minh | THPT Phước Long |
+| 5 | Nguyễn Hồng Huệ | THPT Đồng Phú |
+| 6 | Hồ Văn Tuấn | THPT Nguyễn Bỉnh Khiêm |
+Bảng phân bổ năng lực và cấp độ tư duy
+| Chủ đề | Dạng thức 1 | Dạng thức 2 |
+|  | Biết | Hiểu | Vận dụng | Biết | Hiểu | Vận dụng |
+| Nhận thức công nghệ | 10 | 2 |  | 4 | 2 |  |
+| Giao tiếp công nghệ |  |  |  |  | 1 |  |
+| Sử dụng công nghệ | 2 | 5 | 1 |  | 1 | 7 |
+| Đánh giá công nghệ | 1 |  | 3 |  | 1 |  |
+| TỔNG | 13 | 7 | 4 | 4 | 4 | 8 |
+|  |  | 24 câu |  | 4 câu (16 lệnh) |
+BẢN MA TRẬN ĐẶC TẢ
+| Dạng thức | Câu | NĂNG LỰC CÔNG NGHỆ |
+|  |  | Nhận thức | Giao tiếp | Sử dụng | Đánh giá |
+|  |  | Cấp độ tư duy |
+|  |  | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD |
+| Dạng thức 1 | 1 | a3.2 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 2 | a3.2 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 3 | a3.2 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 4 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 5 |  |  |  |  |  |  |  |  |  |  |  | d3.1 |
+|  | 6 |  |  |  |  |  |  |  |  |  |  |  | d3.1 |
+|  | 7 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 8 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 9 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 10 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 11 |  |  |  |  |  |  |  |  |  |  |  | d3.2 |
+|  | 12 |  |  |  |  |  |  |  |  | c3.2 |  |  |  |
+|  | 13 |  |  |  |  |  |  |  | c3.2 |  |  |  |  |
+|  | 14 |  |  |  |  |  |  |  | c3.2 |  |  |  |  |
+|  | 15 |  | a3.2 |  |  |  |  |  |  |  |  |  |  |
+|  | 16 |  | a3.2 |  |  |  |  |  |  |  |  |  |  |
+|  | 17 |  | a3.2 |  |  |  |  |  |  |  |  |  |  |
+|  | 18 |  | a3.2 |  |  |  |  |  |  |  |  |  |  |
+|  | 19 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 20 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 21 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  | 22 |  |  |  |  |  |  | c3.1 |  |  |  |  |  |
+|  | 23 |  |  |  |  |  |  | c3.1 |  |  |  |  |  |
+|  | 24 |  |  |  |  |  |  |  |  |  | d3.1 |  |  |
+| Dạng thức | Câu | NĂNG LỰC CÔNG NGHỆ |
+|  |  | Nhận thức | Giao tiếp | Sử dụng | Đánh giá |
+|  |  | Cấp độ tư duy |
+|  |  | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD |
+| Dạng thức 2 | 1 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  | a3.1 |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  | b3.1 |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  | c3.3 |  |  |  |
+|  | 2 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  | c3.4 |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  | c3.4 |  |  |  |
+|  |  |  |  |  |  |  |  |  |  | c3.3 |  |  |  |
+|  | 3 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  | a3.1 |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  | c3.4 |  |  |  |
+|  |  |  |  |  |  |  |  |  |  | c3.4 |  |  |  |
+|  | 4 | a3.1 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | d3.1 |  |  |
+|  |  |  |  |  |  |  |  |  |  | c3.4 |  |  |  |
+|  |  |  |  |  |  |  |  |  |  | c3.4 |  |  |  |

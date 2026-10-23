@@ -1,0 +1,1241 @@
+LÊ HUY HOÀNG (Tổng Chủ biên)
+ĐỒNG HUY GIỚI – KIM VĂN VẠN (đồng Chủ biên)
+TRƯƠNG ĐÌNH HOÀI – LÊ XUÂN TRƯỜNG – TRẦN ÁNH TUYẾT
+CHUYÊN ĐỀ HỌC TẬP
+CÔNG NGHỆ 12
+LÂM NGHIỆP – THUỶ SẢN
+SÁCH GIÁO VIÊN
+NHÀ XUẤT BẢN GIÁO DỤC VIỆT NAM
+QUY ƯỚC VIẾT TẮT DÙNG TRONG SÁCH
+| HS | học sinh |
+| GV | giáo viên |
+| SGK | sách giáo khoa |
+| SGV | sách giáo viên |
+LỜI NÓI ĐẦU
+Sách giáo viên Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản là tài liệu tham khảo cho việc xây dựng kế hoạch bài dạy của các thầy, cô giáo dạy phần chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản. Sách được biên soạn theo sách giáo khoa Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản, bộ sách “Kết nối tri thức với cuộc sống” của Nhà xuất bản Giáo dục Việt Nam.
+Sách giáo viên Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản giới thiệu và hướng dẫn giáo viên triển khai các phương án dạy các bài học trong sách giáo khoa Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản theo hướng tổ chức các hoạt động học tập mang tính khám phá xuất phát từ những tình huống thực tiễn của cuộc sống, giúp học sinh mở rộng tri thức, trau dồi phẩm chất và phát triển năng lực.
+Sách gồm hai phần:
+Phần một. Hướng dẫn chung
+Phần này giúp giáo viên tìm hiểu:
+– Những đặc điểm cơ bản của chương trình môn Công nghệ lớp 12: quan điểm xây dựng chương trình, mục tiêu, yêu cầu cần đạt về phát triển phẩm chất và năng lực học sinh.
+– Những đặc điểm cơ bản của sách giáo khoa Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản: quan điểm biên soạn, cấu trúc và hình thức trình bày.
+Phần hai. Hướng dẫn dạy học các bài cụ thể
+Phần này hướng dẫn dạy học các bài trong sách Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản. Cấu trúc chung của một bài gồm các mục sau đây:
+I – Mục tiêu bài học
+II – Cấu trúc và nội dung
+III – Phương tiện dạy học
+IV – Gợi ý tổ chức các hoạt động dạy học
+V – Luyện tập
+VI – Vận dụng
+Một số bài có mục VII – Thông tin bổ sung.
+Các phương án trình bày trong phần này chỉ là những gợi ý. Các thầy, cô giáo có thể tự do lựa chọn, điều chỉnh và sáng tạo các phương án riêng của mình sao cho phù hợp với năng lực, đặc điểm tâm, sinh lí của học sinh và điều kiện dạy học ở lớp, trường, địa phương mình.
+Mong rằng cuốn sách này sẽ góp phần giúp các thầy, cô giáo dạy tốt phần Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản. Các tác giả rất mong nhận được ý kiến đóng góp của các thầy, cô giáo và bạn đọc để sách được tốt hơn.
+CÁC TÁC GIẢ
+MỤC LỤC
+Trang
+Lời nói đầu4
+PHẦN MỘT. HƯỚNG DẪN CHUNG7
+PHẦN HAI. HƯỚNG DẪN DẠY HỌC CÁC BÀI CỤ THỂ20
+Chuyên đề 1. Công nghệ sinh học trong lâm nghiệp20
+Bài 1. Bài mở đầu22
+Bài 2. Công nghệ sinh học trong chọn, tạo và nhân giống cây lâm nghiệp28
+Bài 3. Công nghệ sinh học trong sản xuất chế phẩm vi sinh phục vụ lâm nghiệp33
+Bài 4. Ứng dụng mã vạch DNA trong lâm nghiệp37
+Chuyên đề 2. Công nghệ sinh học trong thuỷ sản42
+Bài 5. Vai trò và triển vọng của công nghệ sinh học trong thuỷ sản43
+Bài 6. Một số ứng dụng công nghệ sinh học trong chọn, tạo giống thuỷ sản48
+Bài 7. Ứng dụng công nghệ sinh học trong sản xuất giống thuỷ sản53
+Bài 8. Ứng dụng công nghệ sinh học trong phòng, trị bệnh thuỷ sản58
+Bài 9. Ứng dụng công nghệ sinh học trong quản lí môi trường nước nuôi thuỷ sản64
+Chuyên đề 3. Nuôi cá cảnh68
+Bài 10. Giới thiệu chung về cá cảnh69
+Bài 11. Nuôi dưỡng và chăm sóc cá cảnh nước ngọt73
+Bài 12. Nuôi dưỡng và chăm sóc cá cảnh nước mặn77
+Bài 13. Dự án: Nuôi cá cảnh82
+PHẦN MỘT. HƯỚNG DẪN CHUNG
+I. CHƯƠNG TRÌNH MÔN CÔNG NGHỆ 12 – LÂM NGHIỆP – THUỶ SẢN
+1. Khái quát về Chương trình giáo dục phổ thông 2018 môn Công nghệ
+Trong mối quan hệ giữa khoa học và công nghệ thì khoa học hướng tới khám phá, tìm hiểu, giải thích thế giới; còn công nghệ, dựa trên những thành tựu của khoa học, tạo ra các sản phẩm, dịch vụ công nghệ để giải quyết các vấn đề đặt ra trong thực tiễn, cải tạo thế giới, định hình môi trường sống của con người.
+Trong Chương trình giáo dục phổ thông 2018, giáo dục công nghệ được thực hiện từ lớp 3 đến lớp 12 thông qua môn Tin học và Công nghệ ở cấp Tiểu học, môn Công nghệ ở cấp Trung học cơ sở và cấp Trung học phổ thông. Công nghệ là môn học bắt buộc trong giai đoạn giáo dục cơ bản (Tiểu học và Trung học cơ sở); là môn học lựa chọn, thuộc nhóm môn Công nghệ và Nghệ thuật trong giai đoạn giáo dục định hướng nghề nghiệp (Trung học phổ thông).
+Chương trình môn Công nghệ được xây dựng với mục tiêu hình thành, phát triển ở HS năng lực công nghệ và những phẩm chất đặc thù trong lĩnh vực kĩ thuật, công nghệ để học tập, làm việc hiệu quả trong môi trường công nghệ ở gia đình, nhà trường, xã hội và lựa chọn ngành nghề thuộc các lĩnh vực kĩ thuật, công nghệ; đồng thời cùng với các môn học và hoạt động giáo dục khác, góp phần hình thành, phát triển các phẩm chất chủ yếu, các năng lực chung; thực hiện các nội dung xuyên chương trình như giáo dục tài chính, phát triển bền vững, biến đổi khí hậu, sử dụng năng lượng tiết kiệm và hiệu quả.
+Bên cạnh mục tiêu tổng quát nêu trên, giáo dục công nghệ phổ thông hướng tới: 1) Thúc đẩy giáo dục STEM, phát triển năng lực giải quyết vấn đề và sáng tạo, tư duy thiết kế; 2) Định hướng nghề nghiệp cho HS phổ thông, đặc biệt là hướng nghiệp và phân luồng trong lĩnh vực ngành nghề về kĩ thuật, công nghệ; 3) Trang bị cho HS tri thức, năng lực nền tảng để tiếp tục theo học các ngành kĩ thuật, công nghệ.
+Môn Công nghệ xoay quanh bốn mạch nội dung chính gồm: công nghệ và đời sống; lĩnh vực sản xuất chủ yếu; thiết kế và đổi mới công nghệ; công nghệ và hướng nghiệp. Nội dung giáo dục công nghệ phổ thông rộng, đa dạng, thuộc nhiều lĩnh vực kĩ thuật, công nghệ khác nhau. Trong Chương trình môn Công nghệ, có những nội dung cơ bản, cốt lõi, phổ thông mà tất cả HS đều phải học. Bên cạnh đó, có những nội dung có tính đặc thù, chuyên biệt nhằm đáp ứng nguyện vọng, sở thích của HS, phù hợp với yêu cầu của từng địa phương, vùng miền.
+Chương trình môn Công nghệ năm 2018, bên cạnh việc kế thừa nhiều ưu điểm của chương trình hiện hành còn có một số thay đổi để phù hợp với định hướng đổi mới của Chương trình giáo dục phổ thông 2018 với đặc điểm, vai trò và xu thế của giáo dục công nghệ. Đó là:
+– Phát triển năng lực, phẩm chất: Chương trình môn Công nghệ có đầy đủ đặc điểm của chương trình giáo dục định hướng phát triển năng lực và phẩm chất cho HS. Đây là thay đổi bao trùm, có tính chất chi phối tổng thể tới mục tiêu, nội dung, phương pháp, hình thức tổ chức dạy học và kiểm tra, đánh giá của môn học. Chương trình môn Công nghệ hướng tới hình thành và phát triển năng lực công nghệ; góp phần hình thành và phát triển các phẩm chất chủ yếu và năng lực chung được xác định trong Chương trình giáo dục phổ thông tổng thể.
+– Thúc đẩy giáo dục STEM: Chương trình môn Công nghệ gắn với thực tiễn, hướng tới thực hiện mục tiêu “Học công nghệ để học tập, làm việc hiệu quả trong môi trường công nghệ tại gia đình, nhà trường, cộng đồng”; thúc đẩy đổi mới sáng tạo thông qua việc bố trí nội dung thiết kế kĩ thuật ở cả cấp Tiểu học và Trung học; định hướng giáo dục STEM, lĩnh vực giáo dục đang rất được quan tâm trong Chương trình giáo dục phổ thông 2018.
+– Tích hợp giáo dục hướng nghiệp: Chương trình môn Công nghệ thể hiện rõ ràng, đầy đủ vai trò giáo dục hướng nghiệp trong dạy học công nghệ. Sự đa dạng về lĩnh vực kĩ thuật, công nghệ trong nội dung môn Công nghệ cũng mang lại ưu thế của môn học trong việc lồng ghép, tích hợp nội dung giáo dục hướng nghiệp trong môn học thông qua các chủ đề về lựa chọn nghề nghiệp; các nội dung giới thiệu về ngành nghề chủ yếu thuộc các lĩnh vực sản xuất mà môn Công nghệ đề cập; các hoạt động trải nghiệm nghề nghiệp qua các mô đun kĩ thuật, công nghệ tự chọn. Nội dung giáo dục hướng nghiệp được đề cập ở các lớp cuối của giai đoạn giáo dục cơ bản và toàn bộ giai đoạn giáo dục định hướng nghề nghiệp.
+– Tiếp cận nghề nghiệp: Ở cấp Trung học phổ thông, chương trình môn Công nghệ chuẩn bị cho HS lựa chọn nghề nghiệp về kĩ thuật, công nghệ. Tư tưởng của giáo dục công nghệ ở cấp học này hoàn toàn mới so với chương trình hiện hành. Trong giai đoạn này, nội dung dạy học cho cả hai định hướng công nghiệp và nông nghiệp đều mang tính đại cương, nguyên lí, cơ bản, cốt lõi và nền tảng cho mỗi lĩnh vực; giúp HS tự tin và thành công khi lựa chọn ngành nghề kĩ thuật, công nghệ sau khi kết thúc Trung học phổ thông.
+Ngoài ra, môn Công nghệ trong Chương trình giáo dục phổ thông 2018 đảm bảo tinh giản nội dung, phản ánh được tinh thần đổi mới và cập nhật về nội dung, phương pháp, hình thức tổ chức dạy học và kiểm tra, đánh giá.
+2. Phát triển phẩm chất, năng lực của học sinh trong dạy học Công nghệ
+a) Đặc điểm dạy học phát triển phẩm chất, năng lực
+Khác với dạy học định hướng nội dung, dạy học phát triển phẩm chất, năng lực cho HS quan tâm trước hết tới việc xác định và mô tả yêu cầu cần đạt về năng lực và phẩm chất người học cần đạt được. Trên cơ sở đó, nội dung, phương pháp và hình thức tổ chức dạy học, kiểm tra, đánh giá cũng thay đổi theo. Dạy học phát triển năng lực và phẩm chất cho người học có những đặc điểm sau:
+(1) Hệ thống năng lực, phẩm chất được xác định một cách rõ ràng như là kết quả đầu ra của chương trình đào tạo. Dưới góc độ dạy học bộ môn, các năng lực cần hình thành và phát triển bao gồm các năng lực chung cốt lõi và năng lực đặc thù của môn học đó. Trong chương trình, hệ thống năng lực được mô tả dưới dạng yêu cầu cần đạt cho thời điểm cuối mỗi cấp học.
+(2) Nội dung dạy học cùng những yêu cầu cần đạt về kiến thức, kĩ năng của từng mạch nội dung, chủ đề cần phản ánh được yêu cầu cần đạt về năng lực bộ môn. Nội dung dạy học trong chương trình định hướng phát triển năng lực có xu hướng tích hợp, gắn với thực tiễn, được cấu trúc thành các chủ đề trọn vẹn.
+(3) Trong chương trình định hướng phát triển năng lực, phương pháp dạy học chú trọng vào hành động, trải nghiệm; tăng cường thí nghiệm và thực hành; đa dạng hoá các hình thức dạy học, kết nối kiến thức học đường với thực tiễn đời sống; phát huy tối đa lợi thế trong vai trò hình thành và phát triển năng lực, phẩm chất của một số phương pháp, kĩ thuật dạy học tích cực.
+(4) Đánh giá trong chương trình định hướng phát triển năng lực được xác định là thành phần tích hợp ngay trong quá trình dạy học. Chú trọng đánh giá quá trình, đánh giá xác thực và dựa trên tiêu chí. Hoạt động đánh giá cần giúp cho người học nhận thức rõ mức độ đạt được so với yêu cầu cần đạt về kiến thức, kĩ năng, năng lực. Trên cơ sở đó, có kế hoạch dạy học phù hợp với từng cá nhân.
+(5) Mỗi bài học, hoạt động giáo dục đều góp phần hình thành và phát triển một hoặc một số yêu cầu cần đạt của năng lực (phẩm chất). Vai trò này cần được thể hiện tường minh trong mục tiêu của bài học, hoạt động giáo dục. Khi đó, trong mỗi hoạt động dạy học phải thể hiện rõ vai trò của hoạt động góp phần phát triển yêu cầu cần đạt về năng lực, phẩm chất như thế nào.
+(6) Năng lực, phẩm chất được hình thành và phát triển theo thời gian, đạt được từng cấp độ từ thấp đến cao. Để hình thành và phát triển năng lực, phẩm chất, cần nhận thức đầy đủ về năng lực, hành động và trải nghiệm có ý thức, nỗ lực và kiên trì trong các bối cảnh cụ thể đòi hỏi phải thể hiện (hay phản ánh) từng năng lực, phẩm chất trong mỗi bài học, hoạt động giáo dục. Sự khác biệt về năng lực, phẩm chất chỉ có thể bộc lộ rõ ràng sau mỗi giai đoạn học tập nhất định.
+b) Phát triển phẩm chất, năng lực của học sinh trong dạy học Công nghệ
+• Phát triển phẩm chất
+– Cùng với các môn học và hoạt động giáo dục khác trong Chương trình giáo dục phổ thông 2018, môn Công nghệ có trách nhiệm và cơ hội hình thành, phát triển các phẩm chất chủ yếu đã nêu trong Chương trình giáo dục phổ thông tổng thể.
+– Với đặc thù môn học, giáo dục công nghệ có lợi thế giúp HS phát triển các phẩm chất chăm chỉ, trung thực, trách nhiệm qua dạy học nội dung công nghệ liên quan tới môi trường công nghệ con người đang sống và những tác động của nó; qua các hoạt động thực hành, lao động và trải nghiệm nghề nghiệp; qua các nội dung đánh giá và dự báo phát triển của công nghệ.
+– Phẩm chất được hình thành và phát triển trong dạy học Công nghệ thông qua môi trường giáo dục ở nhà trường trong mối quan hệ chặt chẽ với gia đình và xã hội; các nội dung học tập có liên quan trực tiếp; các phương pháp và hình thức tổ chức dạy học. Căn cứ yêu cầu cần đạt về phẩm chất đã được mô tả, mỗi bài học, ngoài các mục tiêu về kiến thức, kĩ năng, năng lực cần đạt, cần chỉ rõ cơ hội góp phần phát triển ở người học các phẩm chất phù hợp.
+• Phát triển năng lực chung cốt lõi
+Chương trình giáo dục phổ thông 2018 đưa ra mười năng lực cốt lõi. Trong đó có ba năng lực chung là tự chủ và tự học, giao tiếp và hợp tác, giải quyết vấn đề và sáng tạo. Các môn học, hoạt động giáo dục đều có trách nhiệm hình thành và phát triển năng lực này. Trong dạy học công nghệ, cơ hội và cách thức phát triển các năng lực chung cốt lõi được thể hiện cụ thể như sau:
+– Năng lực tự chủ và tự học: Trong giáo dục công nghệ, năng lực tự chủ của HS được biểu hiện thông qua sự tự tin và sử dụng hiệu quả các sản phẩm công nghệ trong gia đình, cộng đồng, trong học tập, công việc; bình tĩnh, xử lí có hiệu quả những sự cố kĩ thuật, công nghệ; ý thức và tránh được những tác hại (nếu có) do công nghệ mang lại,… Năng lực tự chủ được hình thành và phát triển ở HS thông qua các hoạt động thực hành, làm dự án, thiết kế và chế tạo các sản phẩm công nghệ, sử dụng và đánh giá các sản phẩm công nghệ, bảo đảm an toàn trong thế giới công nghệ ở gia đình, cộng đồng và trong học tập, lao động.
+Để hình thành, phát triển năng lực tự học, GV coi trọng việc phát huy tính tích cực, tự lực, chủ động của HS, đồng thời quan tâm tới nguồn học liệu hỗ trợ tự học (đặc biệt là học liệu số), phương pháp, tiến trình tự học và đánh giá kết quả học tập của HS.
+– Năng lực giao tiếp và hợp tác: Năng lực giao tiếp và hợp tác được thể hiện qua giao tiếp công nghệ, một thành phần cốt lõi của năng lực công nghệ. Việc hình thành và phát triển ở HS năng lực này được thực hiện thông qua dạy học hợp tác trong nhóm nhỏ, khuyến khích HS trao đổi, trình bày, chia sẻ ý tưởng,… khi thực hiện các dự án học tập và sử dụng, đánh giá các sản phẩm công nghệ được đề cập trong chương trình.
+– Năng lực giải quyết vấn đề và sáng tạo: Giáo dục công nghệ có nhiều ưu thế trong hình thành và phát triển ở HS năng lực giải quyết vấn đề và sáng tạo thông qua các hoạt động tìm tòi, sáng tạo sản phẩm mới; giải quyết các vấn đề về kĩ thuật, công nghệ trong thực tiễn. Trong Chương trình môn Công nghệ, tư tưởng thiết kế được nhấn mạnh và xuyên suốt từ cấp Tiểu học đến cấp Trung học phổ thông và được thực hiện thông qua các mạch nội dung, thực hành, trải nghiệm từ đơn giản đến phức tạp là điều kiện để hình thành, phát triển năng lực giải quyết vấn đề và sáng tạo.
+Năng lực chung được hình thành và phát triển trong mỗi mạch nội dung, chủ đề học tập cụ thể. Tuỳ theo đặc điểm, tính chất của nội dung mà mỗi bài học sẽ góp phần phát triển năng lực, thành tố của năng lực hay một số yêu cầu cần đạt cụ thể. GV cần nghiên cứu kĩ về năng lực chung để hiểu bản chất, cấu trúc, yêu cầu cần đạt cho từng cấp học, từ đó mới có cơ sở đề xuất mục tiêu phát triển năng lực cho mỗi bài dạy.
+• Phát triển năng lực công nghệ
+Năng lực công nghệ và các mạch nội dung của môn Công nghệ là hai trục tư tưởng chủ đạo của môn học, có tác động hỗ trợ qua lại. Năng lực công nghệ sẽ góp phần định hướng lựa chọn mạch nội dung; ngược lại, mạch nội dung sẽ là chất liệu và môi trường góp phần hình thành phát triển năng lực, đồng thời cũng sẽ định hướng hoàn thiện mô hình năng lực công nghệ.
+Năng lực công nghệ được hình thành và phát triển thông qua hoạt động dạy học trong mỗi mạch nội dung, mỗi chủ đề cụ thể. Trong mỗi bài học cụ thể cần tham chiếu đầy đủ tới mô hình năng lực công nghệ để xác định bài học đó sẽ định hướng phát triển các yêu cầu cần đạt nào trong mô hình năng lực.
+3. Giáo dục STEM và hướng nghiệp trong Chương trình môn Công nghệ
+a) Giáo dục STEM
+Trong chương trình giáo dục phổ thông mới, môn Công nghệ phản ánh hai thành phần là T (technology) và E (engineering) trong bốn thành phần của STEM. Vì vậy, môn Công nghệ có vai trò quan trọng thể hiện tư tưởng giáo dục STEM trong Chương trình giáo dục phổ thông 2018.
+Các sản phẩm, quá trình công nghệ mà môn học đề cập luôn mang tính tích hợp, gắn với thực tiễn, liên hệ chặt chẽ với Toán học và Khoa học. Đặc điểm này là cơ sở để tăng cường giáo dục STEM ngay trong dạy học môn Công nghệ dựa vào các hoạt động thiết kế kĩ thuật, hoạt động nghiên cứu khoa học kĩ thuật.
+Có sự tương đồng về phương pháp, hình thức tổ chức dạy học giữa dạy học công nghệ và giáo dục STEM. Đó là chú trọng vào hoạt động, thực hành, trải nghiệm và định hướng sản phẩm. Đây cũng là cơ sở để triển khai dạy học nhiều nội dung công nghệ tiếp cận STEM.
+Giáo dục STEM trong môn Công nghệ được thực hiện thông qua dạy học các chủ đề, mạch nội dung, chuyên đề học tập từ Tiểu học tới Trung học như mô hình điện gió, mô hình điện mặt trời, ngôi nhà thông minh, các bài toán thiết kế kĩ thuật và công nghệ, nghề nghiệp STEM; các dự án nghiên cứu thuộc các lĩnh vực kĩ thuật cơ khí, hệ thống nhúng, rô-bốt và máy thông minh. Khi triển khai chương trình, giáo dục STEM trong dạy học môn Công nghệ sẽ tiếp tục được mở rộng thông qua dạy học các chủ đề liên môn giữa các môn học STEM.
+b) Giáo dục hướng nghiệp
+Giáo dục hướng nghiệp trong môn Công nghệ được thể hiện trước hết qua việc mô tả yêu cầu cần đạt về định hướng nghề nghiệp trong năng lực tìm hiểu công nghệ, năng lực thành phần của năng lực công nghệ.
+Biểu hiện cụ thể của giáo dục hướng nghiệp trong môn Công nghệ bao gồm các cấp độ: (1) Mạch nội dung về hướng nghiệp; (2) Yêu cầu cần đạt về ngành nghề thuộc các lĩnh vực kĩ thuật, công nghệ; (3) Trải nghiệm ngành nghề thông qua các mô đun kĩ thuật, công nghệ tự chọn. Giáo dục hướng nghiệp trong môn Công nghệ được triển khai chủ yếu ở các lớp cuối cấp Trung học cơ sở và toàn bộ giai đoạn giáo dục định hướng nghề nghiệp.
+Ở các lớp 7 và 8, giáo dục hướng nghiệp được thể hiện qua các yêu cầu cần đạt về ngành nghề liên quan tới các lĩnh vực nông – lâm nghiệp và thuỷ sản, kĩ thuật cơ khí, kĩ thuật điện.
+Ở lớp 9, giáo dục hướng nghiệp được thực hiện thông qua các nội dung quan trọng về hướng nghiệp bao gồm nghề nghiệp, hệ thống giáo dục quốc dân, thị trường lao động và phương pháp lựa chọn nghề nghiệp. Đây là nội dung cơ sở để triển khai các hoạt động hướng nghiệp trong hoạt động trải nghiệm. Cũng trong lớp 9, HS được lựa chọn theo học một mô đun có tính nghề về kĩ thuật, công nghệ thuộc ba lĩnh vực công nghiệp, nông nghiệp và dịch vụ. Qua đó, HS được trải nghiệm kĩ thuật, công nghệ gắn với yếu tố nghề nghiệp, hình thành phẩm chất, năng lực tương ứng, đánh giá được mức độ phù hợp, hứng thú của bản thân về các lĩnh vực kĩ thuật, công nghệ tương ứng.
+Trong giai đoạn giáo dục định hướng nghề nghiệp, với tinh thần học để chuẩn bị, học để thích ứng với lĩnh vực nghề nghiệp HS lựa chọn sau khi tốt nghiệp, môn Công nghệ có vai trò trang bị cho HS tri thức nền tảng và các năng lực cốt lõi phù hợp với ngành nghề kĩ thuật, công nghệ mà các em lựa chọn sau khi tốt nghiệp Trung học phổ thông thuộc một trong hai định hướng Công nghiệp hoặc Nông nghiệp.
+4. Nội dung và yêu cầu cần đạt phần Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản
+Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản gồm ba mạch nội dung chính tương ứng với ba chuyên đề là:
+Chuyên đề 1. Công nghệ sinh học trong lâm nghiệp
+Chuyên đề 2. Công nghệ sinh học trong thuỷ sản
+Chuyên đề 3. Nuôi cá cảnh
+Qua các mạch nội dung chủ đạo trên, Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản góp phần hình thành và phát triển năng lực công nghệ, phẩm chất và năng lực chung cốt lõi được nêu trong Chương trình giáo dục phổ thông 2018.
+Nội dung và yêu cầu cần đạt cho từng mạch nội dung của Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản được thể hiện trong bảng dưới đây:
+| Nội dung | Yêu cầu cần đạt |
+| Công nghệ sinh học trong lâm nghiệp | – Trình bày được khái niệm, vai trò và một số thành tựu của công nghệ sinh học trong lâm nghiệp. ; – Phân tích được một số hướng ứng dụng phổ biến của công nghệ sinh học trong lâm nghiệp ở Việt Nam. ; – Đánh giá được triển vọng của công nghệ sinh học trong lâm nghiệp. ; – Có ý thức về an toàn lao động và đạo đức nghề nghiệp. |
+| Công nghệ sinh học trong thuỷ sản | – Trình bày được khái niệm, vai trò và một số thành tựu của công nghệ sinh học trong thuỷ sản. ; – Phân tích được một số hướng ứng dụng phổ biến của công nghệ sinh học trong thuỷ sản (chọn, tạo giống, công nghệ sản xuất giống, sản xuất thức ăn, chẩn đoán bệnh, sản xuất vaccine, quản lí môi trường thuỷ sản) ở Việt Nam và trên thế giới. ; – Đánh giá được triển vọng của công nghệ sinh học trong thuỷ sản. ; – Có ý thức về an toàn lao động và đạo đức nghề nghiệp. |
+| Nuôi cá cảnh | – Trình bày được đặc điểm sinh vật học và yêu cầu ngoại cảnh của một số loài cá cảnh phổ biến. ; – Lựa chọn được thức ăn phù hợp cho một số loài cá cảnh phổ biến. ; – Mô tả được quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh phổ biến. ; – Thực hiện được một số công việc trong nuôi và chăm sóc cá cảnh. ; – Yêu thích công việc nuôi và chăm sóc cá cảnh, có ý thức về an toàn lao động và bảo vệ môi trường. |
+5. Đặc điểm Chương trình Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản
+Nội dung Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản đề cập đến ba mạch nội dung chính là: Công nghệ sinh học trong lâm nghiệp; Công nghệ sinh học trong thuỷ sản; Nuôi cá cảnh. Đây đều là những nội dung có tính chất cập nhật về xu thế phát triển của công nghệ và cuộc sống; là những nội dung cốt lõi, hiện đại và phù hợp với xu thế phát triển của nông nghiệp Việt Nam và thế giới. Thông qua các nội dung của Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản sẽ giúp HS hình thành và phát triển những phẩm chất và năng lực cần thiết trong lĩnh vực lâm nghiệp và thuỷ sản, đặc biệt là trong bối cảnh cuộc cách mạng công nghiệp 4.0, góp phần định hướng nghề nghiệp cho HS trong lĩnh vực lâm nghiệp, thuỷ sản ở hiện tại và tương lai.
+Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản có mối liên hệ mật thiết với môn Công nghệ ở cấp Trung học cơ sở (đặc biệt là Công nghệ 7) và cấp Trung học phổ thông (Công nghệ 12 – Lâm nghiệp – Thuỷ sản), với môn Khoa học tự nhiên ở cấp Trung học cơ sở và môn Sinh học ở cấp Trung học phổ thông. Đặc điểm này đòi hỏi GV cần khai thác những hiểu biết của HS đã được học có liên quan tới mỗi bài học, nâng cao hứng thú, phát huy tính tích cực học tập của HS.
+Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản thể hiện giáo dục tích hợp các nội dung xuyên chương trình như giáo dục phát triển bền vững, biến đổi khí hậu, giáo dục tài chính, giáo dục hướng nghiệp. Đặc biệt, Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản có cấu trúc và nội dung khá phù hợp để xây dựng các chủ đề giáo dục STEM, thực hiện chủ trương thúc đẩy giáo dục STEM được thể hiện trong Chương trình giáo dục phổ thông 2018.
+II. SÁCH GIÁO KHOA CHUYÊN ĐỀ HỌC TẬP CÔNG NGHỆ 12 – LÂM NGHIỆP – THUỶ SẢN
+1. Cấu trúc sách giáo khoa Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản
+a) Nội dung và cấu trúc sách giáo khoa Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản
+Sách được cấu trúc thành ba chuyên đề, tương ứng với các nội dung chính trong Chương trình giáo dục phổ thông 2018 gồm: Chuyên đề 1. Công nghệ sinh học trong lâm nghiệp; Chuyên đề 2. Công nghệ sinh học trong thuỷ sản; Chuyên đề 3. Nuôi cá cảnh. Trong mỗi chuyên đề sẽ có các bài học hoặc dự án học tập.
+Mỗi bài học trong SGK là sự kết hợp hài hoà của kênh HỌC LIỆU và kênh HOẠT ĐỘNG. Kênh học liệu phản ánh nội dung của chủ đề bài học, được chia thành hai tuyến là tuyến Nội dung chính và tuyến Nội dung bổ trợ. Kênh hoạt động thể hiện tư tưởng sư phạm phát triển phẩm chất, năng lực của HS trong bài học.
+Dự án học tập trong SGK giúp HS vận dụng kiến thức, kĩ năng đã có để thực hiện một nhiệm vụ phức hợp, có tính thực tiễn. Qua đó, kết nối bài học với thực tiễn, góp phần phát triển năng lực, phẩm chất cho người học. Dự án trong SGK được trình bày thống nhất, bao gồm các nội dung: nhiệm vụ, tiến trình thực hiện, đánh giá, thông tin bổ trợ.
+Phần đầu SGK là nội dung Hướng dẫn sử dụng sách, giúp HS hiểu được cấu trúc của mỗi bài học, ý nghĩa của các hoạt động trong bài học, ghi nhớ các biểu tượng quy ước được sử dụng trong bài học. Nhờ đó, việc học tập với SGK của HS sẽ dễ dàng và hiệu quả hơn. Ở cuối SGK là bảng thuật ngữ, giải nghĩa các thuật ngữ mới, quan trọng có trong các bài học, giúp HS nhanh chóng tra cứu các từ khoá quan trọng trong SGK.
+b) Nội dung và cấu trúc bài học trong sách giáo khoa Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản
+Mỗi bài học trong SGK Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản, bên cạnh tuyến Nội dung chính trình bày các kiến thức cơ bản của bài học, các hộp chức năng được sử dụng để thể hiện tuyến Nội dung bổ trợ và kênh Hoạt động của sách. Đây là một trong những đặc trưng của SGK Công nghệ 12.
+Mỗi hộp chức năng thể hiện một vai trò, ý nghĩa khác nhau, hướng tới mục tiêu bài học và phát triển năng lực, phẩm chất cho HS. SGK Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản gồm các hộp chức năng sau đây:
+– Khám phá: Kiến tạo tri thức qua các hoạt động quan sát, phân tích và tổng hợp từ các học liệu trong SGK hay liên hệ, kết nối với thực tiễn ở cấp độ liên hệ với trải nghiệm của bản thân trong đời sống.
+– Thông tin bổ sung: Trình bày các thông tin bổ ích, thú vị và hấp dẫn liên quan tới nội dung học tập nhưng vượt quá hoặc không có trong yêu cầu cần đạt của Chương trình cũng như mục tiêu bài học. Nội dung này có tính chất tham khảo và mở rộng, không phải là yêu cầu bắt buộc với HS.
+– Luyện tập: Giúp HS phát triển kĩ năng nhận thức, khắc sâu kiến thức bài học thông qua các hoạt động: trả lời các câu hỏi, thực hiện các bài tập liên quan tới kiến thức mới của bài học.
+– Thực hành: Hình thành và phát triển kĩ năng nhận thức hay vận động, khắc sâu kiến thức bài học. Hoạt động thực hành được tiến hành theo quy trình và dựa trên các dụng cụ, thiết bị cần thiết. Trong một số trường hợp, hoạt động thực hành có thể được thực hiện qua các học liệu được cung cấp trong SGK.
+– Vận dụng: Thực hiện một hay nhiều nhiệm vụ học tập phức hợp, gắn liền với thực tiễn trên cơ sở huy động kiến thức, kĩ năng trong bài học. Hoạt động này hướng tới hình thành và phát triển năng lực đặc thù mà bài học thể hiện cũng như kết nối bài học với thực tiễn ở cấp độ hành động.
+– Kết nối năng lực: Hình thành và phát triển năng lực chung cốt lõi, năng lực thành phần của năng lực công nghệ mà bài học không thể hiện. Hộp Kết nối năng lực được thể hiện dưới hai dạng: 1) Nội dung thông tin về năng lực; 2) Nhiệm vụ học tập để phát triển năng lực.
+– Kết nối nghề nghiệp: Trình bày về tên nghề, đặc điểm của nghề, cơ hội việc làm của nghề, những yêu cầu về phẩm chất, năng lực của người làm nghề. Hộp chức năng này giúp thực hiện tốt mục tiêu giáo dục hướng nghiệp trong môn Công nghệ, một trong những giá trị mới của môn Công nghệ trong Chương trình giáo dục phổ thông 2018.
+Trong đó, các hộp chức năng: Mở đầu, Thông tin bổ sung được sử dụng để thể hiện tuyến Nội dung bổ trợ trong kênh học liệu. Các hộp chức năng còn lại gồm: Khám phá, Thực hành, Vận dụng, Kết nối năng lực và Kết nối nghề nghiệp là những biểu hiện cụ thể của kênh Hoạt động trong bài học.
+2. Hướng dẫn sử dụng sách giáo khoa Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản
+a) Xác định mục tiêu bài học
+Mục tiêu bài học được các tác giả SGK xây dựng dựa trên cơ sở cụ thể hoá yêu cầu cần đạt trong chương trình, bao gồm mục tiêu phát triển năng lực và mục tiêu về phẩm chất.
+Việc xác định mục tiêu phát triển năng lực cần chỉ ra những biểu hiện của yêu cầu cần đạt của năng lực, phẩm chất (đã được mô tả trong chương trình) phù hợp với đặc điểm nội dung bài học.
+Mỗi bài học sẽ được biên soạn dựa trên mục tiêu đã xác định, đảm bảo tính thống nhất giữa SGK và chương trình môn học.
+Khi lập kế hoạch dạy học, GV có thể sử dụng mục tiêu bài học trình bày trong SGV hoặc điều chỉnh, bổ sung những điểm cần thiết cho phù hợp với đặc điểm tâm, sinh lí của HS, với điều kiện của nhà trường, địa phương.
+b) Phân tích cấu trúc và nội dung bài học
+Nội dung dạy học phản ánh các tri thức về chủ đề dạy học. Trong dạy học phát triển năng lực, nội dung dạy học là chất liệu để tổ chức các hoạt động dạy học nhằm đạt được mục tiêu bài học. Việc phân tích cấu trúc và đặc điểm nội dung bài học sẽ giúp thiết kế các hoạt động dạy học phù hợp và hiệu quả.
+Nội dung bài học trong SGK được cấu trúc thành các mục lớn, tương ứng với các mục tiêu của bài học. Mỗi mục lớn trong SGK sẽ là cơ sở để thiết kế một hay nhiều hoạt động học tập nhằm hình thành kiến thức mới trong mỗi bài học.
+Đặc điểm nội dung trong SGK có thể được phân tích trên các phương diện: những kiến thức, kĩ năng, trải nghiệm mà HS đã có về nội dung bài học (đã được học, đã có trải nghiệm trong thực tiễn); nội dung bài học có liên quan tới các môn học khác, đặc biệt là các môn học STEM (thường trong Toán và các môn Khoa học tự nhiên); những cơ sở khoa học nào HS chưa được học ở những môn học có liên quan và phải công nhận trong bài học; mức độ phức tạp và trừu tượng của nội dung kiến thức so với trình độ nhận thức của HS; vai trò và tần suất sử dụng kiến thức, kĩ năng của bài học này trong các bài học tiếp theo,…
+Làm rõ đặc điểm nội dung trong SGK như trên sẽ giúp GV lựa chọn và sử dụng phương pháp, kĩ thuật dạy học phù hợp và hiệu quả, phát huy tính tích cực, chủ động của HS, hướng tới đạt được các mục tiêu về phẩm chất và năng lực đã nêu trong mục tiêu bài học. Ví dụ, với những nội dung xa lạ và mới với HS, có thể phải diễn giải, minh hoạ để HS tiếp cận dễ dàng với kiến thức mới. Ngược lại, với những nội dung học tập gần gũi, có thể đàm thoại, khai thác những kinh nghiệm đã có của HS, hệ thống hoá và dẫn dắt tới kiến thức mới được đề cập trong bài học.
+c) Thiết kế các hoạt động dạy học
+– Hoạt động mở đầu:
+Hoạt động mở đầu còn gọi là hoạt động khởi động hay hoạt động dẫn nhập, đặt vấn đề bài học, là hoạt động học tập nhằm tạo tâm thế học tập, giúp HS nhận biết đầy đủ về vấn đề cần giải quyết và ý nghĩa của bài học, về mục tiêu bài học cần đạt được. Hoạt động mở đầu cần tự nhiên và gắn với thực tiễn; khai thác được kinh nghiệm đã có của HS với bài học; nêu bật được vấn đề và ý nghĩa của bài học với cuộc sống, với HS; đảm bảo sự tham gia và chú ý của tất cả HS trong lớp.
+Ở phần mở đầu mỗi bài học trong SGK bao gồm hình ảnh biểu tượng gắn kết với bài học, yêu cầu cần đạt trong chương trình mà bài học hướng tới và hệ thống câu hỏi liên quan tới nội dung bài học. GV có thể căn cứ vào các thông tin này để tổ chức hoạt động khởi động cho HS.
+Bên cạnh đó, có thể tham khảo các hộp chức năng: Kết nối nghề nghiệp, Thông tin bổ sung làm cơ sở để thiết kế hoạt động khởi động, đảm bảo sự linh hoạt và sáng tạo khi sử dụng SGK. Hoạt động mở đầu của bài học có thể được thực hiện qua một số hình thức như kể chuyện, đàm thoại, tổ chức trò chơi, đóng vai, tranh luận, biểu diễn thí nghiệm, thực hành,…
+– Hoạt động hình thành kiến thức mới:
+Hoạt động học tập này giúp HS chiếm lĩnh tri thức mới trong bài học. Nhiệm vụ học tập của HS trong hoạt động hình thành kiến thức mới có độ khó được thiết kế tương đương với cấp độ động từ được sử dụng trong mục tiêu tương ứng của bài học. Bên cạnh đó, hoạt động này cần được thiết kế đảm bảo sự chủ động, tự lực và tích cực của HS trong quá trình khám phá tri thức.
+Gợi ý chính cho hoạt động hình thành kiến thức mới là các hộp chức năng Khám phá sử dụng trong mỗi bài học. Cùng với đó, có thể là những ý tưởng trong các hộp chức năng: Kết nối năng lực, Kết nối nghề nghiệp. Dựa vào các hộp chức năng nêu trên, hoạt động hình thành kiến thức mới sẽ được thiết kế một cách linh hoạt, đồng bộ với mục tiêu, nội dung bài học.
+Ngoài ý tưởng sư phạm đã được thể hiện trong SGK, GV có thể lựa chọn nhiều phương pháp, kĩ thuật dạy học khác nhau để thiết kế hoạt động hình thành kiến thức mới. Cụ thể, có thể sử dụng phương pháp đàm thoại gợi mở; phương pháp dạy học trực quan; dạy học tìm tòi, khám phá; dạy học hợp tác theo nhóm nhỏ,… cùng các kĩ thuật dạy học như KWL, công não, khăn trải bàn, các mảnh ghép,… có thể được sử dụng để thiết kế hoạt động học tập này.
+– Hoạt động thực hành, luyện tập:
+Thực hành, luyện tập là hoạt động hình thành và phát triển kĩ năng nhận thức hay vận động, khắc sâu kiến thức bài học, hướng tới đạt được mục tiêu về kĩ năng và phát triển năng lực của bài học. Hoạt động này thường dựa trên nội dung kiến thức mới HS đã chiếm lĩnh được ở hoạt động trước. Trong hoạt động này, HS thường được quan sát để hiểu thao tác mẫu, luyện tập theo tiến trình và tự điều chỉnh trong quá trình luyện tập dưới sự giám sát, trợ giúp của GV, hướng tới mục tiêu bài học.
+Gợi ý thiết kế cho hoạt động thực hành, luyện tập trong SGK Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản là hộp chức năng Thực hành, Luyện tập. Trong đó quy định rõ vật liệu, thiết bị (trong nhiều trường hợp là học liệu trong SGK), nhiệm vụ và tiến trình thực hiện, yêu cầu về sản phẩm, những gợi ý cho hoạt động. Bên cạnh đó, hộp chức năng Kết nối năng lực, Kết nối nghề nghiệp cũng có thể được xem xét trong quá trình thiết kế hoạt động thực hành, luyện tập.
+Với những hoạt động thực hành, luyện tập phức tạp, GV có thể sử dụng phương pháp làm mẫu – quan sát và huấn luyện – luyện tập để thiết kế hoạt động thực hành theo cấu trúc bài thực hành ba giai đoạn gồm hướng dẫn ban đầu – hướng dẫn thường xuyên – hướng dẫn kết thúc. Với các hoạt động thực hành, luyện tập, vấn đề an toàn cho thiết bị, cho HS và GV cần được quan tâm ngay khi thiết kế hoạt động.
+– Hoạt động vận dụng:
+Hoạt động vận dụng là hoạt động kết nối bài học với thực tiễn ở cấp độ hành động. Hoạt động này được thực hiện ở trong và ngoài lớp học nhằm vận dụng kiến thức, kĩ năng đã học vào thực tiễn cuộc sống, góp phần hình thành và phát triển năng lực, phẩm chất đã nêu trong mục tiêu bài học. Nhiệm vụ thực hiện trong hoạt động này cần đủ thách thức, hấp dẫn HS; kết nối được bài học với thực tiễn.
+Trong SGK Chuyên đề học tập Công nghệ 12 – Lâm nghiệp – Thuỷ sản, gợi ý cho hoạt động vận dụng được thể hiện qua hộp chức năng Vận dụng, thường được đặt ở cuối bài học. Dựa vào đó, kết hợp với các hộp chức năng Kết nối năng lực, Kết nối nghề nghiệp (nếu có), thiết kế hoạt động vận dụng với nhiệm vụ rõ ràng HS cần thực hiện và sản phẩm HS cần phải có, cùng những lưu ý về tiến trình thực hiện, những vấn đề về an toàn trong quá trình triển khai ở ngoài nhà trường.
+Trong một số trường hợp, hoạt động vận dụng có thể được thiết kế dưới dạng một dự án học tập. Khi đó, các hoạt động học tập sẽ được triển khai theo tiến trình của phương pháp dạy học theo dự án, một phương pháp dạy học hiệu quả trong dạy học công nghệ phổ thông.
+PHẦN HAI. HƯỚNG DẪN DẠY HỌC CÁC BÀI CỤ THỂ
+CHUYÊN ĐỀ 1. CÔNG NGHỆ SINH HỌC TRONG LÂM NGHIỆP
+I. MỤC TIÊU CHUNG CỦA CHUYÊN ĐỀ
+– Trình bày được khái niệm, vai trò và một số thành tựu của công nghệ sinh học trong lâm nghiệp.
+– Phân tích được một số hướng ứng dụng phổ biến của công nghệ sinh học trong lâm nghiệp ở Việt Nam.
+– Đánh giá được triển vọng của công nghệ sinh học trong lâm nghiệp.
+– Có ý thức về an toàn lao động và đạo đức nghề nghiệp.
+II. NỘI DUNG
+Nội dung của chuyên đề 1 được cấu trúc thành bốn bài học gồm:
+Bài 1. Bài mở đầu
+Bài 2. Công nghệ sinh học trong chọn, tạo và nhân giống cây lâm nghiệp
+Bài 3. Công nghệ sinh học trong sản xuất chế phẩm vi sinh phục vụ lâm nghiệp
+Bài 4. Ứng dụng mã vạch DNA trong lâm nghiệp
+III. MỘT SỐ VẤN ĐỀ CẦN LƯU Ý
+Ứng dụng công nghệ sinh học trong lâm nghiệp là một trong những định hướng mới, tiềm năng trong lĩnh vực lâm nghiệp. Nội dung của chuyên đề này đề cập tới một số ứng dụng phổ biến và quan trọng của công nghệ sinh học trong lâm nghiệp như ứng dụng công nghệ gene và chỉ thị phân tử trong chọn, tạo giống cây lâm nghiệp, ứng dụng công nghệ tế bào trong nhân giống cây lâm nghiệp, ứng dụng công nghệ vi sinh sản xuất các chế phẩm sinh học dùng trong lâm nghiệp, ứng dụng mã vạch DNA (DNA barcode) trong giám định, bảo tồn động vật, thực vật rừng quý hiếm. Các nội dung trong chuyên đề đều là những kiến thức cập nhật, hấp dẫn, tuy nhiên không quá xa lạ với HS lớp 12. Các em đã có cơ hội tiếp cận với kiến thức về công nghệ sinh học nói chung và ứng dụng công nghệ sinh học trong trồng trọt ở chương trình môn Công nghệ lớp 10, ứng dụng công nghệ sinh học trong chăn nuôi ở môn Công nghệ lớp 11. Ngoài ra, có rất nhiều kiến thức liên quan các em được học ở môn Sinh học lớp 10, Sinh học lớp 11 và Sinh học lớp 12. Vì vậy, trong quá trình dạy học, GV cần linh hoạt, gợi mở để HS có cơ hội thể hiện, chia sẻ những hiểu biết, kinh nghiệm liên quan đến nội dung của bài học, qua đó tạo hứng thú học tập cho HS.
+Ngoài ra, trong quá trình dạy học chuyên đề này, GV không nên khai thác sâu các kĩ thuật của công nghệ sinh học (đây là nhiệm vụ của môn Sinh học) mà cần tập trung vào nhiệm vụ chính của chuyên đề là giúp HS nhận thức được vai trò, thành tựu, một số hướng ứng dụng phổ biến và triển vọng của công nghệ sinh học trong lâm nghiệp.
+BÀI 1. BÀI MỞ ĐẦU
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+– Trình bày được khái niệm, vai trò và một số thành tựu của công nghệ sinh học trong lâm nghiệp.
+– Đánh giá được triển vọng của công nghệ sinh học trong lâm nghiệp.
+– Có ý thức về an toàn lao động và đạo đức nghề nghiệp.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm về vai trò, thành tựu và triển vọng của công nghệ sinh học trong lâm nghiệp ở Việt Nam và trên thế giới.
+2. Phẩm chất
+Có ý thức tìm hiểu về vai trò và triển vọng của việc ứng dụng công nghệ sinh học trong lâm nghiệp.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Khái niệm, vai trò và thành tựu của công nghệ sinh học trong lâm nghiệp.
+– Triển vọng của công nghệ sinh học trong lâm nghiệp.
+– Một số lưu ý về an toàn lao động và đạo đức nghề nghiệp.
+Trọng tâm của bài học là giúp HS hiểu rõ vai trò và triển vọng của công nghệ sinh học trong lâm nghiệp, các em được làm quen với một số thành tựu nổi bật của việc ứng dụng công nghệ sinh học trong lâm nghiệp, thông qua đó giúp HS có cái nhìn khái quát về chuyên đề, thích tìm hiểu về các nội dung trong chuyên đề. Bên cạnh đó, các em đã có kiến thức, kinh nghiệm nhất định về công nghệ sinh học nói chung và ứng dụng công nghệ sinh học trong trồng trọt ở chương trình môn Công nghệ lớp 10, ứng dụng công nghệ sinh học trong chăn nuôi ở môn Công nghệ lớp 11. Vì vậy, trong quá trình dạy học, GV cần linh hoạt, gợi mở để HS có cơ hội thể hiện, chia sẻ những hiểu biết, kinh nghiệm liên quan đến nội dung của bài học, giúp cho giờ học được sinh động, nhẹ nhàng và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến vai trò, thành tựu và triển vọng của công nghệ sinh học trong lâm nghiệp ở Việt Nam và trên thế giới.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và đọc trước tài liệu có liên quan đến vai trò, thành tựu và triển vọng của công nghệ sinh học trong lâm nghiệp.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý giúp HS nhớ lại những kiến thức đã có về công nghệ sinh học; vai trò, triển vọng của công nghệ sinh học trong trồng trọt, chăn nuôi. Bên cạnh đó, các hình ảnh, video về vai trò, triển vọng của công nghệ sinh học trong lâm nghiệp sẽ giúp gợi mở, dẫn dắt HS mong muốn tìm hiểu về các nội dung mới, lí thú có trong bài học.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh hoặc video nói về công nghệ sinh học; vai trò, triển vọng của công nghệ sinh học trong trồng trọt, chăn nuôi. Yêu cầu HS quan sát và nêu những hiểu biết, kinh nghiệm của bản thân về những vấn đề đó.
+– GV đưa ra các câu hỏi, hình ảnh, video (hoặc có thể sử dụng câu hỏi ở phần mở đầu trong SGK) về vai trò, triển vọng của công nghệ sinh học trong lâm nghiệp để dẫn dắt HS mong muốn tìm hiểu nội dung bài học.
+2. Hoạt động tìm hiểu về khái niệm công nghệ sinh học trong lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS hiểu được khái niệm công nghệ sinh học trong lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở khái niệm công nghệ sinh học trong lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung trong mục I.1 trong SGK, đặt các câu hỏi gợi ý và yêu cầu HS nêu khái niệm công nghệ sinh học trong lâm nghiệp.
+– HS nghiên cứu nội dung mục I.1 trong SGK, kết hợp với việc trả lời các câu hỏi gợi ý của GV và tự rút ra khái niệm công nghệ sinh học trong lâm nghiệp.
+– GV có thể tổ chức cho HS thảo luận để phân tích hướng ứng dụng của công nghệ sinh học trong lâm nghiệp.
+3. Hoạt động tìm hiểu vai trò và thành tựu của công nghệ sinh học trong chọn, tạo giống cây lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS nhận thức được vai trò và một số thành tựu của công nghệ sinh học trong chọn, tạo giống cây lâm nghiệp ở Việt Nam và trên thế giới.
+b) Sản phẩm
+HS ghi được vào vở vai trò của công nghệ sinh học trong chọn, tạo giống cây lâm nghiệp; tên một số giống cây lâm nghiệp được chọn, tạo nhờ công nghệ sinh học và ưu điểm của chúng.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục I.2 và quan sát Hình 1.2 trong SGK, đặt các câu hỏi gợi ý và yêu cầu HS nêu vai trò, thành tựu của công nghệ sinh học trong chọn, tạo giống cây lâm nghiệp.
+– Từ việc nghiên cứu nội dung SGK, quan sát các hình ảnh, kết hợp với việc trả lời các câu hỏi gợi ý của GV, HS thảo luận và nêu các vai trò của công nghệ sinh học trong chọn, tạo giống cây lâm nghiệp (rút ngắn thời gian chọn, tạo giống; tạo ra giống mới vượt trội về năng suất, chất lượng và khả năng chống chịu). Nêu một số giống cây lâm nghiệp được chọn, tạo nhờ ứng dụng công nghệ sinh học và ưu điểm của chúng (các giống cây như trong SGK).
+– GV có thể tổ chức cho HS sử dụng internet để tìm hiểu thêm về thành tựu của công nghệ sinh học trong chọn, tạo giống cây lâm nghiệp.
+– GV có thể yêu cầu HS liên hệ với thực tiễn sản xuất của gia đình, địa phương để nêu các loại giống cây lâm nghiệp được tạo ra nhờ ứng dụng công nghệ sinh học.
+4. Hoạt động tìm hiểu về vai trò và thành tựu của công nghệ sinh học trong nhân giống cây lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS nhận thức được vai trò và thành tựu của công nghệ sinh học trong nhân giống cây lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở vai trò, thành tựu của công nghệ sinh học trong nhân giống cây lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục I.3 và quan sát Hình 1.3 trong SGK, đặt các câu hỏi gợi ý liên quan đến vai trò và thành tựu của công nghệ sinh học trong nhân giống cây lâm nghiệp.
+– Từ việc nghiên cứu nội dung, quan sát các hình ảnh, kết hợp với việc trả lời các câu hỏi gợi ý của GV, HS thảo luận và nêu các vai trò của công nghệ sinh học trong nhân giống cây lâm nghiệp (hệ số nhân cao, cây giống khoẻ mạnh, đồng đều, sạch bệnh); nêu một số giống cây lâm nghiệp được nhân giống bằng công nghệ sinh học (bạch đàn, keo lai, vù hương, sâm Ngọc Linh,…).
+– GV có thể tổ chức cho HS thảo luận để hoàn thành nhiệm vụ trong hộp Khám phá của SGK.
+– GV có thể yêu cầu HS liên hệ với thực tiễn để nêu tên các giống cây lâm nghiệp được nhân giống nhờ ứng dụng công nghệ sinh học.
+5. Hoạt động tìm hiểu về vai trò và thành tựu của công nghệ sinh học trong sản xuất phân bón
+a) Mục tiêu
+Hoạt động này giúp HS hiểu được vai trò và nêu được thành tựu của công nghệ sinh học trong sản xuất phân bón hữu cơ và chế phẩm vi sinh dùng trong lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở vai trò, thành tựu của công nghệ sinh học trong sản xuất phân bón hữu cơ và chế phẩm vi sinh dùng trong lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục I.4 trong SGK, đặt các câu hỏi gợi ý và yêu cầu HS nêu vai trò và thành tựu của công nghệ sinh học trong sản xuất phân bón hữu cơ và chế phẩm vi sinh dùng trong lâm nghiệp.
+– Từ việc nghiên cứu nội dung, kết hợp với việc trả lời các câu hỏi gợi ý của GV, HS nêu vai trò của công nghệ sinh học trong sản xuất phân bón hữu cơ và chế phẩm vi sinh dùng trong lâm nghiệp.
+– GV có thể tổ chức cho HS nghiên cứu và thực hiện nhiệm vụ trong hộp Kết nối năng lực để mở rộng kiến thức về vai trò, thành tựu của công nghệ sinh học trong sản xuất phân bón hữu cơ và chế phẩm vi sinh dùng trong lâm nghiệp.
+6. Hoạt động tìm hiểu về vai trò và thành tựu của việc ứng dụng mã vạch DNA trong lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS hiểu được khái niệm mã vạch DNA, nhận thức được vai trò của mã vạch DNA trong lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở vai trò, thành tựu của mã vạch DNA trong lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– Trước tiên, GV cần giải thích cho HS hiểu khái niệm mã vạch DNA. GV có thể nêu ví dụ: Nếu con người có thể nhận diện bằng dấu vân tay, các sản phẩm trong siêu thị có thể nhận diện bằng mã vạch sản phẩm thì sinh vật cũng có thể được nhận diện nhờ sự khác nhau trong DNA của chúng bằng mã vạch DNA.
+– GV hướng dẫn HS nghiên cứu nội dung mục I.5, kết hợp quan sát Hình 1.4 trong SGK, đưa ra các câu hỏi gợi ý và yêu cầu HS nêu vai trò, thành tựu của mã vạch DNA trong lâm nghiệp.
+– Từ việc nghiên cứu nội dung, kết hợp với việc trả lời các câu hỏi gợi ý của GV, HS thảo luận và nêu được vai trò, thành tựu của mã vạch DNA trong lâm nghiệp (xác định chính xác các loài động vật, thực vật rừng, nhờ đó nâng cao hiệu quả trong quản lí giống cây lâm nghiệp, quản lí lâm sản, phân loại hệ động vật, thực vật rừng, bảo tồn và phát triển các loài động vật, thực vật rừng quý hiếm,… hỗ trợ việc xác định nguồn gốc của sinh vật sống hoặc các mặt hàng lâm sản được xuất, nhập khẩu để ngăn chặn sự vận chuyển trái phép các loài động vật, thực vật rừng quý hiếm qua biên giới).
+7. Hoạt động tìm hiểu về triển vọng của công nghệ sinh học trong lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS nhận biết được một số triển vọng của công nghệ sinh học trong lâm nghiệp như tạo giống mới, nâng cao hiệu quả nhân giống, tạo chế phẩm vi sinh dùng trong lâm nghiệp,…
+b) Sản phẩm
+HS ghi được vào vở một số triển vọng của công nghệ sinh học trong lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS đọc và nghiên cứu nội dung mục II trong SGK, nêu các câu hỏi gợi ý và yêu cầu HS nêu triển vọng của công nghệ sinh học trong lâm nghiệp.
+– HS thực hiện nhiệm vụ theo yêu cầu GV, nêu triển vọng của công nghệ sinh học trong chọn, tạo và nhân giống cây lâm nghiệp, sản xuất chế phẩm vi sinh dùng trong lâm nghiệp, ứng dụng mã vạch DNA trong quản lí và bảo tồn tài nguyên rừng.
+Lưu ý: Đây là nội dung kiến thức khó, vì vậy GV cần quan tâm đến việc sử dụng hình ảnh minh hoạ, gợi ý, giải thích để giúp HS lĩnh hội kiến thức được thuận lợi hơn.
+8. Hoạt động tìm hiểu một số lưu ý về an toàn lao động và đạo đức nghề nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS nâng cao ý thức về an toàn lao động và đạo đức nghề nghiệp trong việc ứng dụng công nghệ sinh học trong lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở một số vấn đề cần lưu ý về an toàn lao động và đạo đức nghề nghiệp trong việc ứng dụng công nghệ sinh học trong lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS đọc và nghiên cứu nội dung mục III trong SGK, nêu các câu hỏi gợi ý và yêu cầu HS nêu các vấn đề cần lưu ý về an toàn lao động, đạo đức nghề nghiệp trong việc ứng dụng công nghệ sinh học trong lâm nghiệp.
+– HS thực hiện nhiệm vụ theo yêu cầu GV, nêu các vấn đề cần lưu ý về an toàn lao động và đạo đức nghề nghiệp trong việc ứng dụng công nghệ sinh học trong lâm nghiệp (sử dụng quần áo bảo hộ, khẩu trang, găng tay phù hợp trong quá trình làm việc; sử dụng, thu gom và tiêu huỷ hoá chất, mẫu vật đúng quy định; tuân thủ Nghị định về quản lí thực vật rừng, động vật rừng nguy cấp, quý hiếm và thực thi Công ước quốc tế về buôn bán các loài động vật, thực vật hoang dã nguy cấp).
+V. LUYỆN TẬP
+1. Trình bày vai trò của công nghệ sinh học trong chọn, tạo giống và nhân giống cây lâm nghiệp. Cho ví dụ minh hoạ.
+Gợi ý trả lời:
+Sử dụng thông tin mục I.2 và I.3 trong SGK để trả lời câu hỏi.
+2. Trình bày vai trò của công nghệ sinh học trong công tác bảo tồn, quản lí tài nguyên rừng và phát triển lâm nghiệp bền vững.
+Gợi ý trả lời:
+Sử dụng thông tin mục I.4 và I.5 trong SGK để trả lời câu hỏi.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức để đề xuất biện pháp phát huy vai trò của công nghệ sinh học trong lâm nghiệp phù hợp với thực tiễn địa phương.
+– Sản phẩm: Bản đề xuất của HS về biện pháp phát huy vai trò của công nghệ sinh học trong lâm nghiệp phù hợp với thực tiễn địa phương.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà quan sát hoạt động lâm nghiệp ở địa phương, đề xuất biện pháp để phát huy vai trò của công nghệ sinh học trong lâm nghiệp phù hợp với thực tiễn địa phương. Nộp lại sản phẩm cho GV vào buổi học tiếp theo.
+BÀI 2. CÔNG NGHỆ SINH HỌC TRONG CHỌN, TẠO VÀ NHÂN GIỐNG CÂY LÂM NGHIỆP
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+– Phân tích được một số hướng ứng dụng phổ biến của công nghệ sinh học trong chọn, tạo giống cây lâm nghiệp (ứng dụng chỉ thị phân tử, công nghệ chuyển gene, đa bội hoá).
+– Phân tích được một số hướng ứng dụng phổ biến của công nghệ sinh học trong nhân giống cây lâm nghiệp (ứng dụng kĩ thuật nuôi cấy mô tế bào thực vật).
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm về ứng dụng của công nghệ sinh học (công nghệ gene, công nghệ tế bào) trong chọn, tạo và nhân giống cây lâm nghiệp.
+2. Phẩm chất
+Có ý thức tìm hiểu công nghệ sinh học và ứng dụng của công nghệ sinh học trong chọn, tạo và nhân giống cây lâm nghiệp.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Ứng dụng chỉ thị phân tử trong chọn, tạo giống cây lâm nghiệp.
+– Ứng dụng công nghệ sinh học trong nhân giống cây lâm nghiệp.
+Các nội dung của bài học đều là những kiến thức mới và khó đối với HS. Vì vậy, trong quá trình dạy học, GV cần tăng cường sử dụng hình ảnh, video và các phương pháp thích hợp khác để giúp HS lĩnh hội kiến thức được thuận lợi nhất, giúp cho giờ học được nhẹ nhàng, sinh động và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến ứng dụng chỉ thị phân tử, kĩ thuật chuyển gene, kĩ thuật nuôi cấy mô tế bào thực vật trong chọn, tạo và nhân giống cây lâm nghiệp.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và đọc trước tài liệu có liên quan đến ứng dụng công nghệ sinh học trong chọn, tạo và nhân giống cây lâm nghiệp.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Giúp HS nhớ lại những kiến thức đã được học có liên quan đến nội dung bài học, đồng thời dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video, câu hỏi liên quan đến nội dung bài học như ứng dụng chỉ thị phân tử, công nghệ gene trong chọn, tạo giống, ứng dụng kĩ thuật nuôi cấy mô tế bào thực vật trong nhân giống cây trồng,… để giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những nội dung mới trong bài học (chỉ thị phân tử, công nghệ gene, nuôi cấy mô tế bào thực vật trong chọn, tạo và nhân giống cây lâm nghiệp) để dẫn dắt HS mong muốn tìm hiểu nội dung bài học mới.
+2. Hoạt động tìm hiểu về ứng dụng chỉ thị phân tử trong chọn, tạo giống cây lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS giải thích được ý nghĩa của việc ứng dụng chỉ thị phân tử trong chọn, tạo giống cây lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở ý nghĩa của việc ứng dụng chỉ thị phân tử trong chọn, tạo giống cây lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục I.1 và quan sát Hình 2.2 trong SGK. GV nêu các câu hỏi gợi ý và yêu cầu HS giải thích ý nghĩa của việc ứng dụng chỉ thị phân tử trong chọn, tạo giống cây lâm nghiệp.
+– HS thực hiện nhiệm vụ theo yêu cầu của GV và phân tích ý nghĩa của việc ứng dụng chỉ thị phân tử trong chọn, tạo giống cây lâm nghiệp: Nhờ ứng dụng chỉ thị phân tử giúp xác định được những cá thể mang gene quy định tính trạng mong muốn ngay ở giai đoạn cây con, nhờ đó rút ngắn thời gian chọn, tạo giống mới. Ví dụ: muốn đánh giá chất lượng gỗ của một giống cây lâm nghiệp cần trồng sau một số năm, đến khi đủ tuổi khai thác mới đánh giá được chất lượng giống là tốt hay không tốt. Tuy nhiên, nếu áp dụng chỉ thị phân tử thì có thể xác định được ngay khi cây giống vừa được tạo ra thông qua việc xác định gene quy định tính trạng chất lượng gỗ.
+– GV có thể sử dụng một số ví dụ minh hoạ hoặc sơ đồ hoá quá trình chọn, tạo giống cây lâm nghiệp bằng chỉ thị phân tử để HS lĩnh hội kiến thức dễ dàng hơn.
+Lưu ý: Do đây là nội dung khó, có nhiều khái niệm mới, vì vậy GV nên bắt đầu bằng các câu hỏi nhằm giúp HS hiểu rõ một số khái niệm trong bài học. Ví dụ: Chỉ thị phân tử là gì? Nó có đặc điểm gì để nhận biết trong quá trình chọn, tạo giống? Tiếp theo, GV nêu các câu hỏi liên quan đến nguyên lí của việc ứng dụng chỉ thị phân tử trong chọn, tạo giống cây trồng và ý nghĩa mà nó mang lại để giúp HS hoàn thành mục tiêu bài học.
+3. Hoạt động tìm hiểu về ứng dụng kĩ thuật chuyển gene trong chọn, tạo giống cây lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS hiểu được nguyên lí, sơ đồ của kĩ thuật chuyển gene vào cây lâm nghiệp và ý nghĩa của nó đối với chọn, tạo giống cây lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở nguyên lí, sơ đồ của kĩ thuật chuyển gene vào cây lâm nghiệp và ý nghĩa của nó trong chọn, tạo giống cây lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS đọc và nghiên cứu nội dung mục I.2, quan sát Hình 2.3 trong SGK và nêu các câu hỏi gợi ý liên quan đến nguyên lí, sơ đồ của kĩ thuật chuyển gene vào cây trồng, ý nghĩa của nó đối với chọn, tạo giống cây lâm nghiệp.
+– GV tổ chức cho HS thảo luận và mô tả các bước trong quy trình chuyển gene vào cây lâm nghiệp, nêu ý nghĩa của từng bước trong quy trình chuyển gene.
+– GV tổ chức cho HS quan sát Hình 2.4, vận dụng kiến thức đã học để mô tả các bước trong quy trình chuyển gene tạo giống keo sinh trưởng nhanh. GV cần chú ý cho HS mô tả và nêu ý nghĩa của từng bước. GV có thể giải thích thêm cho HS những nội dung khó.
+Lưu ý: GV có thể sưu tầm quy trình chuyển gene vào giống cây lâm nghiệp khác phù hợp với thực tiễn địa phương để thay thế giúp cho bài học gần với thực tiễn hơn.
+4. Hoạt động tìm hiểu về tạo giống cây lâm nghiệp đa bội nhờ ứng dụng phương pháp gây đột biến kết hợp với lai giống
+a) Mục tiêu
+Hoạt động này giúp HS mô tả được các bước tạo giống cây lâm nghiệp tam bội bằng phương pháp gây đột biến kết hợp lai giống và nêu được ưu điểm của các giống cây lâm nghiệp đa bội.
+b) Sản phẩm
+HS ghi được vào vở sơ đồ các bước tạo giống cây lâm nghiệp tam bội bằng phương pháp gây đột biến kết hợp lai giống, ưu điểm của các giống cây lâm nghiệp đa bội.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS đọc và nghiên cứu nội dung mục I.3, kết hợp quan sát Hình 2.5 trong SGK. GV nêu các câu hỏi gợi ý, yêu cầu HS mô tả các bước tạo giống cây lâm nghiệp tam bội bằng phương pháp gây đột biến kết hợp lai giống và nêu ưu điểm của các giống cây lâm nghiệp đa bội, cho ví dụ minh hoạ.
+– HS thực hiện nhiệm vụ theo yêu cầu của GV. Dựa vào Hình 2.5 để mô tả các bước tạo giống cây lâm nghiệp tam bội bằng phương pháp gây đột biến kết hợp lai giống; dựa vào các thông tin trong mục I.3 để nêu ưu điểm của giống cây lâm nghiệp đa bội (sinh trưởng, phát triển mạnh, kích thước cơ quan sinh dưỡng lớn hơn so với cây lưỡng bội, chất lượng gỗ tốt hơn cây lưỡng bội,…).
+– GV có thể tổ chức cho HS thảo luận để giải thích vì sao các giống cây lâm nghiệp đa bội thường có khả năng sinh trưởng, phát triển mạnh, kích thước cơ quan sinh dưỡng lớn hơn so với cây lưỡng bội, chất lượng gỗ tốt hơn cây lưỡng bội,….
+– GV tổ chức cho HS nghiên cứu nội dung trong mục Thông tin bổ sung để giúp HS mở rộng kiến thức và tạo sự hứng thú trong học tập.
+5. Hoạt động tìm hiểu về ứng dụng công nghệ sinh học trong nhân giống cây lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS nêu được ý nghĩa và mô tả được các bước của quy trình nhân giống cây lâm nghiệp bằng nuôi cấy mô tế bào thực vật.
+b) Sản phẩm
+HS ghi được vào vở ý nghĩa và các bước của quy trình nhân giống cây lâm nghiệp bằng nuôi cấy mô tế bào thực vật (dạng sơ đồ hoá).
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS đọc và nghiên cứu nội dung mục II, quan sát Hình 2.7 trong SGK. GV nêu các câu hỏi gợi ý, yêu cầu HS nêu ý nghĩa và mô tả các bước của quy trình nhân giống cây lâm nghiệp bằng nuôi cấy mô tế bào thực vật.
+– HS thực hiện nhiệm vụ theo yêu cầu của GV, mô tả cách nhân giống cây lâm nghiệp bằng nuôi cấy mô tế bào thực vật; nêu ý nghĩa của việc ứng dụng nuôi cấy mô tế bào thực vật (nhân giống phục vụ bảo tồn các loài cây rừng quý hiếm; nhân nhanh để tạo ra số lượng lớn cây giống đồng đều, sạch bệnh cung cấp cho sản xuất).
+Lưu ý: Do nội dung này khá tương đồng với nội dung về nhân giống cây trồng bằng phương pháp nuôi cấy mô tế bào mà HS đã được học ở lớp 10, vì vậy, trong quá trình dạy học, GV cần linh hoạt để phát huy kiến thức HS đã có liên quan đến nội dung bài học.
+V. LUYỆN TẬP
+1. Phân tích vai trò của chỉ thị phân tử, kĩ thuật chuyển gene trong chọn, tạo giống cây lâm nghiệp.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin mục I.1 và I.2 trong SGK để trả lời câu hỏi. Đối với vai trò của chỉ thị phân tử, cần nhấn mạnh việc rút ngắn thời gian chọn, tạo giống mới; đối với vai trò của kĩ thuật chuyển gene, ngoài việc rút ngắn thời gian tạo giống mới còn có ưu điểm là tạo ra giống mới vượt trội về năng suất, chất lượng, khả năng chống chịu.
+2. Phân tích vai trò của công nghệ sinh học trong nhân giống cây lâm nghiệp.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin mục II trong SGK để trả lời câu hỏi. Cần nêu bật được vai trò nhân giống các loài cây rừng quý hiếm phục vụ bảo tồn; tạo ra số lượng lớn cây giống đồng đều, sạch bệnh cung cấp cho sản xuất.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức đã học để đề xuất một ứng dụng của công nghệ sinh học trong chọn, tạo và nhân giống cây lâm nghiệp phù hợp với thực tiễn ở địa phương.
+– Sản phẩm: Bản đề xuất của HS về một ứng dụng công nghệ sinh học trong chọn, tạo và nhân giống cây lâm nghiệp phù hợp với thực tiễn địa phương.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà quan sát hoạt động lâm nghiệp ở địa phương, đề xuất một ứng dụng công nghệ sinh học trong chọn, tạo và nhân giống cây lâm nghiệp phù hợp với thực tiễn địa phương (nên tập trung vào nhân giống). Nộp lại sản phẩm cho GV vào buổi học tiếp theo.
+BÀI 3. CÔNG NGHỆ SINH HỌC TRONG SẢN XUẤT CHẾ PHẨM VI SINH PHỤC VỤ LÂM NGHIỆP
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+Phân tích được một số hướng ứng dụng phổ biến của công nghệ sinh học trong sản xuất chế phẩm vi sinh phục vụ lâm nghiệp.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu, nâng cao kiến thức về ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh phục vụ lâm nghiệp.
+2. Phẩm chất
+Có ý thức tìm hiểu và tuyên truyền về ý nghĩa của việc sử dụng chế phẩm vi sinh trong lâm nghiệp (ý nghĩa đối với cây rừng, con người, môi trường sinh thái).
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Sản xuất chế phẩm vi sinh phân huỷ nhanh vật liệu cháy dưới tán rừng thông.
+– Ứng dụng công nghệ sinh học sản xuất chế phẩm vi sinh MF1.
+– Ứng dụng công nghệ sinh học sản xuất chế phẩm vi sinh MF2.
+Trong bài học này, bên cạnh ý nghĩa tạo ra chế phẩm vi sinh kích thích sinh trưởng, phát triển của cây lâm nghiệp, GV cần đặc biệt lưu ý đến ý nghĩa trong việc bảo vệ môi trường sinh thái. Ngoài ra, trong quá trình dạy học, GV cần khai thác hiệu quả một số thành tựu nổi bật của việc ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh phục vụ lâm nghiệp để giúp cho giờ học được sinh động, nhẹ nhàng và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh phục vụ lâm nghiệp.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và đọc trước tài liệu có liên quan đến ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh phục vụ lâm nghiệp.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý liên quan đến nội dung bài học sẽ giúp HS nhớ lại những kiến thức đã được học về ứng dụng công nghệ vi sinh trong sản xuất chế phẩm sinh học, đồng thời dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video, câu hỏi liên quan đến ứng dụng công nghệ vi sinh trong sản xuất phân bón, chế phẩm sinh học để giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học (kiến thức đã học ở lớp 10).
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những nội dung mới trong bài học (sản xuất chế phẩm vi sinh dùng trong lâm nghiệp) để dẫn dắt HS mong muốn tìm hiểu nội dung bài học mới. GV có thể sử dụng câu hỏi ở phần mở đầu trong SGK.
+2. Hoạt động tìm hiểu về ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh phân huỷ nhanh vật liệu cháy dưới tán rừng thông
+a) Mục tiêu
+Hoạt động này giúp HS mô tả được quy trình sản xuất chế phẩm vi sinh phân huỷ nhanh vật liệu cháy dưới tán rừng thông; nêu được ý nghĩa của chế phẩm.
+b) Sản phẩm
+HS ghi được vào vở các bước trong quy trình sản xuất chế phẩm vi sinh phân huỷ nhanh vật liệu cháy dưới tán rừng thông; ý nghĩa của chế phẩm.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục I, kết hợp quan sát Hình 3.3 trong SGK. GV yêu cầu HS mô tả các bước trong quy trình sản xuất chế phẩm vi sinh phân huỷ nhanh vật liệu cháy dưới tán rừng thông; nêu ý nghĩa của chế phẩm.
+– HS thực hiện nhiệm vụ theo yêu cầu GV và trả lời câu hỏi mô tả các bước trong quy trình sản xuất chế phẩm vi sinh phân huỷ nhanh vật liệu cháy dưới tán rừng thông (mô tả 4 bước như Hình 3.3); nêu ý nghĩa của chế phẩm vi sinh (chế phẩm vi sinh phân huỷ vật liệu cháy (lá, cành cây khô,…) thành các chất hữu cơ, làm tăng độ ẩm của vật liệu giúp hạn chế cháy rừng, tăng hàm lượng dinh dưỡng và hàm lượng mùn cho đất).
+– GV có thể hướng dẫn HS thảo luận và giải thích vì sao chế phẩm vi sinh lại có khả năng phân huỷ lá, cành cây khô,… (vì có chứa vi sinh vật phân giải cellulose).
+3. Hoạt động tìm hiểu về ứng dụng công nghệ sinh học sản xuất chế phẩm vi sinh MF1
+a) Mục tiêu
+Hoạt động này giúp HS mô tả được các bước sản xuất chế phẩm vi sinh MF1 dùng trong lâm nghiệp; nêu được tác dụng của chế phẩm MF1.
+b) Sản phẩm
+HS ghi được vào vở các bước sản xuất chế phẩm vi sinh MF1 dùng trong lâm nghiệp; tác dụng của chế phẩm MF1.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục II, kết hợp quan sát Hình 3.4 trong SGK, đặt các câu hỏi về các bước sản xuất chế phẩm vi sinh MF1 dùng trong lâm nghiệp và tác dụng của chế phẩm MF1.
+– HS thực hiện nhiệm vụ của GV và trả lời câu hỏi:
++ Mô tả các bước sản xuất chế phẩm vi sinh MF1 như Hình 3.4 trong SGK.
++ Vai trò của chế phẩm vi sinh MF1: phân giải phosphate khó tan thành dạng dễ tan cho cây sử dụng, tiêu diệt nấm gây bệnh thối cổ rễ cây thông và một số loài cây rừng khác.
+– GV yêu cầu HS thảo luận, so sánh chế phẩm vi sinh phân huỷ nhanh vật liệu cháy dưới tán rừng thông và chế phẩm MF1 (so sánh loại vi sinh vật, các bước sản xuất,…).
+4. Hoạt động tìm hiểu về ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh MF2
+a) Mục tiêu
+Hoạt động này giúp HS mô tả được các bước sản xuất chế phẩm vi sinh MF2 dùng trong lâm nghiệp; nêu được tác dụng của chế phẩm MF2.
+b) Sản phẩm
+HS ghi được vào vở các bước sản xuất chế phẩm vi sinh MF2 dùng trong lâm nghiệp; tác dụng của chế phẩm MF2.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục III, kết hợp quan sát Hình 3.5 trong SGK, đặt các câu hỏi về các bước sản xuất chế phẩm vi sinh MF2 dùng trong lâm nghiệp và tác dụng của chế phẩm MF2.
+– HS thực hiện nhiệm vụ của GV và trả lời câu hỏi:
++ Mô tả các bước sản xuất chế phẩm vi sinh MF2 như Hình 3.5 trong SGK.
++ Vai trò của chế phẩm vi sinh MF2: phân giải phosphate khó tan thành dạng dễ tan cho cây sử dụng, ức chế hay tiêu diệt nấm gây bệnh đốm lá và khô cành ngọn bạch đàn, cung cấp một số chất vi lượng khác cho cây rừng (bạch đàn, keo và các loài cây rừng khác).
+– GV yêu cầu HS thảo luận, so sánh chế phẩm vi sinh MF1 và chế phẩm vi sinh MF2 (so sánh loại vi sinh vật, các bước sản xuất,…).
+– GV hướng dẫn HS nghiên cứu nội dung trong mục Thông tin bổ sung và sử dụng internet để tìm hiểu thêm về các chủng vi sinh vật thường được sử dụng để sản xuất chế phẩm vi sinh dùng trong lâm nghiệp.
+V. LUYỆN TẬP
+1. Phân tích quy trình sản xuất chế phẩm vi sinh phân huỷ nhanh vật liệu cháy dưới tán rừng thông.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong mục I của SGK để trả lời câu hỏi.
+2. So sánh các quy trình sản xuất chế phẩm vi sinh MF1 và MF2.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong mục II và III của SGK để trả lời câu hỏi. Các chỉ tiêu so sánh gồm: loại vi sinh vật sử dụng, nội dung các bước, mục đích và đối tượng sử dụng.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức đã học để đề xuất quy trình sử dụng chế phẩm vi sinh trong lâm nghiệp phù hợp với thực tiễn ở địa phương.
+– Sản phẩm: Bản đề xuất của HS về quy trình sử dụng chế phẩm vi sinh trong lâm nghiệp phù hợp với thực tiễn ở địa phương.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà khảo sát các đối tượng cây lâm nghiệp ở địa phương, vận dụng kiến thức đã học và đề xuất một quy trình sử dụng chế phẩm vi sinh trong lâm nghiệp phù hợp với thực tiễn ở địa phương. Nộp lại sản phẩm cho GV trong buổi học tiếp theo.
+BÀI 4. ỨNG DỤNG MÃ VẠCH DNA TRONG LÂM NGHIỆP
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+Phân tích được một số hướng ứng dụng của mã vạch DNA trong lâm nghiệp (định danh cây lâm nghiệp, giám định sản phẩm lâm nghiệp, kiểm soát tác nhân gây hại cây rừng).
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu, nâng cao kiến thức về mã vạch DNA và ứng dụng mã vạch DNA trong lâm nghiệp.
+2. Phẩm chất
+Có ý thức tìm hiểu và tuyên truyền về công tác bảo vệ các loài động vật, thực vật quý hiếm.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Khái niệm mã vạch DNA.
+– Một số ứng dụng mã vạch DNA trong lâm nghiệp.
+Mã vạch DNA là nội dung mới và khó đối với HS. Vì vậy, trong quá trình dạy học, GV cần sử dụng nhiều hình ảnh minh hoạ kết hợp với việc giải thích và vận dụng kiến thức sinh học để giúp HS có thể hiểu bài thuận lợi hơn. Bên cạnh đó, GV cần lưu ý tập trung vào việc làm nổi bật vai trò và hướng ứng dụng của mã vạch DNA trong lâm nghiệp, tránh khai thác sâu vào các kĩ thuật của mã vạch DNA sẽ làm cho giờ học bị quá tải. Ngoài ra, GV cần khai thác hiệu quả một số thành tựu nổi bật của việc ứng dụng mã vạch DNA trong định danh sinh vật, bảo tồn các loài động vật, thực vật quý hiếm giúp cho giờ học được sinh động, nhẹ nhàng và hấp dẫn.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến ứng dụng mã vạch DNA trong lâm nghiệp (định danh, giám định sản phẩm lâm nghiệp, kiểm soát tác nhân gây hại cây rừng).
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và đọc trước tài liệu có liên quan đến ứng dụng mã vạch DNA trong lâm nghiệp.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Hoạt động này giúp HS tái hiện lại những kiến thức, kinh nghiệm đã có liên quan đến DNA, động vật, thực vật quý hiếm,… đồng thời dẫn dắt HS mong muốn tìm hiểu những nội dung mới của bài.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video, câu hỏi liên quan đến DNA, các loài động vật, thực vật rừng quý hiếm để giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những nội dung mới trong bài học (mã vạch DNA, ứng dụng mã vạch DNA trong lâm nghiệp) để dẫn dắt HS mong muốn tìm hiểu. GV có thể sử dụng câu hỏi ở phần mở đầu trong SGK.
+2. Hoạt động tìm hiểu về khái niệm mã vạch DNA
+a) Mục tiêu
+Hoạt động này giúp HS hiểu được khái niệm mã vạch DNA.
+b) Sản phẩm
+HS ghi được vào vở khái niệm mã vạch DNA.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục I trong SGK để trả lời câu hỏi “Mã vạch DNA là gì?”.
+– HS thực hiện nhiệm vụ theo yêu cầu của GV và trả lời câu hỏi (Mã vạch DNA là một đoạn trình tự DNA ngắn, đặc trưng có trong bộ gene của các loài sinh vật, được sử dụng để nhận biết, phân biệt các loài sinh vật).
+– GV cần nhấn mạnh để HS hiểu mã vạch DNA là đặc trưng cho loài. Các đoạn trình tự DNA được chọn để làm mã vạch DNA là những trình tự đặc trưng chỉ có trong DNA của loài đó mà không có trong DNA của các loài khác.
+– GV có thể đưa ra so sánh mã vạch DNA với mã vạch của các sản phẩm trong siêu thị giúp HS dễ hiểu bài hơn, đồng thời giúp cho bài học thêm sinh động.
+3. Hoạt động tìm hiểu về ứng dụng mã vạch DNA trong định danh cây lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS phân tích được vai trò và hướng ứng dụng của mã vạch DNA trong định danh cây lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở vai trò và hướng ứng dụng của mã vạch DNA trong định danh cây lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục II.1, kết hợp quan sát Hình 4.2 trong SGK, đặt các câu hỏi gợi ý để HS phân tích được vai trò và hướng ứng dụng của mã vạch DNA trong định danh cây lâm nghiệp.
+– HS thực hiện nhiệm vụ, phân tích vai trò và hướng ứng dụng của mã vạch DNA trong định danh cây lâm nghiệp theo yêu cầu của GV.
++ Vai trò: Định danh nhanh chóng và chính xác các loài cây lâm nghiệp.
++ Hướng ứng dụng: Định danh các loài cây lâm nghiệp quý hiếm phục vụ cho tạo giống, nhân giống và bảo tồn.
+– GV tổ chức cho HS thảo luận và hoàn thành nhiệm vụ ở hộp Khám phá trong SGK giúp HS mở rộng và khắc sâu kiến thức của bài học.
+4. Hoạt động tìm hiểu về ứng dụng mã vạch DNA trong giám định mẫu sản phẩm lâm nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS phân tích được vai trò và hướng ứng dụng của mã vạch DNA trong giám định mẫu sản phẩm lâm nghiệp.
+b) Sản phẩm
+HS ghi được vào vở vai trò và hướng ứng dụng của mã vạch DNA trong giám định mẫu sản phẩm lâm nghiệp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục II.2, kết hợp quan sát Hình 4.3 trong SGK, đặt các câu hỏi gợi ý để HS phân tích được vai trò và hướng ứng dụng của mã vạch DNA trong giám định mẫu sản phẩm lâm nghiệp.
+– HS thực hiện nhiệm vụ, phân tích vai trò và hướng ứng dụng của mã vạch DNA trong giám định mẫu sản phẩm lâm nghiệp theo yêu cầu của GV.
++ Vai trò: Một số sản phẩm lâm nghiệp (gỗ đã qua chế biến, dược liệu đã qua chế biến, thịt thú rừng,…) rất khó để xác định nguồn gốc (gỗ loài cây nào, dược liệu gì, thịt con gì,…). Nhờ mã vạch DNA có thể xác định chính xác và nhanh chóng nguồn gốc của các sản phẩm đó, giúp ngăn chặn kịp thời các hoạt động khai thác, buôn bán, vận chuyển và tàng trữ lâm sản trái phép, góp phần bảo vệ các loài động vật, thực vật rừng quý hiếm.
++ Hướng ứng dụng: (1) Xác định chính xác các sản phẩm lâm nghiệp có nguồn gốc từ các động vật, thực vật quý hiếm, nhờ đó giúp ngăn chặn kịp thời các hoạt động khai thác, buôn bán, vận chuyển và tàng trữ lâm sản trái phép; (2) Ứng dụng tại hải quan để hỗ trợ việc xác định các sản phẩm có nguồn gốc từ động vật, thực vật quý hiếm nhằm ngăn chặn sự vận chuyển trái phép các loài động vật và thực vật quý hiếm hoặc sản phẩm của chúng qua biên giới.
+– GV tổ chức cho HS thảo luận và hoàn thành nhiệm vụ ở hộp Khám phá trong SGK giúp HS mở rộng và khắc sâu kiến thức của bài học.
+Lưu ý: GV có thể tổ chức cho HS tìm thêm về các loài động vật, thực vật quý hiếm (tên loài, nguy cơ tuyệt chủng, ý nghĩa của các loài đó đối với con người và hệ sinh thái) để giúp bài học thêm sinh động và hấp dẫn.
+5. Hoạt động tìm hiểu về ứng dụng mã vạch DNA trong kiểm soát tác nhân gây hại cho cây rừng
+a) Mục tiêu
+Hoạt động này giúp HS phân tích được vai trò và hướng ứng dụng của mã vạch DNA trong kiểm soát tác nhân gây hại cho cây rừng.
+b) Sản phẩm
+HS ghi được vào vở vai trò và hướng ứng dụng của mã vạch DNA trong kiểm soát tác nhân gây hại cho cây rừng.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục II.3 trong SGK, đặt các câu hỏi gợi ý để HS phân tích được vai trò và hướng ứng dụng của mã vạch DNA trong kiểm soát tác nhân gây hại cho cây rừng.
+– HS thực hiện nhiệm vụ, phân tích vai trò và hướng ứng dụng của mã vạch DNA trong kiểm soát tác nhân gây hại cho cây rừng theo yêu cầu của GV.
++ Vai trò: Xác định chính xác, nhanh chóng các loài sâu hại cây rừng và các loài côn trùng là vật chủ trung gian truyền bệnh cho cây rừng để phòng, trị kịp thời, hiệu quả.
++ Hướng ứng dụng: Xác định chính xác, nhanh chóng các loài sâu hại và trung gian truyền bệnh ở giai đoạn tiềm ẩn (giai đoạn ấu trùng) nhằm hỗ trợ chương trình kiểm soát sâu, bệnh, bảo vệ cây rừng, giúp nâng cao hiệu quả phòng trừ sâu, bệnh hại và bảo vệ môi trường.
+– GV có thể tổ chức cho HS thảo luận và hoàn thành nhiệm vụ ở hộp Khám phá trong SGK giúp HS mở rộng và khắc sâu kiến thức.
+V. LUYỆN TẬP
+GV hướng dẫn HS sử dụng các thông tin trong SGK để trả lời câu hỏi ở phần luyện tập. Nội dung phân tích vai trò có thể lập bảng hoặc trình bày dạng sơ đồ tư duy.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức đã học về mã vạch DNA, đề xuất ý tưởng ứng dụng mã vạch DNA để giải quyết một vấn đề thực tiễn của cuộc sống.
+– Sản phẩm: Bản đề xuất của HS về ứng dụng mã vạch DNA để giải quyết một vấn đề thực tiễn của cuộc sống (phân biệt cây thuốc hoặc dược liệu thật – giả, các loài cây hoa quý hiếm, các sản phẩm gỗ quý hiếm,…).
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà tìm hiểu và đề xuất ý tưởng ứng dụng mã vạch DNA để giải quyết một vấn đề thực tiễn của cuộc sống. Nộp lại sản phẩm cho GV trong buổi học tiếp theo.
+VII. THÔNG TIN BỔ SUNG
+Đặc điểm cơ bản của trình tự mã vạch DNA
+Mỗi đoạn mã vạch DNA có những đặc trưng riêng và có khả năng phân biệt sinh vật ở các mức độ khác nhau: chi, họ, loài hay dưới loài. Các đoạn mã vạch DNA có thể là những đoạn nằm trong hệ gene nhân (18S, 5.8S, 26S, ITS), trong hệ gene ti thể (Cytb, CO1,…), trong hệ gene lục lạp (matK, rbcL, trnH – psbA,…). Tuy nhiên, chưa có đoạn DNA nào được sử dụng làm mã vạch chung cho tất cả các loài sinh vật. Một mã vạch DNA điển hình phải đáp ứng được các yêu cầu sau: Có tính phổ biến cao (dễ dàng nhân bản và giải trình tự), trình tự có tính đặc hiệu cao và có khả năng phân biệt đồng thời được nhiều loài (có sự biến đổi giữa các loài nhưng ổn định và bảo thủ cao bên trong loài) hoặc biến đổi không đáng kể. Trong những năm gần đây, nhiều vùng gene đã được nghiên cứu và đề xuất là chỉ thị DNA cho động vật, thực vật. Mặc dù vậy, chưa có chỉ thị DNA nào được đa số các nhà phân loại học cùng chấp nhận, các nhà nghiên cứu đều thống nhất rằng sẽ cần không chỉ một mà nhiều vùng DNA chỉ thị để định danh các loài động vật, thực vật.
+CHUYÊN ĐỀ 2. CÔNG NGHỆ SINH HỌC TRONG THUỶ SẢN
+I. MỤC TIÊU CHUNG CỦA CHUYÊN ĐỀ
+– Trình bày được khái niệm, vai trò và một số thành tựu của công nghệ sinh học trong thuỷ sản.
+– Phân tích được một số hướng ứng dụng phổ biến của công nghệ sinh học trong thuỷ sản (chọn, tạo giống, công nghệ sinh sản, sản xuất thức ăn, chẩn đoán bệnh, sản xuất vaccine, xử lí môi trường thuỷ sản) ở Việt Nam và trên thế giới.
+– Đánh giá được triển vọng của công nghệ sinh học trong thuỷ sản.
+– Có ý thức về an toàn lao động và đạo đức nghề nghiệp.
+II. NỘI DUNG
+Nội dung của chuyên đề II được cấu trúc thành năm bài học gồm:
+Bài 5. Vai trò và triển vọng của công nghệ sinh học trong thuỷ sản
+Bài 6. Một số ứng dụng công nghệ sinh học trong chọn, tạo giống thuỷ sản
+Bài 7. Ứng dụng công nghệ sinh học trong sản xuất giống thuỷ sản
+Bài 8. Ứng dụng công nghệ sinh học trong phòng, trị bệnh thuỷ sản
+Bài 9. Ứng dụng công nghệ sinh học trong quản lí môi trường nước nuôi thuỷ sản
+III. MỘT SỐ VẤN ĐỀ CẦN LƯU Ý
+Cũng giống như Chuyên đề 1, một số khái niệm trong Chuyên đề 2 HS đã được học ở môn Chuyên đề công nghệ lớp 10 và lớp 11. Ngoài ra, trong chương trình môn Công nghệ lớp 12, các em cũng đã được học một số nội dung về ứng dụng công nghệ sinh học trong chọn và nhân giống thuỷ sản, ứng dụng công nghệ sinh học trong phòng, trị bệnh thuỷ sản, ứng dụng công nghệ sinh học trong quản lí môi trường nước nuôi thuỷ sản. Vì vậy, trước mỗi bài học, GV cần làm rõ những nội dung tương đồng với kiến thức HS đã được học và những nội dung mới của bài. Trên cơ sở đó, GV linh hoạt, gợi mở trong quá trình dạy học để HS có cơ hội thể hiện, chia sẻ những kiến thức, kinh nghiệm liên quan đến nội dung bài học, qua đó tạo hứng thú học tập cho HS.
+BÀI 5. VAI TRÒ VÀ TRIỂN VỌNG CỦA CÔNG NGHỆ SINH HỌC TRONG THUỶ SẢN
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+– Trình bày được khái niệm, vai trò và một số thành tựu của công nghệ sinh học trong thuỷ sản.
+– Đánh giá được triển vọng của công nghệ sinh học trong thuỷ sản.
+b) Năng lực chung
+Lựa chọn được các nguồn tài liệu phù hợp để tìm hiểu thêm về vai trò và triển vọng của ứng dụng công nghệ sinh học trong thuỷ sản.
+2. Phẩm chất
+– Có ý thức tìm hiểu về vai trò, thành tựu và triển vọng của công nghệ sinh học trong thuỷ sản và liên hệ với thực tiễn của gia đình, địa phương.
+– Có ý thức về an toàn lao động và đạo đức nghề nghiệp.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Khái niệm về công nghệ sinh học trong thuỷ sản.
+– Vai trò và thành tựu của công nghệ sinh học trong thuỷ sản.
+– Triển vọng của công nghệ sinh học trong thuỷ sản.
+– Một số lưu ý về an toàn lao động và đạo đức nghề nghiệp.
+Công nghệ sinh học và thuỷ sản là những nội dung khá quen thuộc với HS lớp 12, các em đã được làm quen với các kiến thức cơ bản về công nghệ sinh học ở môn Công nghệ định hướng nông nghiệp và môn Sinh học lớp 10 và lớp 11. Vì vậy, trong quá trình dạy học, GV cần sử dụng các phương pháp thích hợp nhằm khuyến khích, khơi gợi giúp HS phát huy tốt nhất vốn kiến thức đã có liên quan đến nội dung bài học. Qua đó giúp các em tự tin, hứng khởi trong quá trình học tập, giúp cho giờ học được nhẹ nhàng, sinh động và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, tài liệu, video về vai trò, thành tựu và triển vọng của công nghệ sinh học trong thuỷ sản.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và đọc trước tài liệu có liên quan đến vai trò, thành tựu và triển vọng của công nghệ sinh học trong thuỷ sản.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các câu hỏi, hình ảnh liên quan đến công nghệ sinh học, giúp HS tái hiện những kiến thức, kinh nghiệm đã được học có liên quan đến nội dung bài học, đồng thời gợi mở những vấn đề mới về vai trò, triển vọng của công nghệ sinh học trong thuỷ sản nhằm dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+GV đặt câu hỏi có liên quan đến khái niệm công nghệ sinh học và vai trò của công nghệ sinh học trong thuỷ sản, các nhóm HS thảo luận và trả lời câu hỏi (có thể tổ chức dưới hình thức trò chơi).
+Một số câu hỏi gợi ý:
+Câu 1. Công nghệ sinh học trong thuỷ sản là gì? Công nghệ sinh học có vai trò như thế nào đối với thuỷ sản? Liên hệ với thực tiễn gia đình, địa phương em.
+Câu 2. Theo em, trong tương lai công nghệ sinh học sẽ đóng góp gì cho thuỷ sản?
+2. Hoạt động tìm hiểu khái niệm về công nghệ sinh học trong thuỷ sản
+a) Mục tiêu
+Giúp HS nhớ lại khái niệm chung về công nghệ sinh học và hiểu được khái niệm công nghệ sinh học trong thuỷ sản.
+b) Sản phẩm
+HS ghi được vào vở khái niệm công nghệ sinh học trong thuỷ sản.
+c) Nội dung và cách thức tiến hành
+– GV cho HS quan sát tranh ảnh, video liên quan đến công nghệ sinh học trong thuỷ sản, đặt câu hỏi giúp HS nhớ lại khái niệm về công nghệ sinh học và hiểu được thế nào là công nghệ sinh học trong thuỷ sản.
+– HS quan sát hình ảnh, video kết hợp với kiến thức liên quan đã được học để tự rút ra khái niệm về công nghệ sinh học trong thuỷ sản.
+– GV có thể nêu các câu hỏi gợi ý về các hướng ứng dụng công nghệ sinh học trong thuỷ sản để giúp HS mở rộng và khắc sâu kiến thức.
+3. Hoạt động tìm hiểu về vai trò và thành tựu của công nghệ sinh học trong thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được một số vai trò và thành tựu nổi bật của công nghệ sinh học trong thuỷ sản (trong công tác giống, phòng, trị bệnh, quản lí môi trường, sản xuất thức ăn thuỷ sản và chế biến thuỷ sản).
+b) Sản phẩm
+HS ghi được vào vở một số vai trò và thành tựu nổi bật của công nghệ sinh học trong công tác giống, phòng, trị bệnh, quản lí môi trường, sản xuất thức ăn thuỷ sản và chế biến thuỷ sản.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục II.1 và quan sát Hình 5.2 trong SGK, đặt các câu hỏi gợi ý liên quan đến vai trò, thành tựu của công nghệ sinh học trong chọn, tạo và nhân giống thuỷ sản.
+– Từ việc nghiên cứu nội dung trong SGK, kết hợp với quan sát hình ảnh, HS tự rút ra được vai trò và thành tựu của công nghệ sinh học trong chọn, tạo và nhân giống thuỷ sản.
+– GV có thể tổ chức cho HS thảo luận để thực hiện nhiệm vụ trong hộp Khám phá và hộp Kết nối năng lực trong SGK để giúp HS khắc sâu, mở rộng kiến thức và liên hệ với thực tiễn.
+– GV có thể tổ chức tương tự với các mục II.2, II.3. II.4 và II.5 trong SGK. Trong mỗi mục, GV cần linh hoạt sử dụng các hình ảnh và nêu các câu hỏi gợi ý để giúp HS hiểu rõ vai trò của công nghệ sinh học trong phòng, trị bệnh, quản lí môi trường, sản xuất thức ăn thuỷ sản và chế biến thuỷ sản.
+Chú ý: Ứng dụng công nghệ sinh học nói chung và ứng dụng công nghệ sinh học trong thuỷ sản nói riêng là một trong những nội dung mới, hiện đại. Vì vậy, trong quá trình tổ chức dạy học, GV cần sưu tầm thêm các hình ảnh, video liên quan đến nội dung bài học để tăng tính hấp dẫn cho bài học, giúp HS tiếp thu bài hiệu quả hơn.
+4. Hoạt động tìm hiểu về triển vọng của công nghệ sinh học trong thuỷ sản
+a) Mục tiêu
+Giúp HS nhận thức được một số triển vọng của việc ứng dụng công nghệ sinh học trong thuỷ sản.
+b) Sản phẩm
+HS ghi được vào vở một số triển vọng của việc ứng dụng công nghệ sinh học trong thuỷ sản.
+c) Nội dung và cách thức tiến hành
+– GV tổ chức cho HS làm việc nhóm, yêu cầu các nhóm HS nghiên cứu nội dung mục III trong SGK và nêu triển vọng của công nghệ sinh học trong thuỷ sản.
+– HS thực hiện nhiệm vụ theo yêu cầu của GV, ghi kết quả làm việc nhóm vào vở hoặc vào phiếu học tập.
+– GV có thể tổ chức cho các nhóm HS báo cáo kết quả và nhận xét, đánh giá kết quả của các nhóm khác.
+– GV có thể lưu ý thêm với HS về những ưu điểm của việc ứng dụng công nghệ sinh học trong thuỷ sản giúp HS hiểu rõ hơn về triển vọng của công nghệ sinh học trong thuỷ sản.
+5. Hoạt động tìm hiểu một số lưu ý về an toàn lao động và đạo đức nghề nghiệp
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được một số lưu ý về an toàn lao động và đạo đức nghề nghiệp trong quá trình ứng dụng công nghệ sinh học vào thuỷ sản.
+b) Sản phẩm
+HS ghi được vào vở một số lưu ý về an toàn lao động và đạo đức nghề nghiệp trong hoạt động ứng dụng công nghệ sinh học vào thuỷ sản (trang bị an toàn cho người: quần áo bảo hộ, khẩu trang, găng tay,…; đảm bảo an toàn vệ sinh môi trường; đảm bảo phúc lợi cho động vật thuỷ sản).
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu nội dung mục IV trong SGK, nêu các câu hỏi gợi ý liên quan đến vấn đề an toàn lao động và đạo đức nghề nghiệp.
+– Từ việc nghiên cứu nội dung trong SGK, kết hợp với trả lời các câu hỏi gợi ý của GV, HS tự rút ra được một số lưu ý về an toàn lao động và đạo đức nghề nghiệp.
+– GV có thể nêu thêm một số câu hỏi như: Vì sao việc ứng dụng công nghệ sinh học trong thuỷ sản lại phải quan tâm đến an toàn lao động và đạo đức nghề nghiệp? Nếu không thực hiện tốt vấn đề an toàn lao động và đạo đức nghề nghiệp thì có thể xảy ra những hậu quả gì? GV yêu cầu các nhóm HS thảo luận để trả lời câu hỏi và tự liên hệ với bản thân.
+V. LUYỆN TẬP
+1. Trình bày vai trò của công nghệ sinh học trong thuỷ sản. Liên hệ với thực tiễn ở địa phương em.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong mục II của SGK và liên hệ với thực tiễn để trả lời câu hỏi.
+2. Trình bày triển vọng của công nghệ sinh học trong thuỷ sản. Trong tương lai, công nghệ sinh học sẽ giúp gì cho việc phát triển thuỷ sản ở địa phương em?
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong mục III của SGK và liên hệ với thực tiễn để trả lời câu hỏi.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức đã học để đề xuất một hoặc một số ứng dụng công nghệ sinh học trong thuỷ sản phù hợp với thực tiễn địa phương.
+– Sản phẩm: Bản đề xuất của HS về một hoặc một số ứng dụng công nghệ sinh học trong thuỷ sản phù hợp với thực tiễn địa phương.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà căn cứ vào thực tiễn nuôi trồng, chế biến thuỷ sản của địa phương, vận dụng kiến thức đã học để đề xuất một hoặc một số ứng dụng công nghệ sinh học phù hợp. HS về nhà thực hiện nhiệm vụ và nộp sản phẩm cho GV vào buổi học tiếp theo.
+BÀI 6. MỘT SỐ ỨNG DỤNG CÔNG NGHỆ SINH HỌC TRONG CHỌN, TẠO GIỐNG THUỶ SẢN
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+Phân tích được một số hướng ứng dụng của công nghệ sinh học trong chọn, tạo giống thuỷ sản.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm ứng dụng công nghệ sinh học trong chọn, tạo giống thuỷ sản.
+2. Phẩm chất
+Có ý thức tìm hiểu về một số hướng ứng dụng công nghệ sinh học trong chọn, tạo giống thuỷ sản để vận dụng vào thực tiễn nuôi trồng thuỷ sản ở địa phương.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Ứng dụng chỉ thị phân tử trong chọn giống thuỷ sản.
+– Ứng dụng công nghệ gene trong tạo giống thuỷ sản.
+– Ứng dụng công nghệ sinh học trong tạo giống tam bội.
+Bài học này có một số nội dung liên quan đến các phần học trước của HS lớp 12. Các em đã được làm quen với các loài cá, tôm và các yếu tố ảnh hưởng đến sinh trưởng, phát triển của thuỷ sản. Ngoài ra, HS cũng đã được học các ứng dụng công nghệ sinh học trong chăn nuôi, chọn, tạo giống vật nuôi. Vì vậy, trong quá trình dạy học, GV cần sử dụng các phương pháp thích hợp để giúp HS liên hệ được với kiến thức đã có và vận dụng được vào thực tiễn để phát huy tốt nhất tư duy và vốn kiến thức liên quan đến nội dung bài học, giúp cho giờ học được nhẹ nhàng, sinh động và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến một số ứng dụng công nghệ sinh học phổ biến trong chọn, tạo giống thuỷ sản có liên quan đến bài học.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và sưu tầm các hình ảnh liên quan đến bài học theo yêu cầu của GV và đọc trước tài liệu có liên quan đến các ứng dụng công nghệ sinh học trong chọn, tạo giống thuỷ sản.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý giúp HS nhớ lại những kiến thức, kinh nghiệm đã có liên quan đến nội dung bài học (công nghệ sinh học trong chọn, tạo giống vật nuôi ở chương trình Công nghệ lớp 11).
+Thông qua những hình ảnh, video về những vật nuôi được chọn, tạo nhờ ứng dụng công nghệ sinh học sẽ dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video hoặc câu hỏi về hướng ứng dụng và thành tựu của công nghệ sinh học trong chọn, tạo giống vật nuôi để giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến một số giống thuỷ sản được chọn, tạo nhờ ứng dụng công nghệ sinh học (cá hồi chuyển gene, cá tra chọn bằng chỉ thị phân tử, hàu tam bội,…) để dẫn dắt HS mong muốn tìm hiểu nội dung bài học mới.
+2. Hoạt động tìm hiểu về ứng dụng chỉ thị phân tử trong chọn giống thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS phân tích được mục đích, vai trò và thành tựu của ứng dụng chỉ thị phân tử trong chọn giống thuỷ sản.
+b) Sản phẩm
+HS ghi được vào vở mục đích, vai trò và thành tựu của ứng dụng chỉ thị phân tử trong chọn giống thuỷ sản (cá và tôm).
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục I.1 trong SGK, đặt các câu hỏi gợi ý liên quan đến mục đích, vai trò và thành tựu của ứng dụng chỉ thị phân tử trong chọn giống thuỷ sản.
+– HS thực hiện nhiệm vụ theo yêu cầu của GV, thảo luận nhóm và trả lời các câu hỏi của GV (giúp nâng cao hiệu quả quản lí giống thuỷ sản; hỗ trợ công tác bảo tồn và phát triển các nguồn gene thuỷ sản có giá trị, xác định, rút ngắn thời gian và nâng cao hiệu quả của chọn giống).
+– GV yêu cầu HS quan sát Hình 6.2 trong SGK để so sánh quá trình chọn giống cá rô phi sinh trưởng nhanh, chịu mặn và kháng bệnh bằng phương pháp truyền thống (Hình 6.2a) và ứng dụng chỉ thị phân tử (Hình 6.2b), từ đó rút ra được ý nghĩa của việc ứng dụng chỉ thị trong chọn giống thuỷ sản.
+– GV yêu cầu HS tìm hiểu trên internet, sách, báo,… để nêu thêm các thành tựu của ứng dụng chỉ thị phân tử trong chọn giống thuỷ sản.
+– GV có thể yêu cầu HS liên hệ thực tiễn để kể tên một số loài thuỷ sản nuôi ở địa phương đã được chọn nhờ ứng dụng chỉ thị phân tử. Thông qua đó, giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+3. Hoạt động tìm hiểu về ứng dụng công nghệ gene trong tạo giống thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được ứng dụng công nghệ gene, chủ yếu là kĩ thuật chuyển gene trong tạo giống thuỷ sản.
+b) Sản phẩm
+HS ghi được vào vở sơ đồ các bước chuyển gene tạo giống thuỷ sản, những lợi ích do công nghệ gene mang lại trong công tác tạo giống thuỷ sản.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục II, quan sát Hình 6.3 trong SGK và nêu các câu hỏi gợi ý liên quan đến công nghệ gene trong tạo giống thuỷ sản.
+– GV có thể sưu tầm và cho HS quan sát thêm các hình ảnh, video minh hoạ về chuyển gene, hình ảnh về một số loài động vật được chuyển gene để giúp HS tiếp thu bài nhanh hơn và tư duy về nội dung bài học tốt hơn.
+– GV tổ chức cho HS thảo luận và phân tích các lợi ích của công nghệ gene trong tạo giống thuỷ sản.
+– GV yêu cầu HS thảo luận và trình bày lại sơ đồ chuyển gene sinh trưởng vào cá hồi đại dương, so sánh cá hồi được chuyển gene và không được chuyển gene.
+– GV có thể lấy các thông tin, hình ảnh, video từ internet, sách, báo,… về một số loài thuỷ sản được chuyển gene, các gene thường được chuyển để giúp HS mở rộng kiến thức.
+– GV có thể tổ chức thảo luận nhóm và yêu cầu HS liên hệ với thực tế sản xuất ở gia đình và địa phương về các loài thuỷ sản được chuyển gene.
+4. Hoạt động tìm hiểu về ứng dụng công nghệ sinh học trong tạo giống tam bội
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được ứng dụng công nghệ sinh học trong tạo giống tam bội và lợi ích của giống tam bội (3n) so với giống lưỡng bội (2n).
+b) Sản phẩm
+HS ghi được vào vở sơ đồ tạo giống thuỷ sản tam bội, ưu điểm của giống tam bội và một số giống thuỷ sản tam bội đã được tạo ra.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục III, quan sát Hình 6.6 trong SGK và nêu các câu hỏi gợi ý liên quan đến công nghệ sinh học trong tạo giống thuỷ sản tam bội.
+– GV tổ chức cho HS thảo luận và phân tích các bước tạo giống thuỷ sản tam bội.
+– GV tổ chức cho HS thảo luận và so sánh các điểm khác nhau giữa giống thuỷ sản tam bội và giống lưỡng bội.
+– GV sưu tầm và cho HS quan sát thêm các hình ảnh, video minh hoạ về một số loài thuỷ sản tam bội để giúp HS tiếp thu bài nhanh hơn và tư duy về nội dung bài học tốt hơn (Ví dụ: hàu tam bội, cá hồi vân tam bội,…).
+– GV có thể tổ chức thảo luận nhóm và yêu cầu HS liên hệ với thực tế sản xuất ở gia đình và địa phương về các loài thuỷ sản tam bội đã được nuôi.
+V. LUYỆN TẬP
+1. Mô tả các bước chọn, tạo giống thuỷ sản nhờ ứng dụng chỉ thị phân tử và công nghệ gene.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong các Hình 6.2, 6.3, 6.4 và 6.5 để trả lời câu hỏi về các bước chọn, tạo giống thuỷ sản nhờ ứng dụng chỉ thị phân tử và công nghệ gene.
+2. Phân tích vai trò của việc ứng dụng chỉ thị phân tử và công nghệ gene trong chọn, tạo giống thuỷ sản.
+Gợi ý trả lời:
+GV hướng dẫn HS vận dụng những kiến thức đã học ở mục I, II, III và sử dụng tư duy của mình để phân tích vai trò của ứng dụng chỉ thị phân tử và công nghệ gene trong chọn, tạo giống thuỷ sản.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức của bài học để tìm hiểu về các giống thuỷ sản được tạo ra nhờ ứng dụng công nghệ sinh học và lựa chọn giống phù hợp với thực tiễn của địa phương.
+– Sản phẩm: Bản đề xuất của HS về các giống thuỷ sản đã được chọn, tạo nhờ ứng dụng công nghệ sinh học phù hợp với thực tiễn của địa phương.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS quan sát hoạt động nuôi thuỷ sản, phân tích ưu và nhược điểm của các giống thuỷ sản đang được nuôi ở địa phương, đề xuất giống thuỷ sản đã được chọn, tạo nhờ ứng dụng công nghệ sinh học phù hợp để nâng cao hiệu quả trong nuôi thuỷ sản ở địa phương. Nộp sản phẩm cho GV ở buổi học tiếp theo.
+VII. THÔNG TIN BỔ SUNG
+Các phương pháp tạo thể đa bội
+Sử dụng các can thiệp bằng chất hoá học hoặc bằng nhiệt độ vào quá trình phát sinh giao tử giai đoạn thứ hai, làm cho giao tử không phân li hình thành giao tử lưỡng bội 2n. Để nâng cao hiệu quả, người ta có thể sử dụng kết hợp giữa hai yếu tố trên. Trên nhuyễn thể hai mảnh vỏ sẽ cho kết quả tam bội khi sử dụng 6–dimethylaminopurine (6–DMAP) cho hiệu quả tốt với 90% con giống chuyển sang dạng con tam bội. Hiện nay, 6–DMAP được sử dụng rộng rãi trong các công nghệ sản xuất giống nhuyễn thể tam bội.
+BÀI 7. ỨNG DỤNG CÔNG NGHỆ SINH HỌC TRONG SẢN XUẤT GIỐNG THUỶ SẢN
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+Phân tích được một số hướng ứng dụng của công nghệ sinh học trong sản xuất giống thuỷ sản.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm về các ứng dụng công nghệ sinh học trong sản xuất giống thuỷ sản.
+2. Phẩm chất
+Có ý thức tìm hiểu về một số hướng ứng dụng công nghệ sinh học trong sản xuất giống thuỷ sản để vận dụng vào thực tiễn sản xuất giống phục vụ nuôi thuỷ sản ở gia đình, địa phương.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Sử dụng hormone để điều khiển cá bố mẹ thành thục và sinh sản.
+– Bảo quản lạnh tinh trùng, trứng, phôi thuỷ sản.
+– Điều khiển giới tính thuỷ sản.
+Trong bài học này, một số kiến thức (liên quan đến hoạt động sản xuất giống thuỷ sản) HS đã được làm quen trong chương 6 môn Công nghệ lớp 12. Vì vậy, trong quá trình dạy học, GV cần sử dụng các phương pháp thích hợp để giúp HS phát huy được tốt nhất vốn kiến thức đã có và tích cực tìm hiểu các nội dung và kiến thức mới liên quan đến bài học, giúp cho giờ học được nhẹ nhàng, sinh động và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến các ứng dụng công nghệ sinh học trong sản xuất giống thuỷ sản.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm, sưu tầm các hình ảnh liên quan đến bài học theo yêu cầu của GV, đọc trước tài liệu có liên quan đến các kĩ thuật sử dụng hormone để điều khiển cá bố mẹ thành thục và sinh sản, bảo quản lạnh tinh trùng, trứng, phôi thuỷ sản và điều khiển giới tính thuỷ sản.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về ứng dụng công nghệ sinh học trong sản xuất giống thuỷ sản, đồng thời dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video hoặc câu hỏi về ứng dụng công nghệ sinh học trong sản xuất giống thuỷ sản mà HS đã được học trong chương 6 môn Công nghệ lớp 12 giúp HS nhớ lại những kiến thức và kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những nội dung mới trong bài học để dẫn dắt HS mong muốn tìm hiểu nội dung bài học mới.
+2. Hoạt động tìm hiểu về sử dụng hormone để điều khiển cá bố mẹ thành thục và sinh sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được mục đích, ý nghĩa của việc sử dụng hormone trong sản xuất giống thuỷ sản, các bước sử dụng hormone trong sản xuất giống cá chép.
+b) Sản phẩm
+– HS ghi được vào vở mục đích, ý nghĩa của việc sử dụng hormone trong sản xuất giống thuỷ sản.
+– Vẽ được sơ đồ các bước sử dụng hormone trong sản xuất giống cá chép.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục I trong SGK và đặt các câu hỏi gợi ý liên quan đến mục đích, ý nghĩa của việc sử dụng hormone trong sản xuất giống thuỷ sản (Sử dụng hormone trong sản xuất giống thuỷ sản nhằm mục đích gì? Nếu không sử dụng hormone thì có những bất lợi gì trong chủ động sản xuất giống?,…), từ đó giúp HS trả lời được mục đích và ý nghĩa của việc sử dụng hormone trong sản xuất giống thuỷ sản.
+– GV hướng dẫn HS nghiên cứu Hình 7.2 trong SGK để mô tả các bước sử dụng hormone trong sản xuất giống cá chép.
+– GV có thể sử dụng một số hình ảnh, video từ internet về hoạt động tiêm hormone hoặc quy trình sử dụng hormone để kích thích cá bố mẹ thành thục và sinh sản nhằm làm phong phú hơn nội dung bài học.
+– GV có thể yêu cầu HS liên hệ thực tiễn về việc sử dụng hormone để điều khiển cá bố mẹ thành thục và sinh sản ở một số giống cá ở địa phương. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+3. Hoạt động tìm hiểu về bảo quản lạnh tinh trùng, trứng, phôi thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được mục đích của việc bảo quản lạnh tinh trùng, trứng, phôi và mô tả được các bước cơ bản của kĩ thuật bảo quản lạnh tinh trùng cá.
+b) Sản phẩm
+HS ghi được vào vở mục đích của việc bảo quản tinh trùng, trứng, phôi cá và vẽ được sơ đồ các bước cơ bản của kĩ thuật bảo quản lạnh tinh trùng cá.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục II trong SGK và đặt các câu hỏi gợi ý liên quan đến phương pháp bảo quản lạnh (nhiệt độ nào?) và mục đích của việc bảo quản lạnh tinh trùng, trứng và phôi cá.
+– GV hướng dẫn HS quan sát Hình 7.3 để mô tả các bước cơ bản bảo quản lạnh tinh trùng cá trong nitrogen lỏng.
+– GV có thể cho HS tìm hiểu thêm về nitrogen lỏng (–196 °C) trong việc bảo quản tinh trùng của vật nuôi và so sánh với bảo quản tinh trùng cá để HS phát huy được các kiến thức và kinh nghiệm đã có.
+– GV có thể đặt câu hỏi cho HS: Nếu có trứng và tinh trùng sẵn để sản xuất giống ở trại sản xuất giống thì có cần bảo quản lạnh sâu (–196 °C) hay không? Từ đó giúp các em tư duy và rút ra mục đích của bảo quản lạnh để làm gì. (Bảo quản giống thuỷ sản quý hiếm, vận chuyển đi xa như xuất khẩu trứng, tinh trùng, phôi cá hồi, cá tầm hoặc loài cá mà nước ta chưa sản xuất được hoặc nhu cầu con giống lớn cần phải nhập khẩu).
+– GV có thể yêu cầu HS liên hệ thực tiễn ở địa phương về hoạt động sinh sản nhân tạo cá giống và thảo luận: Liệu có cần phương pháp bảo quản lạnh không? Vì sao? (Áp dụng cho các vùng nuôi, các tỉnh có các loài cá quý hiếm hoặc nhập khẩu phôi cá như cá hồi, cá tầm).
+4. Hoạt động tìm hiểu về điều khiển giới tính thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được mục đích, lợi ích của nuôi thuỷ sản đơn tính, mô tả được các bước tạo giống cá rô phi đơn tính đực.
+b) Sản phẩm
+HS ghi được vào vở một số lợi ích của nuôi thuỷ sản đơn tính, cho ví dụ và vẽ được sơ đồ tạo giống cá rô phi đơn tính đực bằng phương pháp sử dụng hormone.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục III trong SGK, đặt các câu hỏi gợi ý liên quan đến lợi ích của nuôi thuỷ sản đơn tính và yêu cầu HS lấy ví dụ về một số loài nuôi đơn tính cho hiệu quả kinh tế cao.
+– GV sử dụng Hình 7.4 và 7.5 để đặt câu hỏi cho HS về sự khác biệt giữa tôm càng xanh đực và cá rô phi đực so với con cái cùng loài sau một thời gian nuôi (so sánh về kích cỡ), từ đó giúp các em hiểu rõ hơn về lợi ích của nuôi tôm càng xanh toàn đực và rô phi đơn tính đực.
+– GV sử dụng Hình 7.6 và đặt câu hỏi gợi ý giúp HS mô tả được các bước tạo giống cá rô phi đơn tính đực bằng phương pháp sử dụng hormone.
+– GV có thể yêu cầu HS liên hệ thực tiễn địa phương về nuôi thuỷ sản, tình hình nuôi thuỷ sản đơn tính. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+V. LUYỆN TẬP
+Phân tích ý nghĩa của việc ứng dụng công nghệ sinh học trong điều khiển cá bố mẹ thành thục và sinh sản; bảo quản lạnh tinh trùng, trứng, phôi trong sản xuất giống thuỷ sản. Cho ví dụ minh hoạ.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong mục I, II, III để phân tích ý nghĩa của việc ứng dụng công nghệ sinh học trong điều khiển cá bố mẹ thành thục và sinh sản; bảo quản tinh trùng, trứng, phôi trong sản xuất giống thuỷ sản và lấy các ví dụ minh hoạ.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức của bài học vào thực tế ở gia đình, địa phương để đề xuất ứng dụng công nghệ sinh học trong sản xuất giống một loài thuỷ sản phù hợp với thực tiễn của địa phương.
+– Sản phẩm: Bản đề xuất HS về một ứng dụng công nghệ sinh học để sản xuất giống thuỷ sản phù hợp với thực tiễn địa phương.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà quan sát hoạt động sản xuất giống thuỷ sản ở địa phương, phân tích các ứng dụng công nghệ sinh học đã được ứng dụng (nếu có) và đề xuất ứng dụng công nghệ sinh học phù hợp với một loài thuỷ sản ở địa phương. Nếu HS không có điều kiện quan sát thực tiễn, GV có thể hướng dẫn HS tìm hiểu qua internet, video về tình hình nuôi và sản xuất giống thuỷ sản ở một địa phương bất kì để HS có thông tin thảo luận và đề xuất ý tưởng. HS nộp lại sản phẩm cho GV ở buổi học tiếp theo.
+VII. THÔNG TIN BỔ SUNG
+Kích dục tố: Kích dục tố gồm hai loại là kích dục tố tự nhiên có nguồn gốc là tuyến yên và các hoạt chất khác cũng được gọi là kích dục tố do tính năng sinh lí của chúng trong các thí nghiệm nội tiết, mặc dù chức năng sinh lí tự nhiên của chúng là duy trì thể vàng. Tuy nhiên, chế phẩm kích dục tố được dùng trong sinh sản nhân tạo cá phổ biến hiện nay HCG và LRHa.
+– HCG (Human Chorionic Gonadotropin): Là kích dục tố màng đệm hoặc kích dục tố nhau thai. Loại kích dục tố này gây ra phản ứng chín và rụng trứng ở cá. Ngày nay, HCG là loại kích dục tố được sử dụng có hiệu quả cho nhiều loài cá khác nhau.
+– LRHa (Luteotropin Releasing Hormone Alanalog): Tác dụng vào thuỳ trước tuyến yên của động vật, thúc đẩy các hormone tuyến yên (LH) và hormone kích thích nang (FSH) phát triển nhanh và hoàn thiện; ở con cái thúc đẩy quá trình chín trứng và rụng, ở con đực thúc đẩy tinh trùng thành thục. Phương pháp này được sử dụng rộng rãi trên thế giới và ở nước ta vì chúng có nhiều ưu điểm như có thể tổng hợp được và hoạt tính luôn ổn định, sử dụng được trên nhiều loài cá.
+BÀI 8. ỨNG DỤNG CÔNG NGHỆ SINH HỌC TRONG PHÒNG, TRỊ BỆNH THUỶ SẢN
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+Trình bày được ứng dụng công nghệ sinh học trong chẩn đoán, sản xuất vaccine và chế phẩm phòng bệnh thuỷ sản.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm về các ứng dụng công nghệ sinh học trong phòng bệnh thuỷ sản.
+2. Phẩm chất
+Có ý thức tìm hiểu về các ứng dụng công nghệ sinh học trong phòng bệnh thuỷ sản để vận dụng vào thực tiễn sản xuất thuỷ sản của gia đình, địa phương.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Ứng dụng công nghệ sinh học trong chẩn đoán bệnh ở động vật thuỷ sản.
+– Ứng dụng công nghệ sinh học trong sản xuất vaccine phòng bệnh cho động vật thuỷ sản.
+– Ứng dụng công nghệ sinh học trong sản xuất chế phẩm tăng cường miễn dịch cho động vật thuỷ sản.
+Bài học này có các nội dung cơ bản, hấp dẫn và quen thuộc với HS lớp 12 khi các em đã được học các nội dung liên quan đến ứng dụng công nghệ sinh học trong các lĩnh vực chăn nuôi, trồng trọt và thuỷ sản. Đặc biệt, các em cũng đã có kiến thức từ thực tiễn về tác hại của bệnh thuỷ sản, các biện pháp phòng bệnh, chẩn đoán nhanh và sớm bệnh, phòng bệnh bằng vaccine và các chế phẩm sinh học. Vì vậy, trong quá trình dạy học, GV cần sử dụng các phương pháp thích hợp để giúp HS phát huy được tốt nhất vốn kiến thức thực tiễn đã có, tích cực tìm hiểu các nội dung liên quan bài học, giúp các em tư duy và liên hệ sang ứng dụng công nghệ sinh học trong phòng, trị bệnh thuỷ sản, giúp cho giờ học được nhẹ nhàng, sinh động và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan kĩ thuật PCR chẩn đoán bệnh thuỷ sản, các loại vaccine ở cá, các chế phẩm vi sinh có khả năng tăng cường miễn dịch cho thuỷ sản.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm, sưu tầm các hình ảnh liên quan đến bài học theo yêu cầu của GV và đọc trước tài liệu có liên quan đến ứng dụng PCR để chẩn đoán bệnh, vaccine vô hoạt và chế phẩm vi sinh bổ sung vào thức ăn để tăng cường miễn dịch cho động vật thuỷ sản.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về ứng dụng công nghệ sinh học trong phòng, trị bệnh nói chung và trong phòng, trị bệnh thuỷ sản nói riêng, đồng thời dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video hoặc câu hỏi về ứng dụng công nghệ sinh học trong phòng, trị bệnh ở vật nuôi, thuỷ sản để giúp HS nhớ lại những kiến thức và kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những nội dung mới trong bài học để dẫn dắt HS mong muốn tìm hiểu nội dung bài học mới.
+– GV có thể sử dụng một số hình ảnh, video về tác hại của bệnh thuỷ sản để HS hiểu được vai trò của phòng bệnh.
+– GV có thể sưu tầm thêm một số hình ảnh về máy PCR, vaccine, chế phẩm vi sinh để gợi mở cho HS về ứng dụng công nghệ sinh học trong đời sống con người, vật nuôi và tư duy sang ứng dụng trong lĩnh vực phòng bệnh thuỷ sản.
+– GV có thể đặt các câu hỏi hiểu biết của HS về các bước chẩn đoán bệnh đã học từ kiến thức trước đây, ngoài ra GV có thể gợi mở về chẩn đoán bệnh bằng kĩ thuật PCR khi tác nhân có vật chất di truyền là DNA có khác gì RNA không.
+– GV đặt câu hỏi về ứng dụng công nghệ sinh học trong phòng bệnh thuỷ sản nêu trong bài học.
+– GV hướng dẫn HS tìm hiểu, trình bày ưu và nhược điểm của các ứng dụng công nghệ sinh học trong phòng bệnh thuỷ sản.
+2. Hoạt động tìm hiểu về ứng dụng công nghệ sinh học trong chẩn đoán bệnh ở động vật thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được vai trò của kĩ thuật PCR trong chẩn đoán bệnh thuỷ sản để có biện pháp phòng, trị bệnh chủ động, giảm thiệt hại do dịch bệnh gây ra. Bên cạnh đó, HS có thể trình bày được ưu, nhược điểm của kĩ thuật PCR và các bước thực hiện kĩ thuật PCR trong chẩn đoán bệnh do virus có vật chất di truyền là RNA.
+b) Sản phẩm
+HS ghi được vào vở vai trò, ưu, nhược điểm và các bước phát hiện sớm bệnh thuỷ sản (đặc biệt là bệnh do virus có vật chất di truyền là RNA) nhờ ứng dụng kĩ thuật PCR.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục I trong SGK, đặt các câu hỏi gợi ý liên quan đến mục đích và ý nghĩa của ứng dụng công nghệ sinh học (kĩ thuật PCR) trong việc chẩn đoán sớm bệnh thuỷ sản.
+– GV hướng dẫn HS nghiên cứu Hình 8.2 trong SGK và đặt các câu hỏi gợi ý liên quan đến các bước của kĩ thuật PCR trong chẩn đoán bệnh do virus có vật chất di truyền là RNA.
+– GV hướng dẫn HS nghiên cứu Hình 8.2 trong SGK và yêu cầu HS mô tả các bước chẩn đoán phát hiện sớm Reovirus gây bệnh ở cá trắm cỏ.
+– GV có thể yêu cầu HS mô tả sự khác nhau của các bước trong kĩ thuật PCR chẩn đoán mầm bệnh có vật chất di truyền là DNA (ở các bài học trước) và mầm bệnh có vật chất di truyền là RNA để giúp HS khắc sâu kiến thức.
+– GV có thể yêu cầu HS liên hệ thực tiễn về ứng dụng công nghệ sinh học trong chẩn đoán sớm bệnh trong cuộc sống con người, vật nuôi, thuỷ sản ở gia đình và địa phương. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+3. Hoạt động tìm hiểu ứng dụng công nghệ sinh học trong sản xuất vaccine phòng bệnh cho động vật thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được ứng dụng công nghệ sinh học trong sản xuất vaccine phòng bệnh cho cá.
+b) Sản phẩm
+HS ghi được vào vở các bước sản xuất vaccine vô hoạt phòng bệnh cho cá và một số loại vaccine đã được sản xuất thành công để phòng bệnh thuỷ sản.
+c) Nội dung và cách thức tiến hành
+– GV đặt các câu hỏi gợi ý liên quan đến vai trò của vaccine trong việc phòng bệnh nói chung cho người, vật nuôi và thuỷ sản.
+– GV hướng dẫn HS nghiên cứu mục II trong SGK và đặt các câu hỏi gợi ý liên quan đến ứng dụng công nghệ sinh học trong sản xuất vaccine vô hoạt phòng bệnh cho cá.
+– GV có thể đặt các câu hỏi cho HS: Thế nào là vaccine vô hoạt? Sử dụng Hình 8.3 và mục Thông tin bổ sung bên dưới để giải thích cho HS.
+– HS nghiên cứu Hình 8.3 và trình bày các bước sản xuất vaccine vô hoạt phòng bệnh cho cá.
+– HS nghiên cứu mục II và trình bày một số loại vaccine vô hoạt phòng bệnh cho cá đã được sản xuất thành công và ứng dụng trong nuôi trồng thuỷ sản.
+– GV có thể yêu cầu HS liên hệ thực tiễn sử dụng vaccine phòng bệnh thuỷ sản ở địa phương. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn (hầu hết các địa phương chưa sử dụng vaccine cho cá) và đề xuất hướng sản xuất vaccine để phòng một bệnh mà HS đã biết.
+4. Hoạt động tìm hiểu ứng dụng công nghệ sinh học trong sản xuất chế phẩm tăng cường miễn dịch cho động vật thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được ứng dụng công nghệ sinh học trong sản xuất chế phẩm sinh học bổ sung vào thức ăn phòng bệnh cho động vật thuỷ sản.
+b) Sản phẩm
+HS ghi được vào vở các ưu, nhược điểm của việc sử dụng chế phẩm vi sinh tăng cường miễn dịch cho động vật thuỷ sản.
+c) Nội dung và cách thức tiến hành
+– GV đặt các câu hỏi gợi ý liên quan đến vai trò của chế phẩm sinh học trong chăn nuôi và thuỷ sản.
+– GV hướng dẫn HS nghiên cứu mục III trong SGK và đặt các câu hỏi gợi ý liên quan đến lợi ích khi bổ sung chế phẩm sinh học vào thức ăn cho động vật thuỷ sản, đồng thời nêu nhược điểm khi sử dụng bằng phương pháp trộn vào thức ăn là gì.
+– GV yêu cầu HS quan sát Hình 8.4 và đặt các câu hỏi cho HS trình bày các bước sản xuất chế phẩm vi sinh tăng cường miễn dịch cho động vật thuỷ sản.
+– HS nghiên cứu Hình 8.5 và trình bày các bước sản xuất chế phẩm vi sinh chứa Lactobacillus plantarum phòng bệnh cho động vật thuỷ sản.
+– GV có thể sử dụng mục Thông tin bổ sung để cung cấp thêm thông tin về chế phẩm vi sinh tăng miễn dịch cho động vật thuỷ sản.
+– GV có thể yêu cầu HS liên hệ thực tiễn sử dụng chế phẩm vi sinh trong phòng bệnh thuỷ sản ở địa phương. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn và đề xuất hướng ứng dụng chế phẩm vi sinh để phòng bệnh cho một loài thuỷ sản đang được nuôi phổ biến ở địa phương.
+V. LUYỆN TẬP
+1. Trình bày ứng dụng kĩ thuật PCR trong chẩn đoán bệnh do Reovirus ở cá trắm cỏ.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong mục I và Hình 8.2 để trình bày ứng dụng kĩ thuật PCR trong chẩn đoán bệnh do Reovirus gây ra trên cá trắm cỏ.
+2. Mô tả các bước sản xuất vaccine vô hoạt phòng bệnh cho cá.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong Hình 8.3 để trình bày các bước sản xuất vaccine vô hoạt phòng bệnh cho cá.
+3. Mô tả các bước sản xuất chế phẩm vi sinh để tăng cường miễn dịch, hỗ trợ tiêu hoá ở động vật thuỷ sản.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong Hình 8.4 và Hình 8.5 để trình bày các bước sản xuất chế phẩm vi sinh tăng cường miễn dịch, hỗ trợ tiêu hoá cho động vật thuỷ sản.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức của bài học vào thực tiễn để lựa chọn chế phẩm vi sinh tăng cường miễn dịch, hỗ trợ tiêu hoá phù hợp cho một loài động vật thuỷ sản đang được nuôi phổ biến ở địa phương.
+– Sản phẩm: Bản đề xuất của HS về một loại chế phẩm vi sinh tăng cường miễn dịch, hỗ trợ tiêu hoá phù hợp cho một loài động vật thuỷ sản đang được nuôi phổ biến ở địa phương.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà quan sát hoạt động nuôi thuỷ sản ở địa phương, phân tích một số hạn chế hoặc điểm chưa hợp lí trong công tác phòng, trị bệnh cho thuỷ sản và đề xuất một loại chế phẩm vi sinh tăng cường miễn dịch, hỗ trợ tiêu hoá phù hợp cho một loài động vật thuỷ sản đang được nuôi phổ biến ở địa phương. Nộp sản phẩm cho GV vào buổi học tiếp theo.
+VII. THÔNG TIN BỔ SUNG
+Vaccine và các loại vaccine
+Vaccine là chế phẩm sinh học có tính kháng nguyên, có nguồn gốc từ vi sinh vật (có thể toàn thân hoặc một phần hoặc có cấu trúc tương tự) dùng để tạo miễn dịch đặc hiệu chủ động, nhằm tăng sức đề kháng của cơ thể đối với một số tác nhân gây bệnh cụ thể.
+Nguyên lí của việc sử dụng vaccine là đưa vào cơ thể kháng nguyên có nguồn gốc từ vi sinh vật gây bệnh hoặc vi sinh vật có cấu trúc kháng nguyên đã được bào chế đảm bảo độ an toàn cần thiết, làm cho cơ thể tự tạo ra tình trạng miễn dịch chống lại tác nhân gây bệnh (tạo ra miễn dịch chủ động nhân tạo).
+Hiện nay có các loại vaccine gồm vaccine sống nhược độc, vaccine vô hoạt, vaccine DNA.
+– Vaccine sống nhược độc: Tác nhân gây bệnh được làm giảm độc lực thông qua nuôi cấy hoặc loại bỏ gene độc. Loại vaccine này thường cho hiệu quả cao và kéo dài nhưng hiện tại chưa được phép sử dụng trong thuỷ sản vì nguy cơ tăng độc lực trở lại và gây bệnh cho động vật thuỷ sản.
+– Vaccine vô hoạt: Là vaccine chết, tác nhân gây bệnh được bất hoạt thông qua phương pháp xử lí bằng nhiệt độ hoặc formaline. Vaccine này chủ yếu được sử dụng cho thuỷ sản bằng phương pháp tiêm.
+– Vaccine DNA: Là một loại vaccine chỉ sử dụng một gene quy định đặc tính kháng nguyên của tác nhân gây bệnh để kích thích cơ thể tạo miễn dịch. Vì không sử dụng toàn bộ tế bào nên vaccine DNA an toàn và có thể sản xuất số lượng lớn với giá thành rẻ. Tuy nhiên, để sản xuất vaccine DNA thì vốn đầu tư lớn và cần có công nghệ cao.
+BÀI 9. ỨNG DỤNG CÔNG NGHỆ SINH HỌC TRONG QUẢN LÍ MÔI TRƯỜNG NƯỚC NUÔI THUỶ SẢN
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+Phân tích được một số hướng ứng dụng của công nghệ sinh học trong quản lí môi trường nước nuôi thuỷ sản.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm về các ứng dụng công nghệ sinh học trong quản lí môi trường nước nuôi thuỷ sản.
+2. Phẩm chất
+Có ý thức tìm hiểu về các ứng dụng công nghệ sinh học trong quản lí môi trường nước nuôi thuỷ sản để vận dụng vào thực tiễn sản xuất thuỷ sản của gia đình, địa phương.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh làm sạch môi trường nước nuôi thuỷ sản.
+– Quản lí chất lượng nước nuôi thuỷ sản bằng công nghệ Biofloc.
+Bài học này có các nội dung cơ bản, hấp dẫn và quen thuộc với HS lớp 12 khi các em đã được học các nội dung liên quan đến ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh làm sạch môi trường trong các lĩnh vực chăn nuôi, trồng trọt và thuỷ sản. Đặc biệt, các em cũng đã có kiến thức từ thực tiễn về môi trường nước nuôi thuỷ sản, mặt khác chế phẩm vi sinh quản lí môi trường nước nuôi thuỷ sản được ứng dụng rất phổ biến. Vì vậy, trong quá trình dạy học, GV cần sử dụng các phương pháp thích hợp để giúp HS phát huy được tốt nhất vốn kiến thức thực tiễn đã có, tích cực tìm hiểu các nội dung liên quan bài học.
+Tuy nhiên, bài học có công nghệ Biofloc khá mới với HS, do vậy, GV có thể đồng thời tìm hiểu quy trình, cơ chế hoạt động, lợi ích của công nghệ Biofloc (hoặc cho HS tìm hiểu trước) để giải thích, cho các ví dụ minh hoạ và liên hệ ứng dụng công nghệ sinh học trong quản lí nước nuôi thuỷ sản tại địa phương giúp cho giờ học được nhẹ nhàng, sinh động và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến các chế phẩm vi sinh có khả năng xử lí môi trường, hình ảnh về biofloc và hệ thống Biofloc.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và sưu tầm các ảnh liên quan đến các chế phẩm vi sinh bổ sung để làm sạch môi trường nước nuôi thuỷ sản và quản lí nước nuôi thuỷ sản bằng công nghệ Biofloc.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh, đồng thời dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video hoặc câu hỏi về ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh để giúp HS nhớ lại những kiến thức, kinh nghiệm đã có liên quan đến nội dung bài học.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những nội dung mới trong bài học để dẫn dắt HS mong muốn tìm hiểu nội dung mới của bài (Thế nào là hạt biofloc? Công nghệ Biofloc là gì? Lợi ích của hệ thống nuôi áp dụng công nghệ Biofloc so với hệ thống nuôi truyền thống) để dẫn dắt HS tìm hiểu bài học mới.
+2. Hoạt động tìm hiểu về ứng dụng công nghệ sinh học trong sản xuất chế phẩm vi sinh làm sạch môi trường nước nuôi thuỷ sản
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được vai trò của chế phẩm vi sinh trong làm sạch môi trường nước nuôi thuỷ sản và cách sử dụng.
+Bên cạnh đó, HS trình bày được các bước sản xuất chế phẩm vi sinh làm sạch môi trường nước nuôi thuỷ sản.
+b) Sản phẩm
+HS ghi được vào vở vai trò của các chế phẩm vi sinh và các bước sản xuất chế phẩm vi sinh làm sạch môi trường nước nuôi thuỷ sản.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục I trong SGK, đặt các câu hỏi gợi ý liên quan đến vai trò và ý nghĩa chế phẩm vi sinh trong làm sạch nước nuôi thuỷ sản.
+– GV hướng dẫn HS nghiên cứu mục I trong SGK, yêu cầu HS nêu một số chủng vi sinh vật có lợi dùng để sản xuất chế phẩm vi sinh làm sạch môi trường nước nuôi thuỷ sản và cách sử dụng chế phẩm vi sinh.
+– GV hướng dẫn HS nghiên cứu Hình 9.2 trong SGK và đặt các câu hỏi gợi ý liên quan đến các bước sản xuất chế phẩm vi sinh làm sạch môi trường nước nuôi thuỷ sản.
+– GV có thể yêu cầu HS liên hệ thực tiễn về một số chế phẩm vi sinh được sử dụng làm sạch nước nuôi thuỷ sản ở gia đình và địa phương. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+3. Hoạt động tìm hiểu ứng dụng về quản lí chất lượng nước nuôi thuỷ sản bằng công nghệ Biofloc
+a) Mục tiêu
+Hoạt động này giúp HS trình bày được công nghệ Biofloc là gì, vai trò của hạt biofloc với hệ thống nuôi này, kể tên một số loài thuỷ sản có thể nuôi được bằng công nghệ Biofloc.
+b) Sản phẩm
+HS ghi được vào vở khái niệm về công nghệ Biofloc, thành phần hạt biofloc và vai trò của chúng, một số loài thuỷ sản có thể nuôi bằng công nghệ Biofloc.
+c) Nội dung và cách thức tiến hành
+– GV giải thích sự hình thành các chất hữu cơ được tạo ra trong hệ thống nuôi thuỷ sản (thức ăn thừa, chất thải từ thuỷ sản, sinh vật trong nước,…), các hình thức nuôi truyền thống thường phải loại bỏ những chất hữu cơ này bằng vi sinh, tẩy dọn ao sau mỗi vụ nuôi hoặc hút ra khỏi hệ thống nuôi định kì.
+– GV hướng dẫn HS nghiên cứu mục II trong SGK và đặt các câu hỏi gợi ý liên quan đến công nghệ Biofloc, hạt biofloc và tại sao có thể quản lí chất lượng nước thông qua công nghệ Biofloc.
+– GV hướng dẫn HS nghiên cứu Hình 9.3 và trình bày nguyên lí hoạt động của hệ thống Biofloc.
+– GV có thể đặt các câu hỏi cho HS: Thế nào là hạt biofloc? Từ đó phân tích các ưu điểm của hệ thống sử dụng công nghệ Biofloc so với hệ thống nuôi truyền thống.
+– GV có thể yêu cầu HS liên hệ thực tiễn và đề xuất một loài nuôi có thể sử dụng công nghệ Biofloc để áp dụng.
+V. LUYỆN TẬP
+1. Phân tích ý nghĩa của việc sử dụng chế phẩm vi sinh xử lí nước trong nuôi thuỷ sản. Liên hệ với thực tiễn nuôi thuỷ sản ở địa phương em.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong mục I để phân tích ý nghĩa của việc sử dụng chế phẩm vi sinh trong làm sạch nước nuôi thuỷ sản và liên hệ với thực tiễn địa phương.
+2. Phân tích vai trò của công nghệ Biofloc trong nuôi thuỷ sản.
+Gợi ý trả lời:
+GV hướng dẫn HS sử dụng thông tin trong mục II để phân tích vai trò của công nghệ Biofloc trong nuôi thuỷ sản.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức của bài học vào thực tiễn để đề xuất một số loại chế phẩm vi sinh phù hợp để xử lí môi trường nước nuôi một loại động vật thuỷ sản phổ biến ở địa phương.
+– Sản phẩm: Bản đề xuất của HS về một số loại chế phẩm vi sinh phù hợp để xử lí môi trường nước nuôi một loại động vật thuỷ sản phổ biến ở địa phương.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà quan sát hoạt động nuôi thuỷ sản ở địa phương, phân tích một số hạn chế hoặc điểm chưa hợp lí trong quản lí nước nuôi thuỷ sản và đề xuất một số loại chế phẩm vi sinh phù hợp để xử lí môi trường nước nuôi một loài động vật thuỷ sản phổ biến ở địa phương. Nộp lại sản phẩm cho GV ở buổi học tiếp theo.
+VII. THÔNG TIN BỔ SUNG
+Cá, tôm sử dụng rất lớn lượng thức ăn thuỷ sản, tuy nhiên khoảng 70% – 80% thức ăn và sản phẩm tiêu hoá được thải vào môi trường nước nuôi hoặc đáy ao, làm cho môi trường nước tích luỹ rất nhiều chất hữu cơ, từ đó tạo ra nhiều khí độc làm ảnh hưởng đến tăng trưởng và sức khoẻ của thuỷ sản. Để hạn chế những tác hại đó, có nhiều phương pháp làm sạch nước như sử dụng vi sinh vật để phân huỷ chất hữu cơ, loại bỏ khí độc, hút đáy ao, cải tạo ao định kì sau mỗi vụ nuôi. Tuy nhiên, nguồn chất hữu cơ này có giá trị rất lớn về mặt dinh dưỡng và kinh tế, do vậy nếu biết tái sử dụng bằng công nghệ Biofloc sẽ trở thành nguồn thức ăn cho thuỷ sản hoặc có thể thu hồi để làm nguồn phân hữu cơ phục vụ trồng trọt.
+CHUYÊN ĐỀ 3. NUÔI CÁ CẢNH
+I. MỤC TIÊU CHUNG CỦA CHUYÊN ĐỀ
+– Trình bày được đặc điểm sinh vật học và yêu cầu ngoại cảnh của một số loài cá cảnh phổ biến.
+– Lựa chọn được thức ăn phù hợp cho một số loài cá cảnh phổ biến.
+– Mô tả được quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh phổ biến.
+– Thực hiện được một số công việc trong nuôi và chăm sóc cá cảnh.
+– Yêu thích công việc nuôi và chăm sóc cá cảnh, có ý thức về an toàn lao động và bảo vệ môi trường.
+II. NỘI DUNG
+Nội dung của chuyên đề 3 được cấu trúc thành bốn bài học gồm:
+Bài 10. Giới thiệu chung về cá cảnh
+Bài 11. Nuôi dưỡng và chăm sóc cá cảnh nước ngọt
+Bài 12. Nuôi dưỡng và chăm sóc cá cảnh nước mặn
+Bài 13. Dự án: Nuôi cá cảnh
+III. MỘT SỐ VẤN ĐỀ CẦN LƯU Ý
+Nuôi cá cảnh là hoạt động khá phổ biến, gần gũi với HS lớp 12. Nhiều HS đã có những hiểu biết, kinh nghiệm nhất định về nuôi dưỡng và chăm sóc cá cảnh thông qua các hoạt động thực tiễn ở gia đình, địa phương. Ngoài ra, một số kiến thức, kĩ năng đại cương về nuôi dưỡng và chăm sóc động vật thuỷ sản các em đã được học ở môn Công nghệ lớp 7 và môn Công nghệ lớp 12. Vì vậy, trong quá trình dạy học, GV cần linh hoạt, gợi mở để HS có cơ hội thể hiện, chia sẻ những hiểu biết, kinh nghiệm liên quan đến nội dung của bài học, qua đó tạo hứng thú học tập cho HS.
+Bên cạnh đó, mỗi loài cá cảnh lại có những yêu cầu riêng về điều kiện sống và kĩ thuật chăm sóc. Vì vậy, GV cần chú ý nhấn mạnh những đặc điểm cần lưu ý liên quan đến kĩ thuật nuôi dưỡng và chăm sóc từng loài cá cảnh khác nhau.
+BÀI 10. GIỚI THIỆU CHUNG VỀ CÁ CẢNH
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+Trình bày được đặc điểm sinh vật học và yêu cầu ngoại cảnh của một số loài cá cảnh phổ biến.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm về đặc điểm sinh vật học (màu sắc, hình dạng,…) và yêu cầu ngoại cảnh của một số loài cá cảnh phổ biến.
+2. Phẩm chất
+Có ý thức tìm hiểu, vận dụng kiến thức về đặc điểm sinh vật học và yêu cầu ngoại cảnh của các loài cá cảnh để ứng dụng trong chăm sóc, nuôi dưỡng và trưng bày cá cảnh.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Khái niệm về cá cảnh.
+– Một số đặc điểm sinh vật học của cá cảnh.
+– Một số yêu cầu ngoại cảnh của cá cảnh.
+Bài học này có khá nhiều nội dung quen thuộc, gần gũi với HS lớp 12. Các em đã được làm quen với các loài cá, các yếu tố ngoại cảnh trong nuôi trồng thuỷ sản ở Công nghệ lớp 7, Công nghệ lớp 12 và trong cuộc sống hằng ngày. Đặc biệt, đối với HS nông thôn, các em đã thường xuyên tiếp xúc với các loại cá khi tham gia lao động, sản xuất ở gia đình, địa phương. Vì vậy, trong quá trình dạy học, GV cần sử dụng các phương pháp thích hợp để giúp HS phát huy được tốt nhất vốn kiến thức đã có liên quan đến nội dung bài học, giúp cho giờ học được nhẹ nhàng, sinh động và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến các loài cá cảnh, mối quan hệ giữa cá cảnh với các yếu tố môi trường nước để nuôi và chăm sóc cá cảnh.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và đọc trước tài liệu có liên quan đến các loài cá cảnh, đặc điểm sinh vật học và mối quan hệ giữa cá với các yếu tố môi trường nước nuôi cá cảnh.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý giúp HS nhận ra một số đặc điểm sinh vật học nổi bật của các loài cá được chọn làm cá cảnh. Bên cạnh đó, những tình huống mới liên quan đến nội dung bài học sẽ dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video hoặc câu hỏi về phân loại cá cảnh, đặc điểm sinh vật học của chúng để giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học. GV có thể sử dụng câu hỏi ở phần mở đầu trong SGK.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những nội dung mới trong bài học (yêu cầu ngoại cảnh của cá cảnh) để dẫn dắt HS mong muốn tìm hiểu nội dung bài học mới.
+2. Hoạt động tìm hiểu khái niệm về cá cảnh
+a) Mục tiêu
+Hoạt động này giúp HS nêu được khái niệm về cá cảnh, có đặc điểm gì khác với cá nuôi làm thực phẩm.
+b) Sản phẩm
+HS ghi được vào vở khái niệm về cá cảnh; cách để phân biệt cá cảnh khác với cá nuôi làm thực phẩm.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục I và Hình 10.2 trong SGK, nêu các câu hỏi gợi ý liên quan đến khái niệm về cá cảnh.
+– HS thực hiện nhiệm vụ theo yêu cầu của GV, thảo luận với các bạn để trả lời các câu hỏi của GV và nêu khái niệm về cá cảnh; phân biệt được cá cảnh với cá nuôi làm thực phẩm.
+– GV có thể yêu cầu HS liên hệ thực tiễn để kể tên một số loài cá cảnh hiện có ở địa phương.
+– GV có thể giới thiệu với HS một số hình ảnh, video về các loài cá cảnh có hình dạng, màu sắc, kích thước độc đáo để tạo hứng thú cho HS.
+3. Hoạt động tìm hiểu về một số đặc điểm sinh vật học của cá cảnh
+a) Mục tiêu
+Hoạt động này giúp HS nhận biết được các đặc điểm sinh vật học như đặc điểm màu sắc, hình dáng, kích thước của cá cảnh.
+b) Sản phẩm
+HS ghi được vào vở một số đặc điểm sinh vật học của cá cảnh (màu sắc, hình dạng, kích thước).
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục II.1, quan sát Hình 10.3 trong SGK và nêu các câu hỏi gợi ý liên quan đến màu sắc của các loài cá cảnh.
+– GV tổ chức cho HS thảo luận và phân tích các loại màu, vị trí màu, những yếu tố nào có thể tạo nên màu sắc hấp dẫn của cá cảnh.
+– GV có thể cho HS quan sát thêm các hình ảnh minh hoạ liên quan đến màu sắc của cá cảnh để làm cho bài học thêm sinh động, hấp dẫn.
+– GV có thể yêu cầu HS liên hệ với thực tiễn sản xuất ở gia đình và địa phương để lấy các ví dụ minh hoạ cho từng màu sắc của cá cảnh.
+– GV có thể giải thích thêm với HS về các đặc điểm sinh vật học quyết định đến giá trị của cá cảnh, tăng tính thẩm mĩ, tăng khả năng hấp dẫn người chơi cá cảnh. Ví dụ: Màu sắc cá cảnh liên quan đến phong thuỷ của gia chủ: “Kim – Mộc – Thuỷ – Hoả – Thổ tương ứng với màu Trắng – Xanh – Đen – Đỏ – Nâu” hay sự tương sinh, tương kị.
+– GV có thể tổ chức các hoạt động tương tự đối với các mục II.2 và II.3. Ngoài ra, đối với các mục II.2 và II.3, GV đặt thêm các câu hỏi gợi ý để HS có thể nêu ra các dấu hiệu nhận biết cá có hình dạng, kích cỡ dị thường khi cá cảnh bị bệnh như đốm trắng, lở loét, gầy, vẹo cột sống, rách vây ở cá cảnh. GV có thể yêu cầu HS liên hệ với thực tế sản xuất ở gia đình và địa phương để nêu một số biện pháp khắc phục khi cá bị bệnh.
+– GV có thể yêu cầu HS liên hệ thực tiễn để kể tên các loài cá cảnh có màu sắc, hình dáng, kích thước khác lạ hiện có ở gia đình, địa phương hoặc trên báo, đài, internet,… mà HS biết; nêu đặc điểm sinh vật học. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+4. Hoạt động tìm hiểu về một số yêu cầu ngoại cảnh của cá cảnh
+a) Mục tiêu
+Hoạt động này giúp HS nhận biết được yêu cầu ngoại cảnh như nguồn nước, nhiệt độ, ánh sáng, hàm lượng oxygen hoà tan đối với cá cảnh để vận dụng vào nuôi dưỡng và chăm sóc cá cảnh.
+b) Sản phẩm
+HS ghi được vào vở các yêu cầu ngoại cảnh của cá cảnh (nguồn nước, nhiệt độ, ánh sáng, hàm lượng oxygen hoà tan).
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục III trong SGK và nêu các câu hỏi gợi ý liên quan đến nguồn nước, khoảng nhiệt độ thích hợp để điều chỉnh khi thời tiết thay đổi, biện pháp điều chỉnh nhiệt độ, ảnh hưởng của nhiệt độ không thích hợp đến cá cảnh; nguồn ánh sáng, các loại đèn trang trí trong bể cá cảnh, màu của ánh sáng phải phù hợp với đặc tính của từng loài cá cảnh; yêu cầu về hàm lượng oxygen hoà tan đối với cá cảnh, ảnh hưởng của hàm lượng oxygen hoà tan không thích hợp với cá cảnh, biểu hiện của cá cảnh bị thiếu, thừa oxygen hoà tan và cách khắc phục.
+– GV tổ chức cho HS thảo luận và phân tích về mối quan hệ của các yếu tố như nguồn nước, khoảng nhiệt độ, nguồn ánh sáng, loại đèn trang trí, hàm lượng oxygen hoà tan đối với cá cảnh.
+– GV có thể cho HS quan sát thêm các hình ảnh minh hoạ liên quan đến ảnh hưởng của nhiệt độ (quá cao, quá thấp), hàm lượng oxygen hoà tan (thiếu oxygen hoà tan khi nuôi với mật độ dày hoặc khi tắt máy sục khí) đến hoạt động sống của cá cảnh để làm cho bài học thêm sinh động, hấp dẫn.
+– GV có thể yêu cầu HS liên hệ với thực tiễn sản xuất ở gia đình và địa phương để lấy các ví dụ minh hoạ cho từng mục (nguồn nước, mùa nuôi cá trong năm, các loại đèn trang trí bể cá cảnh, nguồn cung cấp oxygen hoà tan trong bể nuôi cá cảnh).
+– GV có thể đặt thêm các câu hỏi gợi ý để HS nêu ra các dấu hiệu nhận biết cá có biểu hiện bất thường khi nguồn nước không thích hợp hay nguồn nước bị ô nhiễm, cá bị shock nhiệt, thiếu oxygen hoà tan hay ánh sáng quá chói. GV có thể yêu cầu HS liên hệ với thực tế sản xuất ở gia đình và địa phương để nêu một số biện pháp khắc phục khi các yêu cầu ngoại cảnh không thích hợp.
+V. LUYỆN TẬP
+1. Có những loài cá cảnh nào ở địa phương mà em biết?
+Gợi ý trả lời:
+Tìm hiểu thực tiễn các loài cá cảnh đang được nuôi ở gia đình, địa phương để trả lời câu hỏi.
+2. Trình bày các đặc điểm sinh vật học của cá cảnh. Cho ví dụ minh hoạ.
+Gợi ý trả lời:
+Sử dụng thông tin trong mục II SGK, kết hợp với thực tiễn ở địa phương để trả lời câu hỏi.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức đã học để mô tả và chia sẻ với các bạn về đặc điểm sinh vật học của một loài cá cảnh mà bản thân thích.
+– Sản phẩm: Bài mô tả của HS (mô tả bằng lời nói hoặc tranh ảnh kết hợp phụ đề hoặc mô tả).
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS hoạt động cặp đôi, mô tả với bạn đặc điểm sinh vật học của một loài cá cảnh mà các em yêu thích (khuyến khích HS sử dụng hình ảnh, video để minh hoạ).
+BÀI 11. NUÔI DƯỠNG VÀ CHĂM SÓC CÁ CẢNH NƯỚC NGỌT
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+– Mô tả được quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh nước ngọt phổ biến.
+– Lựa chọn được thức ăn phù hợp cho một số loài cá cảnh nước ngọt phổ biến.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm về loại, lượng thức ăn sử dụng, quản lí môi trường nước nuôi, cách nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh nước ngọt phổ biến.
+2. Phẩm chất
+Có ý thức tìm hiểu về mối quan hệ giữa cá cảnh nước ngọt và các yếu tố chính trong nuôi cá cảnh để ứng dụng trong chăm sóc, nuôi dưỡng cá cảnh.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Nuôi dưỡng và chăm sóc cá cảnh nước ngọt trong bể.
+– Nuôi dưỡng và chăm sóc cá koi trong hồ.
+Nuôi cá cảnh nước ngọt trong bể và trong hồ về cơ bản tương đối giống nhau. Bên cạnh đó, cũng có một số điểm khác để phù hợp với điều kiện trong bể và trong hồ. Trong quá trình tổ chức dạy học, GV cần lưu ý những điểm khác giữa nuôi cá cảnh trong bể và nuôi cá cảnh trong hồ để HS hiểu và vận dụng phù hợp.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến các loài cá cảnh nước ngọt, mối quan hệ giữa cá cảnh với các yếu tố môi trường nước chính trong nuôi và chăm sóc cá cảnh, các mô hình nuôi cá cảnh trong bể, trong hồ.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và đọc trước tài liệu có liên quan đến các công việc cần chuẩn bị trước, trong khi nuôi cá cảnh nước ngọt trong bể, cá koi trong hồ. Đặc biệt cần lưu ý đến các dấu hiệu bất thường của cá cảnh khi chăm sóc, cách phòng và xử lí bệnh cho cá cảnh.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về việc chuẩn bị trước khi nuôi cá cảnh như chuẩn bị bể, hồ, chuẩn bị dụng cụ đi kèm, chuẩn bị thức ăn, cá giống, chăm sóc, nuôi dưỡng, nhận biết dấu hiệu bất thường trong quá trình nuôi dưỡng và chăm sóc cá cảnh. Bên cạnh đó, những tình huống mới liên quan đến nội dung bài học sẽ dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video, câu hỏi về nuôi cá cảnh nước ngọt trong bể, trong hồ để giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học. GV có thể sử dụng câu hỏi ở phần mở đầu trong SGK.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những nội dung mới trong bài học (nuôi cá cảnh trong bể và trong hồ có những điểm gì giống và khác nhau) để dẫn dắt HS mong muốn tìm hiểu nội dung bài học mới.
+2. Hoạt động tìm hiểu về nuôi dưỡng và chăm sóc cá cảnh nước ngọt trong bể
+a) Mục tiêu
+Hoạt động này giúp HS mô tả được quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh nước ngọt phổ biến nuôi trong bể, đồng thời lựa chọn được loại thức ăn phù hợp cho một số loài cá cảnh nước ngọt nuôi trong bể.
+b) Sản phẩm
+HS ghi được vào vở quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho cá cảnh nước ngọt nuôi trong bể.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục I, Hình 11.2 và Hình 11.3 trong SGK, đặt các câu hỏi gợi ý liên quan đến công tác chuẩn bị khi nuôi cá cảnh nước ngọt trong bể.
+– HS nghiên cứu nội dung mục I, Hình 11.2 và Hình 11.3 trong SGK, thảo luận với các bạn để trả lời các câu hỏi của GV về các công tác chuẩn bị nuôi cá cảnh nước ngọt trong bể; loại, lượng thức ăn, cách cho cá ăn, thay nước, vệ sinh bể, vệ sinh dụng cụ, quan sát để nhận biết dấu hiệu cá bị bệnh đốm trắng, nấm thuỷ mi.
+– GV có thể yêu cầu HS liên hệ thực tiễn để kể tên một số loài cá cảnh, một số loại bể, một số dụng cụ trang trí bể (đèn, cây thuỷ sinh,…) hiện có mà HS biết.
+– GV có thể yêu cầu HS liên hệ thực tiễn để hiểu được công tác chuẩn bị trước khi nuôi có ý nghĩa như thế nào (chuẩn bị bể, chuẩn bị nguồn nước, chuẩn bị dụng cụ như máy sục khí, lọc nước, chuẩn bị thức ăn, chuẩn bị cá cảnh và thả cá). Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+– Đối với nội dung nuôi dưỡng, chăm sóc cá cảnh nước ngọt trong bể trên thực tế cần phân biệt được với nuôi dưỡng, chăm sóc cá cảnh nước mặn và hệ thống nuôi khác như ao, hồ. Đây chính là điểm nhấn GV cần cung cấp thông tin cho HS.
+– GV có thể giới thiệu với HS một số hình ảnh, video về các loài cá cảnh nước ngọt, các loại bể, cách trang trí, lắp đặt, vận hành, chăm sóc cá cảnh trong bể như cọ rửa, vệ sinh bể, cho cá ăn, thay nước, điều chỉnh máy sục khí, điều chỉnh đèn chiếu sáng, bắt, vớt cá cảnh.
+3. Hoạt động tìm hiểu về nuôi dưỡng và chăm sóc cá koi trong hồ
+a) Mục tiêu
+Hoạt động này giúp HS mô tả được quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho cá koi nuôi trong hồ.
+b) Sản phẩm
+HS ghi được vào vở quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho cá koi nuôi trong hồ.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục II, quan sát từ Hình 11.4 đến Hình 11.6 trong SGK và nêu các câu hỏi gợi ý liên quan đến việc chuẩn bị, nuôi dưỡng cá koi trong hồ.
+– GV tổ chức cho HS thảo luận và phân tích các loại hồ nuôi (kích thước, hình dạng, cảnh quan), công tác chuẩn bị hồ nuôi, cách lắp đặt thiết bị hỗ trợ (máy cung cấp oxygen hoà tan, máy bơm, máy lọc,…), công tác chuẩn bị cá koi, các loại màu của cá koi, hình dáng, nguồn cá, những yếu tố nào có thể tạo nên màu sắc hấp dẫn khi nuôi dưỡng cá koi: giống, thức ăn, môi trường nước, các chất bổ sung,…; các loại thức ăn cho cá koi (màu, cỡ viên, hàm lượng đạm), thao tác thay nước, vệ sinh hồ; quan sát các dấu hiệu bất thường trên cá koi khi nuôi dưỡng.
+– GV có thể cho HS quan sát thêm các hình ảnh minh hoạ liên quan đến hoạt động nuôi dưỡng, chăm sóc cá koi để làm cho bài học thêm sinh động, hấp dẫn.
+– GV có thể yêu cầu HS liên hệ với thực tiễn sản xuất ở gia đình và địa phương để lấy các ví dụ minh hoạ cho từng công đoạn trong quy trình chăm sóc, nuôi dưỡng cá koi trong hồ.
+– GV có thể đặt thêm các câu hỏi gợi ý trong mục II.4 để HS nhận biết nguyên nhân gây bệnh, nêu ra các dấu hiệu cá koi bị bệnh do ngoại kí sinh trùng gây bệnh (rận, đỉa, trùng mỏ neo,…), bệnh KHV. GV có thể yêu cầu HS liên hệ với thực tế chăm sóc, nuôi dưỡng cá koi ở gia đình và địa phương để nêu một số biện pháp khắc phục khi cá bị bệnh.
+V. LUYỆN TẬP
+1. Mô tả quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh nước ngọt nuôi bể.
+Gợi ý trả lời:
+Sử dụng các thông tin trong mục I của SGK để trả lời câu hỏi.
+2. Mô tả quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho cá koi nuôi trong hồ.
+Gợi ý trả lời:
+Sử dụng các thông tin trong mục II của SGK để trả lời câu hỏi.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức đã học để đề xuất một số loại thức ăn nuôi cá cảnh nước ngọt phù hợp với thực tiễn địa phương.
+– Sản phẩm: Danh sách các loại thức ăn cho cá cảnh nước ngọt do HS đề xuất phù hợp với thực tiễn địa phương
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà tìm hiểu thực tiễn nuôi cá cảnh nước ngọt ở địa phương, đề xuất loại thức ăn phù hợp với các loại cá cảnh nước ngọt đang được nuôi phổ biến ở địa phương. Nộp lại sản phẩm cho GV vào buổi học tiếp theo.
+BÀI 12. NUÔI DƯỠNG VÀ CHĂM SÓC CÁ CẢNH NƯỚC MẶN
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+– Mô tả được quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh nước mặn phổ biến.
+– Lựa chọn được thức ăn phù hợp cho một số loài cá cảnh nước mặn phổ biến.
+b) Năng lực chung
+Lựa chọn được nguồn tài liệu phù hợp để tìm hiểu thêm về loại, lượng thức ăn sử dụng, quản lí môi trường nước nuôi, cách nuôi dưỡng, chăm sóc, phòng, trị bệnh cho các loài cá cảnh nước mặn phổ biến.
+2. Phẩm chất
+Có ý thức tìm hiểu về mối quan hệ giữa cá cảnh nước mặn và các yếu tố chính trong nuôi cá cảnh để ứng dụng trong chăm sóc, nuôi dưỡng và trưng bày cá cảnh.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Chuẩn bị bể nuôi.
+– Lựa chọn và thả cá.
+– Chăm sóc và nuôi dưỡng cá cảnh nước mặn.
+– Một số bệnh thường gặp ở cá cảnh nước mặn và cách xử lí.
+Bài học này có các nội dung cơ bản, hấp dẫn, gần gũi với HS lớp 12. Các em đã được học về nuôi dưỡng và chăm sóc cá cảnh nước ngọt. Đặc biệt, đối với HS nông thôn, các em đã thường xuyên tiếp xúc với các loại cá khi tham gia lao động, sản xuất ở gia đình. Vì vậy, trong quá trình dạy học, GV cần sử dụng các phương pháp thích hợp để giúp HS phát huy được tốt nhất vốn kiến thức đã có liên quan đến nội dung bài học, giúp cho giờ học được nhẹ nhàng, sinh động và hiệu quả.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+Tranh ảnh, video liên quan đến quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh nước mặn phổ biến.
+2. Chuẩn bị của học sinh
+Đọc trước bài học trong SGK; tìm kiếm và đọc trước tài liệu có liên quan đến quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho một số loài cá cảnh nước mặn phổ biến.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động mở đầu
+a) Mục tiêu
+Thông qua các hình ảnh, video và các câu hỏi gợi ý giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho cá cảnh. Bên cạnh đó, những tình huống mới liên quan đến nội dung bài học (những vấn đề đặc trưng của cá cảnh nước mặn) sẽ dẫn dắt HS mong muốn tìm hiểu bài học mới.
+b) Nội dung và cách thức tiến hành
+– GV sử dụng một số hình ảnh, video hoặc câu hỏi về quy trình nuôi dưỡng, chăm sóc, phòng, trị bệnh cho cá cảnh giúp HS nhớ lại những kiến thức, kinh nghiệm đã có về những vấn đề liên quan đến nội dung bài học.
+– GV sử dụng những hình ảnh, video, câu hỏi liên quan đến những vấn đề đặc trưng của cá cảnh nước mặn để dẫn dắt HS mong muốn tìm hiểu nội dung bài học mới.
+2. Hoạt động tìm hiểu về chuẩn bị bể nuôi cá cảnh nước mặn
+a) Mục tiêu
+Hoạt động này giúp HS mô tả được việc chuẩn bị bể nuôi cá cảnh nước mặn, nêu được những điểm cần lưu ý khi chuẩn bị bể nuôi cá cảnh nước mặn.
+b) Sản phẩm
+HS ghi được vào vở việc chuẩn bị bể nuôi cá cảnh nước mặn, những điểm cần lưu ý khi chuẩn bị bể nuôi cá cảnh nước mặn.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục I, Hình 12.2 trong SGK và đặt các câu hỏi gợi ý liên quan đến việc chuẩn bị bể nuôi cá cảnh nước mặn.
+– HS nghiên cứu nội dung mục I, Hình 12.2 trong SGK, thảo luận với các bạn để trả lời các câu hỏi của GV về việc chuẩn bị bể nuôi cá cảnh nước mặn.
+– GV có thể yêu cầu HS liên hệ thực tiễn để kể tên một số loại bể, một số dụng cụ trang trí bể cá cảnh nước mặn (đèn, cây thuỷ sinh,…) mà HS biết.
+– GV có thể yêu cầu HS liên hệ thực tiễn để hiểu được việc chuẩn bị bể trước khi nuôi có ý nghĩa như thế nào (công tác chuẩn bị bể, chuẩn bị nguồn nước, chuẩn bị dụng cụ như máy sục khí, lọc nước, lắp đặt đèn trang trí trong bể,…). Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+– GV có thể giới thiệu với HS một số hình ảnh, video về các loại bể, cách trang trí trong các bể nuôi cá cảnh nước mặn.
+3. Hoạt động tìm hiểu về lựa chọn và thả cá
+a) Mục tiêu
+Hoạt động này giúp HS nêu được cách lựa chọn cá, cách thả cá vào bể và tính được số lượng cá cảnh nước mặn cần thiết để thả vào các bể nuôi.
+b) Sản phẩm
+HS ghi được vào vở cách lựa chọn cá cảnh nước mặn, cách thả cá vào bể và cách tính số lượng cá thả phù hợp.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục II, Hình 12.3 trong SGK và đặt các câu hỏi gợi ý liên quan đến việc lựa chọn và thả cá cảnh nước mặn.
+– HS nghiên cứu nội dung mục II, Hình 12.3 trong SGK, thảo luận với các bạn để trả lời các câu hỏi của GV về việc chuẩn bị cá cảnh nước mặn và thả cá.
+– GV có thể yêu cầu HS liên hệ thực tiễn để kể tên một số loài cá cảnh nước mặn được nuôi ở địa phương hoặc các em biết.
+– GV có thể giới thiệu với HS một số hình ảnh, video về các loại cá cảnh nước mặn, cách chọn cá, vận chuyển và thả cá cảnh vào bể.
+4. Hoạt động tìm hiểu về chăm sóc và nuôi dưỡng cá cảnh nước mặn
+a) Mục tiêu
+Hoạt động này giúp HS mô tả được các hoạt động chăm sóc và nuôi dưỡng cá cảnh nước mặn (lựa chọn thức ăn, cách cho cá ăn, cách vệ sinh bể, thay nước,…).
+b) Sản phẩm
+HS ghi được vào vở một số thông số môi trường như nhiệt độ, pH, hàm lượng oxygen hoà tan và đặc biệt là độ mặn; các loại thức ăn, chuẩn bị thức ăn, số lần cho ăn, cách cho cá ăn; cách thay nước, lượng nước cần thay/ngày và cách vệ sinh bể để tránh gây stress cho cá nuôi.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục III, Hình 12.4 trong SGK và đặt các câu hỏi gợi ý liên quan đến công tác chăm sóc và nuôi dưỡng cá cảnh nước mặn trong bể.
+– HS nghiên cứu nội dung mục III, Hình 12.4 trong SGK, thảo luận với các bạn để trả lời các câu hỏi của GV về việc chăm sóc và nuôi dưỡng cá cảnh nước mặn.
+– GV có thể yêu cầu HS liên hệ thực tiễn việc cho cá ăn, thay nước, vệ sinh bể, nguồn nước cung cấp cho việc nuôi cá cảnh nước mặn. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+– Đối với nội dung nuôi dưỡng, chăm sóc cá cảnh nước mặn trong bể, trên thực tế cần phân biệt được với nuôi dưỡng, chăm sóc cá cảnh nước ngọt và hệ thống nuôi khác như ao, hồ. Đây chính là điểm nhấn GV cần cung cấp thông tin cho HS.
+– GV có thể giới thiệu với HS một số hình ảnh, video về chăm sóc và nuôi dưỡng cá cảnh nước mặn trong bể như cho cá ăn, thay nước, điều chỉnh máy sục khí, điều chỉnh đèn chiếu sáng, bắt, vớt cá cảnh.
+5. Hoạt động tìm hiểu về một số bệnh thường gặp ở cá cảnh nước mặn và cách xử lí
+a) Mục tiêu
+Hoạt động này giúp HS kể được tên một số loại bệnh phổ biến trên cá cảnh nước mặn; mô tả được biểu hiện của cá cảnh nước mặn bị bệnh thông qua dấu hiệu bất thường trên cơ thể, khả năng bắt mồi; mô tả được biện pháp phòng và trị bệnh cho cá cảnh nước mặn.
+b) Sản phẩm
+HS ghi được vào vở tên một số loại bệnh phổ biến trên cá cảnh nước mặn; biểu hiện của cá cảnh nước mặn bị bệnh (cá bơi lờ đờ, màu sắc thay đổi, xuất hiện các chấm trắng trên cơ thể, tiết nhiều nhớt, cá ngáp,…); biện pháp phòng và trị bệnh cho cá cảnh nước mặn.
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn HS nghiên cứu mục IV, Hình 12.5 trong SGK, đặt các câu hỏi gợi ý liên quan đến dấu hiệu bất thường của cá cảnh nước mặn trong bể và biện pháp phòng, trị.
+– HS nghiên cứu nội dung mục IV, Hình 12.5 trong SGK, thảo luận với các bạn để trả lời các câu hỏi của GV về các dấu hiệu của cá cảnh nước mặn bị bệnh, biện pháp phòng và trị bệnh cho cá cảnh nước mặn trong bể.
+– GV có thể yêu cầu HS liên hệ thực tiễn để nêu thêm cách phòng và trị bệnh cho cá cảnh nước mặn. Thông qua đó giúp HS nâng cao khả năng liên hệ thực tiễn, đồng thời mở rộng và hiểu sâu hơn về nội dung bài học.
+– GV có thể giới thiệu với HS một số hình ảnh, video về bệnh của cá cảnh nước mặn, cách phòng và xử lí bệnh cho cá cảnh nước mặn.
+V. LUYỆN TẬP
+GV hướng dẫn HS sử dụng thông tin trong SGK để trả lời câu hỏi. Nên chia câu hỏi thành các mục nhỏ theo dàn ý trong SGK.
+VI. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức đã học để thực hiện một số công việc nuôi dưỡng, chăm sóc cá cảnh nước mặn phù hợp với thực tiễn của gia đình, địa phương.
+– Sản phẩm: Hình ảnh hoặc video HS thực hiện nuôi dưỡng, chăm sóc cá cảnh nước mặn.
+– Nội dung và cách thức tiến hành: GV hướng dẫn HS về nhà tìm hiểu và thực hiện một số công việc nuôi dưỡng, chăm sóc cá cảnh nước mặn phù hợp với thực tiễn. Chụp ảnh hoặc quay video, nộp lại cho GV vào buổi học tiếp theo.
+BÀI 13. DỰ ÁN: NUÔI CÁ CẢNH
+I. MỤC TIÊU BÀI HỌC
+1. Năng lực
+a) Năng lực công nghệ
+– Thực hiện được một số công việc trong nuôi dưỡng và chăm sóc cá cảnh.
+– Yêu thích công việc nuôi và chăm sóc cá cảnh, có ý thức về an toàn lao động và bảo vệ môi trường.
+b) Năng lực chung
+– Thu thập được các thông tin cần thiết cho việc lựa chọn loài cá cảnh và các dụng cụ, thiết bị phù hợp với thực tiễn nhà trường, địa phương.
+– Lập kế hoạch, dự tính chi phí của dự án. Hợp tác hiệu quả với các bạn trong nhóm và tuân thủ các quy định trong quá trình thực hiện dự án.
+– Có khả năng phát hiện và giải quyết hiệu quả các vấn đề phát sinh trong quá trình thực hiện dự án.
+2. Phẩm chất
+– Có ý thức đảm bảo an toàn lao động và vệ sinh môi trường trong quá trình thực hiện dự án.
+– Kiên trì, tỉ mỉ, chính xác, trung thực và có ý thức tiết kiệm trong thực hiện dự án.
+II. CẤU TRÚC VÀ NỘI DUNG
+Bài học được xây dựng với mạch nội dung chính bao gồm các học liệu về:
+– Nhiệm vụ.
+– Tiến trình thực hiện:
++ Lập kế hoạch và dự tính chi phí.
++ Thực hành nuôi dưỡng và chăm sóc cá cảnh.
+Để dự án đạt được mục tiêu đề ra và có hiệu quả cao trong giáo dục, trước khi giao nhiệm vụ cho HS thực hiện dự án, GV cần phổ biến để HS hiểu đầy đủ mục đích, yêu cầu và ý nghĩa của dự án. Ngoài ra, để dự án được thuận lợi và có tính khả thi cao, GV cần chú ý hướng dẫn HS lựa chọn đối tượng cá cảnh, quy mô dự án phù hợp với điều kiện thực tiễn của nhà trường, địa phương.
+III. PHƯƠNG TIỆN DẠY HỌC
+1. Chuẩn bị của giáo viên
+– Tranh ảnh, video liên quan đến các loài cá cảnh, các loại bể, các thiết bị đi kèm, các loại thức ăn, giá cả của các mặt hàng để HS tham khảo.
+– Chuẩn bị phiếu học tập theo mẫu trong SGK hoặc thiết kế phiếu học tập mới phù hợp với thực tiễn của nhà trường, địa phương.
+2. Chuẩn bị của học sinh
+– Đọc trước bài học trong SGK; tìm kiếm và đọc trước các tài liệu có liên quan đến kĩ thuật nuôi cá cảnh.
+– Chuẩn bị nguyên vật liệu, dụng cụ cần thiết theo sự phân công của nhóm trưởng hoặc GV.
+IV. GỢI Ý TỔ CHỨC CÁC HOẠT ĐỘNG DẠY HỌC
+1. Hoạt động giới thiệu dự án
+a) Mục tiêu
+Hoạt động này giúp HS hiểu được nhiệm vụ của nhóm và của bản thân trong dự án nuôi cá cảnh.
+b) Sản phẩm
+HS ghi được vào sổ tay cá nhân nhiệm vụ (những công việc cần làm) của nhóm và bản thân trong dự án nuôi cá cảnh.
+c) Nội dung và cách thức tiến hành
+– Trước khi giờ học diễn ra một tuần (hoặc vào buổi học trước), GV tiến hành giới thiệu dự án (nêu mục đích, ý nghĩa,…), phổ biến nhiệm vụ của các nhóm (nêu rõ sản phẩm mỗi nhóm cần đạt được, tiêu chí đánh giá), nêu những vấn đề cần lưu ý trong quá trình thực hiện dự án.
+– HS nhận nhiệm vụ từ GV, tổ chức phân công nhiệm vụ cho từng thành viên trong nhóm. Mỗi thành viên trong nhóm chủ động tìm hiểu các thông tin liên quan đến nhiệm vụ của bản thân.
+2. Hoạt động lập kế hoạch và dự tính chi phí
+a) Mục tiêu
+– Giúp HS thu thập được các thông tin liên quan đến dự án (thông tin về các loài cá cảnh; bể nuôi và thiết bị kèm theo; thức ăn và thuốc phòng, trị bệnh cho cá cảnh).
+– Lựa chọn loài cá cảnh, bể nuôi và thiết bị kèm theo phù hợp với sở thích và điều kiện thực tiễn.
+– Lập kế hoạch, tính toán được chi phí cho một dự án (ý tưởng sản xuất, kinh doanh) phù hợp với lứa tuổi.
+b) Sản phẩm
+Bản kế hoạch dự án nuôi cá cảnh của HS (nêu rõ ý tưởng, các thông tin đã thu thập được, lập luận để đưa ra các lựa chọn về loài cá cảnh, loại bể, thiết bị, cách tính toán chi phí,…).
+c) Nội dung và cách thức tiến hành
+– GV hướng dẫn các nhóm HS về nhà nghiên cứu và thực hiện nội dung ở mục II.1 trong SGK. GV cần giao nhiệm vụ cụ thể, hướng dẫn chi tiết cách thu thập thông tin, lựa chọn loài cá cảnh phù hợp và cách dự tính chi phí (có thể hướng dẫn HS dự tính chi phí theo mẫu bảng trong SGK hoặc thiết kế mẫu mới cho phù hợp với thực tiễn).
+– GV cần hướng dẫn HS phân chia nhiệm vụ cho các thành viên trong nhóm, lên kế hoạch cụ thể để HS thường xuyên báo cáo kết quả và những khó khăn, vướng mắc trong quá trình thực hiện, thông qua đó GV kịp thời nắm bắt và tư vấn, hỗ trợ các nhóm HS trong quá trình thực hiện nhiệm vụ.
+– HS thực hiện nhiệm vụ theo từng nội dung trong SGK (thu thập thông tin; lựa chọn loài cá, bể nuôi và thiết bị kèm theo; tính toán chi phí). Trong quá trình thực hiện cần thường xuyên báo cáo với GV tiến độ và những vấn đề gặp phải để nhận được sự tư vấn, hỗ trợ.
+– GV tổ chức cho các nhóm báo cáo kết quả trước lớp (có thể bằng hình thức PowerPoint hoặc poster,…), các nhóm thảo luận, góp ý, đặt câu hỏi để giúp kế hoạch được hoàn thiện tốt nhất và đảm bảo tính khả thi.
+– GV thảo luận và thống nhất với từng nhóm để chốt từng nội dung cụ thể trong bản kế hoạch.
+3. Hoạt động thực hành nuôi dưỡng và chăm sóc cá cảnh
+a) Mục tiêu
+Hoạt động này giúp HS thực hiện được việc nuôi dưỡng và chăm sóc cá cảnh phù hợp với năng lực và điều kiện của bản thân, phù hợp với thực tiễn của nhà trường, địa phương.
+b) Sản phẩm
+Bể cá cảnh do HS nuôi dưỡng, chăm sóc.
+c) Nội dung và cách thức tiến hành
+* Chuẩn bị:
+GV hướng dẫn và kiểm tra các nhóm HS chuẩn bị đầy đủ cá giống, bể nuôi, thức ăn và các thiết bị, dụng cụ khác cần cho bài thực hành; phổ biến nội quy thực hành và nhấn mạnh những vấn đề cần lưu ý trước, trong và sau quá trình thực hành.
+– Cá giống: Lựa chọn cá giống khoẻ mạnh, đúng chủng loại, số lượng cần nuôi.
+– Bể nuôi: Chuẩn bị bể và các thiết bị kèm theo phù hợp với không gian, sở thích và phù hợp với loài cá nuôi.
+– Thức ăn: Chuẩn bị thức ăn (chủng loại, lượng) phù hợp với loài cá nuôi.
+* Thực hành nuôi dưỡng và chăm sóc cá cảnh:
+– GV hướng dẫn, giải thích ý nghĩa của một số bước chính cần lưu ý trong quy trình nuôi dưỡng và chăm sóc cá cảnh. Thao tác mẫu một số bước khó cho HS quan sát (có thể sử dụng video cho HS xem để minh hoạ cho hướng dẫn của GV).
+– HS thực hành nuôi dưỡng và chăm sóc cá cảnh theo các bước trong SGK và hướng dẫn của GV. Chú ý đảm bảo an toàn lao động và vệ sinh môi trường trong quá trình thực hành.
+Lưu ý: Các nhóm có thể lựa chọn các loài cá cảnh khác nhau, số lượng cá nuôi khác nhau.
+* Giới thiệu sản phẩm và đánh giá kết quả thực hành:
+– GV tổ chức cho HS trưng bày, giới thiệu sản phẩm của nhóm; trình chiếu và thuyết minh các hình ảnh, video trong quá trình thực hiện dự án; chia sẻ ý tưởng và những bài học được rút ra từ quá trình thực hiện dự án.
+– HS tự đánh giá kết quả thực hành của nhóm mình và nhận xét, đánh giá kết quả thực hành của các nhóm khác theo các tiêu chí đã được nêu trong hoạt động giới thiệu dự án và theo hướng dẫn của GV. Có thể đánh giá theo mẫu phiếu sau:
+PHIẾU ĐÁNH GIÁ KẾT QUẢ THỰC HÀNH
+DỰ ÁN: NUÔI CÁ CẢNH
+Ngày      tháng      năm
+Lớp:          Nhóm thực hành:
+Thời gian thực hành:
+Địa điểm thực hành:
+GV hướng dẫn:
+| STT | Tiêu chí đánh giá | Tốt | Đạt | Chưa đạt | Ghi chú |
+| 1 | Sự chuẩn bị so với bản kế hoạch |  |  |  |  |
+| 2 | Sự phù hợp của bể nuôi, thiết bị hỗ trợ, thức ăn và loài cá nuôi |  |  |  |  |
+| 3 | Kĩ thuật nuôi dưỡng và chăm sóc |  |  |  |  |
+| 4 | Tỉ lệ cá sống |  |  |  |  |
+| 5 | Mức độ khoẻ mạnh của cá |  |  |  |  |
+| 6 | An toàn lao động và vệ sinh môi trường |  |  |  |  |
+– GV nhận xét và đánh giá kết quả thực hành của các nhóm, công bố kết quả trước lớp.
+V. VẬN DỤNG
+– Mục tiêu: Hoạt động này giúp HS vận dụng kiến thức, kĩ năng nuôi cá cảnh vào thực tiễn ở gia đình, địa phương.
+– Sản phẩm: Hình ảnh, video hoạt động nuôi dưỡng, chăm sóc cá cảnh của HS.
+– Nội dung và cách thức tiến hành:
++ GV hướng dẫn HS về nhà vận dụng kiến thức, kĩ năng đã học để thực hiện việc nuôi dưỡng và chăm sóc một hoặc một số loài cá cảnh phù hợp với thực tiễn ở gia đình, địa phương.
+– GV hướng dẫn HS chụp ảnh, quay video sự tham gia của HS vào việc nuôi dưỡng và chăm sóc cá cảnh ở gia đình, địa phương. Nộp lại cho GV ở buổi học tiếp theo.
+Nhà xuất bản Giáo dục Việt Nam xin trân trọng cảm ơn các tác giả có tác phẩm, tư liệu được sử dụng, trích dẫn trong cuốn sách này.
+Chịu trách nhiệm xuất bản:
+Chủ tịch Hội đồng thành viên – Tổng Giám đốc NGUYỄN TIẾN THANH
+Chịu trách nhiệm nội dung:
+Tổng biên tập PHẠM VĨNH THÁI
+Biên tập nội dung: NGUYỄN ĐĂNG KHÔI – ĐOÀN NGỌC LÂM
+Thiết kế sách: VŨ XUÂN NHỰ
+Trình bày bìa: NGUYỄN BÍCH LA
+Sửa bản in: TẠ THỊ HƯỜNG
+Chế bản: CÔNG TY CP DỊCH VỤ XUẤT BẢN GIÁO DỤC HÀ NỘI
+Bản quyền thuộc Nhà xuất bản Giáo dục Việt Nam.
+Tất cả các phần của nội dung cuốn sách này đều không được sao chép, lưu trữ, chuyển thể dưới bất kì hình thức nào khi chưa có sự cho phép bằng văn bản của Nhà xuất bản Giáo dục Việt Nam.
+CHUYÊN ĐỀ HỌC TẬP CÔNG NGHỆ 12 – LÂM NGHIỆP – THUỶ SẢN
+SÁCH GIÁO VIÊN
+Mã số:
+Khổ 19 x 26,5cm.
+Mã số ISBN:
+Số ĐKXB: ............./CXBIPH/...........-............/GD
+Số QĐXB: .................
+Nộp lưu chiểu quý ........ năm .......
+In .............. bản (QĐ in số ............... ) tại các nhà in:

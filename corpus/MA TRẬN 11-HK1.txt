@@ -1,0 +1,65 @@
+Tên nhóm: nhóm 2
+| STT | HỌ TÊN | TRƯỜNG | SỐ ĐT |
+| 1 | Nguyễn Thị Hải Hà | Thpt Chuyên Bình Long | 0976699257 |
+| 2 | Nguyễn Thị Thục Nhàn | Thpt Hùng Vương | 0937729747 |
+| 3 | Phạm Thị Lợi | Trường Thcs Và Thpt Đăng Hà | 0339672202 |
+| 4 | Vi Thị Bích Xoan | Trường Thcs &Thpt Tân Tiến | 0363222486 |
+| 5 | Hồ Thị Vân | Trường Thcs&Thpt Đồng Tiến | 0984917071 |
+| 6 | Nguyễn Khắc Định | Trường Thcs&Thpt Đồng Tiến | 088 6281585 |
+| 7 | ROMA Tú Anh | Thpt Nguyễn Huệ |  |
+Bảng ma trận
+| TT | Chương/ ; chủ đề | Nội dung/đơn vị kiến thức | Mức độ đánh giá | Tổng số câu hỏi | Tỉ lệ ; % điểm |
+|  |  |  | TNKQ nhiều LC | TNKQ đúng - sai | Tự luận |  |  |
+|  |  |  | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD |  |
+| 1 | Chủ đề 1 ; Giới thiệu chung về chăn nuôi | 1.1. Vai trò, triển vọng của chăn nuôi | 1 |  |  |  |  |  |  |  |  | 1 |  |  | 2,5 |
+|  |  | 1.2. Phương thức chăn nuôi | 1 |  |  |  |  |  |  |  |  | 1 |  |  | 2,5 |
+|  |  | 1.3. Phân loại vật nuôi |  | 1 |  |  |  |  |  |  |  |  | 1 |  | 2,5 |
+|  |  | 1.4. Xu hướng phát triển chăn nuôi |  | 1 |  |  |  |  |  |  |  |  | 1 |  | 2,5 |
+| 2 | Chủ đề 2 ; Công nghệ giống vật nuôi | 2.1. Khái niệm và vai trò của giống trong chăn nuôi. | 1 |  |  |  |  |  |  |  |  | 1 |  |  | 2,5 |
+|  |  | 2.2. Các chỉ tiêu cơ bản và phương pháp chọn giống vật nuôi. | 2 | 1 |  |  | 2 | 2 |  |  |  | 2 | 3 | 2 | 17,5 |
+|  |  | 2.3. Nhân giống vật nuôi. | 3 | 3 |  |  |  |  |  |  | 1 | 3 | 3 | 1 | 25,0 |
+|  |  | 2.4. Ứng dụng công nghệ sinh học trong chọn và nhân giống vật nuôi |  | 2 |  |  |  |  |  |  |  |  | 2 |  | 5,0 |
+| 3 | Chủ đề 3. Công nghệ thức ăn chăn nuôi | 3.1. Thức ăn, tiêu chuẩn ăn và khẩu phần ăn của vật nuôi. | 3 | 1 |  | 2 | 1 | 1 |  |  | 1 | 5 | 2 | 2 | 30,0 |
+|  |  | 3.2 Sản xuất thức ăn chăn nuôi. | 2 | 1 |  |  |  |  |  |  |  | 2 | 1 |  | 7,5 |
+|  |  | 3.3. Chế biến và bảo quản thức ăn chăn nuôi. | 1 |  |  |  |  |  |  |  |  | 1 |  |  | 2,5 |
+| Tổng số câu | 14 | 10 |  | 2 | 3 | 3 |  |  | 2 | 16 | 13 | 5 | 34 |
+| Tổng số điểm | 3,5 | 2,5 |  | 0,5 | 0,75 | 0,75 |  |  | 2,0 |  |  |  | 10 |
+| Tỉ lệ % | 60 | 20 | 20 | 40 | 30 | 30 | 100 |
+Bảng đặc tả
+| TT | Chương/ ; chủ đề | Nội dung/đơn vị kiến thức | Yêu cầu cần đạt ; (Đã được tách ra theo các mức độ) | Số lượng câu hỏi ở các mức độ |
+|  |  |  |  | Trắc nghiệm | Tự luận |
+|  |  |  |  | Nhiều lựa chọn | Đúng-Sai | Trả lời ngắn |  |
+| (1) | (2) | (3) | (4) | (5) | (6) | (7) | (8) |
+| 1 | Chủ đề 1 ; Giới thiệu chung về chăn nuôi | 1.1. Vai trò của chăn nuôi | - Nhận biết: ; Trình bày được vai trò của chăn nuôi trong bối cảnh cuộc cách mạng công nghiệp 4.0. | 1 |  |  |  |
+|  |  |  | - Thông hiểu: |  |  |  |  |
+|  |  |  | - Vận dụng: |  |  |  |  |
+|  |  | 1.2. Phương thức chăn nuôi | - Nhận biết: ; Nêu được các phương thức chăn nuôi chủ yếu ở nước ta | 1 |  |  |  |
+|  |  |  | - Thông hiểu: ; ….. |  |  |  |  |
+|  |  |  | - Vận dụng: ; ….. |  |  |  |  |
+|  |  | 1.3. phân loại vật nuôi | Nhận biết: |  |  |  |  |
+|  |  |  | - Thông hiểu: ; - Phân loại được vật nuôi theo nguồn gốc, đặc tính sinh vật học và mục đích sử dụng. |  | 1 |  |  |
+|  |  |  | Vận dụng: |  |  |  |  |
+|  |  | 1.4. xu hướng phát triển chăn nuôi | Nhận biết: |  |  |  |  |
+|  |  |  | Thông hiểu: ; - Phân biệt được đặc điểm cơ bản của chăn nuôi bền vững, chăn nuôi thông minh. |  | 1 |  |  |
+|  |  |  | Vận dụng: |  |  |  |  |
+| 2 | Chủ đề 2 ; Công nghệ giống vật nuôi | 2.1 . Khái niệm và vai trò của giống trong chăn nuôi. | - Nhận biết: ; - Trình bày được khái niệm và vai trò của giống trong chăn nuôi. | 1 |  |  |  |
+|  |  |  | - Thông hiểu: ; ….. |  |  |  |  |
+|  |  |  | - Vận dụng: ; ….. |  |  |  |  |
+|  |  | 2.2. Các chỉ tiêu cơ bản và phương pháp chọn giống vật nuôi. | - Nhận biết: ; - Kể tên được các chỉ tiêu cơ bản trong chọn giống vật nuôi. ; - nêu được quy trình của phương pháp chọn lọc cá thể ; - | 2 |  |  |  |
+|  |  |  | - Thông hiểu: ; - Phân biệt được các giống vật nuôi dựa vào chỉ tiêu ngoại hình, năng suất, chất lượng sản phẩm, khả năng sinh trưởng phát dục | 1 | 2 |  |  |
+|  |  |  | - Vận dụng: ; Lựa chọn được giống vật nuôi dựa vào các chỉ tiêu đã học |  | 2 |  |  |
+|  |  | 2.3. Nhân giống vật nuôi. | - Nhận biết: ; - Kể tên được các phương pháp nhân giống vật nuôi phổ biến. ; - Nêu được các đặc điểm cơ bản của các phương pháp nhân giống vật nuôi phổ biến. ; - Nêu được ưu và nhược điểm của các phương pháp nhân giống vật nuôi phổ biến. | 3 |  |  |  |
+|  |  |  | - Thông hiểu: ; - Phân tích được ưu và nhược điểm của các phương pháp nhân giống vật nuôi phổ biến. ; - So sánh được các phương pháp chọn giống vật nuôi phổ biến. ; - Xác định được phương pháp nhân giống vật nuôi phù hợp với mục đích của chọn giống. | 3 |  |  |  |
+|  |  |  | - Vận dụng: ; - Đề xuất được phương pháp nhân giống vật nuôi phù hợp với từng đối tượng vật nuôi và mục đích cụ thể. |  |  |  | 1 |
+|  |  | 2.4. Ứng dụng công nghệ sinh học trong chọn và nhân giống vật nuôi | Nhận biết: |  |  |  |  |
+|  |  |  | Thông hiểu: ; - Phân tích được ứng dụng của công nghệ sinh học trong nhân giống vật nuôi. ; - Nêu được một số phương pháp nhân giống vật nuôi đang được áp dụng ở gia đình, địa phương. |  | 2 |  |  |
+|  |  |  | Vận dụng: |  |  |  |  |
+| 3 | Chủ đề 3. Công nghệ thức ăn chăn nuôi | 3.1. Thức ăn, tiêu chuẩn ăn và khẩu phần ăn của vật nuôi. | Nhận biết: ; - Nêu được các khái niệm: nhu cầu dinh dưỡng, thành phần dinh dưỡng, tiêu chuẩn ăn, khẩu phần ăn của vật nuôi. ; - Nêu được ý nghĩa thành phần dinh dưỡng, tiêu chuẩn ăn, khẩu phần ăn đối với vật nuôi. ; - Nêu được vai trò của các nhóm thức ăn đối với vật nuôi. | 3 |  | 2 |  |
+|  |  |  | - Thông hiểu: ; - Phân biệt được các khái niệm: nhu cầu dinh dưỡng, thành phần dinh dưỡng, tiêu chuẩn ăn, khẩu phần ăn của vật nuôi. ; - Giải thích được ý nghĩa của việc xác định thành phần dinh dưỡng, tiêu chuẩn ăn, khẩu phần ăn đối với vật nuôi và chăn nuôi. ; - Giải thích được vai trò của các nhóm thức ăn đối với vật nuôi. |  | 1 | 1 |  |
+|  |  |  | - Vận dụng: ; - Phân tích được nhu cầu dinh dưỡng, tiêu chuẩn ăn, khẩu phần ăn cho một loại vật nuôi phổ biến ở gia đình, địa phương. |  |  | 1 | 1 |
+|  |  | 3.2 Sản xuất thức ăn chăn nuôi. | Nhận biết: ; - Kể tên được một số phương pháp sản xuất thức ăn chăn nuôi phổ biến. ; - Nêu được ưu nhược điểm của các phương pháp sản xuất thức ăn chăn nuôi phổ biến. | 2 |  |  |  |
+|  |  |  | - Thông hiểu: ; Lựa chọn được phương pháp sản xuất thức ăn chăn nuôi phổ biến cho gia đình |  | 1 |  |  |
+|  |  |  | - Vận dụng: ; ….. |  |  |  |  |
+|  |  | 3.3. Chế biến và bảo quản thức ăn chăn nuôi. | Nhận biến: ; - Kể tên được một số phương pháp bảo quản thức ăn chăn nuôi. | 1 |  |  |  |
+|  |  |  | - Thông hiểu: ; ….. |  |  |  |  |
+|  |  |  | - Vận dụng: ; ….. |  |  |  |  |

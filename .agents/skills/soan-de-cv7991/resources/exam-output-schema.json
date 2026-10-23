@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CV7991_Exam_Package_Schema",
+  "description": "JSON Schema chuẩn hóa đầu ra Bộ hồ sơ đề kiểm tra định kỳ theo Công văn 7991/BGDĐT-GDTrH",
+  "type": "object",
+  "required": [
+    "meta",
+    "partConfig",
+    "matrix",
+    "specs",
+    "exam"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "subjectName",
+        "examTerm",
+        "duration",
+        "examCode"
+      ],
+      "properties": {
+        "department": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        },
+        "subjectName": {
+          "type": "string"
+        },
+        "examTerm": {
+          "type": "string"
+        },
+        "schoolYear": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "examCode": {
+          "type": "string"
+        }
+      }
+    },
+    "partConfig": {
+      "type": "object",
+      "description": "Cấu hình linh hoạt số câu, số điểm mỗi câu, tổng điểm mỗi phần và cấp độ tư duy từng phần"
+    },
+    "exam": {
+      "type": "object",
+      "required": [
+        "mcq",
+        "tf",
+        "short",
+        "essay"
+      ],
+      "properties": {
+        "mcq": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "unitId",
+              "level",
+              "competency",
+              "points",
+              "stem",
+              "options",
+              "answer"
+            ],
+            "properties": {
+              "unitId": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "biet",
+                  "hieu",
+                  "vandung"
+                ]
+              },
+              "competency": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "stem": {
+                "type": "string"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "answer": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "explanation": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "tf": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "unitId",
+              "competency",
+              "points",
+              "context",
+              "statements"
+            ],
+            "properties": {
+              "unitId": {
+                "type": "string"
+              },
+              "competency": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "context": {
+                "type": "string"
+              },
+              "statements": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "text",
+                    "level",
+                    "answer"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "enum": [
+                        "a",
+                        "b",
+                        "c",
+                        "d"
+                      ]
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "level": {
+                      "type": "string",
+                      "enum": [
+                        "biet",
+                        "hieu",
+                        "vandung"
+                      ]
+                    },
+                    "answer": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "explanation": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "short": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "unitId",
+              "level",
+              "competency",
+              "points",
+              "stem",
+              "answer"
+            ]
+          }
+        },
+        "essay": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "unitId",
+              "level",
+              "competency",
+              "points",
+              "stem",
+              "rubric"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

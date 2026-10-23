@@ -1,0 +1,44 @@
+NHÓM 1
+| STT | HỌ VÀ TÊN | TRƯỜNG | SỐ ĐIỆN THOẠI |
+| 1 | Nguyễn Thị Thu Hương | THPT Chơn Thành | 0944288383 |
+| 2 | Vũ Thị Giang | THPT Lê Quý Đôn | 0975882327 |
+| 3 | Phạm Thị Thuỳ Mỹ | THPT Lộc Ninh | 0369637607 |
+| 4 | Lê Thị Hoà | THPT Trần Phú | 0378010110 |
+| 5 | Bùi Văn Bình | THPT Phú Riềng | 0815918868 |
+| 6 | Tô Thị Thuỳ Dung | THPT Bù Đăng | 0394462446 |
+| 7 | Hồ Thị Ngọc Lan | THPT Lộc Thái | 0348850878 |
+MA TRẬN CUỐI KÌ I CÔNG NGHỆ NÔNG NGHIỆP 10 – NHÓM 1
+| TT | Chương/ ; chủ đề | Nội dung/đơn vị kiến thức | Mức độ đánh giá | Tổng số câu hỏi | Tỉ lệ ; % điểm |
+|  |  |  | TNKQ nhiều LC | TNKQ đúng - sai | Tự luận |  |  |
+|  |  |  | Biết | Hiểu | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD |  |
+| 1 | GT. chung về trồng trọt | 1.1 Mối quan hệ giữa các yếu tố chính trong trồng trọt | 2 | 2 |  |  |  |  |  |  | 2 | 2 |  | 10 |
+| 2 | Đất trồng | 2.1 Khái niệm, thành phần và tính chất của đất trồng | 2 | 1 |  |  |  |  |  |  | 2 | 1 |  | 7,5 |
+|  |  | 2.2 Sử dụng, cải tạo và bảo vệ đất trồng | 3 | 2 |  |  |  |  |  |  | 3 | 2 |  | 12,5 |
+| 3 | Phân bón | 3.1 Giới thiệu về phân bón | 1 | 1 |  |  |  |  |  |  | 1 | 1 |  | 5 |
+|  |  | 3.2 Sử dụng và bảo quản phân bón | 2 | 1 | 1 | 1 |  |  |  | (1) | 3 | 2 | 1 | 22,5 |
+|  |  | 3.3 Công nghệ sản xuất phân bón | 1 |  | 1 | 1 |  |  |  |  | 2 | 1 |  | 7,5 |
+| 4 | Công nghệ giống cây trồng | 4.1 Khái niệm và vai trò giống cây trồng | 1 |  |  |  |  |  |  |  | 1 |  |  | 2,5 |
+|  |  | 4.2 Phương pháp chọn tạo giống cây trồng | 1 | 1 | 1 | 1 |  |  |  |  | 2 | 2 |  | 10 |
+|  |  | 4.3 Phương pháp nhân giống cây trồng | 1 | 2 | 1 | 1 |  |  |  | (1) | 2 | 3 | 1 | 22,5 |
+| Tổng số câu | 14 | 10 | 4 | 4 |  |  |  | 2 | 18 | 14 | 2 | 34 |
+| Tổng số điểm | 3.5 | 2.5 | 1.0 | 1.0 |  |  |  | 2.0 | 4.5 | 3.5 | 2 | 10 |
+| Tỉ lệ % | 60 | 20 | 20 | 45 | 35 | 20 | 100 |
+Bản đặc tả
+| TT | Chương/ ; chủ đề | Nội dung/đơn vị kiến thức | Yêu cầu cần đạt ; (Đã được tách ra theo các mức độ) | Số lượng câu hỏi ở các mức độ |
+|  |  |  |  | Trắc nghiệm | Tự luận |
+|  |  |  |  | Nhiều lựa chọn | Đúng -Sai |  |
+| (1) | (2) | (3) | (4) | (5) | (6) | (7) |
+| 1 | GT. chung về trồng trọt | 1.1 Mối quan hệ giữa các yếu tố chính trong trồng trọt | Nhận biết: ; - Nêu đượccác yếu tố chính trong trồng trọt ; - Nêu được vai trò của các yếu tố chính trong trồng trọt đối với cây trồng | 2 |  |  |
+|  |  |  | Thông hiểu: ; - Phân tích được vai trò chủ yếu của các yếu tố chính trong trồng trọt. ; - Phân tích được mối quan hệ giữa cây trồng với các yếu tố chính trong trồng trọt. | 2 |  |  |
+|  |  |  | Vận dụng: ; - Đề xuất được một biện pháp kết hợp của các yếu tố chính trong trồng trọt để tăng năng suất cây trồng ; - Đề xuất được chế độ chiếu sáng, tưới nước, dinh dưỡng phù hợp cho một loại cây trồng phổ biến ở địa phương |  |  |  |
+|  | Đất trồng | 2.1 Khái niệm, thành phần và tính chất của đất trồng | - Nhận biết: ; - Trình bày được các thành phần cơ bản của đất trồng. ; - Nêu được khái niệm keo đất. ; -Trình bày được tính chất của đất trồng (tính chua, tính kiềm và trung tính của đất). | 2 |  |  |
+|  |  |  | - Thông hiểu: ; - Nêu hoạt động trao đổi ion. ; - Phân biệt nguyên nhân gây ra phản ứng chua của đất, phản ứng kiềm của đất và phản ứng trung tính của đất ; - Vận dụng: | 1 |  |  |
+|  |  |  | Phân loại được đất trồng phổ biến ở địa phương theo tính chất (đất chua, đất kiềm hay đất trung tính). |  |  |  |
+|  |  | 2.2 Sử dụng, cải tạo và bảo vệ đất trồng | - Nhận biết: ; - Trình bày được nguyên nhân hình thành các loại đất trồng ở nước ta. ; - Trình bày được các biện pháp sử dụng, cải tạo và bảo vệ đất trồng. | 3 |  |  |
+|  |  |  | Thông hiểu: ; - Giải thích được cơ sở khoa học của các biện pháp sử dụng, cải tạo, bảo vệ các loại đất trồng ; - Giải thích được mối liên hệ giữa nguyên nhân hình thành và tính chất của đất trồng làm cơ sở xác định được các biện pháp cải tạo và hướng sử dụng hợp lí đối với từng loại đất trồng. ; Vận dụng: ; - Đề xuất được biện pháp bảo vệ, cải tạo đất trồng tại địa phương. ; Vận dụng được kiến thức để sử dụng đất trồng hợp lí ở địa phương đem lại hiệu quả kinh tế cao. | 2 |  |  |
+|  | Phân bón | 3.1 Giới thiệu về phân bón | Nhận biết: ; - Trình bày được khái niệm về phân bón. ; - Trình bày được vai trò của phân bón trong trồng trọt. Lấy ví dụ từng loại. ; - Nêu được đặc điểm cơ bản của một số loại phân bón phổ biến. - Nhận biết được một số loại phân bón thông thường ; Thông hiểu: ; - Phân biệt được đặc điểm, tính chất của phân hóa học, phân hữu cơ, phân vi sinh, so sánh ưu và nhược điểm của mỗi loại phân bón. | 1 ; 1 |  |  |
+|  |  | 3.2 Sử dụng và bảo quản phân bón | Nhận biết: ; - Mô tả được cách sử dụng các loại phân bón phổ biến. ; - Nêu được các nguyên tắc chung cơ bản khi bảo quản các loại phân bón ; Thông hiểu: ; - Giải thích được cơ sở khoa học của việc sử dụng phân bón có hiệu quả. ; - So sánh được các biện pháp sử dụng và bảo quản phân bón hoá học, phân bón hữu cơ và phân bón vi sinh. ; Vận dụng: ; - Lựa chọn được loại phân bón thích hợp cho một số loại cây trồng phổ biến ở địa phương. ; - Đề xuất được biện pháp bảo quản, sử dụng phân bón hợp lí ở gia đình và địa phương đem lại hiệu quả kinh tế cao đồng thời bảo vệ môi trường, bảo vệ sức khỏe cho con người | 2 ; 1 | 1 ; 1 | (1) |
+|  |  | 3.3 Công nghệ sản xuất phân bón | Nhận biết: ; - Trình bày được một số ứng dụng của công nghệ hiện đại trong sản xuất phân bón ; - Nêu được nguyên lí chung khi ứng dụng cộng nghệ vi sinh sản xuất phân bón vi sinh vật. ; Thông hiểu: ; - Mô tả được quy trình sản xuất phân bón vi sinh cố định đạm, phân bón vi sinh chuyển hoá lân, phân bón vi sinh phân giải chất hữu cơ. | 1 | 1 ; 1 |  |
+|  | Công nghệ giống cây trồng | 4.1 Khái niệm và vai trò giống cây trồng | Nhận biết: ; - Trình bày được khái niệm giống cây trồng. ; - Nêu được vai trò của giống cây trồng. | 1 |  |  |
+|  |  | 4.2 Phương pháp chọn tạo giống cây trồng | Nhận biết: ; - Mô tả các phương pháp chọn giống cây trồng phổ biến. ; - Mô tả được các phương pháp tạo giống cây phổ biến. ; - Nêu được một số thành tựu của công tác chọn tạo giống cây trồng ở Việt Nam và trên thế giới. ; Thông hiểu: ; - So sánh được ưu điểm và nhược điểm của mỗi phương pháp chọn giống cây trồng phổ biến ; - So sánh được ưu điểm và nhược điểm của mỗi phương pháp tạo giống cây trồng phổ biến | 1 ; 1 | 1 ; 1 |  |
+|  |  | 4.3 Phương pháp nhân giống cây trồng | Nhận biết: ; - Mô tả được các phương pháp nhân giống cây trồng phổ biến. ; - Nêu được một số thành tựu của nhân giống cây trồng ở Việt Nam và trên thế giới. ; - Trình bày được ứng dụng của công nghệ sinh học trong chọn, tạo và nhân giống cây trồng ; Thông hiểu: ; - Phân tích được ưu và nhược điểm của các phương pháp nhân giống cây trồng phổ biến. ; - Giải thích được ý nghĩa của công nghệ sinh học trong chọn, tạo và nhân giống cây trồng.. ; Vận dụng: ; - Lựa chọn được phương pháp nhân giống phù hợp cho một loại cây trồng phổ biến ở gia đình, địa phương. ; Vận dụng cao: ; - Đề xuất được biện pháp nhân giống phù hợp cho một số loại cây trồng phổ biến ở gia đình, địa phương. | 1 ; 2 | 1 ; 1 | (1) |

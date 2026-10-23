@@ -1,0 +1,72 @@
+SẢN PHẨM NHÓM 4
+BẢN ĐẶC TẢ+ MA TRẬN ĐỀ CUỐI KỲ 2 CÔNG NGHỆ TRỒNG TRỌT
+Thành viên:
+Phan Thị Trang
+Nguyễn Thị Ánh Đào
+Lương Thị Dụng
+Trần Thị Hoàn
+Lê Thị Thanh Nhàn
+1. Bản đặc tả đề kiểm tra cuối kì II – môn Công nghệ 10-NN
+Bảng 2.22. Ma trận đề kiểm tra cuối kì II – môn Công nghệ 10-NN.
+| TT | Chương/chủ ; đề | Đơn vị kiến thức | Yêu cầu cần đạt ; (Đã được tách ra các chỉ báo và mức độ) | Số lượng câu hỏi ở các ; mức độ |
+|  |  |  |  | Trắc nghiệm | Tự luận |
+|  |  |  |  | NLC | Đ/S |  |
+| (1) | (2) | (3) | (4) | (5) | (6) | (7) |
+| 1 | 5. Phòng, trừ sâu, bệnh hại cây trồng | 5.1. Tác hại của sâu, bệnh ; đối với cây trồng | Biết: ; - Trình bày được khái niệm, tác hại của sâu, bệnh. |  |  |  |
+|  |  |  | Hiểu: ; - Phân biệt được đặc điểm nhận biết, đặc điểm gây hại của một số loại sâu hại, bệnh hại cây trồng thường gặp. | 1 |  |  |
+|  |  | 5.2. Ý nghĩa của việc phòng, trừ sâu, bệnh hại cây trồng. | Biết: ; - Nêu được ý nghĩa của việc phòng, trừ sâu, bệnh hại cây trồng. | 1 |  |  |
+|  |  | 5.3. Một số loại sâu, bệnh ; hại cây trồng thường gặp | Biết: ; - Mô tả được đặc điểm nhận biết, đặc điểm gây hại của một số loại sâu hại, bệnh hại cây trồng thường gặp. | 1 |  |  |
+|  |  |  | Vận dụng | 1 |  |  |
+|  |  |  | - Nhận biết được một số loại sâu, bệnh hại cây trồng thường gặp và đề xuất được biện pháp phòng, trừ phù hợp. |  |  |  |
+|  |  | 5.4. Một số biện pháp phòng ; trừ sâu, bệnh hại cây trồng | Biết: ; - Nêu được nguyên nhân và biện pháp phòng, trừ một số loại sâu, bệnh hại cây trồng thường gặp. | 1 |  |  |
+|  |  |  | Hiểu: ; - Phân tích được ưu, nhược điểm của các biện pháp phòng trừ sâu, bệnh hại phổ biến | 2 |  |  |
+|  |  |  | Vận dụng: ; Xác định được các biện pháp phòng trừ sâu, bệnh hại cây trồng đang được áp dụng ở địa phương. Nêu được những điểm chưa phù hợp và đề xuất giải pháp khắc phục. ; Lựa chọn được các biện pháp an toàn cho con người và môi trường trong phòng, trừ sâu, bệnh hại cây trồng. |  |  |  |
+|  |  | 5.5. Ứng dụng công nghệ vi sinh trong phòng, trừ sâu, bệnh hại cây trồng | Hiểu: ; Nêu được sự khác nhau giữa các bước sản xuất chế phẩm vi khuẩn trừ sâu, chế phẩm virus trừ sâu và chế phẩm nấm trừ sâu, bệnh hại cây trồng. ; Phân tích được ý nghĩa của công nghệ vi sinh trong phòng, trừ sâu, bệnh hại cây trồng. |  | (1+3) |  |
+| 2 | 6. Kĩ thuật trồng trọt | 6.1. Quy trình trồng trọt. | Biết: ; - Nêu được các bước trong quy trình trồng trọt và ý nghĩa của từng bước. | 1 |  |  |
+|  |  |  | Hiểu: ; - Trình bày được yêu cầu kĩ thuật của các bước trong quy trình trồng trọt. | 1 |  |  |
+|  |  |  | Vận dụng ; - Lập được kế hoạch, tính toán được chi phí cho việc trồng và chăm sóc một loại cây trồng phổ biến ở địa phương. |  |  |  |
+|  |  | 6.2. Ứng dụng của cơ giới hoá trồng trọt. | Biết: ; - Nêu được một số ứng dụng nổi bật của cơ giới hoá trong làm đất, gieo trồng, chăm sóc và thu hoạch sản phẩm trồng trọt. | 1 |  |  |
+|  |  |  | Hiểu: ; - Phân tích được ý nghĩa của việc ứng dụng cơ giới hóa trong trồng trọt. | 1 |  |  |
+|  |  | 6.3. Thu hoạch, bảo quản sản phẩm trồng trọt. | Biết: ; - Nêu được một số ứng dụng công nghệ cao trong thu hoạch, bảo quản sản phẩm trồng trọt. | 1 |  |  |
+|  |  |  | Hiểu: ; - Phân tích được ưu, nhược điểm của các biện pháp bảo quản các sản phẩm trồng trọt | 1 |  |  |
+|  |  |  | Vận dụng: ; - Đề xuất được biện pháp bảo quản phù hợp cho một số loại sản phẩm trồng trọt phố biến ở địa phương. |  |  |  |
+|  |  | 6.4. Chế biến sản phẩm trồng trọt. | Biết: ; Nêu được mục đích của việc chế biến sản phẩm trồng trọt. ; Trình bày được một số ứng dụng công nghệ cao trong chế biến sản phẩm trồng trọt. | 1 |  |  |
+|  |  |  | Hiểu: ; - Phân tích được ưu, nhược điểm của một số phương pháp chế biến sản phẩm trồng trọt phổ biến. |  |  |  |
+|  |  |  | Vận dụng: ; Lựa chọn được phương pháp chế biến phù hợp cho một loại sản phẩm trồng trọt phổ biến. ; Đề xuất được biện pháp chế biến phù hợp cho một loại sản phẩm trồng trọt phổ biến ở địa phương em đảm bảo vệ sinh an toàn thực phẩm |  |  |  |
+| 3 | 7. Trồng trọt ; công nghệ ; cao | 7.1. Giới thiệu trồng trọt công nghệ cao. | Biết: ; Trình bày được những vấn đề cơ bản của trồng trọt công nghệ cao. ; Nêu được những ưu điểm và hạn chế của trồng trọt công nghệ cao. ; Nêu được thực trạng của trồng trọt công nghệ cao ở Việt Nam. | 1 |  |  |
+|  |  |  | Hiểu: ; - Phân tích được thực trạng của trồng trọt công nghệ cao ở Việt Nam. | 1 |  |  |
+|  |  | 7.2. Một số mô hình trồng trọt công nghệ cao. | Biết: ; - Nêu được một số mô hình trồng trọt công nghệ cao ở Việt Nam và trên thế giới. | 1 |  |  |
+|  |  |  | Hiểu: ; - Mô tả được một số mô hình trồng trọt công nghệ cao ở Việt Nam và trên thế giới. | 1 |  |  |
+|  |  | 7.3. Công nghệ trồng không dùng đất. | Biết: ; - Nêu được khái niệm trồng cây không dùng đất. - Kể tên được các biện pháp trồng cây không dùng đất. | 2 |  |  |
+|  |  |  | Hiểu: ; Giải thích được cơ sở khoa học của các hệ thống trồng cây không dùng đất. ; Nêu được cấu tạo, nguyên lý hoạt động, ưu nhược điểm của hệ thống trồng cây thủy canh và hệ thống trồng cây khí canh. | 2 |  |  |
+|  |  |  | Vận dụng: ; - Lựa chọn được hệ thống trồng cây không dùng đất phù hợp cho một số loại cây trồng phổ biến ở địa phương |  |  | (1) |
+| 4 | 8. Bảo vệ môi trường trong trồng ; trọt | 8.1.  Sự cần thiết phải bảo vệ môi trường trong trồng trọt. | Biết: ; - Trình bày được khái niệm, nguyên nhân và ảnh hưởng của ô nhiễm môi trường trong trồng trọt để thấy được sự cần thiết phải bảo vệ môi trường trong trồng trọt. | 1 | 2 |  |
+|  |  |  | - Nêu được một số biện pháp hạn chế ô nhiễm môi trường trong trồng trọt. |  |  |  |
+|  |  |  | Hiểu: ; - Đề xuất được một số việc nên làm và không nên làm để bảo vệ môi trường trong trồng trọt |  | 2 |  |
+|  |  | 8.2. Ứng dụng công nghệ vi sinh trong bảo vệ môi trường và xử lí chất thải trồng trọt. | Biết: ; - Nêu được vai trò của công nghệ vi sinh trong bảo vệ môi trường trong trồng trọt. | 1 |  |  |
+|  |  |  | Hiểu: ; - Phân tích được ý nghĩa của công nghệ vi sinh trong bảo vệ môi trường và xử lí chất thải trồng trọt. | 1 |  |  |
+|  |  |  | Vận dụng ; Đề xuất được giải pháp để hạn chế ô nhiễm môi trường trong trồng trọt ở địa phương. ; Thực hiện được một số công việc đơn giản trong quy trình xử lí chất thải trồng trọt. |  |  | (1) |
+|  | 4 Chương | 12 Đơn vị kiến thức |  | 20 | 2 | (2) |
+2. Ma trận đề kiểm tra cuối kì II – môn Công nghệ 10-NN
+Bảng 2.23. Ma trận đề kiểm tra cuối kì II – môn Công nghệ 10-NN.
+| TT | Chương/ chủ đề | Đơn vị kiến thức |  | Mức độ đánh giá |  | Tổng |  | Tỉ lệ ; % điểm |
+|  |  |  | TNKQ nhiều LC | TNKQ đúng - sai | Tự luận |  |  |  |  |
+|  |  |  | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD | Biết | Hiểu | VD |  |
+| (1) | (2) | (3) | (4) | (5) | (6) |  |  |  | (7) | (8) | (9) | (10) | (11) | (12) | (13) |
+| 1 | Chương 5 | 5.1 |  | 1 |  |  |  |  |  |  |  |  | 1 |  | 2,5 |
+|  |  | 5.2 | 1 |  |  |  |  |  |  |  |  | 1 |  |  | 2,5 |
+|  |  | 5.3 | 1 |  |  |  |  |  |  |  |  | 1 |  |  | 2,5 |
+|  |  | 5.4 | 1 | 2 |  |  |  |  |  |  |  | 1 | 2 |  | 7,5 |
+|  |  | 5.5 |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 2 | Chương 6 | 6.1 | 1 | 1 |  |  |  |  |  |  |  | 1 | 1 |  | 5 |
+|  |  | 6.2 | 1 | 1 |  |  |  |  |  |  |  | 1 | 1 |  | 5 |
+|  |  | 6.3 | 1 | 1 |  |  |  |  |  |  |  | 1 | 1 |  | 5 |
+|  |  | 6.4 |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 3 | Chương 7 | 7.1 | 2 | 1 |  | 1 |  |  |  |  |  | 3 | 1 |  | 10 |
+|  |  | 7.2 | 2 | 1 |  |  | 1 |  |  |  |  | 2 | 2 |  | 10 |
+|  |  | 7.3 | 1 | 1 |  |  |  | (1x2) |  |  | 1 | 1 | 1 | 3 | 20 |
+| 4 | Chương 8 | 8.1 | 2 |  |  | 1 | 1 |  |  |  |  | 3 | 1 |  | 10 |
+|  |  | 8.2 | 1 | 1 |  |  |  | (1x2) |  |  | 1 | 1 | 1 | 3 | 20 |
+|  | Tổng số câu | 14 | 10 | 0 | 2 | 2 | 4 | 0 | 0 | 2 | 16 | 12 | 6 | 34 |
+|  | Tổng số điểm | 3,5 | 2,5 | 0 | 0,5 | 0,5 | 1 | 0 | 0 | 2 | 4,0 | 3,0 | 3,0 | 10.0 |
+|  | Tỉ lệ % | 60 | 20 | 20 | 40 | 30 | 30 | 100,0 |

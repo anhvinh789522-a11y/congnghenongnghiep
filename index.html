@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hệ thống Thiết kế & Kiểm định Đề thi Công nghệ Nông nghiệp - Chuẩn Công văn 7991/BGDĐT-GDTrH</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-badge">CV 7991</div>
+        <div class="brand-title">
+          <h1>HỆ THỐNG RA ĐỀ & KIỂM ĐỊNH AI MÔN CÔNG NGHỆ NÔNG NGHIỆP</h1>
+          <p>Chuẩn hóa theo Công văn số 7991/BGDĐT-GDTrH ngày 17/12/2024 của Bộ Giáo dục và Đào tạo</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline btn-sm" onclick="openCorpusModal()">📚 Kho Ngữ liệu SGK/SGV & 442 Câu hỏi</button>
+        <button class="btn btn-outline btn-sm" onclick="openAiConfigModal()">⚙️ Cấu hình API AI</button>
+        <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Xuất Hồ sơ Word (.doc)</button>
+        <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ In / Xuất PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 6-STEP WIZARD NAVIGATION -->
+  <nav class="stepper-bar">
+    <div class="stepper-inner">
+      <button class="step-btn active" onclick="goToStep(1)">
+        <div class="step-num">1</div>
+        <div class="step-label"><strong>Bước 1: PPCT & YCCĐ</strong><br/>Tải PPCT & Chọn bài</div>
+      </button>
+      <button class="step-btn" onclick="goToStep(2)">
+        <div class="step-num">2</div>
+        <div class="step-label"><strong>Bước 2: Phân bổ Điểm</strong><br/>Số câu, Điểm & Tư duy</div>
+      </button>
+      <button class="step-btn" onclick="goToStep(3)">
+        <div class="step-num">3</div>
+        <div class="step-label"><strong>Bước 3: Ma trận Đề</strong><br/>Mẫu Phụ lục 1 CV 7991</div>
+      </button>
+      <button class="step-btn" onclick="goToStep(4)">
+        <div class="step-num">4</div>
+        <div class="step-label"><strong>Bước 4: Bản Đặc tả</strong><br/>Mẫu Phụ lục 2 CV 7991</div>
+      </button>
+      <button class="step-btn" onclick="goToStep(5)">
+        <div class="step-num">5</div>
+        <div class="step-label"><strong>Bước 5: Tạo Đề & Đáp án</strong><br/>Soạn đề, Trộn & Xuất</div>
+      </button>
+      <button class="step-btn" onclick="goToStep(6)">
+        <div class="step-num">6</div>
+        <div class="step-label"><strong>Bước 6: Tool AI Kiểm định</strong><br/>Đối soát & Chấm chuẩn</div>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container">
+
+    <!-- ================================================================== -->
+    <!-- BƯỚC 1: TẢI PHÂN PHỐI CHƯƠNG TRÌNH & CHỌN BÀI THEO YCCĐ -->
+    <!-- ================================================================== -->
+    <section class="step-panel active" id="stepPanel1">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📚 Thông tin chung & Chọn Khung Phân phối Chương trình (PPCT)</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <label class="btn btn-outline btn-sm" style="cursor:pointer;">
+              📂 Tải lên file PPCT (.json / .csv / .txt)
+              <input type="file" accept=".json,.csv,.txt,.tsv" style="display:none;" onchange="handlePpctFileUpload(event)" />
+            </label>
+            <button class="btn btn-outline btn-sm" onclick="downloadPpctTemplate()">💾 Tải mẫu PPCT</button>
+            <button class="btn btn-primary btn-sm" onclick="addNewUnit()">+ Thêm bài học / Chủ đề</button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Chọn Chương trình Công nghệ Nông nghiệp (Bộ Kết nối tri thức - Chuẩn PL1 & SGV):</label>
+            <select onchange="loadPresetCurriculum(this.value)">
+              <optgroup label="Khối 10 - Công nghệ Trồng trọt (Đủ 4 kỳ)">
+                <option value="cn10_trongtrot_gk1">Công nghệ 10 - Trồng trọt (Giữa kì 1: Bài 1–8)</option>
+                <option value="cn10_trongtrot_ck1">Công nghệ 10 - Trồng trọt (Cuối kì 1: Bài 1–14)</option>
+                <option value="cn10_trongtrot_gk2">Công nghệ 10 - Trồng trọt (Giữa kì 2: Bài 15–21)</option>
+                <option value="cn10_trongtrot_ck2">Công nghệ 10 - Trồng trọt (Cuối kì 2: Bài 15–28)</option>
+              </optgroup>
+              <optgroup label="Khối 11 - Công nghệ Chăn nuôi (Đủ 4 kỳ)">
+                <option value="cn11_channuoi_gk1">Công nghệ 11 - Chăn nuôi (Giữa kì 1: Bài 1–6)</option>
+                <option value="cn11_channuoi_ck1">Công nghệ 11 - Chăn nuôi (Cuối kì 1: Bài 1–10)</option>
+                <option value="cn11_channuoi_gk2">Công nghệ 11 - Chăn nuôi (Giữa kì 2: Bài 11–17)</option>
+                <option value="cn11_channuoi_ck2">Công nghệ 11 - Chăn nuôi (Cuối kì 2: Bài 11–22)</option>
+              </optgroup>
+              <optgroup label="Khối 12 - Lâm nghiệp & Thủy sản (Đủ 4 kỳ)">
+                <option value="cn12_lamthuy_gk1">Công nghệ 12 - Lâm nghiệp & Thủy sản (Giữa kì 1: Bài 1–7)</option>
+                <option value="cn12_lnts_ck1">Công nghệ 12 - Lâm nghiệp & Thủy sản (Cuối kì 1: Bài 1–12)</option>
+                <option value="cn12_lnts_gk2">Công nghệ 12 - Lâm nghiệp & Thủy sản (Giữa kì 2: Bài 13–20)</option>
+                <option value="cn12_lnts_ck2">Công nghệ 12 - Lâm nghiệp & Thủy sản (Cuối kì 2: Bài 13–27)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tên Trường / Đơn vị:</label>
+            <input type="text" id="metaSchool" value="TRƯỜNG THPT ..." onchange="state.meta.school = this.value" />
+          </div>
+          <div class="form-group">
+            <label>Tên Môn kiểm tra:</label>
+            <input type="text" id="metaSubject" value="CÔNG NGHỆ 10 (CÔNG NGHỆ TRỒNG TRỌT)" onchange="state.meta.subjectName = this.value" />
+          </div>
+          <div class="form-group">
+            <label>Kỳ kiểm tra & Thời gian (phút):</label>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="metaTerm" value="GIỮA HỌC KỲ I" onchange="state.meta.examTerm = this.value" />
+              <input type="number" id="metaDuration" class="compact-num" value="45" min="15" max="180" onchange="state.meta.duration = Number(this.value)" title="Thời gian làm bài (phút)" />
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+          <div id="ppctSummaryText" style="font-size:13.5px; color:var(--primary-dark);"></div>
+          <span style="font-size:12px; color:var(--text-muted);">* Tích chọn các bài nằm trong giới hạn ra đề và chỉnh sửa trực tiếp Yêu cầu cần đạt nếu cần.</span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="std-table">
+            <thead>
+              <tr>
+                <th style="width:48px;">Chọn</th>
+                <th style="width:42px;">TT</th>
+                <th style="width:240px;">Chủ đề / Bài học (Đơn vị kiến thức)</th>
+                <th style="width:95px;">Số tiết & Trọng số</th>
+                <th>Yêu cầu cần đạt theo Chương trình GDPT 2018 (Nhận biết / Thông hiểu / Vận dụng)</th>
+                <th style="width:130px;">Mã hóa Năng lực</th>
+                <th style="width:50px;">Xóa</th>
+              </tr>
+            </thead>
+            <tbody id="ppctTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="step-footer-nav">
+          <div></div>
+          <button class="btn btn-primary" onclick="goToStep(2)">Tiếp tục sang Bước 2: Phân bổ Phần, Số câu & Điểm số →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- BƯỚC 2: BẢNG PHÂN BỔ PHẦN, SỐ CÂU, ĐIỂM TỪNG CÂU & CẤP ĐỘ TƯ DUY -->
+    <!-- ================================================================== -->
+    <section class="step-panel" id="stepPanel2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚖️ Bước 2: Bảng Phân bổ Phần, Số câu, Điểm từng câu, Điểm từng phần & Cấp độ tư duy</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('cv7991_70_30')">⚡ Mẫu Chuẩn 70% TN - 30% TL (40:30:30)</button>
+            <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('cv7991_4parts')">⚡ Mẫu Đủ 4 Dạng thức (MCQ + Đ/S + TLN + TL)</button>
+            <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('tn100_thpt')">⚡ Mẫu 100% Trắc nghiệm</button>
+          </div>
+        </div>
+
+        <!-- LIVE METRICS -->
+        <div class="metrics-grid">
+          <div class="metric-box" id="metricTotalPointsBox">
+            <div class="label">TỔNG ĐIỂM TOÀN ĐỀ (CHUẨN 10,0Đ)</div>
+            <div class="value" id="metricTotalPointsVal">10.00 / 10.00 đ</div>
+          </div>
+          <div class="metric-box">
+            <div class="label">TỈ LỆ TRẮC NGHIỆM / TỰ LUẬN</div>
+            <div class="value" style="font-size:16px; margin-top:6px;" id="metricTnVsTlVal">TN: 7.0đ (70%) | TL: 3.0đ (30%)</div>
+          </div>
+          <div class="metric-box">
+            <div class="label">TỈ LỆ NHẬN BIẾT : THÔNG HIỂU : VẬN DỤNG</div>
+            <div class="value" style="font-size:17px; margin-top:5px;" id="metricCognitiveRatioVal">40% : 30% : 30%</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:18px;">
+          <div style="font-size:12.5px; font-weight:600; color:var(--text-muted);">Biểu đồ trực quan tỉ lệ điểm theo cấp độ tư duy (Nhận biết - Thông hiểu - Vận dụng):</div>
+          <div class="stacked-bar" id="cognitiveStackedBar"></div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="std-table">
+            <thead>
+              <tr>
+                <th style="width:55px;">Bật/Tắt</th>
+                <th>Phần / Dạng thức câu hỏi (Theo Công văn 7991)</th>
+                <th style="width:140px;">Điểm mỗi câu</th>
+                <th style="width:125px;">Mức Nhận biết</th>
+                <th style="width:125px;">Mức Thông hiểu</th>
+                <th style="width:125px;">Mức Vận dụng</th>
+                <th style="width:120px;">Tổng số câu/ý</th>
+                <th style="width:120px;">Tổng điểm phần</th>
+              </tr>
+            </thead>
+            <tbody id="partConfigTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="step-footer-nav">
+          <button class="btn btn-outline" onclick="goToStep(1)">← Quay lại Bước 1 (PPCT)</button>
+          <button class="btn btn-primary" onclick="autoGenerateMatrix(); goToStep(3);">Tự động tạo Ma trận (Bước 3) →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- BƯỚC 3: TẠO MA TRẬN ĐỀ KIỂM TRA (MẪU PHỤ LỤC 1 - CV 7991) -->
+    <!-- ================================================================== -->
+    <section class="step-panel" id="stepPanel3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📊 Bước 3: Bảng Ma trận Đề kiểm tra Định kỳ (Theo Mẫu Phụ lục 1 - Công văn 7991)</div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="autoGenerateMatrix(); renderMatrixTable();">🔄 Tự động phân bổ lại theo số tiết PPCT</button>
+          </div>
+        </div>
+
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">
+          💡 Bạn có thể chỉnh sửa trực tiếp số lượng câu hỏi hoặc điểm tự luận ở bất kỳ ô nào trong bảng Ma trận dưới đây. Hệ thống sẽ tự động tính toán lại tổng ngang, tổng dọc và tỉ lệ %.
+        </p>
+
+        <div class="table-wrap" id="matrixExportArea">
+          <table class="std-table">
+            <thead>
+              <tr>
+                <th rowspan="3" style="width:38px;">TT</th>
+                <th rowspan="3" style="width:160px;">Chủ đề / Chương</th>
+                <th rowspan="3" style="width:200px;">Nội dung / Đơn vị kiến thức</th>
+                <th colspan="12">Mức độ đánh giá & Dạng thức câu hỏi</th>
+                <th rowspan="3" style="width:65px;">Tổng lệnh hỏi</th>
+                <th rowspan="3" style="width:75px;">Tổng điểm</th>
+                <th rowspan="3" style="width:65px;">Tỉ lệ %</th>
+              </tr>
+              <tr>
+                <th colspan="3">TN Nhiều lựa chọn</th>
+                <th colspan="3">TN Đúng - Sai (Số ý)</th>
+                <th colspan="3">TN Trả lời ngắn</th>
+                <th colspan="3">Tự luận (Số câu & Điểm)</th>
+              </tr>
+              <tr>
+                <th>Biết</th><th>Hiểu</th><th>VD</th>
+                <th>Biết</th><th>Hiểu</th><th>VD</th>
+                <th>Biết</th><th>Hiểu</th><th>VD</th>
+                <th>Biết</th><th>Hiểu</th><th>VD</th>
+              </tr>
+            </thead>
+            <tbody id="matrixTableBody"></tbody>
+            <tfoot id="matrixTableFoot"></tfoot>
+          </table>
+        </div>
+
+        <div class="step-footer-nav">
+          <button class="btn btn-outline" onclick="goToStep(2)">← Quay lại Bước 2 (Phân bổ điểm)</button>
+          <button class="btn btn-primary" onclick="goToStep(4)">Tiếp tục sang Bước 4: Tạo Bản Đặc tả →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- BƯỚC 4: TẠO BẢN ĐẶC TẢ ĐỀ KIỂM TRA (MẪU PHỤ LỤC 2 - CV 7991) -->
+    <!-- ================================================================== -->
+    <section class="step-panel" id="stepPanel4">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📋 Bước 4: Bản Đặc tả Đề kiểm tra Định kỳ (Theo Mẫu Phụ lục 2 - Công văn 7991)</div>
+          <div>
+            <span class="badge badge-nl">NCCN: Nhận thức CN</span>
+            <span class="badge badge-nl">GTCN: Giao tiếp CN</span>
+            <span class="badge badge-nl">SDCN: Sử dụng CN</span>
+            <span class="badge badge-nl">ĐGCN: Đánh giá CN</span>
+            <span class="badge badge-nl">TKKT: Thiết kế KT</span>
+          </div>
+        </div>
+
+        <div class="table-wrap" id="specExportArea">
+          <table class="std-table">
+            <thead>
+              <tr>
+                <th rowspan="2" style="width:38px;">TT</th>
+                <th rowspan="2" style="width:160px;">Chủ đề / Chương</th>
+                <th rowspan="2" style="width:190px;">Nội dung / Đơn vị kiến thức</th>
+                <th rowspan="2">Yêu cầu cần đạt (Chi tiết theo mức độ Biết / Hiểu / Vận dụng)</th>
+                <th rowspan="2" style="width:85px;">Mã hóa năng lực</th>
+                <th colspan="4">Số câu hỏi và Vị trí câu theo dạng thức</th>
+              </tr>
+              <tr>
+                <th style="width:110px;">TN Nhiều lựa chọn</th>
+                <th style="width:110px;">TN Đúng - Sai</th>
+                <th style="width:95px;">TN Trả lời ngắn</th>
+                <th style="width:95px;">Tự luận</th>
+              </tr>
+            </thead>
+            <tbody id="specTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="step-footer-nav">
+          <button class="btn btn-outline" onclick="goToStep(3)">← Quay lại Bước 3 (Ma trận)</button>
+          <button class="btn btn-primary" onclick="generateExamFromMatrix(false); goToStep(5);">Tiếp tục sang Bước 5: Sinh Đề kiểm tra & Đáp án →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- BƯỚC 5: TẠO ĐỀ KIỂM TRA & HƯỚNG DẪN CHẤM -->
+    <!-- ================================================================== -->
+    <section class="step-panel" id="stepPanel5">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📝 Bước 5: Tạo Đề kiểm tra & Hướng dẫn chấm (Khớp 100% Ma trận & Đặc tả)</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <span>Mã đề:</span>
+            <input type="text" id="metaExamCode" value="101" style="width:70px; font-weight:700; text-align:center;" onchange="state.meta.examCode = this.value" />
+            <button class="btn btn-primary btn-sm" onclick="generateExamFromMatrix(true)">🔄 Sinh lại đề theo Ma trận</button>
+            <button class="btn btn-secondary btn-sm" onclick="shuffleExamQuestions()">🔀 Trộn mã đề & Đảo đáp án</button>
+            <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Tải về file Word (.doc)</button>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--text-muted);">
+          💡 Người ra đề có thể chỉnh sửa trực tiếp câu dẫn, các phương án A/B/C/D, đáp án đúng và **số điểm riêng của từng câu** ngay bên dưới.
+        </p>
+      </div>
+
+      <div id="examEditorContainer"></div>
+
+      <div class="card">
+        <div class="step-footer-nav" style="margin-top:0; padding-top:0; border-top:none;">
+          <button class="btn btn-outline" onclick="goToStep(4)">← Quay lại Bước 4 (Bản đặc tả)</button>
+          <button class="btn btn-primary" onclick="goToStep(6)">Tiếp tục sang Bước 6: Gọi Tool AI Kiểm định Đề →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- BƯỚC 6: GỌI TOOL AI ĐỂ KIỂM TRA & KIỂM ĐỊNH ĐỀ -->
+    <!-- ================================================================== -->
+    <section class="step-panel" id="stepPanel6">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🤖 Bước 6: Tool AI Kiểm tra & Kiểm định Hồ sơ Đề (AI Exam Auditor & Validator)</div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="runAiAuditTool()">🔍 Quét kiểm tra lại</button>
+            <button class="btn btn-primary btn-sm" onclick="callDeepAiInspector()">✨ Gọi Chuyên gia AI Thẩm định Chuyên sâu</button>
+          </div>
+        </div>
+
+        <div class="audit-score-banner">
+          <div style="display:flex; align-items:center; gap:18px;">
+            <div class="audit-circle" id="auditScoreCircle">100<span>/100 điểm</span></div>
+            <div>
+              <h3 id="auditSummaryTitle" style="font-size:17px; color:var(--primary-dark); margin-bottom:4px;"></h3>
+              <p style="font-size:13px; color:var(--text-muted);">
+                Hệ thống tự động đối soát chéo giữa Phân phối chương trình (Bước 1) ↔ Phân bổ điểm (Bước 2) ↔ Ma trận (Bước 3) ↔ Bản đặc tả (Bước 4) ↔ Đề thi & Đáp án (Bước 5).
+              </p>
+            </div>
+          </div>
+          <button class="btn btn-accent" onclick="exportFullWordDocument()">📥 Xuất Hồ sơ Đề chuẩn (.doc)</button>
+        </div>
+
+        <div class="audit-check-list" id="auditCheckList"></div>
+
+        <div id="deepAiOutputBox" style="display:none; margin-top:18px; padding:18px; border-radius:8px; border:1.5px solid #86efac; background:#f0fdf4;"></div>
+
+        <div class="step-footer-nav">
+          <button class="btn btn-outline" onclick="goToStep(5)">← Quay lại Bước 5 (Chỉnh sửa Đề)</button>
+          <button class="btn btn-primary" onclick="exportFullWordDocument()">📥 Hoàn tất & Xuất trọn bộ Hồ sơ Word (.doc)</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL CẤU HÌNH API AI -->
+  <div class="modal-backdrop" id="aiModalBackdrop">
+    <div class="modal-box">
+      <h3 style="margin-bottom:10px; color:var(--primary-dark);">⚙️ Cấu hình kết nối Gemini AI (Tùy chọn)</h3>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">
+        Ứng dụng đã tích hợp sẵn <strong>Bộ máy AI Khảo thí Nội bộ & Ngân hàng câu hỏi chuẩn CV 7991</strong> nên hoạt động ngay lập tức mà không cần khóa API. Nếu bạn muốn kết nối trực tiếp với Google Gemini API để thẩm định tự do, hãy nhập API Key bên dưới:
+      </p>
+      <div class="form-group" style="margin-bottom:14px;">
+        <label>Google Gemini API Key:</label>
+        <input type="password" id="aiKeyInput" placeholder="AIzaSy..." />
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn btn-outline" onclick="closeAiConfigModal()">Đóng</button>
+        <button class="btn btn-primary" onclick="saveAiConfig()">Lưu cấu hình</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KHO NGỮ LIỆU SGK PDF, SGV WORD & NGÂN HÀNG 442 CÂU HỎI GỐC -->
+  <div class="modal-backdrop" id="corpusModalBackdrop">
+    <div class="modal-box" style="max-width:980px; width:95%; max-height:88vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <div>
+          <h3 style="color:var(--primary-dark); margin-bottom:2px;">📚 Kho Ngữ Liệu Chính Thức: 3 SGK (PDF), 3 SGV (Word) & 442 Câu Hỏi Sách Ôn Tập Huấn</h3>
+          <p style="font-size:12.5px; color:var(--text-muted);">Đã trích xuất & liên kết trực tiếp từ thư mục Downloads vào hệ thống Skill AI và Ngân hàng Đề</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="closeCorpusModal()">✕ Đóng</button>
+      </div>
+      <div id="corpusModalContent"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="corpus_bank.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
