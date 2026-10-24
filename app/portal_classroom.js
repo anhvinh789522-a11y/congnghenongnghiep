@@ -218,25 +218,136 @@
   }
 
   // --------------------------------------------------------------------------
-  // 3. TÍNH NĂNG "ĐỂ ĐÓ GIÁO VIÊN ĐƯỢC XEM TRƯỚC" (TEACHER PREVIEW MODAL)
+  // 3. TÍNH NĂNG KIỂM DUYỆT & XEM TRƯỚC ĐỀ CỦA GIÁO VIÊN (TEACHER PREVIEW & APPROVAL MODAL)
   // --------------------------------------------------------------------------
-  function openTeacherExamPreview(examId, customExamObj) {
+  function openTeacherExamPreview(examId, customExamObj, roomId) {
     var exam = customExamObj || resolveExamById(examId);
     if (!exam) {
       alert("Không tìm thấy dữ liệu đề thi để xem trước!");
       return;
     }
     CLASSROOM_STATE.previewExamSnapshot = exam;
+    CLASSROOM_STATE.previewRoomId = roomId || null;
     CLASSROOM_STATE.previewModalOpen = true;
     CLASSROOM_STATE.previewActiveTab = "all";
+    CLASSROOM_STATE.previewViewMode = "teacher"; // 'teacher' | 'student'
+    CLASSROOM_STATE.previewAuditReport = null;
     renderTeacherPreviewModal();
   }
 
   function closeTeacherExamPreview() {
     CLASSROOM_STATE.previewModalOpen = false;
     CLASSROOM_STATE.previewExamSnapshot = null;
+    CLASSROOM_STATE.previewRoomId = null;
+    CLASSROOM_STATE.previewAuditReport = null;
     var modal = document.getElementById("classroomTeacherPreviewModal");
     if (modal) modal.remove();
+  }
+
+  function auditPreviewExam() {
+    var exam = CLASSROOM_STATE.previewExamSnapshot;
+    if (!exam) return;
+    var mcqs = exam.mcqs || [];
+    var tfs = exam.tfs || [];
+    var essays = exam.essays || [];
+
+    // Kiểm tra câu trùng hoặc thiếu
+    var mcqStems = {};
+    var duplicates = 0;
+    var missingFields = 0;
+
+    mcqs.forEach(function(q, i) {
+      if (!q.stem || !q.options || q.options.length < 4 || typeof q.answer === "undefined") {
+        missingFields++;
+      }
+      var cleanStem = (q.stem || "").trim().toLowerCase();
+      if (cleanStem) {
+        if (mcqStems[cleanStem]) duplicates++;
+        else mcqStems[cleanStem] = true;
+      }
+    });
+
+    tfs.forEach(function(q, i) {
+      if (!q.stem && !q.context) missingFields++;
+    });
+
+    var mcqPts = (mcqs.length * 0.25).toFixed(2);
+    var tfPts = tfs.length > 0 ? (exam.maxScore > 10 ? (tfs.length * 1.5).toFixed(2) : "4.00") : "0.00";
+    var essayPts = essays.reduce(function(acc, e) { return acc + (Number(e.points) || 3.5); }, 0).toFixed(2);
+    var calcTotal = (parseFloat(mcqPts) + parseFloat(tfPts) + parseFloat(essayPts)).toFixed(1);
+
+    CLASSROOM_STATE.previewAuditReport = {
+      mcqCount: mcqs.length,
+      mcqPts: mcqPts,
+      tfCount: tfs.length,
+      tfStatementsCount: tfs.length * 4,
+      tfPts: tfPts,
+      essayCount: essays.length,
+      essayPts: essayPts,
+      totalScore: calcTotal,
+      duplicates: duplicates,
+      missingFields: missingFields,
+      isValid: duplicates === 0 && missingFields === 0
+    };
+
+    renderTeacherPreviewModal();
+  }
+
+  function replaceExamQuestion(idx, type) {
+    var exam = CLASSROOM_STATE.previewExamSnapshot;
+    if (!exam || typeof QUESTION_BANK === "undefined") return;
+
+    if (type === "mcq") {
+      var pool = (QUESTION_BANK.mcq || []).filter(function(q) {
+        return !exam.mcqs.some(function(existing) { return existing.stem === q.stem; });
+      });
+      if (pool.length === 0) {
+        alert("Ngân hàng câu hỏi không còn câu MCQ mới để thay thế!");
+        return;
+      }
+      var rand = pool[Math.floor(Math.random() * pool.length)];
+      exam.mcqs[idx] = JSON.parse(JSON.stringify(rand));
+      if (CLASSROOM_STATE.previewAuditReport) auditPreviewExam();
+      else renderTeacherPreviewModal();
+      alert("🔄 Đã thay đổi Câu " + (idx + 1) + " thành công từ Ngân hàng chuẩn!");
+    } else if (type === "tf") {
+      var tfPool = (QUESTION_BANK.tf || []).filter(function(q) {
+        return !exam.tfs.some(function(existing) { return existing.stem === q.stem; });
+      });
+      if (tfPool.length === 0) {
+        alert("Ngân hàng câu hỏi không còn câu Đúng/Sai mới để thay thế!");
+        return;
+      }
+      var randTf = tfPool[Math.floor(Math.random() * tfPool.length)];
+      exam.tfs[idx] = JSON.parse(JSON.stringify(randTf));
+      if (CLASSROOM_STATE.previewAuditReport) auditPreviewExam();
+      else renderTeacherPreviewModal();
+      alert("🔄 Đã thay đổi Câu Đúng/Sai " + (idx + 1) + " thành công!");
+    }
+  }
+
+  function regeneratePreviewExam() {
+    var exam = CLASSROOM_STATE.previewExamSnapshot;
+    if (!exam) return;
+    if (!confirm("Thầy/Cô có chắc chắn muốn bốc ngẫu nhiên lại toàn bộ đề thi mới?")) return;
+    var newSnapshot = resolveExamById(exam.id) || (typeof generateAutoProvincialExam === "function" ? generateAutoProvincialExam("all") : null);
+    if (newSnapshot) {
+      CLASSROOM_STATE.previewExamSnapshot = newSnapshot;
+      if (CLASSROOM_STATE.previewRoomId) {
+        var r = getRoomById(CLASSROOM_STATE.previewRoomId);
+        if (r) {
+          r.examSnapshot = newSnapshot;
+          r.status = "draft"; // Làm mất hiệu lực duyệt cũ nếu vừa tạo lại đề
+          r.approvedAt = null;
+          r.approvedBy = null;
+          saveRoom(r);
+          renderClassroomHub();
+        }
+      }
+      if (CLASSROOM_STATE.previewAuditReport) auditPreviewExam();
+      else renderTeacherPreviewModal();
+      alert("🎲 Đã sinh ngẫu nhiên toàn bộ đề thi mới chuẩn cấu trúc!");
+    }
   }
 
   function renderTeacherPreviewModal() {
@@ -245,24 +356,28 @@
 
     var exam = CLASSROOM_STATE.previewExamSnapshot;
     if (!exam) return;
+    var isStudentMode = CLASSROOM_STATE.previewViewMode === "student";
+    var audit = CLASSROOM_STATE.previewAuditReport;
 
     var modalHtml = `
       <div id="classroomTeacherPreviewModal" class="modal-backdrop" style="display:flex; z-index:99999; background:rgba(15,23,42,0.8); backdrop-filter:blur(4px); position:fixed; inset:0; align-items:center; justify-content:center; padding:16px;">
-        <div class="modal-box" style="max-width:1100px; width:100%; max-height:92vh; display:flex; flex-direction:column; background:#fff; border-radius:14px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); overflow:hidden; border:2px solid #3b82f6;">
+        <div class="modal-box" style="max-width:1160px; width:100%; max-height:94vh; display:flex; flex-direction:column; background:#fff; border-radius:14px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.3); overflow:hidden; border:2px solid ${isStudentMode ? '#22c55e' : '#3b82f6'};">
           
-          <!-- Header Xem trước -->
-          <div style="background:linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); color:#fff; padding:16px 20px; display:flex; justify-content:space-between; align-items:center;">
+          <!-- Header Xem trước & Kiểm duyệt -->
+          <div style="background:${isStudentMode ? 'linear-gradient(135deg, #15803d 0%, #166534 100%)' : 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%)'}; color:#fff; padding:16px 20px; display:flex; justify-content:space-between; align-items:center;">
             <div>
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <span style="background:#fbbf24; color:#0f172a; font-weight:800; font-size:11px; padding:3px 8px; border-radius:4px; text-transform:uppercase;">
-                  👁️ CHẾ ĐỘ GIÁO VIÊN XEM TRƯỚC ĐỀ THI
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
+                <span style="background:${isStudentMode ? '#dcfce7' : '#fbbf24'}; color:${isStudentMode ? '#166534' : '#0f172a'}; font-weight:800; font-size:11px; padding:3px 8px; border-radius:4px; text-transform:uppercase;">
+                  ${isStudentMode ? '👨‍🎓 ĐANG XEM NHƯ HỌC SINH (KHÔNG HIỆN ĐÁP ÁN)' : '⚖️ ĐANG XEM BAREM ĐÁP ÁN & HƯỚNG DẪN CHẤM (GV)'}
                 </span>
                 <span style="background:rgba(255,255,255,0.2); font-size:12px; padding:2px 8px; border-radius:4px;">
                   ⏱️ ${exam.durationMinutes || 180} Phút • 🎯 Thang ${exam.maxScore || 20.0} điểm
                 </span>
-                <span style="background:rgba(34,197,94,0.3); color:#86efac; font-size:12px; padding:2px 8px; border-radius:4px; font-weight:700;">
-                  ✅ Kèm Đáp Án &amp; Barem Chuẩn
-                </span>
+                ${CLASSROOM_STATE.previewRoomId ? `
+                  <span style="background:#fef08a; color:#854d0e; font-size:11.5px; padding:2px 8px; border-radius:4px; font-weight:700;">
+                    🏫 Phòng: ${CLASSROOM_STATE.previewRoomId}
+                  </span>
+                ` : ''}
               </div>
               <h3 style="margin:0; font-size:18px; color:#fff;">${esc(exam.title)}</h3>
               <p style="margin:2px 0 0; font-size:12.5px; color:#cbd5e1;">${esc(exam.subTitle || "")}</p>
@@ -272,17 +387,17 @@
             </button>
           </div>
 
-          <!-- Thanh điều hướng Tab Xem trước -->
+          <!-- Thanh điều hướng Tab Xem trước & Công cụ Kiểm duyệt -->
           <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:10px 20px; flex-wrap:wrap; gap:8px;">
-            <div style="display:flex; gap:6px;">
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
               <button class="btn btn-sm ${CLASSROOM_STATE.previewActiveTab === 'all' ? 'btn-primary' : 'btn-outline'}" onclick="window.switchPreviewTab('all')">
-                📑 Toàn Bộ Đề &amp; Lời Giải
+                📑 Toàn Bộ Đề
               </button>
               <button class="btn btn-sm ${CLASSROOM_STATE.previewActiveTab === 'part1' ? 'btn-primary' : 'btn-outline'}" onclick="window.switchPreviewTab('part1')">
-                1️⃣ Phần I: 24 MCQ (${exam.mcqs ? exam.mcqs.length : 0})
+                1️⃣ Phần I: MCQ (${exam.mcqs ? exam.mcqs.length : 0})
               </button>
               <button class="btn btn-sm ${CLASSROOM_STATE.previewActiveTab === 'part2' ? 'btn-primary' : 'btn-outline'}" onclick="window.switchPreviewTab('part2')">
-                2️⃣ Phần II: Đúng/Sai (${exam.tfs ? exam.tfs.length : 0} câu / 16 ý)
+                2️⃣ Phần II: Đúng/Sai (${exam.tfs ? exam.tfs.length : 0} câu)
               </button>
               ${exam.essays && exam.essays.length > 0 ? `
                 <button class="btn btn-sm ${CLASSROOM_STATE.previewActiveTab === 'part3' ? 'btn-primary' : 'btn-outline'}" onclick="window.switchPreviewTab('part3')">
@@ -291,31 +406,65 @@
               ` : ''}
             </div>
 
-            <!-- Nút Duyệt / Phê duyệt đề -->
-            <div style="display:flex; gap:6px; align-items:center;">
-              <button class="btn btn-sm btn-accent" onclick="window.exportHsgStudentExamDoc()" style="font-size:12px;">
-                📄 Xuất Đề Thi (.doc)
+            <!-- Công cụ Kiểm định & Đổi chế độ Xem -->
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+              <div class="btn-group" style="display:inline-flex; border:1px solid #cbd5e1; border-radius:6px; overflow:hidden;">
+                <button type="button" class="btn btn-xs ${isStudentMode ? 'btn-primary' : 'btn-outline'}" onclick="window.setTeacherPreviewViewMode('student')" style="border:none; padding:5px 9px;">
+                  👨‍🎓 Học sinh
+                </button>
+                <button type="button" class="btn btn-xs ${!isStudentMode ? 'btn-primary' : 'btn-outline'}" onclick="window.setTeacherPreviewViewMode('teacher')" style="border:none; padding:5px 9px;">
+                  ⚖️ Giáo viên
+                </button>
+              </div>
+
+              <button class="btn btn-sm btn-outline" onclick="window.auditPreviewExam()" style="color:#0f766e; border-color:#0f766e; font-weight:700;">
+                🔍 Kiểm tra đề
               </button>
-              <button class="btn btn-sm btn-secondary" onclick="window.exportHsgOfficialKeyAndRubricDoc()" style="font-size:12px;">
-                ⚖️ Xuất Barem Chấm (.doc)
+              <button class="btn btn-sm btn-outline" onclick="window.regeneratePreviewExam()" style="color:#7c3aed; border-color:#7c3aed; font-weight:700;">
+                🎲 Sinh đề mới
               </button>
               <button class="btn btn-sm btn-primary" onclick="window.confirmAndApplyPreviewedExam()" style="background:#16a34a; border-color:#16a34a; font-weight:700;">
-                ✅ Đã Duyệt Đề Này -> Mở Phòng
+                ✅ Duyệt Đề &amp; Mở Phòng
               </button>
             </div>
           </div>
 
+          <!-- Báo cáo Kiểm tra đề nếu vừa bấm Kiểm tra -->
+          ${audit ? `
+            <div style="background:${audit.isValid ? '#f0fdf4' : '#fff1f2'}; border-bottom:1.5px solid ${audit.isValid ? '#86efac' : '#fecdd3'}; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+              <div>
+                <strong style="color:${audit.isValid ? '#166534' : '#991b1b'}; font-size:13.5px;">
+                  ${audit.isValid ? '✅ KẾT QUẢ KIỂM ĐỊNH: ĐỀ THI ĐẠT CHUẨN 100%' : '⚠️ PHÁT HIỆN LỖI CẤU TRÚC ĐỀ THI'}
+                </strong>
+                <div style="font-size:12.5px; color:#475569; margin-top:3px;">
+                  • <strong>Phần I (MCQ):</strong> ${audit.mcqCount} câu (${audit.mcqPts}đ) &nbsp;|&nbsp;
+                  • <strong>Phần II (Đúng/Sai):</strong> ${audit.tfCount} câu / ${audit.tfStatementsCount} lệnh (${audit.tfPts}đ) &nbsp;|&nbsp;
+                  • <strong>Phần III (Tự luận):</strong> ${audit.essayCount} câu (${audit.essayPts}đ) &nbsp;|&nbsp;
+                  • <strong>Tổng điểm:</strong> <strong>${audit.totalScore} / ${exam.maxScore || 20.0} điểm</strong>
+                </div>
+              </div>
+              <span class="badge ${audit.isValid ? 'badge-ok' : 'badge-vandung'}" style="font-size:12px; padding:5px 10px;">
+                ${audit.isValid ? '✓ Không có câu trùng, đủ 100% đáp án' : 'Cần sửa đổi'}
+              </span>
+            </div>
+          ` : ''}
+
           <!-- Nội dung chi tiết xem trước cuộn được -->
           <div style="flex:1; overflow-y:auto; padding:20px; background:#f1f5f9;">
-            ${renderPreviewContent(exam, CLASSROOM_STATE.previewActiveTab)}
+            ${renderPreviewContent(exam, CLASSROOM_STATE.previewActiveTab, isStudentMode)}
           </div>
 
           <!-- Footer xem trước -->
-          <div style="background:#fff; border-top:1px solid #e2e8f0; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:#64748b;">
-            <span>💡 <em>Lưu ý: Học sinh khi vào phòng thi sẽ KHÔNG nhìn thấy đáp án hay lời giải thích màu xanh lá này.</em></span>
-            <button class="btn btn-primary btn-sm" onclick="window.closeTeacherExamPreview()">
-              Hoàn tất xem trước
-            </button>
+          <div style="background:#fff; border-top:1px solid #e2e8f0; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:#64748b; flex-wrap:wrap; gap:8px;">
+            <span>💡 <em>${isStudentMode ? 'Giao diện hiển thị đúng chuẩn câu hỏi và các lựa chọn mà học sinh sẽ nhìn thấy khi làm bài thi.' : 'Chế độ giáo viên: Bấm nút "🔄 Đổi câu này" bên cạnh mỗi câu để bốc câu khác từ Ngân hàng.'}</em></span>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline btn-sm" onclick="window.closeTeacherExamPreview()">
+                Đóng
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="window.confirmAndApplyPreviewedExam()" style="background:#16a34a; border-color:#16a34a; font-weight:700;">
+                ✅ Duyệt đề &amp; Mở phòng thi
+              </button>
+            </div>
           </div>
 
         </div>
@@ -325,16 +474,16 @@
     document.body.insertAdjacentHTML("beforeend", modalHtml);
   }
 
-  function renderPreviewContent(exam, tab) {
+  function renderPreviewContent(exam, tab, isStudentMode) {
     var html = "";
 
-    // 1. PHẦN I: 24 MCQ
+    // 1. PHẦN I: MCQ
     if (tab === "all" || tab === "part1") {
       html += `
         <div style="background:#fff; border-radius:10px; padding:16px 20px; margin-bottom:18px; border:1px solid #cbd5e1; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #e2e8f0; padding-bottom:8px; margin-bottom:14px;">
             <h4 style="color:#1e3a8a; margin:0; font-size:16px;">
-              PHẦN I. CÂU HỎI TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (24 CÂU • 6,0 ĐIỂM)
+              PHẦN I. CÂU HỎI TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (${(exam.mcqs || []).length} CÂU • ${((exam.mcqs || []).length * 0.25).toFixed(1)} ĐIỂM)
             </h4>
             <span class="badge badge-ok">Mỗi câu đúng 0,25 điểm</span>
           </div>
@@ -343,27 +492,43 @@
               var correctIdx = Number(q.answer);
               return `
                 <div style="padding:12px; background:#f8fafc; border-radius:8px; border-left:4px solid #3b82f6;">
-                  <div style="font-weight:700; color:#1e293b; margin-bottom:8px; line-height:1.5;">
-                    <span style="color:#2563eb;">Câu ${idx + 1}:</span> ${esc(q.stem)}
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px;">
+                    <div style="font-weight:700; color:#1e293b; line-height:1.5; flex:1;">
+                      <span style="color:#2563eb;">Câu ${idx + 1}:</span> ${esc(q.stem)}
+                    </div>
+                    ${!isStudentMode ? `
+                      <button type="button" class="btn btn-outline btn-xs" onclick="window.replaceExamQuestion(${idx}, 'mcq')" title="Bốc ngẫu nhiên câu khác từ Ngân hàng câu hỏi" style="font-size:11px; color:#0f766e; border-color:#99f6e4; background:#f0fdfa; white-space:nowrap;">
+                        🔄 Đổi câu này
+                      </button>
+                    ` : ''}
                   </div>
                   <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:6px; margin-bottom:8px;">
                     ${(q.options || []).map(function(opt, optIdx) {
                       var isCorrect = optIdx === correctIdx;
-                      return `
-                        <div style="padding:6px 10px; border-radius:6px; font-size:13px; border:1px solid ${isCorrect ? '#86efac' : '#e2e8f0'}; background:${isCorrect ? '#f0fdf4' : '#fff'}; color:${isCorrect ? '#166534' : '#334155'}; font-weight:${isCorrect ? '700' : 'normal'}; display:flex; align-items:center; gap:6px;">
-                          <span>${String.fromCharCode(65 + optIdx)}.</span>
-                          <span style="flex:1;">${esc(opt)}</span>
-                          ${isCorrect ? `<span style="color:#16a34a; font-weight:800;">✓ (ĐÁP ÁN)</span>` : ''}
-                        </div>
-                      `;
+                      if (isStudentMode) {
+                        return `
+                          <div style="padding:8px 12px; border-radius:6px; font-size:13px; border:1px solid #cbd5e1; background:#fff; color:#334155; display:flex; align-items:center; gap:8px;">
+                            <span style="display:inline-block; width:18px; height:18px; border-radius:50%; border:1.5px solid #94a3b8; text-align:center; line-height:16px; font-size:10px; font-weight:bold;">${String.fromCharCode(65 + optIdx)}</span>
+                            <span style="flex:1;">${esc(opt)}</span>
+                          </div>
+                        `;
+                      } else {
+                        return `
+                          <div style="padding:6px 10px; border-radius:6px; font-size:13px; border:1px solid ${isCorrect ? '#86efac' : '#e2e8f0'}; background:${isCorrect ? '#f0fdf4' : '#fff'}; color:${isCorrect ? '#166534' : '#334155'}; font-weight:${isCorrect ? '700' : 'normal'}; display:flex; align-items:center; gap:6px;">
+                            <span>${String.fromCharCode(65 + optIdx)}.</span>
+                            <span style="flex:1;">${esc(opt)}</span>
+                            ${isCorrect ? `<span style="color:#16a34a; font-weight:800;">✓ (ĐÁP ÁN)</span>` : ''}
+                          </div>
+                        `;
+                      }
                     }).join("")}
                   </div>
-                  ${q.explanation ? `
+                  ${!isStudentMode && q.explanation ? `
                     <div style="background:#ecfdf5; border:1px dashed #86efac; border-radius:6px; padding:6px 10px; font-size:12.5px; color:#166534; margin-top:6px;">
                       <strong>💡 Giải thích khoa học:</strong> ${esc(q.explanation)}
                     </div>
                   ` : ''}
-                  ${q.recallHint ? `
+                  ${!isStudentMode && q.recallHint ? `
                     <div style="background:#eff6ff; border:1px dashed #93c5fd; border-radius:6px; padding:6px 10px; font-size:12px; color:#1e40af; margin-top:4px;">
                       <strong>📖 Điểm tựa ghi nhớ SGK:</strong> ${esc(q.recallHint)}
                     </div>
@@ -376,22 +541,29 @@
       `;
     }
 
-    // 2. PHẦN II: 4 CÂU ĐÚNG/SAI
+    // 2. PHẦN II: ĐÚNG / SAI
     if (tab === "all" || tab === "part2") {
       html += `
         <div style="background:#fff; border-radius:10px; padding:16px 20px; margin-bottom:18px; border:1px solid #cbd5e1; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #e2e8f0; padding-bottom:8px; margin-bottom:14px;">
             <h4 style="color:#1e3a8a; margin:0; font-size:16px;">
-              PHẦN II. CÂU HỎI ĐÚNG / SAI CÓ GIẢI THÍCH (4 CÂU • 16 Ý • 6,0 ĐIỂM)
+              PHẦN II. CÂU HỎI ĐÚNG / SAI ${(exam.tfs || []).length} CÂU (${(exam.tfs || []).length * 4} Ý)
             </h4>
-            <span class="badge badge-vandung">Bảng A: 0,125đ Đúng + 0,25đ GT • Bảng B: 0,25đ Đúng + 0,125đ GT</span>
+            <span class="badge badge-vandung">Bảng B: 0,25đ Đúng + 0,125đ GT • Chuẩn Bộ: 0.1 - 0.25 - 0.5 - 1.0đ</span>
           </div>
           <div style="display:flex; flex-direction:column; gap:16px;">
             ${(exam.tfs || []).map(function(q, qIdx) {
               return `
                 <div style="padding:14px; background:#f8fafc; border-radius:8px; border-left:4px solid #f59e0b;">
-                  <div style="font-weight:700; color:#1e293b; margin-bottom:6px; font-size:14.5px;">
-                    <span style="color:#d97706;">Câu ${qIdx + 1}:</span> ${esc(q.title || ("Chủ đề: " + (q.topic || "")))}
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:6px;">
+                    <div style="font-weight:700; color:#1e293b; font-size:14.5px; flex:1;">
+                      <span style="color:#d97706;">Câu ${qIdx + 1}:</span> ${esc(q.title || ("Chủ đề: " + (q.topic || "")))}
+                    </div>
+                    ${!isStudentMode ? `
+                      <button type="button" class="btn btn-outline btn-xs" onclick="window.replaceExamQuestion(${qIdx}, 'tf')" title="Bốc ngẫu nhiên câu Đúng/Sai khác" style="font-size:11px; color:#b45309; border-color:#fde68a; background:#fffbeb; white-space:nowrap;">
+                        🔄 Đổi câu này
+                      </button>
+                    ` : ''}
                   </div>
                   <div style="font-size:13.5px; color:#475569; margin-bottom:12px; line-height:1.5;">
                     ${esc(q.stem || q.context || "")}
@@ -402,23 +574,38 @@
                       var ans = q.answers ? q.answers[sub] : null;
                       var isTrue = ans === true || ans === "Đ" || ans === "Đúng";
                       var exp = q.explanations ? q.explanations[sub] : "";
-                      return `
-                        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:10px 12px;">
-                          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
-                            <div style="font-size:13px; color:#1e293b; line-height:1.5;">
+
+                      if (isStudentMode) {
+                        return `
+                          <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                            <div style="font-size:13px; color:#1e293b; line-height:1.5; flex:1;">
                               <strong>${sub})</strong> ${esc(stmt)}
                             </div>
-                            <span style="padding:2px 8px; border-radius:4px; font-size:12px; font-weight:800; color:#fff; background:${isTrue ? '#16a34a' : '#dc2626'}; white-space:nowrap;">
-                              ${isTrue ? '✓ ĐÚNG' : '✗ SAI'}
-                            </span>
-                          </div>
-                          ${exp ? `
-                            <div style="background:#f0fdf4; border:1px dashed #86efac; border-radius:4px; padding:6px 10px; font-size:12px; color:#166534; margin-top:6px;">
-                              <strong>⚖️ Cơ sở khoa học / Lời giải thích chuẩn:</strong> ${esc(exp)}
+                            <div style="display:flex; gap:10px; font-size:12.5px; color:#475569;">
+                              <label style="display:flex; align-items:center; gap:4px; cursor:pointer;"><input type="radio" name="preview_tf_${qIdx}_${sub}" disabled /> Đúng</label>
+                              <label style="display:flex; align-items:center; gap:4px; cursor:pointer;"><input type="radio" name="preview_tf_${qIdx}_${sub}" disabled /> Sai</label>
                             </div>
-                          ` : ''}
-                        </div>
-                      `;
+                          </div>
+                        `;
+                      } else {
+                        return `
+                          <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:10px 12px;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                              <div style="font-size:13px; color:#1e293b; line-height:1.5;">
+                                <strong>${sub})</strong> ${esc(stmt)}
+                              </div>
+                              <span style="padding:2px 8px; border-radius:4px; font-size:12px; font-weight:800; color:#fff; background:${isTrue ? '#16a34a' : '#dc2626'}; white-space:nowrap;">
+                                ${isTrue ? '✓ ĐÚNG' : '✗ SAI'}
+                              </span>
+                            </div>
+                            ${exp ? `
+                              <div style="background:#f0fdf4; border:1px dashed #86efac; border-radius:4px; padding:6px 10px; font-size:12px; color:#166534; margin-top:6px;">
+                                <strong>⚖️ Cơ sở khoa học / Lời giải thích chuẩn:</strong> ${esc(exp)}
+                              </div>
+                            ` : ''}
+                          </div>
+                        `;
+                      }
                     }).join("")}
                   </div>
                 </div>
@@ -454,18 +641,24 @@
                   <div style="font-size:13.5px; color:#1e293b; line-height:1.6; white-space:pre-line; margin-bottom:12px; background:#fff; padding:12px; border-radius:6px; border:1px solid #e2e8f0;">
                     ${esc(essay.problem)}
                   </div>
-                  <div style="background:#faf5ff; border:1.5px solid #d8b4fe; border-radius:6px; padding:12px;">
-                    <div style="font-size:13px; font-weight:700; color:#6d28d9; margin-bottom:6px;">
-                      ⚖️ BAREM ĐÁP ÁN &amp; HƯỚNG DẪN CHẤM CHI TIẾT (RUBRIC):
+                  ${isStudentMode ? `
+                    <div style="border:1.5px dashed #cbd5e1; background:#f8fafc; border-radius:6px; padding:16px; font-size:13px; color:#94a3b8; font-style:italic;">
+                      📝 Khu vực học sinh viết bài luận và phương án kỹ thuật nông nghiệp...
                     </div>
-                    ${(essay.rubric || []).map(function(step, sIdx) {
-                      return `
-                        <div style="font-size:12.5px; color:#4c1d95; line-height:1.5; margin-bottom:4px; padding-left:10px; border-left:2px solid #a855f7;">
-                          • ${esc(step)}
-                        </div>
-                      `;
-                    }).join("")}
-                  </div>
+                  ` : `
+                    <div style="background:#faf5ff; border:1.5px solid #d8b4fe; border-radius:6px; padding:12px;">
+                      <div style="font-size:13px; font-weight:700; color:#6d28d9; margin-bottom:6px;">
+                        ⚖️ BAREM ĐÁP ÁN &amp; HƯỚNG DẪN CHẤM CHI TIẾT (RUBRIC):
+                      </div>
+                      ${(essay.rubric || []).map(function(step, sIdx) {
+                        return `
+                          <div style="font-size:12.5px; color:#4c1d95; line-height:1.5; margin-bottom:4px; padding-left:10px; border-left:2px solid #a855f7;">
+                            • ${esc(step)}
+                          </div>
+                        `;
+                      }).join("")}
+                    </div>
+                  `}
                 </div>
               `;
             }).join("")}
@@ -538,6 +731,10 @@
     }
     if (room.status === "closed") {
       alert("Phòng thi này đã đóng! Giáo viên đã kết thúc buổi thi.");
+      return false;
+    }
+    if (room.status === "draft") {
+      alert("⚠️ Phòng thi đang ở chế độ xem trước/biên soạn. Giáo viên chưa phê duyệt mở phòng thi cho học sinh!");
       return false;
     }
 
@@ -1570,6 +1767,10 @@
 
   window.openTeacherExamPreview = openTeacherExamPreview;
   window.closeTeacherExamPreview = closeTeacherExamPreview;
+  window.replaceExamQuestion = replaceExamQuestion;
+  window.auditPreviewExam = auditPreviewExam;
+  window.regeneratePreviewExam = regeneratePreviewExam;
+  window.setTeacherPreviewViewMode = setTeacherPreviewViewMode;
 
   window.switchPreviewTab = function(tab) {
     CLASSROOM_STATE.previewActiveTab = tab;
@@ -1577,8 +1778,21 @@
   };
 
   window.confirmAndApplyPreviewedExam = function() {
+    var exam = CLASSROOM_STATE.previewExamSnapshot;
+    var roomId = CLASSROOM_STATE.previewRoomId;
+    if (roomId) {
+      var room = getRoomById(roomId);
+      if (room) {
+        room.status = "active";
+        room.examSnapshot = exam;
+        if (!room.config) room.config = {};
+        room.config.previewApproved = true;
+        saveRoom(room);
+      }
+    }
     closeTeacherExamPreview();
-    alert("✅ Đề thi đã được Thầy/Cô phê duyệt!\n\nHãy nhấn 'Kích Hoạt & Mở Phòng Thi Cho Cả Lớp' để bắt đầu.");
+    if (typeof renderClassroomHub === "function") renderClassroomHub();
+    alert("✅ Đề thi đã được Thầy/Cô phê duyệt thành công!\n\nPhòng thi hiện đã ở trạng thái HOẠT ĐỘNG, học sinh có thể vào làm bài ngay.");
   };
 
   window.handleCreateRoomSubmit = function() {

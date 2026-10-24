@@ -2906,6 +2906,235 @@ function exportHsgOfficialKeyAndRubricDoc() {
   downloadDocFile(html, `DapAn_Va_BaremCham_HSG_${exam.id}_Bang_${tbl}.doc`);
 }
 
+// 4. XUẤT PHIẾU CHẤM TAY DÀNH CHO GIÁM KHẢO HSG (CHUẨN NGHỊ ĐỊNH 30/2020/NĐ-CP)
+function exportHsgManualGradingSheetDoc() {
+  const exam = getCurrentHsgExam();
+  const tbl = 'B';
+  let html = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head>
+      <meta charset="utf-8">
+      <title>Phieu_Cham_Tay_Giam_Khao_HSG_${exam.code}</title>
+      <style>
+        @page WordSection1 {
+          size: 210mm 297mm;
+          margin: 20mm 15mm 20mm 30mm;
+          mso-header-margin: 15mm;
+          mso-footer-margin: 15mm;
+          mso-paper-source: 0;
+        }
+        div.WordSection1 { page: WordSection1; }
+        body { font-family: "Times New Roman", Times, serif; font-size: 13pt; line-height: 1.25; color: #000; }
+        p { font-family: "Times New Roman", Times, serif; font-size: 13pt; line-height: 1.25; margin: 0 0 5pt 0; }
+        table { width: 100%; border-collapse: collapse; margin: 6pt 0; font-family: "Times New Roman", Times, serif; }
+        th, td { border: 1px solid #000; padding: 4.5pt 6pt; font-size: 11pt; vertical-align: top; }
+        th { background-color: #f2f2f2; font-weight: bold; text-align: center; }
+        thead { display: table-header-group; }
+        tr { page-break-inside: avoid; }
+        .header-tbl, .header-tbl td { border: none !important; padding: 2pt 4pt; }
+        .title { font-size: 14pt; font-weight: bold; text-align: center; text-transform: uppercase; margin: 10pt 0 4pt; }
+        .sec-title { font-size: 12.5pt; font-weight: bold; margin: 10pt 0 4pt; }
+      </style>
+    </head>
+    <body>
+      <div class="WordSection1">
+        <table class="header-tbl" style="width:100%;">
+          <tr>
+            <td style="width:50%; text-align:center;">
+              <strong>SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI</strong><br/>
+              <strong>TRƯỜNG THPT LỘC NINH</strong><br/>
+              <span style="font-size:11pt;">HỘI ĐỒNG CHẤM KHẢO THÍ HSG</span>
+            </td>
+            <td style="width:50%; text-align:center;">
+              <strong>KỲ THI CHỌN HỌC SINH GIỎI CẤP TRƯỜNG / TỈNH</strong><br/>
+              <strong>NĂM HỌC 2025 – 2026</strong><br/>
+              <span style="font-size:11pt;">MÔN: CÔNG NGHỆ NÔNG NGHIỆP — BẢNG ${tbl}</span>
+            </td>
+          </tr>
+        </table>
+        
+        <div class="title">PHIẾU CHẤM TAY DÀNH CHO GIÁM KHẢO</div>
+        <p style="text-align:center; font-style:italic; font-size:11pt; margin-bottom:10pt;">
+          (Dùng cho Giám khảo 1, Giám khảo 2 chấm độc lập và Thống nhất điểm thi)
+        </p>
+
+        <table style="width:100%; margin-bottom:10pt;">
+          <tr>
+            <td style="width:33%;"><strong>Mã đề thi:</strong> ${escapeHtml(exam.code)}</td>
+            <td style="width:33%;"><strong>Số phách / Mã bài:</strong> ....................</td>
+            <td style="width:34%;"><strong>Phòng thi:</strong> ....................</td>
+          </tr>
+        </table>
+
+        <div class="sec-title">I. PHẦN I: TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN (24 câu • 6,0 điểm • 0,25đ/câu)</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:8%;">Câu</th>
+              <th style="width:14%;">Đáp án gốc</th>
+              <th style="width:14%;">Bài làm HS</th>
+              <th style="width:16%;">Điểm GK 1</th>
+              <th style="width:16%;">Điểm GK 2</th>
+              <th style="width:16%;">Điểm Thống nhất</th>
+              <th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(exam.mcqs || []).map((q, idx) => {
+              const uAns = HSG_MASTER_STATE.userMcq[idx];
+              const uLetter = typeof uAns !== "undefined" ? String.fromCharCode(65 + uAns) : "";
+              const cLetter = String.fromCharCode(65 + Number(q.answer));
+              const pt = uAns === Number(q.answer) ? "0.25" : "0.00";
+              return `
+                <tr>
+                  <td style="text-align:center; font-weight:bold;">${idx + 1}</td>
+                  <td style="text-align:center; font-weight:bold; color:#166534;">${cLetter}</td>
+                  <td style="text-align:center; font-weight:bold;">${uLetter || '...'}</td>
+                  <td style="text-align:center;">${pt}</td>
+                  <td style="text-align:center;"></td>
+                  <td style="text-align:center; font-weight:bold;">${pt}</td>
+                  <td></td>
+                </tr>
+              `;
+            }).join("")}
+            <tr style="font-weight:bold; background:#f9fafb;">
+              <td colspan="3" style="text-align:right;">CỘNG ĐIỂM PHẦN I:</td>
+              <td style="text-align:center;">/ 6,0 đ</td>
+              <td style="text-align:center;">/ 6,0 đ</td>
+              <td style="text-align:center;">/ 6,0 đ</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="sec-title" style="page-break-before:always;">II. PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI CÓ GIẢI THÍCH (4 câu • 16 ý • 6,0 điểm)</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:8%;">Câu - Ý</th>
+              <th style="width:12%;">Khóa Đ/S</th>
+              <th>Tiêu chí giải thích khoa học chuẩn</th>
+              <th style="width:12%;">Điểm GK 1</th>
+              <th style="width:12%;">Điểm GK 2</th>
+              <th style="width:14%;">Điểm Thống nhất</th>
+              <th style="width:16%;">Nhận xét</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(exam.tfs || []).map((q, qIdx) => {
+              return ['a', 'b', 'c', 'd'].map(stKey => {
+                const ans = q.answers ? q.answers[stKey] : null;
+                const isTrue = ans === true || ans === "Đ" || ans === "Đúng";
+                const exp = q.explanations ? q.explanations[stKey] : "";
+                return `
+                  <tr>
+                    <td style="text-align:center; font-weight:bold;">C${qIdx + 1}.${stKey}</td>
+                    <td style="text-align:center; font-weight:bold; color:${isTrue ? '#166534' : '#dc2626'};">${isTrue ? 'ĐÚNG' : 'SAI'}</td>
+                    <td style="font-size:10pt;">${escapeHtml(exp || 'Theo SGK và barem')}</td>
+                    <td style="text-align:center;"></td>
+                    <td style="text-align:center;"></td>
+                    <td style="text-align:center; font-weight:bold;"></td>
+                    <td></td>
+                  </tr>
+                `;
+              }).join("");
+            }).join("")}
+            <tr style="font-weight:bold; background:#f9fafb;">
+              <td colspan="3" style="text-align:right;">CỘNG ĐIỂM PHẦN II:</td>
+              <td style="text-align:center;">/ 6,0 đ</td>
+              <td style="text-align:center;">/ 6,0 đ</td>
+              <td style="text-align:center;">/ 6,0 đ</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="sec-title" style="page-break-before:always;">III. PHẦN III: TỰ LUẬN NÔNG NGHIỆP THỰC TIỄN & KỸ THUẬT (8,0 điểm)</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:16%;">Câu / Chuyên đề</th>
+              <th style="width:40%;">Nội dung / Tiêu chí cần đạt (Rubric)</th>
+              <th style="width:10%;">Điểm tối đa</th>
+              <th style="width:11%;">Điểm GK 1</th>
+              <th style="width:11%;">Điểm GK 2</th>
+              <th style="width:12%;">Điểm Thống nhất</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(exam.essays || []).map((p, eIdx) => {
+              const rubrics = p.rubric || [p.solution || "Theo hướng dẫn chấm"];
+              return rubrics.map((r, rIdx) => {
+                const ptMatch = String(r).match(/\\(([\\d,]+)đ\\)/);
+                const pt = ptMatch ? ptMatch[1] : (8.0 / (exam.essays.length * rubrics.length)).toFixed(2);
+                return `
+                  <tr>
+                    ${rIdx === 0 ? `<td rowspan="${rubrics.length}" style="font-weight:bold; vertical-align:top;">Câu ${eIdx + 1}: ${escapeHtml(p.title || '')}</td>` : ''}
+                    <td style="font-size:10pt;">${escapeHtml(r)}</td>
+                    <td style="text-align:center; font-weight:bold;">${pt} đ</td>
+                    <td style="text-align:center;"></td>
+                    <td style="text-align:center;"></td>
+                    <td style="text-align:center; font-weight:bold;"></td>
+                  </tr>
+                `;
+              }).join("");
+            }).join("")}
+            <tr style="font-weight:bold; background:#f9fafb;">
+              <td colspan="2" style="text-align:right;">CỘNG ĐIỂM PHẦN III:</td>
+              <td style="text-align:center;">8,0 đ</td>
+              <td style="text-align:center;">/ 8,0 đ</td>
+              <td style="text-align:center;">/ 8,0 đ</td>
+              <td style="text-align:center;">/ 8,0 đ</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- BẢNG TỔNG HỢP ĐIỂM & CHỮ KÝ 2 GIÁM KHẢO -->
+        <table style="width:100%; margin-top:14pt; border:2px solid #000;">
+          <tr style="background:#f1f5f9; font-weight:bold; text-align:center;">
+            <td style="width:33%; padding:8pt;">TỔNG ĐIỂM GIÁM KHẢO 1</td>
+            <td style="width:33%; padding:8pt;">TỔNG ĐIỂM GIÁM KHẢO 2</td>
+            <td style="width:34%; padding:8pt;">ĐIỂM TOÀN BÀI THỐNG NHẤT</td>
+          </tr>
+          <tr style="text-align:center; font-size:14pt; font-weight:bold; height:50px;">
+            <td>....... / 20,0 điểm</td>
+            <td>....... / 20,0 điểm</td>
+            <td style="color:#166534;">....... / 20,0 điểm</td>
+          </tr>
+          <tr>
+            <td colspan="3" style="padding:8pt; font-size:12pt;">
+              <strong>Bằng chữ:</strong> .....................................................................................................................................................
+            </td>
+          </tr>
+        </table>
+
+        <table class="header-tbl" style="width:100%; margin-top:24pt;">
+          <tr>
+            <td style="width:33%; text-align:center;">
+              <strong>GIÁM KHẢO 1</strong><br/>
+              <em>(Ký và ghi rõ họ tên)</em><br/><br/><br/><br/>
+              ................................................
+            </td>
+            <td style="width:33%; text-align:center;">
+              <strong>GIÁM KHẢO 2</strong><br/>
+              <em>(Ký và ghi rõ họ tên)</em><br/><br/><br/><br/>
+              ................................................
+            </td>
+            <td style="width:34%; text-align:center;">
+              <em>Lộc Ninh, ngày ...... tháng ...... năm 2026</em><br/>
+              <strong>CHỦ TỊCH HỘI ĐỒNG CHẤM THI</strong><br/>
+              <em>(Ký và ghi rõ họ tên)</em><br/><br/><br/><br/>
+              ................................................
+            </td>
+          </tr>
+        </table>
+      </div>
+    </body>
+    </html>
+  `;
+  downloadDocFile(html, `Phieu_Cham_Tay_Giam_Khao_HSG_${exam.id}.doc`);
+}
+
 function downloadDocFile(htmlContent, fileName) {
   const blob = new Blob(['\ufeff', htmlContent], {
     type: 'application/msword;charset=utf-8'
@@ -3280,6 +3509,9 @@ document.addEventListener("click", function() {
                   </a>
                   <a href="javascript:void(0)" class="hsg-dropdown-item" onclick="exportHsgOfficialKeyAndRubricDoc(); closeHsgExportMenu();">
                     ⚖️ 3. Barem Chấm Chi Tiết (.doc)
+                  </a>
+                  <a href="javascript:void(0)" class="hsg-dropdown-item" onclick="exportHsgManualGradingSheetDoc(); closeHsgExportMenu();">
+                    ✍️ 4. Phiếu Chấm Tay Giám Khảo (.doc - Chuẩn NĐ 30)
                   </a>
                 </div>
               </div>

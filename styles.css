@@ -4389,7 +4389,8 @@ body {
 
 /* Dropdowns và menu thao tác nhanh */
 #quickCreateMenu.open,
-#exportMenuDropdown.open {
+#exportMenuDropdown.open,
+#gradExportDropdown.open {
   display: block !important;
 }
 

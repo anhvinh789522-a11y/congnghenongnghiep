@@ -3177,70 +3177,425 @@ function generateSimilarGradExam() {
   portalState.gradExamSubTab = "mock_test";
   renderGraduationExamView();
 }
-function exportGradExamWord() {
+// 1. XUẤT ĐỀ THI TỐT NGHIỆP CHUẨN NĐ 30/2020 (TÁCH BẢN HỌC SINH & BẢN GIÁO VIÊN)
+function exportGradExamWord(mode = 'student') {
   const mcqs = portalState.gradExamItems.mcq || [];
   const tfs = portalState.gradExamItems.tf || [];
-  const title = portalState.gradExamTitle || "ĐỀ THI TỐT NGHIỆP THPT MÔN CÔNG NGHỆ NÔNG NGHIỆP";
+  const examId = portalState.gradExamId || '0701';
+  const isTeacher = mode === 'teacher';
+  const title = isTeacher
+    ? `HƯỚNG DẪN CHẤM & ĐÁP ÁN ĐỀ THI THỬ TỐT NGHIỆP THPT (MÃ ĐỀ: ${examId})`
+    : `ĐỀ THI THỬ TỐT NGHIỆP THPT MÔN CÔNG NGHỆ NÔNG NGHIỆP (MÃ ĐỀ: ${examId})`;
+
   let html = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-    <head><meta charset="utf-8"><title>${escapeHtml(title)}</title>
-    <style>body{font-family:"Times New Roman",serif;font-size:12pt;line-height:1.4;} h2,h3{text-align:center;}</style></head>
+    <head>
+      <meta charset="utf-8">
+      <title>${escapeHtml(title)}</title>
+      <style>
+        @page WordSection1 {
+          size: 210mm 297mm;
+          margin: 20mm 15mm 20mm 30mm;
+          mso-header-margin: 15mm;
+          mso-footer-margin: 15mm;
+          mso-paper-source: 0;
+        }
+        div.WordSection1 { page: WordSection1; }
+        body { font-family: "Times New Roman", Times, serif; font-size: 13pt; line-height: 1.25; color: #000; text-align: justify; }
+        p { font-family: "Times New Roman", Times, serif; font-size: 13pt; line-height: 1.25; margin: 0 0 5pt 0; text-align: justify; }
+        table { width: 100%; border-collapse: collapse; margin: 6pt 0; font-family: "Times New Roman", Times, serif; }
+        th, td { border: 1px solid #000; padding: 4.5pt 6pt; font-size: 11pt; vertical-align: top; }
+        th { background-color: #f2f2f2; font-weight: bold; text-align: center; }
+        thead { display: table-header-group; }
+        tr { page-break-inside: avoid; }
+        .header-tbl, .header-tbl td { border: none !important; padding: 2pt 4pt; }
+        .q-stem { font-weight: bold; margin-top: 8pt; margin-bottom: 3pt; page-break-after: avoid; }
+        .q-opt { margin-left: 18pt; margin-bottom: 2pt; }
+        .page-break { page-break-before: always; mso-break-type: section-break; }
+      </style>
+    </head>
     <body>
-      <h2>BỘ GIÁO DỤC VÀ ĐÀO TẠO — KỲ THI TỐT NGHIỆP THPT</h2>
-      <h3>BÀI THI MÔN CÔNG NGHỆ NÔNG NGHIỆP (LÂM NGHIỆP — THỦY SẢN)</h3>
-      <p style="text-align:center;"><em>Thời gian làm bài: 50 phút, không kể thời gian phát đề</em></p>
-      <hr/>
-      <h4>PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (6,0 điểm).</h4>
-      <p><em>Thí sinh trả lời từ câu 1 đến câu 24. Mỗi câu hỏi thí sinh chỉ chọn một phương án. Mỗi câu đúng được 0,25 điểm.</em></p>
-      ${mcqs.map((q, i) => `
-        <p><strong>Câu ${i + 1}:</strong> ${escapeHtml(q.stem)}<br/>
-        ${(q.options || []).map((opt, oIdx) => `&nbsp;&nbsp;<strong>${String.fromCharCode(65 + oIdx)}.</strong> ${escapeHtml(opt)}`).join("<br/>")}
+      <div class="WordSection1">
+        <table class="header-tbl" style="width:100%;">
+          <tr>
+            <td style="width:48%; text-align:center;">
+              <strong>SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI</strong><br/>
+              <strong>TRƯỜNG THPT LỘC NINH</strong><br/>
+              <span style="font-size:11pt;">TỔ CÔNG NGHỆ</span><br/>
+              --------------------<br/>
+              <span style="font-size:11pt; font-style:italic;">(Đề thi gồm có 04 trang)</span>
+            </td>
+            <td style="width:52%; text-align:center;">
+              <strong>BÀI THI THỬ TỐT NGHIỆP TRUNG HỌC PHỔ THÔNG</strong><br/>
+              <strong>NĂM HỌC 2025 – 2026</strong><br/>
+              <strong>Môn: CÔNG NGHỆ (ĐỊNH HƯỚNG NÔNG NGHIỆP)</strong><br/>
+              <span style="font-size:11pt; font-style:italic;">Thời gian làm bài: 50 phút, không kể thời gian phát đề</span><br/>
+              --------------------
+            </td>
+          </tr>
+        </table>
+
+        <div style="border:1px solid #000; padding:6pt 10pt; margin:8pt 0 14pt 0; font-size:11.5pt;">
+          <table class="header-tbl" style="width:100%; margin:0;">
+            <tr>
+              <td style="width:65%;">Họ, tên thí sinh: ................................................................................</td>
+              <td style="width:35%; text-align:right;"><strong>Mã đề thi: ${escapeHtml(examId)}</strong></td>
+            </tr>
+            <tr>
+              <td>Số báo danh: .....................................................................................</td>
+              <td style="text-align:right;">Phòng thi số: .........</td>
+            </tr>
+          </table>
+        </div>
+
+        <p style="font-weight:bold; text-transform:uppercase; margin-top:10pt;">
+          PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (6,0 điểm).
         </p>
-      `).join("")}
-      <h4>PHẦN II. Câu trắc nghiệm đúng sai (4,0 điểm).</h4>
-      <p><em>Thí sinh trả lời từ câu 25 đến câu 28. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.</em></p>
-      ${tfs.map((q, i) => `
-        <p><strong>Câu ${25 + i}:</strong> ${escapeHtml(q.context || q.stem || '')}<br/>
-        ${(q.statements || []).map(st => `&nbsp;&nbsp;<strong>${st.label || st.key})</strong> ${escapeHtml(st.text)}`).join("<br/>")}
+        <p style="font-style:italic; font-size:11pt; margin-bottom:8pt;">
+          Thí sinh trả lời từ câu 1 đến câu 24. Mỗi câu hỏi thí sinh chỉ chọn một phương án đúng nhất. Mỗi câu đúng được 0,25 điểm.
         </p>
-      `).join("")}
-      <hr/>
-      <h3>HƯỚNG DẪN CHẤM VÀ ĐÁP ÁN CHI TIẾT</h3>
-      <h4>I. Bảng Đáp án Phần I (24 câu MCQ - 0,25đ/câu)</h4>
-      <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; text-align:center; width:100%;">
-        <tr>${mcqs.slice(0, 12).map((_, i) => `<th>Câu ${i + 1}</th>`).join("")}</tr>
-        <tr>${mcqs.slice(0, 12).map(q => `<td><strong>${String.fromCharCode(65 + (Number(q.answer) || 0))}</strong></td>`).join("")}</tr>
-        <tr>${mcqs.slice(12, 24).map((_, i) => `<th>Câu ${13 + i}</th>`).join("")}</tr>
-        <tr>${mcqs.slice(12, 24).map(q => `<td><strong>${String.fromCharCode(65 + (Number(q.answer) || 0))}</strong></td>`).join("")}</tr>
-      </table>
-      <h4>II. Bảng Đáp án Phần II (4 câu Đúng/Sai - 4,0 điểm)</h4>
-      <p><em>Quy tắc tính điểm Bộ GD&ĐT: Đúng 1 ý = 0,1đ; Đúng 2 ý = 0,25đ; Đúng 3 ý = 0,5đ; Đúng cả 4 ý = 1,0đ.</em></p>
-      <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; text-align:center; width:100%;">
-        <thead><tr><th>Câu</th><th>Ý a</th><th>Ý b</th><th>Ý c</th><th>Ý d</th><th>Giải thích chi tiết</th></tr></thead>
-        <tbody>
-          ${tfs.map((q, i) => {
-            const stMap = {};
-            (q.statements || []).forEach(st => { stMap[st.label || st.key] = Boolean(st.isTrue || st.answer) ? "Đ" : "S"; });
-            const explain = (q.statements || []).map(st => `${st.label || st.key}) ${escapeHtml(st.explanation || '')}`).join("<br/>");
-            return `<tr>
-              <td><strong>Câu ${25 + i}</strong></td>
-              <td><strong>${stMap['a'] || 'Đ'}</strong></td>
-              <td><strong>${stMap['b'] || 'S'}</strong></td>
-              <td><strong>${stMap['c'] || 'Đ'}</strong></td>
-              <td><strong>${stMap['d'] || 'Đ'}</strong></td>
-              <td style="text-align:left; font-size:11pt;">${explain}</td>
-            </tr>`;
-          }).join("")}
-        </tbody>
-      </table>
-    </body></html>
+
+        ${mcqs.map((q, i) => `
+          <div style="page-break-inside:avoid; margin-bottom:6pt;">
+            <div class="q-stem"><strong>Câu ${i + 1}:</strong> ${escapeHtml(q.stem)}</div>
+            ${(q.options || []).map((opt, oIdx) => `
+              <div class="q-opt"><strong>${String.fromCharCode(65 + oIdx)}.</strong> ${escapeHtml(opt)}${isTeacher && oIdx === Number(q.answer) ? ' <strong style="color:#166534;">[ĐÁP ÁN ĐÚNG]</strong>' : ''}</div>
+            `).join("")}
+            ${isTeacher && q.explanation ? `<div style="font-size:11pt; color:#166534; margin:3pt 0 6pt 18pt; font-style:italic;">↳ Giải thích: ${escapeHtml(q.explanation)}</div>` : ''}
+          </div>
+        `).join("")}
+
+        <p style="font-weight:bold; text-transform:uppercase; margin-top:14pt; page-break-before:auto;">
+          PHẦN II. Câu trắc nghiệm đúng sai (4,0 điểm).
+        </p>
+        <p style="font-style:italic; font-size:11pt; margin-bottom:8pt;">
+          Thí sinh trả lời từ câu 25 đến câu 28. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.
+        </p>
+
+        ${tfs.map((q, i) => `
+          <div style="page-break-inside:avoid; margin-bottom:8pt;">
+            <div class="q-stem"><strong>Câu ${25 + i}:</strong> ${escapeHtml(q.context || q.stem || '')}</div>
+            ${(q.statements || []).map(st => {
+              const isTrue = Boolean(st.isTrue || st.answer);
+              return `
+                <div class="q-opt">
+                  <strong>${st.label || st.key})</strong> ${escapeHtml(st.text)}
+                  ${isTeacher ? ` <strong style="color:${isTrue ? '#166534' : '#dc2626'};">[${isTrue ? 'ĐÚNG' : 'SAI'}]</strong>` : ''}
+                  ${isTeacher && st.explanation ? `<br/><span style="font-size:10.5pt; color:#166534; font-style:italic; margin-left:14pt;">↳ Cơ sở khoa học: ${escapeHtml(st.explanation)}</span>` : ''}
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `).join("")}
+
+        <p style="text-align:center; font-weight:bold; margin-top:20pt;">-------------------- HẾT --------------------</p>
+        <p style="text-align:center; font-style:italic; font-size:11pt;">• Thí sinh không được sử dụng tài liệu • Cán bộ coi thi không giải thích gì thêm •</p>
+
+        ${isTeacher ? `
+          <div class="page-break"></div>
+          <table class="header-tbl" style="width:100%;">
+            <tr>
+              <td style="width:50%; text-align:center;">
+                <strong>TRƯỜNG THPT LỘC NINH</strong><br/>
+                <strong>TỔ CÔNG NGHỆ</strong>
+              </td>
+              <td style="width:50%; text-align:center;">
+                <strong>HƯỚNG DẪN CHẤM & ĐÁP ÁN THI THỬ TỐT NGHIỆP THPT</strong><br/>
+                <strong>Môn: CÔNG NGHỆ NÔNG NGHIỆP — MÃ ĐỀ: ${escapeHtml(examId)}</strong>
+              </td>
+            </tr>
+          </table>
+
+          <h3 style="text-align:center; margin-top:14pt;">BẢNG ĐÁP ÁN VÀ THANG ĐIỂM CHUẨN BỘ GD&ĐT</h3>
+
+          <p style="font-weight:bold; margin-top:10pt;">1. Bảng đáp án Phần I (24 câu • 6,0 điểm • 0,25đ/câu)</p>
+          <table>
+            <tr>${mcqs.slice(0, 12).map((_, i) => `<th style="width:8%;">C${i + 1}</th>`).join("")}</tr>
+            <tr style="text-align:center; font-weight:bold; color:#166534;">
+              ${mcqs.slice(0, 12).map(q => `<td>${String.fromCharCode(65 + (Number(q.answer) || 0))}</td>`).join("")}
+            </tr>
+            <tr>${mcqs.slice(12, 24).map((_, i) => `<th style="width:8%;">C${13 + i}</th>`).join("")}</tr>
+            <tr style="text-align:center; font-weight:bold; color:#166534;">
+              ${mcqs.slice(12, 24).map(q => `<td>${String.fromCharCode(65 + (Number(q.answer) || 0))}</td>`).join("")}
+            </tr>
+          </table>
+
+          <p style="font-weight:bold; margin-top:14pt;">2. Bảng đáp án Phần II (4 câu Đúng/Sai • 4,0 điểm)</p>
+          <p style="font-size:11pt; font-style:italic;">
+            Quy tắc làm tròn điểm Bộ GD&ĐT: Đúng 1 ý = 0,10 đ • Đúng 2 ý = 0,25 đ • Đúng 3 ý = 0,50 đ • Đúng cả 4 ý = 1,00 đ.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:10%;">Câu</th>
+                <th style="width:8%;">Lệnh a</th>
+                <th style="width:8%;">Lệnh b</th>
+                <th style="width:8%;">Lệnh c</th>
+                <th style="width:8%;">Lệnh d</th>
+                <th>Cơ sở khoa học & Hướng dẫn chấm chi tiết</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tfs.map((q, i) => {
+                const stMap = {};
+                (q.statements || []).forEach(st => { stMap[st.label || st.key] = Boolean(st.isTrue || st.answer) ? "Đ" : "S"; });
+                const explain = (q.statements || []).map(st => `<strong>${st.label || st.key})</strong> ${escapeHtml(st.explanation || 'Theo SGK')}`).join("<br/>");
+                return `
+                  <tr>
+                    <td style="text-align:center; font-weight:bold;">Câu ${25 + i}</td>
+                    <td style="text-align:center; font-weight:bold; color:${stMap['a'] === 'Đ' ? '#166534' : '#dc2626'};">${stMap['a'] || 'Đ'}</td>
+                    <td style="text-align:center; font-weight:bold; color:${stMap['b'] === 'Đ' ? '#166534' : '#dc2626'};">${stMap['b'] || 'S'}</td>
+                    <td style="text-align:center; font-weight:bold; color:${stMap['c'] === 'Đ' ? '#166534' : '#dc2626'};">${stMap['c'] || 'Đ'}</td>
+                    <td style="text-align:center; font-weight:bold; color:${stMap['d'] === 'Đ' ? '#166534' : '#dc2626'};">${stMap['d'] || 'Đ'}</td>
+                    <td style="font-size:10.5pt;">${explain}</td>
+                  </tr>
+                `;
+              }).join("")}
+            </tbody>
+          </table>
+        ` : ''}
+      </div>
+    </body>
+    </html>
   `;
-  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword;charset=utf-8' });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `${portalState.gradExamId || 'De-Thi-Tot-Nghiep-THPT-CNNN'}.doc`;
+  a.download = isTeacher
+    ? `DapAn_Va_BaremCham_ThiThu_TotNghiep_${examId}.doc`
+    : `DeThiThu_TotNghiep_HocSinh_${examId}.doc`;
   a.click();
 }
+
+// 2. MODAL XEM VÀ IN PHIẾU TRẢ LỜI TRẮC NGHIỆM TNMAKER (CHUẨN BỘ 2025)
+function openTnmakerSheetModal() {
+  const oldModal = document.getElementById("tnmakerSheetModal");
+  if (oldModal) oldModal.remove();
+
+  const examId = portalState.gradExamId || '0701';
+
+  const modalHtml = `
+    <div id="tnmakerSheetModal" class="modal-backdrop" style="display:flex; position:fixed; inset:0; z-index:99999; background:rgba(15,23,42,0.75); backdrop-filter:blur(3px); align-items:center; justify-content:center; padding:16px;">
+      <div class="modal-box" style="max-width:860px; width:100%; max-height:92vh; display:flex; flex-direction:column; background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 25px 50px rgba(0,0,0,0.3);">
+        
+        <!-- Header modal -->
+        <div style="background:#17613E; color:#fff; padding:14px 20px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h3 style="margin:0; font-size:16px; font-weight:700;">📱 PHIẾU TRẢ LỜI TRẮC NGHIỆM TƯƠNG THÍCH TNMAKER (CHUẨN 2025)</h3>
+            <p style="margin:2px 0 0; font-size:12px; color:#dcfce7;">Định dạng 24 câu MCQ + 4 câu Đúng/Sai • Hỗ trợ in A4 và chấm bằng camera điện thoại</p>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('tnmakerSheetModal').remove();" style="color:#fff; border-color:rgba(255,255,255,0.4);">✕ Đóng</button>
+        </div>
+
+        <!-- Toolbar hành động -->
+        <div style="padding:10px 20px; background:#f8fafc; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="font-size:13px; color:#475569;">
+            💡 <strong>Hướng dẫn:</strong> Bấm <strong>"In Phiếu (A4)"</strong> để in trực tiếp phát cho học sinh tô chì 2B. Sau đó mở app <strong>TNMaker</strong> trên điện thoại để quét chấm tự động!
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-sm btn-primary" onclick="exportTnmakerAnswerKey();" style="background:#0284c7; border-color:#0284c7; font-weight:600;">
+              📥 Tải Bảng Mã TNMaker (.txt)
+            </button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="printTnmakerSheet();" style="font-weight:700;">
+              🖨️ In Phiếu (A4)
+            </button>
+          </div>
+        </div>
+
+        <!-- Khung xem trước phiếu TNMaker -->
+        <div id="tnmakerPrintableArea" style="flex:1; overflow-y:auto; padding:24px; background:#f1f5f9; display:flex; justify-content:center;">
+          <div style="background:#fff; width:100%; max-width:700px; padding:24px; border-radius:6px; border:1.5px solid #000; box-shadow:0 4px 12px rgba(0,0,0,0.08); font-family:'Times New Roman', Times, serif; color:#000;">
+            
+            <!-- Đầu phiếu -->
+            <table style="width:100%; border-collapse:collapse; margin-bottom:10px;">
+              <tr>
+                <td style="width:50%; text-align:center; font-size:11pt; border:none; vertical-align:top;">
+                  <strong>SỞ GD&ĐT ĐỒNG NAI</strong><br/>
+                  <strong>TRƯỜNG THPT LỘC NINH</strong><br/>
+                  <div style="width:100px; border-bottom:1px solid #000; margin:2px auto 6px;"></div>
+                  <span style="font-size:10pt;">KỲ THI THỬ TỐT NGHIỆP THPT</span>
+                </td>
+                <td style="width:50%; text-align:center; font-size:11pt; border:none; vertical-align:top;">
+                  <strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><br/>
+                  <span style="font-size:10.5pt;">Độc lập - Tự do - Hạnh phúc</span><br/>
+                  <div style="width:120px; border-bottom:1px solid #000; margin:2px auto 6px;"></div>
+                  <strong style="font-size:11.5pt; color:#17613E;">PHIẾU TRẢ LỜI TRẮC NGHIỆM</strong>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Thông tin thí sinh & Mã đề / SBD -->
+            <div style="border:1.5px solid #000; padding:8px 12px; margin-bottom:14px; font-size:11pt; line-height:1.6;">
+              <div style="display:flex; justify-content:space-between; flex-wrap:wrap;">
+                <span>Họ và tên thí sinh: .....................................................................................</span>
+                <span>Lớp: ........................</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; flex-wrap:wrap; margin-top:4px;">
+                <span>Ngày sinh: ...... / ...... / ........... Nơi sinh: ...........................................</span>
+                <span>Phòng thi: ...............</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:6px; border-top:1px dashed #999;">
+                <div>
+                  <strong>SỐ BÁO DANH (6 chữ số):</strong><br/>
+                  <div style="display:flex; gap:4px; margin-top:4px;">
+                    ${[1,2,3,4,5,6].map(() => `<div style="width:24px; height:28px; border:1.5px solid #000; text-align:center; line-height:26px; font-weight:bold;"></div>`).join("")}
+                  </div>
+                </div>
+                <div>
+                  <strong>MÃ ĐỀ THI:</strong><br/>
+                  <div style="display:flex; gap:4px; margin-top:4px;">
+                    <div style="width:24px; height:28px; border:1.5px solid #000; text-align:center; line-height:26px; font-weight:bold;">${examId[0] || '0'}</div>
+                    <div style="width:24px; height:28px; border:1.5px solid #000; text-align:center; line-height:26px; font-weight:bold;">${examId[1] || '7'}</div>
+                    <div style="width:24px; height:28px; border:1.5px solid #000; text-align:center; line-height:26px; font-weight:bold;">${examId[2] || '0'}</div>
+                    <div style="width:24px; height:28px; border:1.5px solid #000; text-align:center; line-height:26px; font-weight:bold;">${examId[3] || '1'}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHẦN 1: 24 CÂU MCQ -->
+            <div style="border:1.5px solid #000; padding:10px; margin-bottom:14px;">
+              <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase; margin-bottom:6px; border-bottom:1px solid #000; padding-bottom:4px;">
+                PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (Từ câu 1 đến câu 24 • Tô đen 1 ô tròn tương ứng)
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <!-- Cột 1: Câu 1 - 12 -->
+                <table style="width:100%; border-collapse:collapse; font-size:10pt;">
+                  ${Array.from({length: 12}).map((_, idx) => {
+                    const cNum = idx + 1;
+                    return `
+                      <tr style="height:22px;">
+                        <td style="width:30px; font-weight:bold; border:none; text-align:right; padding-right:6px;">${cNum}.</td>
+                        <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">A</span></td>
+                        <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">B</span></td>
+                        <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">C</span></td>
+                        <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">D</span></td>
+                      </tr>
+                    `;
+                  }).join("")}
+                </table>
+
+                <!-- Cột 2: Câu 13 - 24 -->
+                <table style="width:100%; border-collapse:collapse; font-size:10pt;">
+                  ${Array.from({length: 12}).map((_, idx) => {
+                    const cNum = idx + 13;
+                    return `
+                      <tr style="height:22px;">
+                        <td style="width:30px; font-weight:bold; border:none; text-align:right; padding-right:6px;">${cNum}.</td>
+                        <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">A</span></td>
+                        <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">B</span></td>
+                        <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">C</span></td>
+                        <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">D</span></td>
+                      </tr>
+                    `;
+                  }).join("")}
+                </table>
+              </div>
+            </div>
+
+            <!-- PHẦN 2: 4 CÂU ĐÚNG / SAI -->
+            <div style="border:1.5px solid #000; padding:10px; margin-bottom:12px;">
+              <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase; margin-bottom:6px; border-bottom:1px solid #000; padding-bottom:4px;">
+                PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (Từ câu 25 đến câu 28 • Chọn Đúng [Đ] hoặc Sai [S] ở mỗi ý a,b,c,d)
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                ${[25, 26, 27, 28].map(cNum => `
+                  <div style="border:1px solid #ccc; padding:6px 8px; border-radius:4px;">
+                    <div style="font-weight:bold; font-size:10.5pt; margin-bottom:4px;">Câu ${cNum}:</div>
+                    <table style="width:100%; border-collapse:collapse; font-size:10pt;">
+                      ${['a', 'b', 'c', 'd'].map(stKey => `
+                        <tr style="height:20px;">
+                          <td style="width:25px; border:none;"><strong>${stKey})</strong></td>
+                          <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">Đ</span> Đúng</td>
+                          <td style="border:none; text-align:center;"><span style="display:inline-block; width:16px; height:16px; border-radius:50%; border:1.5px solid #000; line-height:14px; font-size:9pt; font-weight:bold;">S</span> Sai</td>
+                        </tr>
+                      `).join("")}
+                    </table>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+
+            <div style="text-align:center; font-size:9.5pt; color:#666; font-style:italic;">
+              🎯 Mẫu phiếu tương thích chuẩn ứng dụng chấm thi TNMaker (https://tnmaker.net) • Khổ A4
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML("beforeend", modalHtml);
+}
+
+// In phiếu TNMaker chuẩn A4
+function printTnmakerSheet() {
+  const content = document.getElementById("tnmakerPrintableArea");
+  if (!content) return;
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Phieu_Tra_Loi_TNMaker_A4</title>
+        <style>
+          @page { size: A4 portrait; margin: 15mm; }
+          body { margin: 0; padding: 0; font-family: 'Times New Roman', Times, serif; }
+        </style>
+      </head>
+      <body>
+        ${content.innerHTML}
+        <script>
+          window.onload = function() { window.print(); window.close(); }
+        </script>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+}
+
+// Xuất file bảng mã đáp án cho TNMaker
+function exportTnmakerAnswerKey() {
+  const mcqs = portalState.gradExamItems.mcq || [];
+  const tfs = portalState.gradExamItems.tf || [];
+  const examId = portalState.gradExamId || '0701';
+
+  let txt = `=== BẢNG ĐÁP ÁN TNMAKER — MÔN CÔNG NGHỆ NÔNG NGHIỆP ===\r\n`;
+  txt += `Đơn vị: TRƯỜNG THPT LỘC NINH\r\n`;
+  txt += `Mã đề thi: ${examId}\r\n`;
+  txt += `Số câu: 28 (Phần I: 24 câu MCQ | Phần II: 4 câu Đúng/Sai)\r\n\r\n`;
+
+  txt += `[PHAN_1_MCQ_24_CAU]\r\n`;
+  mcqs.forEach((q, i) => {
+    const ansLetter = String.fromCharCode(65 + (Number(q.answer) || 0));
+    txt += `${i + 1}:${ansLetter}\r\n`;
+  });
+
+  txt += `\r\n[PHAN_2_DUNG_SAI_4_CAU]\r\n`;
+  tfs.forEach((q, i) => {
+    const stMap = {};
+    (q.statements || []).forEach(st => {
+      stMap[st.label || st.key] = Boolean(st.isTrue || st.answer) ? "Đ" : "S";
+    });
+    txt += `${25 + i}:a=${stMap['a'] || 'Đ'},b=${stMap['b'] || 'S'},c=${stMap['c'] || 'Đ'},d=${stMap['d'] || 'Đ'}\r\n`;
+  });
+
+  txt += `\r\n=== HƯỚNG DẪN NẠP VÀO APP TNMAKER ===\r\n`;
+  txt += `1. Mở ứng dụng TNMaker trên điện thoại Android hoặc iOS.\r\n`;
+  txt += `2. Tạo kỳ thi mới -> Chọn mẫu phiếu: 2025 Bộ GD&ĐT (24 câu MCQ + 4 câu Đúng/Sai).\r\n`;
+  txt += `3. Nhập Mã đề: ${examId}.\r\n`;
+  txt += `4. Nhập hoặc quét bảng đáp án theo danh sách ở trên.\r\n`;
+  txt += `5. Dùng camera điện thoại đưa vào 4 điểm định vị của phiếu để chấm tự động!\r\n`;
+
+  const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `TNMaker_DapAn_${examId}.txt`;
+  a.click();
+}
+
 function renderGraduationExamView() {
   if (portalState.activeModule === 5 || document.getElementById("mod5MainContainer")) {
     renderModule5Graduation();
@@ -4056,9 +4411,22 @@ function renderModule5Graduation() {
         <button class="btn btn-outline-minimal" onclick="window.openTeacherExamPreview ? window.openTeacherExamPreview(portalState.gradExamId) : alert('Xem trước đề thi')">
           👁️ Xem Trước Đề (GV)
         </button>
-        <button class="btn btn-outline-minimal" onclick="exportGradExamWord()">
-          📥 Xuất Đề (.doc)
+        <button class="btn btn-outline-minimal" onclick="openTnmakerSheetModal()" style="color:#0284c7; border-color:#bae6fd; font-weight:600;">
+          📱 Phiếu TNMaker
         </button>
+        <div style="position:relative; display:inline-block;">
+          <button class="btn btn-outline-minimal" onclick="document.getElementById('gradExportDropdown').classList.toggle('open')" style="font-weight:600;">
+            📥 Xuất Đề (.doc) ▾
+          </button>
+          <div id="gradExportDropdown" style="display:none; position:absolute; right:0; top:100%; margin-top:4px; background:#fff; border:1px solid #cbd5e1; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.15); z-index:100; min-width:240px; padding:6px 0;">
+            <button onclick="exportGradExamWord('student'); document.getElementById('gradExportDropdown').classList.remove('open');" style="display:block; width:100%; text-align:left; padding:8px 14px; background:none; border:none; font-size:13px; cursor:pointer; color:#1e293b;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">
+              📄 1. Đề thi học sinh (Không đáp án)
+            </button>
+            <button onclick="exportGradExamWord('teacher'); document.getElementById('gradExportDropdown').classList.remove('open');" style="display:block; width:100%; text-align:left; padding:8px 14px; background:none; border:none; font-size:13px; cursor:pointer; color:#166534; font-weight:600;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">
+              ⚖️ 2. Đề thi kèm Đáp án &amp; Barem (GV)
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
