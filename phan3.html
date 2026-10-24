@@ -29,6 +29,8 @@
       padding: 6px 0 !important;
       background: #ffffff;
       border-bottom: 1px solid #e2e8f0;
+      position: static !important;
+      top: auto !important;
     }
     .stepper-inner {
       display: grid;
@@ -83,6 +85,59 @@
       padding: 5px 8px;
       font-size: 13px;
       height: 33px;
+    }
+        /* Thanh công cụ tùy chỉnh Khổ giấy, Cỡ chữ & Độ rộng cột */
+    .table-layout-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 7px 12px;
+      margin-bottom: 10px;
+    }
+    .table-layout-toolbar .toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .table-layout-toolbar .toolbar-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    #matrixExportArea table {
+      min-width: 1120px;
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    #specExportArea table {
+      min-width: 1080px;
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .compact-num {
+      width: 34px !important;
+      height: 24px !important;
+      padding: 1px !important;
+      text-align: center !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      border: 1px solid #cbd5e1 !important;
+      border-radius: 4px !important;
+      background: #ffffff !important;
+    }
+    .compact-num:focus {
+      border-color: var(--primary) !important;
+      outline: 2px solid rgba(21, 128, 61, 0.2) !important;
     }
     .std-table th {
       padding: 7px 8px !important;
@@ -140,18 +195,18 @@
       </div>
     </div>
     <div class="slim-nav-tabs">
-      <a href="index.html" class="slim-tab-link" style="color:#38bdf8;">🏠 Trang chủ</a>
-      <a href="phan1.html" class="slim-tab-link">📖 Phần 1: Lý thuyết</a>
-      <a href="phan2.html" class="slim-tab-link">📑 Phần 2: Hồ sơ 5512</a>
-      <a href="phan3.html" class="slim-tab-link active">📝 Phần 3: Soạn đề 7991</a>
-      <a href="phan4.html" class="slim-tab-link">🏆 Phần 4: Ôn thi HSG</a>
-      <a href="thietke.html" class="slim-tab-link">🎨 Studio</a>
+      <a href="index.html" class="slim-tab-link">Trang chủ</a>
+      <a href="phan1.html" class="slim-tab-link">Lý thuyết</a>
+      <a href="phan2.html" class="slim-tab-link">Hồ sơ 5512</a>
+      <a href="phan3.html" class="slim-tab-link active">Soạn đề 7991</a>
+      <a href="phan4.html" class="slim-tab-link">Bồi dưỡng HSG</a>
+      <a href="phan5.html" class="slim-tab-link">Ôn thi THPT</a>
+      <a href="thietke.html" class="slim-tab-link">Studio</a>
     </div>
     <div class="slim-actions">
-      <button class="btn btn-outline btn-sm" onclick="openHistoryModal()">🕒 Lịch sử (<span id="historyCountBadge">0</span>)</button>
-      <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Xuất Word (.doc)</button>
-      <button class="btn btn-sm btn-outline" style="color:#f8fafc; border-color:#475569;" onclick="window.print()">🖨️ In PDF</button>
-      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" style="color:#38bdf8; border-color:#0284c7;">💬 Zalo</a>
+      <button class="btn btn-sm" style="background:#0f766e; color:#ffffff; border:1px solid #14b8a6; font-weight:700; cursor:pointer;" onclick="openSavedExamsModal()">📂 Đề Đã Lưu (<span id="topSavedCountBadge">0</span>)</button>
+      <button class="btn btn-sm" style="background:#1e293b; color:#f8fafc; border:1px solid #475569; font-weight:600; cursor:pointer;" onclick="window.print()">In PDF</button>
+      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-sm" style="background:#0284c7; color:#ffffff; border:1px solid #0284c7; font-weight:600; text-decoration:none;">Zalo</a>
     </div>
   </header>
 
@@ -260,7 +315,7 @@
               </span>
               <div style="display:flex; gap:6px; flex-wrap:wrap; flex:1; min-width:320px;">
                 <input type="text" id="metaDepartment" style="flex:1; min-width:180px; padding:4px 8px; font-size:12px; border:1px solid #cbd5e1; border-radius:4px; background:#fff;" 
-                       value="SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC" list="deptSuggestions" placeholder="Sở GD&ĐT..." 
+                       value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI" list="deptSuggestions" placeholder="Sở GD&ĐT..." 
                        onchange="state.meta.department = this.value; localStorage.setItem('cv7991_department', this.value)" title="Sở GD&ĐT (hoặc tự điền)" />
                 <input type="text" id="metaSchool" style="flex:1.2; min-width:190px; padding:4px 8px; font-size:12.5px; font-weight:700; color:#14532d; border:1px solid #86efac; border-radius:4px; background:#fff;" 
                        value="TRƯỜNG THPT LỘC NINH" list="schoolSuggestions" placeholder="Trường / Đơn vị..." 
@@ -286,7 +341,7 @@
           <datalist id="deptSuggestions">
             <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI">
             <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI">
-            <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC">
+            <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI">
             <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH DƯƠNG">
             <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TP. HỒ CHÍ MINH">
             <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TÂY NINH">
@@ -465,12 +520,36 @@
             <button class="btn btn-outline btn-sm" onclick="autoGenerateMatrix(); renderMatrixTable();">🔄 Cân bằng tự động theo số tiết</button>
           </div>
 
+                    <!-- THANH CÔNG CỤ TÙY CHỈNH KHỔ GIẤY & ĐỘ RỘNG CỘT MA TRẬN -->
+          <div class="table-layout-toolbar">
+            <div class="toolbar-group">
+              <span class="toolbar-label">📄 Khổ giấy Word / In:</span>
+              <button type="button" class="btn btn-xs btn-primary" id="matrixOrientLandscapeBtn" onclick="setDocumentOrientation('matrix', 'landscape')">↔️ Khổ Ngang (Khuyến nghị)</button>
+              <button type="button" class="btn btn-xs btn-outline" id="matrixOrientPortraitBtn" onclick="setDocumentOrientation('matrix', 'portrait')">↕️ Khổ Dọc</button>
+            </div>
+            <div class="toolbar-group">
+              <span class="toolbar-label">📐 Cột Bài học:</span>
+              <button type="button" class="btn btn-xs btn-outline col-w-btn" onclick="setLessonColWidth(220, this)">Gọn 220px</button>
+              <button type="button" class="btn btn-xs btn-primary col-w-btn" onclick="setLessonColWidth(280, this)">Vừa 280px</button>
+              <button type="button" class="btn btn-xs btn-outline col-w-btn" onclick="setLessonColWidth(360, this)">Rộng 360px</button>
+              <button type="button" class="btn btn-xs btn-outline col-w-btn" onclick="setLessonColWidth(460, this)">Rất rộng 460px</button>
+            </div>
+            <div class="toolbar-group">
+              <span class="toolbar-label">🔤 Cỡ chữ Word:</span>
+              <select id="matrixFontSizeSelect" class="form-select" style="width:auto; padding:3px 6px; font-size:12px;" onchange="setPrintFontSize(this.value)">
+                <option value="11pt">11pt (Gọn)</option>
+                <option value="12pt" selected>12pt (Chuẩn)</option>
+                <option value="13pt">13pt (NĐ 30)</option>
+              </select>
+            </div>
+          </div>
+
           <div class="table-wrap" id="matrixExportArea">
             <table class="std-table">
               <thead>
                 <tr>
                   <th rowspan="2" style="width:34px;">TT</th>
-                  <th rowspan="2">Bài học / Đơn vị kiến thức</th>
+                  <th rowspan="2" id="matrixColLessonTh" style="width:280px; min-width:240px;">Bài học / Đơn vị kiến thức</th>
                   <th colspan="3">I. TN 4 lựa chọn</th>
                   <th colspan="3">II. Đúng - Sai (Ý)</th>
                   <th colspan="3">III. Trả lời ngắn</th>
@@ -513,13 +592,36 @@
             </div>
           </div>
 
+                    <!-- THANH CÔNG CỤ TÙY CHỈNH KHỔ GIẤY & ĐẶC TẢ -->
+          <div class="table-layout-toolbar">
+            <div class="toolbar-group">
+              <span class="toolbar-label">📄 Khổ giấy Word / In:</span>
+              <button type="button" class="btn btn-xs btn-primary" id="specOrientLandscapeBtn" onclick="setDocumentOrientation('spec', 'landscape')">↔️ Khổ Ngang (Khuyến nghị)</button>
+              <button type="button" class="btn btn-xs btn-outline" id="specOrientPortraitBtn" onclick="setDocumentOrientation('spec', 'portrait')">↕️ Khổ Dọc</button>
+            </div>
+            <div class="toolbar-group">
+              <span class="toolbar-label">📐 Cột Yêu cầu cần đạt:</span>
+              <button type="button" class="btn btn-xs btn-outline" onclick="setSpecYccdWidth(340, this)">340px</button>
+              <button type="button" class="btn btn-xs btn-primary" onclick="setSpecYccdWidth(450, this)">Chuẩn 450px</button>
+              <button type="button" class="btn btn-xs btn-outline" onclick="setSpecYccdWidth(600, this)">Rộng 600px</button>
+            </div>
+            <div class="toolbar-group">
+              <span class="toolbar-label">🔤 Cỡ chữ Word:</span>
+              <select id="specFontSizeSelect" class="form-select" style="width:auto; padding:3px 6px; font-size:12px;" onchange="setPrintFontSize(this.value)">
+                <option value="11pt">11pt (Gọn)</option>
+                <option value="12pt" selected>12pt (Chuẩn)</option>
+                <option value="13pt">13pt (NĐ 30)</option>
+              </select>
+            </div>
+          </div>
+
           <div class="table-wrap" id="specExportArea">
             <table class="std-table">
               <thead>
                 <tr>
                   <th style="width:34px;">TT</th>
                   <th style="width:210px;">Bài học / Chủ đề</th>
-                  <th>Yêu cầu cần đạt (Nhấp vào dòng để sửa nhanh nếu cần)</th>
+                  <th id="specColYccdTh" style="width:450px;">Yêu cầu cần đạt (Nhấp vào dòng để sửa nhanh nếu cần)</th>
                   <th style="width:70px;">Mã NL</th>
                   <th style="width:90px;">I. MCQ</th>
                   <th style="width:90px;">II. Đ/S</th>
@@ -561,6 +663,23 @@
               <button class="btn btn-primary btn-sm" onclick="openStudyGuideModal()">📖 Đề Cương (.doc)</button>
               <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Xuất Word (.doc)</button>
             </div>
+          </div>
+        </div>
+
+                <!-- THANH CÔNG CỤ TÙY CHỈNH KHỔ GIẤY ĐỀ THI -->
+        <div class="table-layout-toolbar" style="margin-bottom:8px;">
+          <div class="toolbar-group">
+            <span class="toolbar-label">📄 Khổ giấy Đề thi:</span>
+            <button type="button" class="btn btn-xs btn-primary" id="examOrientPortraitBtn" onclick="setDocumentOrientation('exam', 'portrait')">↕️ Khổ Dọc A4 (Chuẩn NĐ 30)</button>
+            <button type="button" class="btn btn-xs btn-outline" id="examOrientLandscapeBtn" onclick="setDocumentOrientation('exam', 'landscape')">↔️ Khổ Ngang A4</button>
+          </div>
+          <div class="toolbar-group">
+            <span class="toolbar-label">🔤 Cỡ chữ Đề thi:</span>
+            <select id="examFontSizeSelect" class="form-select" style="width:auto; padding:3px 6px; font-size:12px;" onchange="setPrintFontSize(this.value)">
+              <option value="12pt">12pt (Tiết kiệm giấy)</option>
+              <option value="13pt" selected>13pt (Chuẩn Nghị định 30/2020)</option>
+              <option value="14pt">14pt (Dễ đọc cho HS)</option>
+            </select>
           </div>
         </div>
 
@@ -606,79 +725,90 @@
 
           <div class="audit-check-list" id="auditCheckList"></div>
 
-          <!-- KHU VỰC TẢI ĐỀ, MA TRẬN ĐẶC TẢ, HƯỚNG DẪN CHẤM SAU KIỂM ĐỊNH -->
-          <div class="card" id="step6DownloadArea" style="margin-top:14px; padding:16px; border:1.5px solid var(--primary-light); background:linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <!-- BANNER TẠO SINH 4 ĐỀ & LƯU ĐỀ (TỐI GỌN) -->
+          <div style="margin-top:12px; margin-bottom:10px; padding:10px 14px; border-radius:8px; border:1.5px solid #16a34a; background:#f0fdf4; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">⚡</span>
+              <strong style="color:#14532d; font-size:13.5px;">BỘ 4 ĐỀ TƯƠNG ĐƯƠNG (MÃ 101 • 102 • 103 • 104)</strong>
+              <span class="badge" style="background:#bbf7d0; color:#14532d; font-size:11px;">Chuẩn CV 7991</span>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn btn-primary btn-sm" onclick="generateFourVariantExams()" style="font-weight:600;">⚡ Xem 4 Mã Đề</button>
+              <button class="btn btn-accent btn-sm" onclick="exportAllFourVariantsWord()" style="font-weight:600;">📥 Tải 4 Đề (.doc)</button>
+              <button class="btn btn-outline btn-sm" onclick="saveCurrentExamToLibrary()" style="font-weight:600;">💾 Lưu Đề</button>
+            </div>
+          </div>
+
+          <!-- KHU VỰC TẢI HỒ SƠ CHUẨN NĐ 30 & CV 7991 (TỐI GỌN) -->
+          <div class="card" id="step6DownloadArea" style="margin-top:10px; padding:12px 14px; border:1.5px solid var(--primary-light); background:#fff;">
+            <!-- Thanh tùy chọn nhanh 1 hàng -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding-bottom:10px; border-bottom:1px solid #e2e8f0; margin-bottom:10px;">
               <div>
-                <h4 style="margin:0; font-size:15px; color:var(--primary-dark); display:flex; align-items:center; gap:6px;">
-                  <span>📥</span> TẢI HỒ SƠ ĐỀ KIỂM TRA (CHUẨN CÔNG VĂN 7991)
-                </h4>
-                <div style="font-size:12.5px; color:var(--text-muted); margin-top:2px;">
-                  Sau khi AI kiểm định đề xong, thầy/cô có thể tải riêng từng file theo nhu cầu hoặc tải trọn gói:
+                <strong style="font-size:13.5px; color:var(--primary-dark); display:flex; align-items:center; gap:6px;">
+                  <span>📥</span> TẢI HỒ SƠ WORD (CHUẨN NĐ 30 & CV 7991)
+                </strong>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
+                  Mặc định: Ma trận/Đặc tả <strong>Khổ Ngang</strong> • Đề/Đáp án <strong>Khổ Dọc</strong> • Chữ <strong>13pt Times New Roman</strong>
                 </div>
               </div>
-              <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                <button class="btn btn-primary btn-sm" onclick="exportAllSeparatedFiles()" style="font-weight:600;" title="Tự động tải cả 3 file riêng lẻ về máy tính cùng lúc">
-                  📦 Tải Cả 3 File Rời (1-Click)
+
+              <!-- Thanh tùy chỉnh nhanh -->
+              <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                <select id="overallPageOrientationSelect" style="font-size:12px; font-weight:600; padding:4px 8px; border:1px solid #cbd5e1; border-radius:6px; background:#f8fafc;" onchange="setOverallOrientation(this.value)">
+                  <option value="hybrid_cv7991" selected>📄 Ma trận Ngang / Đề Dọc</option>
+                  <option value="all_landscape">↔️ Tất cả Khổ Ngang</option>
+                  <option value="all_portrait">↕️ Tất cả Khổ Dọc</option>
+                </select>
+
+                <select id="overallFontSizeSelect" style="font-size:12px; font-weight:600; padding:4px 8px; border:1px solid #cbd5e1; border-radius:6px; background:#f8fafc;" onchange="setPrintFontSize(this.value)">
+                  <option value="11pt">11pt</option>
+                  <option value="12pt">12pt</option>
+                  <option value="13pt" selected>13pt (NĐ 30)</option>
+                </select>
+
+                <select id="overallMarginSelect" style="font-size:12px; font-weight:600; padding:4px 8px; border:1px solid #cbd5e1; border-radius:6px; background:#f8fafc;" onchange="setPrintMargins(this.value)">
+                  <option value="nd30" selected>Lề NĐ 30</option>
+                  <option value="compact">Lề gọn</option>
+                </select>
+
+                <button class="btn btn-primary btn-sm" onclick="exportAllSeparatedFiles()" style="font-weight:600;" title="Tải cả 3 file riêng lẻ cùng lúc">
+                  📦 Tải 3 File Rời
                 </button>
-                <button class="btn btn-accent btn-sm" onclick="handleStep6ExportWord()" style="font-weight:600;" title="Gộp cả 4 phần vào 1 file Word duy nhất">
-                  📁 Tải Trọn Bộ Hồ Sơ (4-trong-1)
+                <button class="btn btn-accent btn-sm" onclick="handleStep6ExportWord()" style="font-weight:600;" title="Gộp cả 4 phần vào 1 file Word">
+                  📁 Tải Trọn Bộ (4-trong-1)
                 </button>
               </div>
             </div>
 
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
-              <!-- 1. TẢI ĐỀ THI -->
-              <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+            <!-- 3 Nút tải hồ sơ -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                  <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:8px;">
-                    <span style="font-size:26px;">📄</span>
-                    <div>
-                      <strong style="color:var(--primary-dark); font-size:14px; display:block;">1. Đề thi (In cho HS)</strong>
-                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4; display:block; margin-top:2px;">
-                        File Word chỉ gồm đề bài, thông tin thí sinh, mã đề, điểm số. <strong>Không lộ đáp án</strong> để in phát trực tiếp cho học sinh làm bài.
-                      </span>
-                    </div>
-                  </div>
+                  <strong style="color:var(--primary-dark); font-size:13px; display:block;">📄 1. Đề thi (HS)</strong>
+                  <span style="font-size:11px; color:var(--text-muted);">Khổ dọc, 13pt</span>
                 </div>
-                <button class="btn btn-outline btn-sm" style="width:100%; margin-top:10px; font-weight:600;" onclick="exportExamOnlyWord()">
-                  📄 Tải Đề thi (.doc)
+                <button class="btn btn-outline btn-sm" style="font-weight:600; padding:3px 8px;" onclick="exportExamOnlyWord()">
+                  Tải .doc
                 </button>
               </div>
 
-              <!-- 2. TẢI MA TRẬN & BẢN ĐẶC TẢ -->
-              <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                  <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:8px;">
-                    <span style="font-size:26px;">📊</span>
-                    <div>
-                      <strong style="color:var(--primary-dark); font-size:14px; display:block;">2. Ma trận & Bản đặc tả</strong>
-                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4; display:block; margin-top:2px;">
-                        Đầy đủ <strong>Phụ lục 1 (Ma trận)</strong> và <strong>Phụ lục 2 (Bản đặc tả)</strong> theo đúng thể thức lưu hồ sơ chuyên môn nộp BGH/Tổ trưởng.
-                      </span>
-                    </div>
-                  </div>
+                  <strong style="color:var(--primary-dark); font-size:13px; display:block;">📊 2. Ma trận & Đặc tả</strong>
+                  <span style="font-size:11px; color:var(--text-muted);">Khổ ngang, chuẩn bảng</span>
                 </div>
-                <button class="btn btn-outline btn-sm" style="width:100%; margin-top:10px; font-weight:600;" onclick="exportMatrixSpecWord()">
-                  📊 Tải Ma trận & Đặc tả (.doc)
+                <button class="btn btn-outline btn-sm" style="font-weight:600; padding:3px 8px;" onclick="exportMatrixSpecWord()">
+                  Tải .doc
                 </button>
               </div>
 
-              <!-- 3. TẢI HƯỚNG DẪN CHẤM & ĐÁP ÁN -->
-              <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                  <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:8px;">
-                    <span style="font-size:26px;">🎯</span>
-                    <div>
-                      <strong style="color:var(--primary-dark); font-size:14px; display:block;">3. Hướng dẫn chấm & Đáp án</strong>
-                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4; display:block; margin-top:2px;">
-                        Bảng đáp án trắc nghiệm + <strong>Bảng giải thích 4 ý Đúng/Sai</strong> + Đáp án trả lời ngắn + Biểu điểm rubric tự luận cho giám khảo.
-                      </span>
-                    </div>
-                  </div>
+                  <strong style="color:var(--primary-dark); font-size:13px; display:block;">🎯 3. Hướng dẫn chấm</strong>
+                  <span style="font-size:11px; color:var(--text-muted);">Khổ dọc, biểu điểm rubric</span>
                 </div>
-                <button class="btn btn-outline btn-sm" style="width:100%; margin-top:10px; font-weight:600;" onclick="exportAnswerKeyWord()">
-                  🎯 Tải Hướng dẫn chấm (.doc)
+                <button class="btn btn-outline btn-sm" style="font-weight:600; padding:3px 8px;" onclick="exportAnswerKeyWord()">
+                  Tải .doc
                 </button>
               </div>
             </div>

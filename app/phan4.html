@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -17,21 +17,22 @@
     <div class="slim-brand">
       <span class="slim-logo">🌱</span>
       <div>
-        <div class="slim-title">PHẦN 4: ÔN THI HSG &amp; TỐT NGHIỆP THPT</div>
+        <div class="slim-title">BỒI DƯỠNG HỌC SINH GIỎI (BẢNG B)</div>
         <div class="slim-sub">THPT Lộc Ninh • Công nghệ Nông nghiệp 10 - 11 - 12</div>
       </div>
     </div>
     <div class="slim-nav-tabs">
-      <a href="index.html" class="slim-tab-link" style="color:#38bdf8;">🏠 Trang chủ</a>
-      <a href="phan1.html" class="slim-tab-link">📖 Phần 1: Lý thuyết</a>
-      <a href="phan2.html" class="slim-tab-link">📑 Phần 2: Hồ sơ 5512</a>
-      <a href="phan3.html" class="slim-tab-link">📝 Phần 3: Soạn đề 7991</a>
-      <a href="phan4.html" class="slim-tab-link active">🏆 Phần 4: Ôn thi HSG</a>
-      <a href="thietke.html" class="slim-tab-link">🎨 Studio</a>
+      <a href="index.html" class="slim-tab-link">Trang chủ</a>
+      <a href="phan1.html" class="slim-tab-link">Lý thuyết</a>
+      <a href="phan2.html" class="slim-tab-link">Hồ sơ 5512</a>
+      <a href="phan3.html" class="slim-tab-link">Soạn đề 7991</a>
+      <a href="phan4.html" class="slim-tab-link active">Bồi dưỡng HSG</a>
+      <a href="phan5.html" class="slim-tab-link">Ôn thi THPT</a>
+      <a href="thietke.html" class="slim-tab-link">Studio</a>
     </div>
     <div class="slim-actions">
-      <button class="btn btn-sm btn-outline" style="color:#f8fafc; border-color:#475569;" onclick="window.print()">🖨️ In PDF</button>
-      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" style="color:#38bdf8; border-color:#0284c7;">💬 Zalo</a>
+      <button class="btn btn-sm" style="background:#1e293b; color:#f8fafc; border:1px solid #475569; font-weight:600; cursor:pointer;" onclick="window.print()">In PDF</button>
+      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-sm" style="background:#0284c7; color:#ffffff; border:1px solid #0284c7; font-weight:600; text-decoration:none;">Zalo</a>
     </div>
   </header>
 
@@ -428,8 +429,15 @@
     <!-- ================================================================== -->
     <!-- PHẦN 4: ÔN TẬP HỌC SINH GIỎI (HSG) & LUYỆN THI TỐT NGHIỆP THPT -->
     <!-- ================================================================== -->
-    <div class="main-module-view" id="moduleView4">
+    <div class="main-module-view active" id="moduleView4">
       <div id="mod4MainContainer"></div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- PHẦN 5: ÔN THI TỐT NGHIỆP THPT (CHUẨN MẪU BỘ GD&ĐT) -->
+    <!-- ================================================================== -->
+    <div class="main-module-view" id="moduleView5">
+      <div id="mod5MainContainer"></div>
     </div>
 
   </main>
@@ -475,6 +483,7 @@
   <script src="app.js?v=2"></script>
   <script src="portal.js?v=4"></script>
   <script src="portal_hsg_master.js?v=1"></script>
+  <script src="portal_classroom.js?v=1"></script>
   <script src="ui_theme_sync.js?v=1"></script>
 </body>
 </html>

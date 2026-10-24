@@ -58,6 +58,43 @@
     }
   }
 
+  // Đồng bộ cấu hình thông tin hiển thị trên Trang chủ (index.html)
+  function ensureWelcomeHubDom(cfg) {
+    if (!cfg || typeof cfg !== "object") return;
+
+    const topTitle = document.getElementById("homeTopTitle");
+    if (topTitle && cfg.homeTopTitle) topTitle.textContent = cfg.homeTopTitle;
+
+    const topSub = document.getElementById("homeTopSub");
+    if (topSub && cfg.homeTopSub) topSub.textContent = cfg.homeTopSub;
+
+    const topAuthor = document.getElementById("homeTopAuthor");
+    if (topAuthor && cfg.customAuthor) topAuthor.textContent = "👨‍🏫 " + cfg.customAuthor;
+
+    const topZaloText = document.getElementById("homeTopZaloText");
+    if (topZaloText && cfg.customZaloText) topZaloText.textContent = cfg.customZaloText;
+
+    const topZaloBtn = document.getElementById("homeTopZaloBtn");
+    if (topZaloBtn && cfg.customZaloUrl) topZaloBtn.href = cfg.customZaloUrl;
+
+    const heroBadge = document.getElementById("homeHeroBadge");
+    if (heroBadge && cfg.hubWelcomeBadge) heroBadge.textContent = cfg.hubWelcomeBadge;
+
+    const heroTitle = document.getElementById("homeHeroTitle");
+    if (heroTitle && cfg.hubWelcomeTitle) heroTitle.textContent = cfg.hubWelcomeTitle;
+
+    const heroDesc = document.getElementById("homeHeroDesc");
+    if (heroDesc && cfg.hubWelcomeSub) heroDesc.textContent = cfg.hubWelcomeSub;
+
+    for (let i = 1; i <= 5; i++) {
+      const tEl = document.getElementById("cardTitle" + i);
+      if (tEl && cfg["card" + i + "Title"]) tEl.textContent = cfg["card" + i + "Title"];
+
+      const dEl = document.getElementById("cardDesc" + i);
+      if (dEl && cfg["card" + i + "Desc"]) dEl.textContent = cfg["card" + i + "Desc"];
+    }
+  }
+
   // Chuẩn hóa nhãn Thanh Đáy (Bottom Navigation Bar) gọn đẹp trên Mobile & đầy đủ trên PC
   function enhanceMobileBottomBarLabels() {
     const btns = document.querySelectorAll(".module-nav-bar .module-tab-btn");
@@ -157,6 +194,7 @@
 
   function applyCnnnUiTheme(cfg) {
     ensureMobileFirstBannerDom(cfg);
+    ensureWelcomeHubDom(cfg);
     if (!cfg || typeof cfg !== "object") return;
 
     let styleEl = document.getElementById("cnnnDynamicThemeStyle");
@@ -239,10 +277,12 @@
         applyCnnnUiTheme(JSON.parse(raw));
       } else {
         ensureMobileFirstBannerDom(null);
+        ensureWelcomeHubDom(null);
       }
     } catch (e) {
       console.warn("UI Theme sync error:", e);
       ensureMobileFirstBannerDom(null);
+      ensureWelcomeHubDom(null);
     }
     enhanceMobileBottomBarLabels();
     initEdTechMobileLessonDrawer();

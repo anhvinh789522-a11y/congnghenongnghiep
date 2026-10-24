@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -553,11 +553,12 @@
   <div class="studio-workspace">
     <!-- LEFT SIDEBAR: DESIGN CONTROLS -->
     <aside class="studio-sidebar">
-      <div class="inspector-tabs">
-        <button class="insp-tab active" onclick="switchInspectorTab('palette', this)">🎨 Màu sắc</button>
-        <button class="insp-tab" onclick="switchInspectorTab('brand', this)">🏫 Banner/Zalo</button>
-        <button class="insp-tab" onclick="switchInspectorTab('typo', this)">🔤 Chữ & Cỡ</button>
-        <button class="insp-tab" onclick="switchInspectorTab('layout', this)">📐 Bố cục</button>
+      <div class="inspector-tabs" style="grid-template-columns: repeat(5, 1fr);">
+        <button class="insp-tab active" onclick="switchInspectorTab('palette', this)">🎨 Màu</button>
+        <button class="insp-tab" onclick="switchInspectorTab('homehub', this)">🏠 Trang chủ</button>
+        <button class="insp-tab" onclick="switchInspectorTab('brand', this)">🏫 Banner</button>
+        <button class="insp-tab" onclick="switchInspectorTab('typo', this)">🔤 Chữ</button>
+        <button class="insp-tab" onclick="switchInspectorTab('layout', this)">📐 Khung</button>
       </div>
 
       <div class="inspector-body">
@@ -618,7 +619,59 @@
           </div>
         </div>
 
-        <!-- TAB 2: SCHOOL BRANDING, ZALO & CUSTOM CSS -->
+        <!-- TAB 2: CẤU HÌNH GIAO DIỆN TRANG CHỦ & CỔNG TRUNG TÂM (TINH GIẢN) -->
+        <div class="insp-pane" id="pane_homehub">
+          <div class="sec-title"><span>🏠 Header &amp; Lời Chào Trang Chủ</span></div>
+          <div class="ctrl-block">
+            <label><span>Tiêu đề Topbar Trang chủ</span></label>
+            <input type="text" id="inpHomeTopTitle" value="DẠY &amp; HỌC CÔNG NGHỆ NÔNG NGHIỆP" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Tên Trường / Phụ chú Topbar</span></label>
+            <input type="text" id="inpHomeTopSub" value="Trường THPT Lộc Ninh • Bộ sách Kết nối tri thức với cuộc sống" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Huy hiệu Chào mừng (Hero Badge)</span></label>
+            <input type="text" id="inpHubWelcomeBadge" value="🌱 HỆ THỐNG DẠY &amp; HỌC ĐIỆN TỬ • THPT LỘC NINH" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Tiêu đề Lớn giữa Trang chủ</span></label>
+            <input type="text" id="inpHubWelcomeTitle" value="DẠY &amp; HỌC CÔNG NGHỆ NÔNG NGHIỆP 10 – 11 – 12" oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Đoạn Giới thiệu / Lời chào</span></label>
+            <textarea id="inpHubWelcomeSub" rows="2" oninput="onControlChange()">Chào mừng quý thầy cô và các em học sinh.</textarea>
+          </div>
+
+          <div class="sec-title"><span>🗂️ Tiêu đề &amp; Mô tả 5 Thẻ Chuyên Mục Tinh Giản</span></div>
+          <div class="ctrl-block">
+            <label><span>Mục 1 (Kiến thức SGK)</span></label>
+            <input type="text" id="inpCard1Title" value="KIẾN THỨC &amp; LÝ THUYẾT" oninput="onControlChange()" style="margin-bottom:4px;" />
+            <input type="text" id="inpCard1Desc" value="Tóm tắt chuẩn 77 bài học SGK &amp; Sơ đồ tư duy trực quan." oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Mục 2 (Hồ sơ 5512 &amp; PPT)</span></label>
+            <input type="text" id="inpCard2Title" value="HỒ SƠ &amp; GIÁO ÁN" oninput="onControlChange()" style="margin-bottom:4px;" />
+            <input type="text" id="inpCard2Desc" value="Hồ sơ nộp Tổ chuyên môn CV 5512 &amp; Kho 77 bài giảng PPT." oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Mục 3 (Soạn đề CV 7991)</span></label>
+            <input type="text" id="inpCard3Title" value="BIÊN SOẠN ĐỀ" oninput="onControlChange()" style="margin-bottom:4px;" />
+            <input type="text" id="inpCard3Desc" value="Quy trình 6 bước CV 7991, Ma trận, đặc tả &amp; Kho 97 đề thi." oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Mục 4 (Bồi dưỡng HSG)</span></label>
+            <input type="text" id="inpCard4Title" value="BỒI DƯỠNG HSG" oninput="onControlChange()" style="margin-bottom:4px;" />
+            <input type="text" id="inpCard4Desc" value="Luyện đề 180 phút Bảng B, 9 chuyên đề VDC &amp; Máy tính 6-in-1." oninput="onControlChange()" />
+          </div>
+          <div class="ctrl-block">
+            <label><span>Mục 5 (Ôn thi Tốt nghiệp)</span></label>
+            <input type="text" id="inpCard5Title" value="ÔN THI TỐT NGHIỆP THPT" oninput="onControlChange()" style="margin-bottom:4px;" />
+            <input type="text" id="inpCard5Desc" value="Khảo thí trắc nghiệm 28 câu chuẩn Bộ &amp; Kho 48 đề gốc." oninput="onControlChange()" />
+          </div>
+        </div>
+
+        <!-- TAB 3: SCHOOL BRANDING, ZALO & CUSTOM CSS -->
         <div class="insp-pane" id="pane_brand">
           <div class="sec-title"><span>🏫 Banner Mobile-First (THPT Lộc Ninh)</span></div>
           <div class="ctrl-block">
@@ -725,7 +778,7 @@
           </label>
           <label class="ctrl-row" style="cursor:pointer;">
             <div>
-              <div class="ctrl-label">Ẩn thanh chuyển 4 Phân hệ</div>
+              <div class="ctrl-label">Ẩn thanh chuyển chuyên mục</div>
               <div class="ctrl-sub">Dành trọn diện tích cho bài đọc</div>
             </div>
             <input type="checkbox" id="chkHideTopNav" onchange="onControlChange()" />
@@ -947,6 +1000,21 @@
         customAuthor: document.getElementById("inpCustomAuthor").value.trim(),
         customZaloText: document.getElementById("inpCustomZaloText").value.trim(),
         customZaloUrl: document.getElementById("inpCustomZaloUrl").value.trim(),
+        homeTopTitle: document.getElementById("inpHomeTopTitle") ? document.getElementById("inpHomeTopTitle").value.trim() : "",
+        homeTopSub: document.getElementById("inpHomeTopSub") ? document.getElementById("inpHomeTopSub").value.trim() : "",
+        hubWelcomeBadge: document.getElementById("inpHubWelcomeBadge") ? document.getElementById("inpHubWelcomeBadge").value.trim() : "",
+        hubWelcomeTitle: document.getElementById("inpHubWelcomeTitle") ? document.getElementById("inpHubWelcomeTitle").value.trim() : "",
+        hubWelcomeSub: document.getElementById("inpHubWelcomeSub") ? document.getElementById("inpHubWelcomeSub").value.trim() : "",
+        card1Title: document.getElementById("inpCard1Title") ? document.getElementById("inpCard1Title").value.trim() : "",
+        card1Desc: document.getElementById("inpCard1Desc") ? document.getElementById("inpCard1Desc").value.trim() : "",
+        card2Title: document.getElementById("inpCard2Title") ? document.getElementById("inpCard2Title").value.trim() : "",
+        card2Desc: document.getElementById("inpCard2Desc") ? document.getElementById("inpCard2Desc").value.trim() : "",
+        card3Title: document.getElementById("inpCard3Title") ? document.getElementById("inpCard3Title").value.trim() : "",
+        card3Desc: document.getElementById("inpCard3Desc") ? document.getElementById("inpCard3Desc").value.trim() : "",
+        card4Title: document.getElementById("inpCard4Title") ? document.getElementById("inpCard4Title").value.trim() : "",
+        card4Desc: document.getElementById("inpCard4Desc") ? document.getElementById("inpCard4Desc").value.trim() : "",
+        card5Title: document.getElementById("inpCard5Title") ? document.getElementById("inpCard5Title").value.trim() : "",
+        card5Desc: document.getElementById("inpCard5Desc") ? document.getElementById("inpCard5Desc").value.trim() : "",
         customCss: document.getElementById("txtCustomCss").value
       };
     }
@@ -974,6 +1042,21 @@
       if (cfg.customAuthor !== undefined) document.getElementById("inpCustomAuthor").value = cfg.customAuthor;
       if (cfg.customZaloText !== undefined) document.getElementById("inpCustomZaloText").value = cfg.customZaloText;
       if (cfg.customZaloUrl !== undefined) document.getElementById("inpCustomZaloUrl").value = cfg.customZaloUrl;
+      if (cfg.homeTopTitle !== undefined && document.getElementById("inpHomeTopTitle")) document.getElementById("inpHomeTopTitle").value = cfg.homeTopTitle;
+      if (cfg.homeTopSub !== undefined && document.getElementById("inpHomeTopSub")) document.getElementById("inpHomeTopSub").value = cfg.homeTopSub;
+      if (cfg.hubWelcomeBadge !== undefined && document.getElementById("inpHubWelcomeBadge")) document.getElementById("inpHubWelcomeBadge").value = cfg.hubWelcomeBadge;
+      if (cfg.hubWelcomeTitle !== undefined && document.getElementById("inpHubWelcomeTitle")) document.getElementById("inpHubWelcomeTitle").value = cfg.hubWelcomeTitle;
+      if (cfg.hubWelcomeSub !== undefined && document.getElementById("inpHubWelcomeSub")) document.getElementById("inpHubWelcomeSub").value = cfg.hubWelcomeSub;
+      if (cfg.card1Title !== undefined && document.getElementById("inpCard1Title")) document.getElementById("inpCard1Title").value = cfg.card1Title;
+      if (cfg.card1Desc !== undefined && document.getElementById("inpCard1Desc")) document.getElementById("inpCard1Desc").value = cfg.card1Desc;
+      if (cfg.card2Title !== undefined && document.getElementById("inpCard2Title")) document.getElementById("inpCard2Title").value = cfg.card2Title;
+      if (cfg.card2Desc !== undefined && document.getElementById("inpCard2Desc")) document.getElementById("inpCard2Desc").value = cfg.card2Desc;
+      if (cfg.card3Title !== undefined && document.getElementById("inpCard3Title")) document.getElementById("inpCard3Title").value = cfg.card3Title;
+      if (cfg.card3Desc !== undefined && document.getElementById("inpCard3Desc")) document.getElementById("inpCard3Desc").value = cfg.card3Desc;
+      if (cfg.card4Title !== undefined && document.getElementById("inpCard4Title")) document.getElementById("inpCard4Title").value = cfg.card4Title;
+      if (cfg.card4Desc !== undefined && document.getElementById("inpCard4Desc")) document.getElementById("inpCard4Desc").value = cfg.card4Desc;
+      if (cfg.card5Title !== undefined && document.getElementById("inpCard5Title")) document.getElementById("inpCard5Title").value = cfg.card5Title;
+      if (cfg.card5Desc !== undefined && document.getElementById("inpCard5Desc")) document.getElementById("inpCard5Desc").value = cfg.card5Desc;
       if (cfg.customCss !== undefined) document.getElementById("txtCustomCss").value = cfg.customCss;
       collectCurrentConfig();
     }

@@ -1,17 +1,34 @@
-// ============================================================================
+﻿// ============================================================================
 // HỆ THỐNG BỒI DƯỠNG & KHẢO THÍ HỌC SINH GIỎI (HSG) CẤP TỈNH / THÀNH PHỐ
 // Chuẩn Cấu trúc Sở GD&ĐT Đồng Nai (SKILL.md & Quyết định 1540/QĐ-SGDĐT)
 // Tích hợp Tinh hoa Đề HSG Thực chiến: Đồng Nai, TP. Huế (Mã 7011), TP.HCM, BR-VT, Bắc Giang
+// Hệ thống Phân hóa 3 Cấp độ: 🟢 Dễ (Khởi động) -> 🟡 Vừa (Tăng tốc) -> 🔴 Khó (Về đích)
 // ============================================================================
+
+if (typeof window.escapeHtml !== "function") {
+  window.escapeHtml = function(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  };
+}
+var escapeHtml = window.escapeHtml;
 
 const HSG_MASTER_STATE = {
   activeSubTab: "hsg_dongnai", // 'hsg_dongnai' | 'hsg_matrix_validator' | 'hsg_theory_handbook' | 'hsg_topics' | 'hsg_quiz' | 'ag_calc'
-  activeExamId: "dn_01", // 'dn_01' | 'dn_02' | 'dn_03' | 'dn_auto'
-  tableMode: "A", // 'A' (Trường Chuyên: 0.125đ Đúng + 0.25đ Giải thích) | 'B' (Trường Không chuyên: 0.25đ Đúng + 0.125đ Giải thích)
+  selectedLevel: "all", // 'all' | 'easy' | 'medium' | 'hard'
+  activeExamId: "dn_easy_01", // 'dn_easy_01' | 'dn_easy_02' | 'dn_01' | 'dn_03' | 'dn_02' | 'dn_hard_02' | 'dn_auto'
+  tableMode: "B", // 'A' (Trường Chuyên: 0.125đ Đúng + 0.25đ Giải thích) | 'B' (Trường Không chuyên: 0.25đ Đúng + 0.125đ Giải thích)
   timerSeconds: 180 * 60,
   timerRunning: false,
   timerInterval: null,
   submitted: false,
+  showRecallHints: true, // Điểm tựa ghi nhớ lý thuyết SGK cho học sinh
+  expandedRecallHints: {}, // { key: boolean }
   userMcq: {}, // { qIdx: optionIdx }
   userTfChoice: {}, // { qIdx: { a: true/false, b: true/false, c: true/false, d: true/false } }
   userTfExplain: {}, // { qIdx: { a: "string", ... } }
@@ -30,8 +47,6 @@ const HSG_MASTER_STATE = {
   ]
 };
 
-// ============================================================================
-// 1. CẨM NANG LÝ THUYẾT CHUYÊN SÂU 9 CHỦ ĐỀ CỐT LÕI (LỚP 10 • 11 • 12)
 // ============================================================================
 const HSG_DEEP_HANDBOOK = [
   {
@@ -465,9 +480,809 @@ const HSG_DEEP_HANDBOOK = [
 // 2. NGÂN HÀNG ĐỀ THI HSG CHUẨN ĐỒNG NAI (180 PHÚT - 20 ĐIỂM)
 // Bảng A & Bảng B • 24 MCQ (6,0đ) + 4 Đúng/Sai có giải thích (6,0đ) + 3 Tự luận (8,0đ)
 // ============================================================================
+
+// ============================================================================
+// 2. NGÂN HÀNG ĐỀ THI HSG CHUẨN ĐỒNG NAI 3 CẤP ĐỘ (180 PHÚT - 20 ĐIỂM)
+// 🟢 Cấp độ 1: Dễ / Khởi động (Nền tảng SGK + Điểm tựa ghi nhớ)
+// 🟡 Cấp độ 2: Vừa / Tăng tốc (Chuẩn Bảng B THPT Không chuyên)
+// 🔴 Cấp độ 3: Khó / Về đích (Nâng cao Bảng B & VDC Đội tuyển)
+// ============================================================================
 const HSG_PROVINCIAL_EXAMS = {
+  dn_easy_01: {
+    id: "dn_easy_01",
+    level: "easy",
+    levelBadge: "🟢 CẤP ĐỘ 1: DỄ / KHỞI ĐỘNG",
+    levelLabel: "CẤP ĐỘ 1 (DỄ / KHỞI ĐỘNG & NỀN TẢNG KIẾN THỨC SGK)",
+    code: "ĐỒNG NAI — CẤP ĐỘ 1 (ĐỀ 01)",
+    title: "KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH — ĐỒNG NAI (ĐỀ SỐ 01 - CẤP ĐỘ 1: KHỞI ĐỘNG)",
+    subTitle: "Khởi động nhẹ nhàng • Củng cố 100% bản chất SGK 10-11-12 • Tích hợp Điểm tựa ghi nhớ SGK",
+    durationMinutes: 180,
+    maxScore: 20.0,
+    source: "Ngân hàng Đề HSG Nền tảng — Chuẩn SGK Kết nối tri thức & Cấu trúc Sở GD&ĐT Đồng Nai",
+    mcqs: [
+      // K10 (8 câu: 3 Đất + 3 Phân bón + 2 Trồng trọt CNC)
+      {
+        id: 1, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Trong cấu trúc của một hạt keo đất hoàn chỉnh (micelle), thành phần nằm ngoài cùng có khả năng di chuyển và trao đổi trực tiếp với dung dịch đất là",
+        options: ["nhân keo.", "lớp ion quyết định điện thế.", "lớp ion bất động.", "lớp ion khuếch tán."],
+        answer: 3,
+        explanation: "Hạt keo đất gồm 4 phần: Nhân keo -> Lớp ion quyết định điện thế -> Lớp ion bất động -> Lớp ion khuếch tán ngoài cùng. Lớp khuếch tán liên kết yếu nhất nên dễ dàng trao đổi với các ion dinh dưỡng trong dung dịch đất.",
+        recallHint: "SGK CN 10 Bài 3: Hạt keo gồm: Nhân keo -> Lớp ion quyết định điện thế (quyết định dấu keo âm/dương) -> Lớp ion bất động -> Lớp ion khuếch tán ngoài cùng (trao đổi ion với rễ cây)."
+      },
+      {
+        id: 2, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Loại đất nào sau đây thường có dung tích hấp phụ cation (CEC) thấp nhất trong điều kiện tự nhiên?",
+        options: ["Đất cát pha nghèo mùn.", "Đất thịt nhẹ phù sa màu mỡ.", "Đất sét nặng giàu chất hữu cơ.", "Đất than bùn giàu mùn."],
+        answer: 0,
+        explanation: "Đất cát có hàm lượng hạt sét rất thấp (< 10%) và nghèo mùn nên tổng diện tích bề mặt riêng rất bé, dẫn tới dung tích hấp phụ cation (CEC < 5 meq/100g đất) thấp nhất.",
+        recallHint: "SGK CN 10 Bài 3: Trật tự dung tích hấp phụ CEC: Mùn hữu cơ (150-300 meq/100g) > Sét Montmorillonite > Sét Kaolinite > Đất cát (< 5 meq/100g). Đất cát giữ phân kém nhất."
+      },
+      {
+        id: 3, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Biện pháp kỹ thuật nào sau đây mang tính chất căn bản để cải tạo độ phì nhiêu và chống xói mòn cho đất đồi dốc trơ sỏi đá?",
+        options: ["Bón phân đạm vô cơ liều lượng cao liên tục.", "Làm ruộng bậc thang và trồng cây họ Đậu che phủ đất.", "Cày sâu lật đất nhiều lần trong mùa khô.", "Đốt sạch tàn dư thực vật sau mỗi vụ thu hoạch."],
+        answer: 1,
+        explanation: "Làm ruộng bậc thang làm giảm vận tốc dòng chảy bề mặt, chống xói mòn rửa trôi; trồng cây họ Đậu che phủ giữ ẩm, rễ vi khuẩn Rhizobium cố định đạm làm tăng mùn và độ phì nhiêu đất.",
+        recallHint: "SGK CN 10 Bài 4: Cải tạo đất đồi núi dốc gồm biện pháp công trình (ruộng bậc thang, rãnh ngăn dòng chảy) và nông học (trồng cây phủ đất, luân canh xen canh cây họ Đậu cố định đạm)."
+      },
+      {
+        id: 4, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Phân bón vô cơ đơn là loại phân bón chỉ chứa",
+        options: ["một nguyên tố dinh dưỡng khoáng chủ yếu (N, P hoặc K).", "hai nguyên tố dinh dưỡng khoáng trở lên.", "các vi lượng Fe, Zn, Cu, Bo.", "chất hữu cơ đã ủ hoai mục."],
+        answer: 0,
+        explanation: "Phân bón đơn là loại phân vô cơ chỉ chứa 1 trong 3 nguyên tố dinh dưỡng khoáng đa lượng chính: Đạm (N), Lân (P) hoặc Kali (K). Ví dụ: Phân Urê (chứa N), Super lân (chứa P), Kali clorua (chứa K).",
+        recallHint: "SGK CN 10 Bài 7: Phân đơn chỉ chứa 1 chất dinh dưỡng chính: Phân đạm (chứa N), phân lân (chứa P), phân kali (chứa K). Phân đa yếu tố (NPK) chứa từ 2 nguyên tố dinh dưỡng trở lên."
+      },
+      {
+        id: 5, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Trong quy trình bón phân cho cây trồng, phân hữu cơ truyền thống và phân lân khó tan thường được ưu tiên sử dụng vào thời kỳ nào?",
+        options: ["Bón thúc vào lúc cây đang nở hoa rộ.", "Bón thúc khi cây đang nuôi quả lớn.", "Bón lót sâu vào đất trước khi gieo trồng.", "Phun trực tiếp lên lá khi cây bị héo."],
+        answer: 2,
+        explanation: "Phân hữu cơ và lân khó tan cần thời gian để vi sinh vật phân giải thành dạng khoáng hòa tan cây mới hấp thu được, do đó phải bón lót sâu vào đất trước khi gieo trồng.",
+        recallHint: "SGK CN 10 Bài 8: Nguyên tắc bón phân: Phân hữu cơ hoai mục, phân lân khó tan -> Bón lót sâu vào hố/rãnh; Phân đạm, phân kali dễ hòa tan -> Chia nhỏ bón thúc nhiều lần."
+      },
+      {
+        id: 6, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Khi quan sát cây trồng, nếu thấy các lá già ở phía gốc bị vàng úa trước, cây sinh trưởng còi cọc, thân gầy guộc thì cây đang có biểu hiện thiếu hụt nguyên tố khoáng nào?",
+        options: ["Đạm (N).", "Lân (P).", "Sắt (Fe).", "Đồng (Cu)."],
+        answer: 0,
+        explanation: "Đạm (N) là nguyên tố di động mạnh trong cây. Khi thiếu đạm, cây sẽ ưu tiên huy động đạm từ các lá già phía dưới chuyển lên nuôi các lá non và ngọn non, làm cho lá già bị vàng úa trước.",
+        recallHint: "SGK CN 10 Bài 6: Đạm (N) quyết định sinh trưởng sinh dưỡng. Thiếu N: Cây còi cọc, lá già ở gốc vàng trước; Thừa N: Cây phát triển thân lá quá mức, mềm yếu, dễ đổ ngã và sâu bệnh."
+      },
+      {
+        id: 7, grade: "cn10", topic: "(3) Trồng trọt công nghệ cao",
+        stem: "Mụn xơ dừa thô nguyên chất trước khi sử dụng làm giá thể trồng cây công nghệ cao bắt buộc phải qua xử lý nhằm mục đích chủ yếu là",
+        options: ["loại bỏ chất chát Tanin và Lignin gây ức chế hô hấp và sinh trưởng rễ cây.", "tiêu diệt hoàn toàn các hạt diệp lục còn sót lại trong xơ dừa.", "tăng hàm lượng đường glucose trong giá thể.", "làm giảm độ xốp và giảm độ ẩm của xơ dừa."],
+        answer: 0,
+        explanation: "Xơ dừa thô chứa hàm lượng lớn chất Tanin và Lignin có tính chát, làm tắc mạch dẫn và ức chế rễ non hấp thu dinh dưỡng. Cần ngâm xả nước và xử lý nước vôi Ca(OH)2 để kết tủa và loại bỏ chất chát.",
+        recallHint: "SGK CN 10 Bài 10: Xử lý mụn xơ dừa: Ngâm xả nước sạch nhiều lần và ngâm nước vôi Ca(OH)2 để loại bỏ Tanin (tan trong nước) và Lignin (tan trong kiềm), đưa EC < 0,5 mS/cm và pH 5,8 - 6,5."
+      },
+      {
+        id: 8, grade: "cn10", topic: "(3) Trồng trọt công nghệ cao",
+        stem: "Tác dụng cơ bản và nổi bật nhất của việc xây dựng nhà màng trong sản xuất rau ăn lá và hoa công nghệ cao là",
+        options: ["loại bỏ hoàn toàn tác động của bức xạ ánh sáng mặt trời.", "ngăn chặn cơ học sự xâm nhập của các loài côn trùng gây hại và điều hòa tiểu khí hậu.", "thay thế hoàn toàn việc tưới nước hàng ngày cho cây trồng.", "làm tăng nhiệt độ bên trong nhà màng lên gấp 3 lần môi trường ngoài."],
+        answer: 1,
+        explanation: "Nhà màng phủ lưới chắn côn trùng giúp ngăn chặn rầy, bọ trĩ, sâu hại bay vào cắn phá, giảm tối đa việc dùng thuốc BVTV hóa học, đồng thời che chắn mưa to gió lớn dập nát lá cây.",
+        recallHint: "SGK CN 10 Bài 12: Ưu điểm của nhà màng/nhà lưới: Ngăn chặn sâu bọ cơ học, bảo vệ cây khỏi mưa dập gió bão, điều hòa độ ẩm và nhiệt độ tiểu khí hậu, kiểm soát môi trường sinh trưởng tối ưu."
+      },
+
+      // K11 (8 câu: 3 Giống + 3 Thức ăn + 2 MT chăn nuôi)
+      {
+        id: 9, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Trong các phương pháp chọn lọc giống vật nuôi, phương pháp 'Chọn lọc cá thể' có ưu điểm nổi bật nhất là",
+        options: ["thực hiện rất nhanh chóng và không đòi hỏi ghi chép theo dõi gia phả.", "đánh giá chính xác sức sản xuất và tiềm năng di truyền của từng cá thể giống.", "chỉ cần quan sát ngoại hình bầy đàn lúc mới sinh ra.", "không cần kiểm tra phẩm chất giống ở đời con."],
+        answer: 1,
+        explanation: "Chọn lọc cá thể theo dõi chi tiết từng con vật về ngoại hình, sức sản xuất bản thân, kết hợp kiểm tra phả hệ và kiểm tra đời con, cho độ chính xác di truyền cao nhất.",
+        recallHint: "SGK CN 11 Bài 3: Phân biệt: (a) Chọn lọc hàng loạt: Nhanh, dễ làm, áp dụng đại trà nhưng độ chính xác không cao; (b) Chọn lọc cá thể: Tỉ mỉ, theo dõi gia phả và đời con, độ chính xác cao."
+      },
+      {
+        id: 10, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Lai kinh tế đơn giản (lai giữa 2 giống thuần chủng) nhằm mục đích chủ yếu là",
+        options: ["tạo ra một giống vật nuôi hoàn toàn mới giữ lại ổn định ở các đời sau.", "tận dụng tối đa hiện tượng ưu thế lai để nuôi lấy sản phẩm thương phẩm (thịt, trứng, sữa).", "để chọn con lai làm giống sinh sản tiếp ở thế hệ F2 và F3.", "bảo tồn nguồn gen quý của các giống vật nuôi bản địa đang có nguy cơ tuyệt chủng."],
+        answer: 1,
+        explanation: "Lai kinh tế tạo con lai F1 mang ưu thế lai cao nhất về sức sống, tốc độ tăng trọng và hiệu quả chuyển hóa thức ăn. Con lai F1 chỉ dùng để nuôi lấy thịt/trứng thương phẩm, không dùng làm giống vì thế hệ F2 sẽ phân ly.",
+        recallHint: "SGK CN 11 Bài 4: Lai kinh tế: Mục đích duy nhất là tận dụng ưu thế lai ở đời F1 nuôi thương phẩm. Tuyệt đối không giữ con lai F1 làm giống vì thế hệ con cháu F2 sẽ thoái hóa, phân ly tính trạng."
+      },
+      {
+        id: 11, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Công nghệ thụ tinh nhân tạo (AI) cho bò sữa và lợn mang lại lợi ích lớn nhất trong công tác giống là",
+        options: ["nâng cao hệ số nhân giống của con đực giống tốt lên gấp hàng trăm đến hàng nghìn lần.", "làm cho con cái sinh đôi hoặc sinh ba trong tất cả các lứa đẻ.", "giúp thay thế hoàn toàn nhu cầu dinh dưỡng khoáng của bò mẹ khi mang thai.", "làm giảm thời gian mang thai của gia súc cái xuống một nửa."],
+        answer: 0,
+        explanation: "Thụ tinh nhân tạo cho phép pha loãng và bảo quản lạnh tinh dịch của đực giống phẩm chất xuất sắc, phối giống cho hàng trăm, hàng nghìn con cái ở khắp các địa phương, đẩy nhanh tốc độ cải thiện di truyền.",
+        recallHint: "SGK CN 11 Bài 4: Thụ tinh nhân tạo: Nâng cao hệ số sử dụng đực giống quý, mở rộng vùng phối giống, tránh lây lan các bệnh truyền nhiễm qua đường sinh dục tự nhiên."
+      },
+      {
+        id: 12, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Dạ dày của động vật nhai lại (bò, trâu, dê) gồm có 4 ngăn theo thứ tự luân chuyển thức ăn là",
+        options: ["Dạ cỏ -> Dạ tổ ong -> Dạ lá sách -> Dạ múi khế.", "Dạ múi khế -> Dạ tổ ong -> Dạ cỏ -> Dạ lá sách.", "Dạ tổ ong -> Dạ cỏ -> Dạ lá sách -> Dạ múi khế.", "Dạ cỏ -> Dạ lá sách -> Dạ tổ ong -> Dạ múi khế."],
+        answer: 0,
+        explanation: "Thức ăn sau khi nuốt qua thực quản đi vào Dạ cỏ (lên men vi sinh) -> Dạ tổ ong (đẩy thức ăn ợ lên miệng nhai lại) -> Dạ lá sách (ép hấp thu nước và chất điện giải) -> Dạ múi khế (dạ dày thật tiết pepsin và HCl).",
+        recallHint: "SGK CN 11 Bài 5: Thứ tự dạ dày 4 túi: Dạ cỏ (lớn nhất, chứa vi sinh vật phân giải xenlulozo) -> Dạ tổ ong (ợ thức ăn) -> Dạ lá sách (hấp thu nước) -> Dạ múi khế (dạ dày thực sự tiết dịch vị)."
+      },
+      {
+        id: 13, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Hệ số chuyển hóa thức ăn FCR (Feed Conversion Ratio) trong chăn nuôi được định nghĩa và tính toán bằng",
+        options: ["Khối lượng thức ăn tiêu thụ (kg) / Khối lượng vật nuôi tăng trọng (kg).", "Khối lượng vật nuôi tăng trọng (kg) / Khối lượng thức ăn tiêu thụ (kg).", "Tổng doanh thu bán thịt / Tổng chi phí mua cám.", "Số ngày nuôi / Số kg thức ăn ăn vào."],
+        answer: 0,
+        explanation: "FCR = Lượng thức ăn ăn vào / Lượng tăng trọng. Giá trị FCR càng thấp biểu thị con vật sử dụng thức ăn càng hiệu quả, chi phí thức ăn cho mỗi kg tăng trọng càng ít.",
+        recallHint: "SGK CN 11 Bài 13: FCR = Khối lượng thức ăn tiêu tốn / Khối lượng tăng trọng. Ví dụ: FCR gà = 1,6 - 1,8; FCR lợn = 2,4 - 2,6; FCR cá tra = 1,4 - 1,6. FCR càng nhỏ thì hiệu quả chăn nuôi càng cao."
+      },
+      {
+        id: 14, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Phương pháp ủ chua thức ăn thô xanh (cỏ voi, thân cây ngô) cho trâu bò có bản chất sinh học là",
+        options: ["lên men yếm khí nhờ vi khuẩn Lactic tạo ra axit lactic làm giảm pH ức chế vi khuẩn gây thối.", "lên men hiếu khí nhờ nấm men tạo cồn ethanol để sát trùng thức ăn.", "dùng nhiệt độ cao 100°C để hấp chín và diệt khuẩn toàn bộ khối ủ.", "cho thêm kháng sinh vào cỏ để chống ôi thiu trong không khí."],
+        answer: 0,
+        explanation: "Ủ chua là quá trình nén chặt đẩy hết không khí ra (yếm khí), vi khuẩn Lactic phân giải đường tan thành axit lactic, hạ pH khối ủ xuống 3,8 - 4,2 giúp bảo quản cỏ tươi giàu dinh dưỡng lâu dài.",
+        recallHint: "SGK CN 11 Bài 8: Bản chất ủ chua: Yếm khí (kín khí) + Vi khuẩn Lactic chuyển hóa đường thành axit lactic + Hạ pH < 4,2 ức chế vi khuẩn thối rữa Clostridium."
+      },
+      {
+        id: 15, grade: "cn11", topic: "(6) Môi trường & Phòng bệnh chăn nuôi",
+        stem: "Sự khác biệt căn bản về bản chất miễn dịch giữa Vacxin và Kháng huyết thanh là",
+        options: ["Vacxin chứa kháng nguyên kích thích cơ thể tự sinh kháng thể chủ động; Kháng huyết thanh chứa kháng thể sẵn có tạo miễn dịch thụ động cấp tốc.", "Vacxin chỉ dùng khi vật nuôi đang ốm nặng; Kháng huyết thanh dùng phòng bệnh định kỳ.", "Vacxin chứa kháng thể; Kháng huyết thanh chứa kháng nguyên.", "Vacxin không có tính đặc hiệu; Kháng huyết thanh có tính đặc hiệu cao."],
+        answer: 0,
+        explanation: "Vacxin đưa kháng nguyên (mầm bệnh đã làm yếu hoặc bất hoạt) vào cơ thể khỏe mạnh để kích hoạt miễn dịch chủ động lâu dài. Kháng huyết thanh cung cấp kháng thể đặc hiệu trực tiếp để cấp cứu vật nuôi khi bị nhiễm độc tố hoặc bệnh cấp tính.",
+        recallHint: "SGK CN 11 Bài 15: Vacxin = Kháng nguyên (sinh miễn dịch chủ động, cần thời gian 2-3 tuần); Kháng huyết thanh = Kháng thể sẵn có (miễn dịch thụ động, tác dụng tức thì nhưng ngắn hạn)."
+      },
+      {
+        id: 16, grade: "cn11", topic: "(6) Môi trường & Phòng bệnh chăn nuôi",
+        stem: "Trong công trình xử lý chất thải chăn nuôi bằng hầm Biogas, thành phần khí sinh học chiếm thể tích lớn nhất và có khả năng cháy sinh năng lượng là",
+        options: ["Khí Mêtan (CH4) chiếm khoảng 55% - 70%.", "Khí Carbonic (CO2) chiếm 90%.", "Khí Hydro sunfua (H2S) chiếm 80%.", "Khí Oxy (O2) chiếm 60%."],
+        answer: 0,
+        explanation: "Trong điều kiện yếm khí, vi khuẩn sinh metan phân giải chất hữu cơ tạo ra khí Biogas gồm 55-70% CH4, 30-40% CO2 và một lượng nhỏ các khí khác. Khí CH4 cháy tạo nhiệt lượng sạch.",
+        recallHint: "SGK CN 11 Bài 16: Hầm Biogas phân hủy kỵ khí: Khí sinh học gồm Mêtan CH4 (55-70%, chất khí cháy sinh nhiệt) và CO2 (30-40%). Nước xả sau Biogas dùng làm phân tưới cây hoặc nuôi cá."
+      },
+
+      // K12 (8 câu: 4 Lâm nghiệp + 4 Thủy sản)
+      {
+        id: 17, grade: "cn12", topic: "(1) Giới thiệu chung Lâm nghiệp",
+        stem: "Theo quy định của Luật Lâm nghiệp 2017 tại Việt Nam, rừng được phân chia thành 3 loại căn cứ vào mục đích sử dụng chủ yếu là",
+        options: ["Rừng đặc dụng, Rừng phòng hộ, Rừng sản xuất.", "Rừng tự nhiên, Rừng nhân tạo, Rừng hỗn giao.", "Rừng ngập mặn, Rừng rụng lá, Rừng lá kim.", "Rừng nguyên sinh, Rừng thứ sinh, Rừng nghèo kiệt."],
+        answer: 0,
+        explanation: "Luật Lâm nghiệp 2017 (Điều 5) phân chia rừng thành 3 loại căn cứ vào mục đích sử dụng chủ yếu: (1) Rừng đặc dụng; (2) Rừng phòng hộ; (3) Rừng sản xuất.",
+        recallHint: "SGK CN 12 Bài 2: Phân loại 3 loại rừng (Luật Lâm nghiệp 2017): Rừng đặc dụng (bảo tồn đa dạng sinh học), Rừng phòng hộ (chắn gió, chắn sóng, bảo vệ nguồn nước), Rừng sản xuất (cung cấp gỗ và lâm sản)."
+      },
+      {
+        id: 18, grade: "cn12", topic: "(2) Trồng & Chăm sóc rừng",
+        stem: "Cây con giống lâm nghiệp (như keo lai, bạch đàn) đạt tiêu chuẩn xuất vườn để trồng rừng phải đảm bảo yêu cầu nào sau đây?",
+        options: ["Cây thân thẳng, đỉnh sinh trưởng không bị gãy cụt, bộ rễ phát triển tốt trong bầu ươm chắc chắn.", "Cây có chiều cao càng cao càng tốt dù thân cong queo.", "Bầu ươm bị vỡ vụn và rễ cọc bị đứt cụt sát cổ rễ.", "Cây đang bị nhiễm nấm đốm lá để rèn luyện sức đề kháng tự nhiên."],
+        answer: 0,
+        explanation: "Tiêu chuẩn cây con xuất vườn bắt buộc: Thân cây thẳng, ngọn cứng cáp không gãy cụt, bầu rễ nguyên vẹn không cuộn tròn, cây sạch sâu bệnh và đạt độ tuổi xuất vườn theo quy trình.",
+        recallHint: "SGK CN 12 Bài 4: Tiêu chuẩn cây giống xuất vườn: Thân hóa gỗ cứng cáp, thẳng, 1 ngọn đơn duy nhất, bộ rễ nguyên vẹn trong bầu đất, không sâu bệnh hại."
+      },
+      {
+        id: 19, grade: "cn12", topic: "(3) Bảo vệ & Khai thác rừng",
+        stem: "Phương thức khai thác rừng chọn (Selection Cutting) trong quản lý rừng tự nhiên bền vững có đặc điểm cơ bản là",
+        options: ["chỉ chặt hạ những cây gỗ già, thành thục công nghệ đạt đường kính quy định, giữ lại các cây non và cây mẹ tái sinh.", "chặt sạch toàn bộ cây rừng trên một diện tích rộng lớn trong một mùa khô.", "chặt hạ toàn bộ tầng cây gỗ lớn và chỉ để lại thảm cỏ dưới mặt đất.", "chặt cây rừng liên tục hàng tuần mà không cần quy hoạch."],
+        answer: 0,
+        explanation: "Khai thác chọn là phương thức khai thác chặt tỉa từng cây hoặc từng đám cây thành thục theo chu kỳ, duy trì liên tục độ che phủ và cấu trúc nhiều tầng của tán rừng tự nhiên.",
+        recallHint: "SGK CN 12 Bài 6: Ba phương thức khai thác rừng: (1) Khai thác trắng (chặt toàn bộ trên diện tích nhất định); (2) Khai thác dần (chặt qua 2-3 đợt); (3) Khai thác chọn (chỉ chặt cây thành thục, duy trì cấu trúc rừng liên tục)."
+      },
+      {
+        id: 20, grade: "cn12", topic: "(4) Giới thiệu chung Thủy sản",
+        stem: "Nhóm cá nào sau đây thuộc nhóm 'Cá nước lạnh' thích nghi tối ưu ở nhiệt độ nước dưới 20°C?",
+        options: ["Cá hồi, Cá tầm.", "Cá rô phi, Cá tra.", "Cá chép, Cá trắm cỏ.", "Cá chim trắng, Cá mè hoa."],
+        answer: 0,
+        explanation: "Cá tầm và cá hồi là những loài thủy sản nước lạnh đặc trưng, đòi hỏi nhiệt độ nước mát mẻ dưới 18-20°C và hàm lượng oxy hòa tan cao, phân bố chủ yếu ở Sa Pa, Đà Lạt.",
+        recallHint: "SGK CN 12 Bài 8: Phân loại thủy sản theo nhiệt độ sống: Nhóm cá nước lạnh (cá tầm, cá hồi - sống tối ưu ở < 20°C); Nhóm cá nước ấm/nhiệt đới (cá tra, cá rô phi, tôm thẻ - sống tối ưu 25 - 32°C)."
+      },
+      {
+        id: 21, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản",
+        stem: "Độ trong của nước ao nuôi thủy sản đo bằng đĩa Secchi thích hợp nhất cho sự phát triển của cá và tôm là",
+        options: ["30 - 40 cm (nước có màu xanh nõn chuối hoặc nâu trà).", "< 10 cm (nước quá đục, bùn cát lơ lửng bám vào mang cá).", "80 - 100 cm (nước trong suốt nhìn thấy tận đáy ao).", "> 150 cm (nước nghèo kiệt chất dinh dưỡng khoáng)."],
+        answer: 0,
+        explanation: "Độ trong 30-40 cm thể hiện mật độ phiêu sinh thực vật (tảo có lợi) vừa phải, nước có màu xanh nõn chuối hoặc nâu trà, quang hợp tạo oxy hòa tan và ngăn ánh sáng xuyên xuống đáy kìm hãm rong rêu đáy.",
+        recallHint: "SGK CN 12 Bài 10: Độ trong thích hợp của ao nuôi cá/tôm là 30 - 40 cm (đo bằng đĩa Secchi). Nước có màu xanh nõn chuối (tảo lục) hoặc nâu trà (tảo silic) là màu nước màu mỡ lý tưởng."
+      },
+      {
+        id: 22, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản",
+        stem: "Quy trình chuẩn bị ao nuôi thủy sản trước khi thả cá giống gồm 4 bước kỹ thuật theo đúng trình tự là",
+        options: ["Tháo cạn ao & nạo vét bùn đáy -> Bón vôi khử trùng -> Phơi đáy ao (3-7 ngày) -> Lấy nước & gây màu nước.", "Lấy nước vào ao -> Thả cá giống ngay -> Bón vôi khử trùng -> Tháo cạn ao.", "Bón phân gây màu nước -> Tháo cạn ao -> Nạo vét bùn đáy -> Thả cá giống.", "Phơi đáy ao -> Lấy nước ngập ao -> Bón vôi -> Nạo vét bùn đáy."],
+        answer: 0,
+        explanation: "Quy trình chuẩn 4 bước: (1) Tháo cạn nước, nạo vét bùn đen độc hại; (2) Rải vôi nông nghiệp CaCO3 diệt mầm bệnh và nâng kiềm; (3) Phơi nắng đáy ao 3-7 ngày để khoáng hóa; (4) Cấp nước lọc và gây màu nước tảo có lợi.",
+        recallHint: "SGK CN 12 Bài 11: Bốn bước chuẩn bị ao nuôi thủy sản: (1) Tháo cạn & nạo bùn -> (2) Rải vôi khử trùng -> (3) Phơi đáy ao 3-7 ngày -> (4) Lấy nước qua túi lọc & gây màu nước đạt độ trong 30-40 cm."
+      },
+      {
+        id: 23, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản",
+        stem: "Vai trò cơ bản của hệ thống quạt nước và sục khí trong các ao nuôi tôm thâm canh công nghệ cao là",
+        options: ["cung cấp oxy hòa tan (DO) liên tục, gom tụ chất thải hữu cơ về rốn ao và giải phóng khí độc.", "làm nước ao nóng lên để kích thích tôm lột xác liên tục.", "làm nước ao đổi thành nước ngọt để tôm lớn nhanh hơn.", "tiêu diệt hoàn toàn tất cả các loại vi sinh vật trong ao."],
+        answer: 0,
+        explanation: "Quạt nước tăng cường khuếch tán oxy từ không khí vào nước (duy trì DO >= 4 mg/L), đồng thời tạo dòng chảy xoáy gom phân tôm và thức ăn thừa về hố xi-phông (rốn ao) để hút bỏ ra ngoài.",
+        recallHint: "SGK CN 12 Bài 12: Hệ thống quạt nước: Tăng cường oxy hòa tan (DO), giải phóng khí độc (NH3, H2S) lên không khí, gom tụ chất thải hữu cơ vào tâm ao (rốn ao) để thuận tiện xi-phông làm sạch."
+      },
+      {
+        id: 24, grade: "cn12", topic: "(6) Công nghệ giống thủy sản",
+        stem: "Phương pháp tạo đàn cá rô phi đơn tính đực được ứng dụng rộng rãi nhất hiện nay trong sản xuất giống là",
+        options: ["cho cá bột (cá hương mới tiêu hết noãn hoàng) ăn thức ăn có trộn hormone 17α-methyltestosterone trong 21 - 28 ngày.", "tiến hành phẫu thuật nội soi cắt bỏ buồng trứng của từng con cá cái.", "chiếu tia phóng xạ gamma liều cao vào trứng cá sau khi thụ tinh.", "nuôi cá trong điều kiện nhiệt độ nước dưới 10°C liên tục 3 tháng."],
+        answer: 0,
+        explanation: "Cho cá bột mới tiêu hết noãn hoàng (chưa biệt hóa tuyến sinh dục) ăn thức ăn chứa hormone 17a-methyltestosterone (MT) liều lượng 60 mg/kg thức ăn trong 21-28 ngày giúp biệt hóa 98-100% thành cá đực, cá lớn nhanh và không sinh sản tự do.",
+        recallHint: "SGK CN 12 Bài 13: Kỹ thuật sản xuất cá rô phi đơn tính đực: Trộn hormone 17α-methyltestosterone vào thức ăn cho cá bột ăn trong giai đoạn 21 - 28 ngày đầu đời để định hướng 100% cá con phát triển thành con đực."
+      }
+    ],
+    tfs: [
+      {
+        id: 1, grade: "cn10",
+        topic: "Khối 10 — Đất trồng & Phân bón cốt lõi",
+        title: "Câu 1: Bản chất keo đất, dung tích CEC và biện pháp cải tạo đất chua phèn",
+        context: "Một nhóm học sinh tham quan mô hình canh tác nông nghiệp tại huyện Cẩm Mỹ (Đồng Nai) tiến hành tìm hiểu bản chất cấu tạo keo đất và kỹ thuật bón phân cải tạo đất chua. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          {
+            label: "a",
+            text: "Trong một hạt keo đất hoàn chỉnh, lớp ion khuếch tán nằm ở ngoài cùng mang điện tích trái dấu với lớp ion quyết định điện thế.",
+            isTrue: true,
+            explanation: "Đúng. Lớp ion quyết định điện thế mang dấu của keo (ví dụ keo âm mang điện âm), còn lớp ion bù (gồm lớp bất động và lớp khuếch tán) mang điện tích trái dấu (dương) để giữ cân bằng điện môi trường.",
+            recallHint: "SGK CN 10 Bài 3: Hạt keo đất trung hòa về điện: Lớp ion quyết định thế hiệu mang điện nào thì các lớp ion bù (bất động và khuếch tán) mang điện tích trái dấu."
+          },
+          {
+            label: "b",
+            text: "Đất có hàm lượng mùn hữu cơ càng cao thì dung tích hấp phụ cation (CEC) của đất càng thấp.",
+            isTrue: false,
+            explanation: "Sai. Mùn hữu cơ có dung tích hấp phụ cation (CEC) rất cao (từ 150 - 300 meq/100g đất), cao gấp nhiều lần so với các loại khoáng sét. Đất càng giàu mùn thì CEC càng cao.",
+            recallHint: "SGK CN 10 Bài 3: Keo mùn hữu cơ có diện tích bề mặt rất lớn và nhiều nhóm định chức phân ly ion, nên có CEC cao nhất trong các loại hạt keo đất."
+          },
+          {
+            label: "c",
+            text: "Bón vôi nông nghiệp (CaCO3) vào đất chua giúp khử chua vì ion Ca2+ thay thế các ion H+ và Al3+ trên phức hệ hấp phụ, đẩy chúng ra dung dịch đất để được trung hòa.",
+            isTrue: true,
+            explanation: "Đúng. Keo-[2H+, Al3+] + 2CaCO3 -> Keo-[2Ca2+] + Al(OH)3 kết tủa + 2CO2 + H2O, loại bỏ độc chất nhôm và nâng cao độ pH của đất.",
+            recallHint: "SGK CN 10 Bài 4: Cơ chế bón vôi: Ion Ca2+ có ái lực hấp phụ mạnh hơn H+ và Al3+, đẩy H+ và Al3+ ra ngoài để trung hòa, làm tăng độ no bazơ (BS%) của đất."
+          },
+          {
+            label: "d",
+            text: "Đối với phân bón đạm Urê, nên bón rải lộ thiên trên mặt ruộng vào buổi trưa nắng gắt để ánh sáng mặt trời kích hoạt đạm phát huy tác dụng nhanh nhất.",
+            isTrue: false,
+            explanation: "Sai. Phân đạm Urê (NH2)2CO khi gặp nắng gắt và nhiệt độ cao sẽ bị men Urease phân giải nhanh thành khí Amoniac (NH3) bay hơi vào không khí, gây thất thoát dinh dưỡng lên tới 40-50%.",
+            recallHint: "SGK CN 10 Bài 8: Không bón phân đạm khi trời nắng gắt (phân bay hơi thành khí NH3) hoặc trước cơn mưa rào lớn (bị rửa trôi). Phải vùi phân vào đất hoặc tưới đủ ẩm."
+          }
+        ]
+      },
+      {
+        id: 2, grade: "cn11",
+        topic: "Khối 11 — Dinh dưỡng, Giống & An toàn sinh học chăn nuôi",
+        title: "Câu 2: Hệ số FCR, tiêu hóa động vật nhai lại và phòng dịch an toàn sinh học",
+        context: "Tại một trang trại chăn nuôi bò thịt và lợn thịt quy mô gia trại khép kín tại Đồng Nai, xét tính Đúng/Sai của các nhận định kỹ thuật sau:",
+        statements: [
+          {
+            label: "a",
+            text: "Hệ số chuyển hóa thức ăn FCR càng nhỏ thì chứng tỏ vật nuôi sử dụng thức ăn càng hiệu quả và chi phí thức ăn cho 1 kg tăng trọng càng thấp.",
+            isTrue: true,
+            explanation: "Đúng. FCR biểu thị số kg thức ăn cần tiêu tốn để tạo ra 1 kg tăng khối lượng cơ thể. FCR càng thấp nghĩa là hiệu quả kinh tế càng cao.",
+            recallHint: "SGK CN 11 Bài 13: Định nghĩa FCR: Lượng thức ăn tiêu thụ / Tăng trọng. FCR thấp = Tăng trọng tốt, tiêu hao thức ăn ít = Lợi nhuận cao."
+          },
+          {
+            label: "b",
+            text: "Dạ múi khế là dạ dày thực sự của động vật nhai lại vì đây là ngăn duy nhất có tuyến tiết enzyme tiêu hóa pepsin và axit clohydric (HCl).",
+            isTrue: true,
+            explanation: "Đúng. Ba ngăn đầu (Dạ cỏ, dạ tổ ong, dạ lá sách) là tiền dạ dày không có tuyến dịch vị; dạ múi khế có chức năng tiêu hóa hóa học giống như dạ dày đơn của lợn và người.",
+            recallHint: "SGK CN 11 Bài 5: Dạ cỏ tiêu hóa vi sinh; Dạ múi khế tiêu hóa hóa học (tiết pepsin và HCl phân giải protein), được coi là dạ dày thật."
+          },
+          {
+            label: "c",
+            text: "Trong chăn nuôi lợn, con lai F1 sinh ra từ phép lai kinh tế giữa lợn nái Móng Cái thuần chủng với lợn đực ngoại Landrace nên được giữ lại làm giống để nhân giống sinh sản tiếp.",
+            isTrue: false,
+            explanation: "Sai. Con lai F1 chỉ dùng để nuôi lấy thịt thương phẩm. Nếu dùng con lai F1 làm giống thì ở thế hệ sau (F2) sẽ xảy ra hiện tượng phân ly tính trạng làm giảm năng suất nghiêm trọng.",
+            recallHint: "SGK CN 11 Bài 4: Quy tắc vàng trong lai kinh tế: Con lai F1 có ưu thế lai cao nhất CHỈ dùng nuôi lấy thịt, KHÔNG dùng làm giống vì đời F2 thoái hóa."
+          },
+          {
+            label: "d",
+            text: "Quy trình an toàn sinh học 3 vòng trong chăn nuôi nhằm ngăn chặn triệt để sự xâm nhập của mầm bệnh từ bên ngoài vào khu vực chuồng nuôi.",
+            isTrue: true,
+            explanation: "Đúng. Hệ thống 3 vòng cách ly (Vành đai cách ly ngoài cùng -> Vùng đệm sát trùng -> Khu chuồng nuôi vô trùng) là cốt lõi của an toàn sinh học phòng dịch tả lợn châu Phi và lở mồm long móng.",
+            recallHint: "SGK CN 11 Bài 14: An toàn sinh học 3 vòng: Cách ly cơ học, khử trùng phương tiện/con người ở vùng đệm và bảo vệ nghiêm ngặt khu chuồng nuôi."
+          }
+        ]
+      },
+      {
+        id: 3, grade: "cn12",
+        topic: "Khối 12 — Quản lý rừng & Kỹ thuật lâm sinh",
+        title: "Câu 3: Phân loại 3 loại rừng và biện pháp tỉa thưa nuôi dưỡng rừng",
+        context: "Một công ty lâm nghiệp được giao quản lý rừng tại Đồng Nai tiến hành lập quy hoạch bảo vệ và phát triển rừng theo Luật Lâm nghiệp 2017. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          {
+            label: "a",
+            text: "Theo Luật Lâm nghiệp 2017, Vườn quốc gia Cát Tiên thuộc loại rừng đặc dụng nhằm mục đích bảo tồn hệ sinh thái tự nhiên và nguồn gen sinh vật.",
+            isTrue: true,
+            explanation: "Đúng. Rừng đặc dụng bao gồm vườn quốc gia, khu dự trữ thiên nhiên, khu bảo tồn loài - sinh cảnh nhằm mục đích bảo tồn thiên nhiên và nghiên cứu khoa học.",
+            recallHint: "SGK CN 12 Bài 2: Rừng đặc dụng gồm: Vườn quốc gia, khu bảo tồn thiên nhiên, khu bảo tồn sinh cảnh, khu bảo vệ cảnh quan di tích lịch sử."
+          },
+          {
+            label: "b",
+            text: "Rừng sản xuất là loại rừng được sử dụng chủ yếu để bảo vệ nguồn nước, bảo vệ đất và chống xói mòn trượt lở đất.",
+            isTrue: false,
+            explanation: "Sai. Đó là chức năng chủ yếu của Rừng phòng hộ. Rừng sản xuất được sử dụng chủ yếu để cung cấp lâm sản (gỗ, củi, lâm sản ngoài gỗ) và kết hợp bảo vệ môi trường.",
+            recallHint: "SGK CN 12 Bài 2: Phân biệt: Rừng phòng hộ (chắn gió, bảo vệ nước, chống xói mòn); Rừng sản xuất (cung cấp gỗ và lâm sản phục vụ kinh tế)."
+          },
+          {
+            label: "c",
+            text: "Tỉa thưa nuôi dưỡng rừng là biện pháp lâm sinh chủ động chặt bỏ những cây cong queo, sâu bệnh, bị chèn ép để tạo không gian sinh dưỡng tối ưu cho những cây khỏe mạnh giữ lại.",
+            isTrue: true,
+            explanation: "Đúng. Tỉa thưa điều chỉnh mật độ cây rừng, tập trung ánh sáng và dinh dưỡng cho các cây mục tiêu có phẩm chất tốt để nuôi dưỡng thành cây gỗ lớn có giá trị cao.",
+            recallHint: "SGK CN 12 Bài 5: Mục đích tỉa thưa: Điều chỉnh mật độ, loại bỏ cây xấu chèn ép, tăng tốc độ tăng trưởng đường kính cho các cây mục tiêu lấy gỗ lớn."
+          },
+          {
+            label: "d",
+            text: "Trong phòng chống cháy rừng mùa khô, việc dọn dẹp vật liệu cháy (lá khô, cành khô rơi rụng) và thiết kế đường băng cản lửa trắng không mang lại hiệu quả thực tế.",
+            isTrue: false,
+            explanation: "Sai. Đường băng cản lửa trắng và việc giảm thiểu tải lượng vật liệu cháy đầu mùa khô là hai biện pháp kỹ thuật then chốt nhất để ngăn chặn lửa lan tràn.",
+            recallHint: "SGK CN 12 Bài 6: Biện pháp phòng chống cháy rừng: Thiết kế đường băng cản lửa (băng trắng, băng xanh), dọn sạch thực bì dưới tán và tuần tra chòi canh."
+          }
+        ]
+      },
+      {
+        id: 4, grade: "cn12",
+        topic: "Khối 12 — Quản lý môi trường nước ao & Kỹ thuật nuôi thủy sản",
+        title: "Câu 4: Các chỉ tiêu lý hóa nước ao và quy trình 4 bước chuẩn bị ao nuôi",
+        context: "Một kỹ sư nuôi trồng thủy sản hướng dẫn nông dân huyện Nhơn Trạch (Đồng Nai) chuẩn bị ao và quản lý chất lượng nước nuôi cá rô phi. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          {
+            label: "a",
+            text: "Khoảng pH nước ao nuôi thủy sản thích hợp nhất cho hầu hết các loài cá và tôm sinh trưởng khỏe mạnh là từ 7,5 đến 8,5.",
+            isTrue: true,
+            explanation: "Đúng. Độ pH tối ưu cho đời sống thủy sản nước ngọt và lợ là 7,5 - 8,5 (môi trường kiềm yếu). Nếu pH < 6,5 cá chậm lớn, khó thở; nếu pH > 9,0 khí độc NH3 tăng vọt.",
+            recallHint: "SGK CN 12 Bài 10: Chỉ tiêu pH ao nuôi: Tối ưu từ 7,5 đến 8,5. Biến động ngày đêm không vượt quá 0,5 đơn vị pH."
+          },
+          {
+            label: "b",
+            text: "Hàm lượng khí độc Amoniac tự do (NH3) trong nước ao nuôi thủy sản càng cao thì càng có lợi cho quá trình hô hấp của mang cá.",
+            isTrue: false,
+            explanation: "Sai. Khí NH3 tự do khuếch tán trực tiếp qua mang vào máu cá, ức chế quá trình vận chuyển oxy và phá hủy tế bào mang, gây độc chết cá. Nồng độ an toàn phải < 0,01 mg/L.",
+            recallHint: "SGK CN 12 Bài 10: Khí độc trong ao: NH3 tự do và H2S cực kỳ độc với cá tôm. Cần duy trì NH3 < 0,01 mg/L và H2S = 0 mg/L."
+          },
+          {
+            label: "c",
+            text: "Trong quy trình chuẩn bị ao nuôi, việc phơi đáy ao từ 3 đến 7 ngày dưới ánh nắng mặt trời có tác dụng khoáng hóa chất hữu cơ và tiêu diệt mầm bệnh tồn lưu.",
+            isTrue: true,
+            explanation: "Đúng. Ánh sáng mặt trời với tia UV chiếu rọi đáy ao giúp oxy hóa các chất khí độc tích tụ, làm nứt nẻ bùn đáy và tiêu diệt vi khuẩn, nấm, ký sinh trùng gây bệnh.",
+            recallHint: "SGK CN 12 Bài 11: Bước phơi đáy ao: Phơi nứt chân chim 3 - 7 ngày giúp oxy hóa đáy ao, diệt mầm bệnh và giải phóng khí độc tích tụ từ vụ nuôi trước."
+          },
+          {
+            label: "d",
+            text: "Khi thả cá giống vào ao mới nuôi, nên thả cá trực tiếp vào lúc giữa trưa nắng gắt nhất để cá con ấm áp và thích nghi nhiệt độ nhanh nhất.",
+            isTrue: false,
+            explanation: "Sai. Thả cá giống vào buổi trưa nắng gắt cá sẽ bị sốc nhiệt và chết hàng loạt. Nên thả cá vào lúc sáng sớm (6-8h) hoặc chiều mát (16-17h), ngâm bao cá trong ao 15-20 phút trước khi thả.",
+            recallHint: "SGK CN 12 Bài 11: Kỹ thuật thả giống: Thả vào lúc mát mẻ (sáng sớm hoặc chiều mát). Ngâm bao cá vào ao 15-20 phút để cân bằng nhiệt độ tránh sốc nhiệt."
+          }
+        ]
+      }
+    ],
+    essays: [
+      {
+        id: 1,
+        points: 3.5,
+        title: "Câu 1 (3,5 điểm — Kiến thức Lâm nghiệp Lớp 12)",
+        problem: "1. Căn cứ vào Luật Lâm nghiệp năm 2017, hãy nêu tên 3 loại rừng ở Việt Nam và phân tích mục đích sử dụng chủ yếu của từng loại rừng. (1,5 điểm)\n2. Trình bày mục đích và các nguyên tắc kỹ thuật cơ bản của biện pháp 'Tỉa thưa nuôi dưỡng rừng' trồng cây lấy gỗ lớn (thời điểm tỉa thưa, nguyên tắc chọn cây chặt bỏ và cây giữ lại). (1,5 điểm)\n3. Nêu 2 biện pháp kỹ thuật lâm sinh đơn giản nhưng hiệu quả để phòng cháy rừng trong mùa khô tại vùng Đông Nam Bộ. (0,5 điểm)",
+        recallHint: "SGK CN 12 Bài 2 & Bài 5 & Bài 6: Phân loại 3 loại rừng (đặc dụng, phòng hộ, sản xuất). Tỉa thưa: Chặt cây cong queo chèn ép, giữ cây khỏe thẳng, tỉa khi khép tán. Phòng cháy: Đường băng cản lửa trắng/xanh, dọn thực bì.",
+        rubric: [
+          "1. Nêu đúng và phân tích 3 loại rừng (1,5đ): Rừng đặc dụng (0,5đ - bảo tồn đa dạng sinh học, cảnh quan, di tích); Rừng phòng hộ (0,5đ - bảo vệ nguồn nước, bảo vệ đất, chống xói mòn sạt lở); Rừng sản xuất (0,5đ - cung cấp gỗ, lâm sản ngoài gỗ và kết hợp du lịch sinh thái).",
+          "2. Mục đích & nguyên tắc tỉa thưa (1,5đ): Mục đích (0,5đ - điều chỉnh mật độ, tập trung dinh dưỡng ánh sáng cho cây gỗ lớn mục tiêu); Thời điểm (0,5đ - khi rừng bắt đầu khép tán giao cành cạnh tranh ánh sáng gay gắt); Nguyên tắc chọn cây (0,5đ - chặt cây sâu bệnh, cong queo, chèn ép; giữ lại cây sinh trưởng tốt, thân thẳng tròn đều).",
+          "3. Phòng cháy rừng (0,5đ): Thiết kế đường băng cản lửa (băng trắng hoặc băng cây xanh cản lửa) và dọn dẹp vật liệu cháy (thực bì lá khô) trước mùa khô."
+        ]
+      },
+      {
+        id: 2,
+        points: 3.5,
+        title: "Câu 2 (3,5 điểm — Kiến thức Thủy sản Lớp 12)",
+        problem: "1. Trình bày khoảng giá trị thích hợp của 3 chỉ tiêu hóa học then chốt trong nước ao nuôi thủy sản: Độ pH, Oxy hòa tan (DO), và Khí độc Amoniac tự do (NH3). Nêu hậu quả khi chỉ tiêu DO giảm xuống quá thấp vào ban đêm. (1,5 điểm)\n2. Trình bày chi tiết quy trình kỹ thuật 4 bước chuẩn bị ao nuôi thủy sản an toàn sinh học trước khi thả cá giống. (1,5 điểm)\n3. Nêu thao tác kỹ thuật khi thả giống thủy sản để chống hiện tượng sốc nhiệt độ và sốc môi trường cho cá giống. (0,5 điểm)",
+        recallHint: "SGK CN 12 Bài 10 & Bài 11: Chỉ tiêu nước: pH 7,5 - 8,5; DO >= 4 mg/L; NH3 < 0,01 mg/L. Bốn bước chuẩn bị ao: Tháo cạn & nạo bùn -> Bón vôi khử trùng -> Phơi đáy ao 3-7 ngày -> Cấp nước & gây màu nước. Chống sốc: Ngâm bao giống trong ao 15-20 phút.",
+        rubric: [
+          "1. Ba chỉ tiêu hóa học & hậu quả thiếu DO (1,5đ): Nêu đúng giá trị thích hợp: pH = 7,5 - 8,5 (0,25đ); DO >= 4,0 mg/L (0,25đ); NH3 < 0,01 mg/L (0,25đ); Hậu quả thiếu DO (0,75đ - cá nổi đầu ngạt khí vào rạng sáng, giảm ăn, chết ngạt hàng loạt).",
+          "2. Quy trình chuẩn bị ao 4 bước (1,5đ): Bước 1: Tháo cạn nước ao, nạo vét bùn đáy đen (0,375đ); Bước 2: Rải vôi nông nghiệp khử trùng (0,375đ); Bước 3: Phơi đáy ao 3-7 ngày nứt chân chim (0,375đ); Bước 4: Lấy nước qua lưới lọc và bón phân gây màu nước đạt độ trong 30-40 cm (0,375đ).",
+          "3. Kỹ thuật thả cá giống chống sốc (0,5đ): Thả vào sáng sớm hoặc chiều mát; ngâm túi chứa cá trong ao 15-20 phút để cân bằng nhiệt độ, sau đó mở miệng túi cho nước ao từ từ vào túi rồi thả cá bơi ra."
+        ]
+      },
+      {
+        id: 3,
+        points: 1.0,
+        title: "Câu 3 (1,0 điểm — Kiến thức Nền tảng Nông học Tổng hợp)",
+        problem: "1. Hãy so sánh sự khác nhau căn bản về bản chất điện tích giữa Keo âm và Keo dương trong đất trồng trọt. Loại keo nào phổ biến nhất trong đất nông nghiệp Việt Nam? (0,5 điểm)\n2. Dựa vào bản chất hóa học của phản ứng trao đổi ion trên bề mặt hạt keo đất, hãy giải thích ngắn gọn vì sao biện pháp bón vôi nông nghiệp (CaCO3) lại khử được độ chua tiềm tàng của đất. (0,5 điểm)",
+        recallHint: "SGK CN 10 Bài 3 & Bài 4: Keo âm: Lớp quyết định điện thế âm (phổ biến nhất); Keo dương: Lớp quyết định thế hiệu dương. Cơ chế vôi: Ca2+ thay thế ion H+ và Al3+ trên bề mặt keo đất đẩy ra dung dịch để trung hòa.",
+        rubric: [
+          "1. So sánh keo âm và keo dương (0,5đ): Keo âm có lớp ion quyết định điện thế mang điện tích âm; Keo dương có lớp ion quyết định điện thế mang điện tích dương (0,25đ). Keo âm là loại phổ biến nhất trong đất nông nghiệp Việt Nam (0,25đ).",
+          "2. Cơ chế bón vôi khử chua (0,5đ): Ion Ca2+ từ vôi có ái lực hấp phụ lớn hơn ion H+ và Al3+, sẽ đẩy H+ và Al3+ ra khỏi phức hệ hấp phụ của keo đất vào dung dịch; sau đó CaCO3 trung hòa H+ thành CO2 và H2O, kết tủa Al3+ thành Al(OH)3 không độc, làm tăng độ pH của đất."
+        ]
+      }
+    ]
+  },
+
+  dn_easy_02: {
+    id: "dn_easy_02",
+    level: "easy",
+    levelBadge: "🟢 CẤP ĐỘ 1: DỄ / KHỞI ĐỘNG",
+    levelLabel: "CẤP ĐỘ 1 (DỄ / KHỞI ĐỘNG & BẢN CHẤT KHÁI NIỆM SGK)",
+    code: "ĐỒNG NAI — CẤP ĐỘ 1 (ĐỀ 02)",
+    title: "KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH — ĐỒNG NAI (ĐỀ SỐ 02 - CẤP ĐỘ 1: BẢN CHẤT KHÁI NIỆM)",
+    subTitle: "Củng cố bản chất khoa học SGK • Tránh bẫy định nghĩa • Tích hợp Điểm tựa ghi nhớ SGK",
+    durationMinutes: 180,
+    maxScore: 20.0,
+    source: "Ngân hàng Đề Củng cố Khái niệm HSG — Chuẩn SGK Kết nối tri thức Lớp 10, 11, 12",
+    mcqs: [
+      // K10 (8 câu: 3 Đất + 3 Phân bón + 2 Trồng trọt CNC)
+      {
+        id: 1, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Loại keo đất có lớp ion quyết định điện thế mang điện tích dương và có khả năng hấp phụ các anion (như NO3-, SO4^2-, Cl-) trên lớp ion khuếch tán là",
+        options: ["keo âm.", "keo dương.", "keo trung tính.", "keo lưỡng tính."],
+        answer: 1,
+        explanation: "Keo dương có lớp ion quyết định điện thế mang điện dương (thường gặp ở đất đỏ bazan/feralit giàu oxit sắt Fe2O3, oxit nhôm Al2O3). Lớp ion khuếch tán của nó mang điện âm gồm các anion dinh dưỡng.",
+        recallHint: "SGK CN 10 Bài 3: Phân biệt: Keo âm (phổ biến nhất, quyết định thế âm, giữ cation); Keo dương (quyết định thế dương, giữ anion, gặp ở đất feralit chua giàu Fe, Al)."
+      },
+      {
+        id: 2, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Độ chua hoạt tính của đất trồng trọt được quyết định trực tiếp bởi yếu tố nào sau đây?",
+        options: ["Nồng độ ion H+ tự do có trong dung dịch đất (biểu thị bằng chỉ số pH_H2O).", "Tổng lượng ion H+ và Al3+ bị giữ chặt trên bề mặt keo đất.", "Hàm lượng chất hữu cơ mùn trong tầng đất mặt.", "Lượng phân bón lót còn sót lại trong rễ cây."],
+        answer: 0,
+        explanation: "Độ chua hoạt tính là độ chua do ion H+ tự do tồn tại trong dung dịch đất gây nên, được xác định trực tiếp bằng máy đo pH ngâm trong dung dịch nước (pH_H2O).",
+        recallHint: "SGK CN 10 Bài 3: Độ chua của đất gồm: (1) Độ chua hoạt tính do H+ tự do trong dung dịch đất (pH_H2O); (2) Độ chua tiềm tàng do H+ và Al3+ hấp phụ trên bề mặt hạt keo đất (pH_KCl)."
+      },
+      {
+        id: 3, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Để cải tạo và sử dụng bền vững đất nhiễm mặn ven biển, biện pháp kỹ thuật nào sau đây là quan trọng và hiệu quả nhất?",
+        options: ["Bón phân kali clorua (KCl) thật nhiều để át mặn.", "Dẫn nước ngọt thau chua rửa mặn kết hợp bón vôi nông nghiệp và đắp đê ngăn mặn.", "Đốt sạch cỏ dại và cày sâu lật tầng đất chứa muối lên bề mặt.", "Bơm nước biển trực tiếp vào ruộng để hòa tan muối."],
+        answer: 1,
+        explanation: "Đắp đê ngăn nước biển xâm nhập, dùng nước ngọt từ sông dẫn vào thau rửa muối thừa ra mương tiêu; bón vôi (CaCO3) để Ca2+ thay thế Na+ trên keo đất rồi rửa trôi Na+ ra ngoài.",
+        recallHint: "SGK CN 10 Bài 4: Biện pháp cải tạo đất mặn: Đắp đê ngăn mặn -> Dẫn nước ngọt thau rửa muối -> Bón vôi nông nghiệp đẩy ion Na+ ra dung dịch đất để rửa mặn."
+      },
+      {
+        id: 4, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Loại phân bón vi sinh vật nào sau đây có khả năng chuyển hóa khí Nitơ (N2) tự do từ khí quyển thành dạng đạm Amôn (NH4+) mà cây trồng có thể hấp thu được?",
+        options: ["Phân vi sinh vật cố định đạm (như vi khuẩn nốt sần Rhizobium, Azotobacter).", "Phân vi sinh vật phân giải lân khó tan.", "Phân vi sinh vật phân giải chất hữu cơ xenlulozo.", "Phân bón lá vi lượng."],
+        answer: 0,
+        explanation: "Vi khuẩn cố định đạm (Rhizobium cộng sinh ở nốt sần rễ cây họ Đậu hoặc Azotobacter sống tự do) có enzyme nitrogenase giúp chuyển hóa N2 từ không khí thành NH4+ cung cấp cho cây.",
+        recallHint: "SGK CN 10 Bài 7: Phân bón vi sinh cố định đạm: Chứa vi khuẩn có khả năng biến N2 tự do trong không khí thành hợp chất chứa đạm cung cấp dinh dưỡng cho cây trồng."
+      },
+      {
+        id: 5, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Trong các loại phân bón vô cơ sau đây, loại phân nào có độ tan cao nhất và thường được ưu tiên dùng để bón thúc hoặc hòa tan tưới nhỏ giọt?",
+        options: ["Phân Lân nung chảy.", "Phân Đạm Urê.", "Bột đá photphorit.", "Phân hữu cơ chuồng ủ hoai."],
+        answer: 1,
+        explanation: "Phân Đạm Urê [(NH2)2CO] và phân Kali clorua (KCl) có độ hòa tan rất cao và nhanh trong nước, cây hấp thu dễ dàng nên luôn được ưu tiên dùng bón thúc.",
+        recallHint: "SGK CN 10 Bài 8: Tính tan của phân: Đạm Urê, Kali clorua tan rất nhanh -> Dùng bón thúc; Phân lân nung chảy, phân chuồng khó tan -> Dùng bón lót sâu vào đất."
+      },
+      {
+        id: 6, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Cây ngô hoặc lúa khi bị thiếu hụt nguyên tố Lân (P) thường xuất hiện triệu chứng điển hình nào trên bộ lá?",
+        options: ["Lá có màu xanh đậm bất thường, mép lá và gân lá chuyển sang màu huyết dụ tím đỏ.", "Toàn bộ phiến lá bị biến màu trắng bệch như tờ giấy.", "Lá non bị cháy xoăn ngọn và rụng đồng loạt.", "Lá bị đốm vằn đen xì."],
+        answer: 0,
+        explanation: "Thiếu Lân (P) làm tích lũy sắc tố anthocyanin khiến lá chuyển sang màu tím đỏ (huyết dụ) bắt đầu từ mép lá già, bộ rễ kém phát triển, cây chậm đẻ nhánh.",
+        recallHint: "SGK CN 10 Bài 6: Triệu chứng thiếu Lân (P): Cây cằn cỗi, rễ phát triển kém, lá có màu xanh đậm tối hoặc xuất hiện màu tím đỏ huyết dụ ở gân và mép lá già."
+      },
+      {
+        id: 7, grade: "cn10", topic: "(3) Trồng trọt công nghệ cao",
+        stem: "Ưu điểm nổi bật nhất của việc sử dụng giá thể trơ (như đá trân châu Perlite, xơ dừa) thay thế đất tự nhiên trong hệ thống trồng dưa lưới công nghệ cao là",
+        options: ["hoàn toàn sạch mầm bệnh và sâu hại truyền qua đất, tạo độ xốp và kiểm soát chính xác dinh dưỡng.", "giá thể tự động tạo ra chất đạm và kali mà không cần tưới phân.", "giá thể có thể biến cây dưa thành cây sống lâu năm.", "giá thể làm quả dưa tự động to gấp 10 lần bình thường."],
+        answer: 0,
+        explanation: "Giá thể sạch giúp cắt đứt nguồn nấm bệnh lây lan từ đất (như nấm lở cổ rễ Phytophthora, Fusarium), đồng thời giúp rễ thông thoáng và người trồng chủ động điều tiết dung dịch dinh dưỡng Fertigation.",
+        recallHint: "SGK CN 10 Bài 10: Ưu điểm giá thể trồng cây: Thoát nước tốt, giữ ẩm và thông khí tối ưu, không chứa mầm bệnh tuyến trùng hay nấm đất, sạch sẽ và tái sử dụng được."
+      },
+      {
+        id: 8, grade: "cn10", topic: "(3) Trồng trọt công nghệ cao",
+        stem: "Hệ thống tưới nhỏ giọt kết hợp bón phân hòa tan (Fertigation) trong nông nghiệp công nghệ cao giúp mang lại lợi ích nào sau đây?",
+        options: ["Tiết kiệm đáng kể lượng nước tưới và phân bón nhờ đưa trực tiếp dinh dưỡng tới vùng rễ hoạt động của cây.", "Làm ngập úng toàn bộ bề mặt luống cây suốt cả ngày.", "Làm tăng lượng phân bón bị bốc hơi và rửa trôi vào nguồn nước ngầm.", "Thay thế hoàn toàn nhu cầu ánh sáng mặt trời của lá cây."],
+        answer: 0,
+        explanation: "Công nghệ Fertigation điều tiết lượng nước và phân theo giọt nhỏ tới đúng vùng rễ tích cực, giảm 30-50% lượng nước và phân bón thất thoát do bay hơi hay rửa trôi so với tưới tràn truyền thống.",
+        recallHint: "SGK CN 10 Bài 12: Hệ thống tưới nhỏ giọt Fertigation: Tiết kiệm nước tưới và phân bón, hạn chế cỏ dại mọc giữa luống, cung cấp chính xác nồng độ dinh dưỡng theo từng giai đoạn phát triển của cây."
+      },
+
+      // K11 (8 câu: 3 Giống + 3 Thức ăn + 2 MT chăn nuôi)
+      {
+        id: 9, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Phương pháp chọn lọc giống hàng loạt có đặc điểm thực tế là",
+        options: ["thực hiện đơn giản, nhanh chóng, chọn lọc dựa trên ngoại hình và năng suất của cả bầy đàn nhưng độ chính xác di truyền không cao.", "bắt buộc phải theo dõi gia phả qua 5 đời liên tiếp.", "chỉ áp dụng đối với các loài thủy sản nước ngọt.", "đòi hỏi trang thiết bị giải trình tự gen hiện đại."],
+        answer: 0,
+        explanation: "Chọn lọc hàng loạt dựa trên tiêu chuẩn quy định sẵn của ngoại hình và năng suất bầy đàn, dễ tiến hành ở quy mô nông hộ nhưng không biết rõ kiểu gen nên hiệu quả chọn giống qua các thế hệ tiến bộ chậm.",
+        recallHint: "SGK CN 11 Bài 3: Chọn lọc hàng loạt: Dễ làm, chọn nhanh số lượng lớn cá thể đạt chuẩn ngoại hình, phù hợp nông hộ nhưng độ chính xác không cao bằng chọn lọc cá thể."
+      },
+      {
+        id: 10, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Tinh dịch của gia súc đực giống quý (như bò thịt BBB, bò sữa Holstein Friesian) được bảo quản lạnh sâu ở nhiệt độ nào để có thể lưu giữ lâu dài mà tinh trùng vẫn sống?",
+        options: ["Nhiệt độ -196°C trong nitơ lỏng.", "Nhiệt độ 0°C trong ngăn đá tủ lạnh gia đình.", "Nhiệt độ phòng 25°C.", "Nhiệt độ 100°C trong nồi nước sôi."],
+        answer: 0,
+        explanation: "Bảo quản tinh dịch đông lạnh dạng cọng rạ trong bình nitơ lỏng ở nhiệt độ cực thấp -196°C làm ngừng trệ hoàn toàn quá trình trao đổi chất của tinh trùng, cho phép lưu giữ hàng chục năm.",
+        recallHint: "SGK CN 11 Bài 4: Bảo quản tinh đông lạnh: Nhiệt độ -196°C trong bình chứa nitơ lỏng, giúp tinh trùng sống tiềm sinh vô hạn định và sẵn sàng cho thụ tinh nhân tạo."
+      },
+      {
+        id: 11, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Khẩu phần ăn của gia súc sinh sản (bò sữa, lợn nái) thường được chia thành 2 phần dinh dưỡng là",
+        options: ["Nhu cầu duy trì (để sống và giữ thân nhiệt) và Nhu cầu sản xuất (để mang thai, tiết sữa, tăng trọng).", "Nhu cầu ăn no và Nhu cầu uống nước ngọt.", "Nhu cầu ăn ban ngày và Nhu cầu ăn ban đêm.", "Nhu cầu chất xơ và Nhu cầu chất độc hại."],
+        answer: 0,
+        explanation: "Khẩu phần duy trì giúp con vật duy trì các hoạt động sống cơ bản (tuần hoàn, hô hấp, duy trì thân nhiệt) mà không thay đổi khối lượng cơ thể; khẩu phần sản xuất cung cấp dinh dưỡng cho thai phát triển và tuyến vú tiết sữa.",
+        recallHint: "SGK CN 11 Bài 7: Khẩu phần ăn vật nuôi = Nhu cầu duy trì (giữ thể trọng sống và thân nhiệt cơ bản) + Nhu cầu sản xuất (tiết sữa, đẻ trứng, tăng trọng, mang thai)."
+      },
+      {
+        id: 12, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Nhóm thức ăn nào sau đây thuộc nhóm 'Thức ăn giàu năng lượng' (hàm lượng tinh bột cao) trong chăn nuôi gia súc, gia cầm?",
+        options: ["Hạt ngô, cám gạo, bột sắn khô.", "Bột cá biển, bột xương thịt, khô dầu đậu tương.", "Cỏ voi tươi, thân cây chuối, bèo tấm.", "Premix khoáng và vitamin tổng hợp."],
+        answer: 0,
+        explanation: "Thức ăn giàu năng lượng là thức ăn có hàm lượng xơ thô < 18% và protein thô < 20% nhưng rất giàu carbohydrate/tinh bột (như ngô, thóc, cám gạo, bột sắn), cung cấp năng lượng trao đổi chủ yếu.",
+        recallHint: "SGK CN 11 Bài 7: Phân loại thức ăn chăn nuôi: (1) Giàu năng lượng (ngô, sắn, cám gạo - giàu tinh bột); (2) Giàu protein (bột cá, đậu tương, khô dầu); (3) Thức ăn thô xanh (cỏ tươi, rơm rạ - giàu xơ)."
+      },
+      {
+        id: 13, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Khô dầu đậu tương và bột cá biển thuộc nhóm thức ăn chăn nuôi nào sau đây?",
+        options: ["Thức ăn giàu protein (đạm thô > 20%).", "Thức ăn thô xơ.", "Thức ăn khoáng vi lượng.", "Thức ăn lên men vi sinh."],
+        answer: 0,
+        explanation: "Khô dầu đậu tương (chứa 44-48% protein thô) và bột cá biển (chứa 55-65% protein thô) là hai nguồn nguyên liệu thức ăn giàu protein tiêu hóa cao cấp nhất trong chăn nuôi công nghiệp.",
+        recallHint: "SGK CN 11 Bài 7: Thức ăn giàu đạm/protein: Chứa trên 20% protein thô trong vật chất khô, cung cấp các axit amin thiết yếu (Lysine, Methionine) để cấu tạo cơ bắp và tạo nạc."
+      },
+      {
+        id: 14, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Mô hình nuôi gà trên nền đệm lót sinh học (dày 10 - 20 cm gồm trấu, mùn cưa phối trộn men vi sinh) có tác dụng căn bản là",
+        options: ["vi sinh vật lên men phân hủy chất thải phân gà, tiêu diệt mầm bệnh và khử triệt để mùi hôi chuồng trại.", "làm cho gà không cần ăn thức ăn hạt ngô và cám.", "làm chuồng gà biến thành bể bơi cho gia cầm tắm mát.", "làm chuồng gà lúc nào cũng ẩm ướt lầy lội."],
+        answer: 0,
+        explanation: "Đệm lót sinh học chứa các chủng vi khuẩn Bacillus, nấm men sinh nhiệt và phân giải nhanh axit uric trong phân gà thành chất không mùi, giữ chuồng khô ráo, ấm áp về mùa đông và sạch sẽ.",
+        recallHint: "SGK CN 11 Bài 14: Lợi ích của đệm lót sinh học: Khử mùi hôi khí độc (NH3, H2S), phân hủy phân tại chỗ, giảm công dọn chuồng, giữ ấm chân gà và phòng bệnh đường hô hấp."
+      },
+      {
+        id: 15, grade: "cn11", topic: "(6) Môi trường & Phòng bệnh chăn nuôi",
+        stem: "Bệnh truyền nhiễm ở vật nuôi (như dịch tả lợn châu Phi, cúm gia cầm) có đặc điểm sinh học nổi bật nhất là",
+        options: ["do vi sinh vật gây bệnh (virus, vi khuẩn) gây ra và có khả năng lây lan nhanh chóng từ con ốm sang con khỏe thành dịch.", "chỉ xảy ra khi thời tiết chuyển mùa từ thu sang đông.", "hoàn toàn không có tính lây lan giữa các cá thể trong cùng một chuồng nuôi.", "chỉ do yếu tố di truyền từ bố mẹ truyền lại chứ không do mầm bệnh ngoài môi trường."],
+        answer: 0,
+        explanation: "Bệnh truyền nhiễm có nguyên nhân đặc hiệu từ vi sinh vật gây bệnh (virus, vi khuẩn, nấm), có tính truyền lây qua đường tiếp xúc trực tiếp, giọt bắn, thức ăn nước uống hoặc động vật trung gian truyền bệnh.",
+        recallHint: "SGK CN 11 Bài 15: Đặc điểm bệnh truyền nhiễm: Do mầm bệnh vi sinh vật xâm nhập, có tính chất lây lan thành dịch diện rộng, có thời kỳ ủ bệnh và kích thích phản ứng miễn dịch."
+      },
+      {
+        id: 16, grade: "cn11", topic: "(6) Môi trường & Phòng bệnh chăn nuôi",
+        stem: "Biện pháp kỹ thuật nào sau đây là đơn giản, rẻ tiền và hiệu quả nhất để sát trùng lối đi và hố khử trùng tại cổng vào trang trại chăn nuôi?",
+        options: ["Rải vôi bột (CaO) hoặc phun dung dịch nước vôi tôi nồng độ 10% - 20%.", "Phun nước đường ấm vào bánh xe các phương tiện vận chuyển.", "Rắc muối ăn hạt tinh khiết với lượng rất nhỏ.", "Dùng quạt gió thổi bụi ngoài cổng."],
+        answer: 0,
+        explanation: "Vôi bột khi gặp nước tạo thành dung dịch kiềm mạnh Ca(OH)2 có pH > 12 kèm tỏa nhiệt, có khả năng diệt khuẩn, virus và bào tử nấm cực mạnh, chi phí rất rẻ và dễ sử dụng phổ biến.",
+        recallHint: "SGK CN 11 Bài 14: Biện pháp sát trùng thú y truyền thống: Dùng vôi bột hoặc nước vôi 10-20% quét chuồng, rải hố sát trùng tại cổng ra vào trang trại để tiêu diệt mầm bệnh cơ học."
+      },
+
+      // K12 (8 câu: 4 Lâm nghiệp + 4 Thủy sản)
+      {
+        id: 17, grade: "cn12", topic: "(1) Giới thiệu chung Lâm nghiệp",
+        stem: "Rừng phòng hộ đầu nguồn sông ngòi có vai trò sinh thái chủ yếu nào sau đây?",
+        options: ["Điều tiết nguồn nước, giảm thiểu dòng chảy lũ quét vào mùa mưa và duy trì dòng chảy kiệt vào mùa khô.", "Cung cấp tối đa lượng gỗ củi để khai thác trắng hàng năm.", "Xây dựng các nhà máy công nghiệp sản xuất giấy quy mô lớn.", "Làm sân golf phục vụ thể thao cao cấp."],
+        answer: 0,
+        explanation: "Tán rừng và thảm mục rừng phòng hộ đầu nguồn giữ nước mưa ngấm sâu vào lòng đất tạo túi nước ngầm, giảm tốc độ dòng chảy mặt chống xói mòn sạt lở và duy trì nguồn nước ổn định cho các hồ thủy điện, thủy lợi.",
+        recallHint: "SGK CN 12 Bài 2: Rừng phòng hộ đầu nguồn: Giữ đất, giữ nước, chống xói mòn sạt lở đồi dốc, điều tiết nguồn nước sông suối và giảm nhẹ thảm họa lũ lụt hạ du."
+      },
+      {
+        id: 18, grade: "cn12", topic: "(2) Trồng & Chăm sóc rừng",
+        stem: "Trong giai đoạn đầu ươm cây giống lâm nghiệp (như hạt sao đen, dầu rái mới nảy mầm), giàn che bóng có tác dụng kỹ thuật là",
+        options: ["giảm bớt cường độ ánh sáng gay gắt (che bớt 50% - 70% nắng) và giữ ẩm tránh làm cháy lá non của cây mầm.", "ngăn chặn hoàn toàn không cho không khí lưu thông vào vườn ươm.", "làm cho hạt cây con không cần tiếp xúc với nước tưới.", "tạo bóng tối tuyệt đối 100% suốt 24 giờ liên tục."],
+        answer: 0,
+        explanation: "Cây mầm lâm nghiệp giai đoạn đầu rất nhạy cảm với nắng gắt và bốc hơi nước. Giàn che lưới lan hoặc phên tre giúp điều tiết ánh sáng và nhiệt độ thích hợp, bảo vệ chồi non không bị táp nắng.",
+        recallHint: "SGK CN 12 Bài 3: Kỹ thuật vườn ươm lâm nghiệp: Làm giàn che bóng giảm nắng 50-70% giai đoạn cây con mầm non; khi cây lớn dần thì dỡ dần giàn che để luyện cây chịu nắng trước khi đem trồng."
+      },
+      {
+        id: 19, grade: "cn12", topic: "(3) Bảo vệ & Khai thác rừng",
+        stem: "Phương thức khai thác trắng (Clear Cutting) chỉ được phép áp dụng trong điều kiện nào của quản lý rừng?",
+        options: ["Áp dụng đối với rừng trồng sản xuất thuần loài cây sinh trưởng nhanh (keo, bạch đàn) và bắt buộc phải trồng lại rừng ngay sau khai thác.", "Áp dụng tự do tại các vườn quốc gia và khu bảo tồn thiên nhiên hoang dã.", "Áp dụng đối với toàn bộ các diện tích rừng phòng hộ đầu nguồn có độ dốc > 35 độ.", "Áp dụng ở bất kỳ khu rừng tự nhiên nào khi muốn lấy gỗ."],
+        answer: 0,
+        explanation: "Luật Lâm nghiệp nghiêm cấm khai thác trắng rừng tự nhiên và rừng phòng hộ. Khai thác trắng chỉ được áp dụng trên rừng trồng sản xuất và chủ rừng phải có trách nhiệm trồng lại rừng ngay trong vụ kế tiếp.",
+        recallHint: "SGK CN 12 Bài 6: Phương thức khai thác trắng: Chỉ chặt trên rừng trồng sản xuất đạt tuổi thành thục; sau khai thác phải dọn thực bì và trồng lại rừng ngay để chống xói mòn đất."
+      },
+      {
+        id: 20, grade: "cn12", topic: "(4) Giới thiệu chung Thủy sản",
+        stem: "Trong các loài cá nuôi nước ngọt phổ biến ở nước ta, loài cá nào sau đây có tập tính ăn thực vật thủy sinh (cỏ tươi, bèo tấm, lá chuối)?",
+        options: ["Cá trắm cỏ (Ctenopharyngodon idella).", "Cá quả / Cá lóc (Channa striata).", "Cá trê phi (Clarias gariepinus).", "Cá chẽm (Lates calcarifer)."],
+        answer: 0,
+        explanation: "Cá trắm cỏ là loài cá ăn thực vật điển hình, ruột dài gấp nhiều lần thân và có răng hầu khỏe để nghiền nát lá cỏ, rong rêu thủy sinh.",
+        recallHint: "SGK CN 12 Bài 8: Tập tính ăn của cá: Cá trắm cỏ ăn thực vật; Cá lóc/cá chẽm ăn động vật săn mồi; Cá mè trắng ăn thực vật phù du; Cá mè hoa ăn động vật phù du; Cá rô phi ăn tạp."
+      },
+      {
+        id: 21, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản",
+        stem: "Hiện tượng cá trong ao nuôi thường nổi đầu đớp khí trên mặt nước vào lúc 4 - 6 giờ rạng sáng là do nguyên nhân sinh học nào?",
+        options: ["Do ban đêm cả cá và thực vật thủy sinh/tảo đều hô hấp tiêu thụ oxy trong khi không có quang hợp, làm nồng độ oxy hòa tan (DO) giảm xuống mức cực tiểu.", "Do cá có tập tính thích nhìn ngắm mặt trời mọc vào buổi sớm.", "Do nước ao vào rạng sáng bị quá lạnh làm cá bị bỏng lạnh.", "Do buổi sáng cá đói bụng và nổi lên đòi ăn thức ăn viên."],
+        answer: 0,
+        explanation: "Về đêm, không có ánh sáng mặt trời nên tảo và phiêu sinh vật ngừng quang hợp, chỉ diễn ra quá trình hô hấp tiêu thụ oxy của toàn bộ quần thể sinh vật trong ao, dẫn tới DO chạm đáy vào lúc rạng sáng.",
+        recallHint: "SGK CN 12 Bài 10: Biến động Oxy hòa tan (DO): Cao nhất vào buổi chiều (nhờ tảo quang hợp rực rỡ); Thấp nhất vào rạng sáng 4-6h (do ngừng quang hợp và cả ao hô hấp tiêu thụ oxy)."
+      },
+      {
+        id: 22, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản",
+        stem: "Bón vôi nông nghiệp (CaCO3) trong giai đoạn cải tạo ao nuôi thủy sản mang lại những tác dụng then chốt nào?",
+        options: ["Khử trùng diệt mầm bệnh, nâng độ pH của đáy ao và tăng độ kiềm đệm cho môi trường nước nuôi.", "Làm giảm nhiệt độ của nước ao xuống mức đóng băng.", "Làm cho nước ao biến đổi hoàn toàn thành nước khoáng có ga.", "Làm cho cá con không cần hấp thu oxy qua mang."],
+        answer: 0,
+        explanation: "Vôi nông nghiệp cung cấp ion Ca2+ giúp tăng độ kiềm (Alkalinity), đệm giữ ổn định pH nước (7,5-8,5), khử phèn chua đáy ao và diệt trừ các bào tử nấm, ký sinh trùng tồn lưu.",
+        recallHint: "SGK CN 12 Bài 11: Tác dụng của bón vôi ao nuôi: Khử trùng diệt mầm bệnh tồn dư, hạ phèn nâng pH đáy ao, cung cấp ion canxi làm cứng vỏ tôm và tăng hệ đệm kiềm cho nước ao."
+      },
+      {
+        id: 23, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản",
+        stem: "Moina (trứng nước hay bo bo) là thức ăn tự nhiên sống lý tưởng nhất dành cho đối tượng thủy sản nào sau đây?",
+        options: ["Cá bột và cá hương giai đoạn mới tiêu hết noãn hoàng.", "Cá thịt trưởng thành chuẩn bị xuất bán ra thị trường.", "Cá bố mẹ đang mang thai chuẩn bị sinh sản.", "Tôm bố mẹ thành thục."],
+        answer: 0,
+        explanation: "Moina là loài giáp xác râu ngành có kích thước hiển vi vừa miệng cá bột (0,5-1 mm), bơi lội lơ lửng kích thích phản xạ bắt mồi, chứa hàm lượng enzyme tiêu hóa và protein rất cao giúp cá bột tăng tỷ lệ sống.",
+        recallHint: "SGK CN 12 Bài 12: Thức ăn tự nhiên đầu đời: Trứng nước (Moina) và trùng bánh xe (Rotifera) là nguồn thức ăn tự nhiên giàu dinh dưỡng và enzyme tiêu hóa cho cá bột mới tiêu hết noãn hoàng."
+      },
+      {
+        id: 24, grade: "cn12", topic: "(6) Công nghệ giống thủy sản",
+        stem: "Để kích thích cá trắm cỏ hoặc cá mè bố mẹ sinh sản nhân tạo, kỹ thuật viên thường sử dụng chế phẩm nào sau đây tiêm cho cá?",
+        options: ["Não thùy thể cá chép hoặc hormone kích dục tố nhân tạo (LHRH-A kết hợp Domperidone).", "Dung dịch nước muối sinh lý NaCl 0,9%.", "Dung dịch kháng sinh Penicillin liều cao.", "Dung dịch mật rỉ đường lên men vi sinh."],
+        answer: 0,
+        explanation: "Não thùy cá chép hoặc hormone LHRH-A kết hợp chất đối kháng thụ thể dopamine (Domperidone) tác động trực tiếp lên hệ nội tiết thúc đẩy trứng và tinh trùng chín rụng đồng loạt để thụ tinh nhân tạo.",
+        recallHint: "SGK CN 12 Bài 13: Kích thích cá sinh sản: Tiêm kích dục tố gồm não thùy thể cá chép hoặc hormone LHRH-A kết hợp chất kháng Dopamine (Domperidone) thúc đẩy cá rụng trứng và phóng tinh nhân tạo."
+      }
+    ],
+    tfs: [
+      {
+        id: 1, grade: "cn10",
+        topic: "Khối 10 — Hóa học đất & Dinh dưỡng phân bón",
+        title: "Câu 1: Phân loại keo đất, dung tích hấp phụ CEC và tính tan của phân bón",
+        context: "Tại phòng thí nghiệm Thổ nhưỡng - Phân bón, học sinh tiến hành phân tích các mẫu đất và mẫu phân bón vô cơ. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          {
+            label: "a",
+            text: "Keo dương có lớp ion quyết định điện thế mang điện tích dương và có khả năng trao đổi anion với dung dịch đất.",
+            isTrue: true,
+            explanation: "Đúng. Keo dương mang điện dương ở lớp quyết định điện thế, lớp ion khuếch tán mang điện âm nên giữ và trao đổi các anion (như NO3-, H2PO4-, SO4^2-).",
+            recallHint: "SGK CN 10 Bài 3: Bản chất keo dương: Lớp trong mang điện dương, lớp khuếch tán ngoài cùng mang điện âm trao đổi các anion dinh dưỡng."
+          },
+          {
+            label: "b",
+            text: "Độ chua hoạt tính được xác định bằng cách đo nồng độ ion H+ tự do trong dung dịch đất bằng chỉ số pH_H2O.",
+            isTrue: true,
+            explanation: "Đúng. Độ chua hoạt tính do ion H+ tan tự do trong dung dịch đất quyết định và được đo bằng dung dịch nước cất (pH_H2O).",
+            recallHint: "SGK CN 10 Bài 3: Phân biệt: Độ chua hoạt tính (pH_H2O đo H+ tự do); Độ chua tiềm tàng (pH_KCl đo cả H+ và Al3+ trao đổi bám trên keo đất)."
+          },
+          {
+            label: "c",
+            text: "Phân đạm Urê và phân kali clorua có độ hòa tan rất kém trong nước nên bắt buộc phải bón lót sâu vào đáy rãnh từ đầu vụ.",
+            isTrue: false,
+            explanation: "Sai. Phân đạm Urê và phân kali là phân vô cơ hòa tan rất nhanh trong nước, dễ bị rửa trôi nếu bón lót sâu từ sớm; chúng được ưu tiên chia nhỏ bón thúc.",
+            recallHint: "SGK CN 10 Bài 8: Tính chất phân khoáng: Đạm và Kali tan rất nhanh -> Chia nhiều lần bón thúc; Phân lân nung chảy khó tan -> Bón lót sâu."
+          },
+          {
+            label: "d",
+            text: "Hệ thống tưới nhỏ giọt Fertigation giúp đưa trực tiếp dung dịch phân bón hòa tan đến vùng rễ cây trồng, làm giảm thất thoát dinh dưỡng do rửa trôi.",
+            isTrue: true,
+            explanation: "Đúng. Fertigation tối ưu hóa việc phân phối nước và dinh dưỡng đúng nhu cầu sinh lý của cây, nâng cao hiệu quả hấp thu lên trên 80%.",
+            recallHint: "SGK CN 10 Bài 12: Ưu điểm tưới nhỏ giọt kết hợp bón phân: Tiết kiệm nước và phân bón, dinh dưỡng đến đúng vùng rễ tích cực, giảm phát thải và chống rửa trôi."
+          }
+        ]
+      },
+      {
+        id: 2, grade: "cn11",
+        topic: "Khối 11 — Giống, Khẩu phần & Vệ sinh thú y",
+        title: "Câu 2: Chọn lọc giống, thức ăn giàu đạm và đệm lót sinh học chăn nuôi",
+        context: "Một hợp tác xã chăn nuôi gia cầm và lợn thịt tại Thống Nhất (Đồng Nai) áp dụng quy trình VietGAHP. Xét tính Đúng/Sai của các nhận định kỹ thuật sau:",
+        statements: [
+          {
+            label: "a",
+            text: "Chọn lọc hàng loạt là phương pháp chọn lọc cá thể dựa trên kiểm tra kiểu gen bằng giải trình tự ADN chuyên sâu.",
+            isTrue: false,
+            explanation: "Sai. Chọn lọc hàng loạt chỉ dựa trên kiểu hình (ngoại hình, thể trọng bầy đàn), không kiểm tra gia phả hay kiểu gen.",
+            recallHint: "SGK CN 11 Bài 3: Bản chất chọn lọc hàng loạt: Dựa hoàn toàn vào ngoại hình và sức sản xuất bên ngoài của số đông vật nuôi, không theo dõi phả hệ."
+          },
+          {
+            label: "b",
+            text: "Khô dầu đậu tương và bột cá biển là những nguồn nguyên liệu thức ăn giàu protein có giá trị sinh học cao cho vật nuôi dạ dày đơn.",
+            isTrue: true,
+            explanation: "Đúng. Cả hai nguồn thức ăn này đều có hàm lượng protein thô rất cao (> 40%), cân đối các axit amin thiết yếu (Lysine, Methionine) giúp vật nuôi lớn nhanh.",
+            recallHint: "SGK CN 11 Bài 7: Thức ăn giàu đạm: Khô dầu đậu tương và bột cá chứa hàm lượng protein cao và cân đối axit amin, không thể thiếu trong khẩu phần lợn và gia cầm."
+          },
+          {
+            label: "c",
+            text: "Đệm lót sinh học ứng dụng vi sinh vật có ích lên men giúp phân hủy phân gia súc ngay tại chuồng, làm giảm phát sinh mùi hôi khí độc Amoniac (NH3).",
+            isTrue: true,
+            explanation: "Đúng. Các vi sinh vật sinh nhiệt và phân giải axit uric, ức chế vi khuẩn sinh khí thối H2S và NH3, cải thiện môi trường không khí trong chuồng trại.",
+            recallHint: "SGK CN 11 Bài 14: Cơ chế đệm lót sinh học: Vi sinh vật hiếu khí/lên men chuyển hóa chất thải thành sinh khối vi sinh, khử triệt để mùi hôi và giảm công rửa chuồng."
+          },
+          {
+            label: "d",
+            text: "Kháng huyết thanh có tác dụng kích thích cơ thể vật nuôi tự sản sinh kháng thể bảo hộ kéo dài trong suốt đời sống của con vật.",
+            isTrue: false,
+            explanation: "Sai. Đó là đặc tính của Vacxin. Kháng huyết thanh chỉ cung cấp kháng thể ngoại sinh tạm thời, thời gian bảo hộ rất ngắn (chỉ kéo dài khoảng 2 - 3 tuần).",
+            recallHint: "SGK CN 11 Bài 15: Phân biệt miễn dịch: Vacxin kích thích miễn dịch chủ động dài lâu; Kháng huyết thanh đưa kháng thể vào cấp cứu, miễn dịch thụ động ngắn hạn."
+          }
+        ]
+      },
+      {
+        id: 3, grade: "cn12",
+        topic: "Khối 12 — Lâm nghiệp & Vườn ươm cây giống",
+        title: "Câu 3: Vai trò rừng phòng hộ và quy trình gieo ươm cây con lâm nghiệp",
+        context: "Tại một ban quản lý rừng phòng hộ tại Đồng Nai, kỹ sư lâm nghiệp triển khai kế hoạch gieo ươm cây giống bản địa và trồng rừng chắn sóng. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          {
+            label: "a",
+            text: "Rừng phòng hộ ven biển (như rừng ngập mặn đước, vẹt) có vai trò chắn sóng biển, chống xói lở bờ biển và cố định phù sa bãi bồi.",
+            isTrue: true,
+            explanation: "Đúng. Hệ thống rễ chống và rễ thở của cây rừng ngập mặn làm tiêu hao năng lượng sóng biển, giữ lại bùn phù sa bảo vệ đê điều ven biển.",
+            recallHint: "SGK CN 12 Bài 2: Rừng phòng hộ ven biển: Rừng ngập mặn, rừng phi lao chắn gió, chắn cát bay và giảm lực tàn phá của sóng bão biển."
+          },
+          {
+            label: "b",
+            text: "Trong giai đoạn cây mầm mới nảy mầm trong vườn ươm, việc làm giàn che bóng giúp bảo vệ cây con khỏi tác hại của nắng gắt làm cháy mầm.",
+            isTrue: true,
+            explanation: "Đúng. Giàn che bóng giảm 50-70% ánh sáng trực xạ, điều hòa nhiệt độ không khí và ẩm độ đất giúp cây mầm non phát triển rễ vững chắc.",
+            recallHint: "SGK CN 12 Bài 3: Kỹ thuật vườn ươm: Che bóng cho cây mầm non, tưới nước giữ ẩm; khi cây cứng cáp thì dỡ giàn che để cây thích nghi dần trước khi xuất vườn."
+          },
+          {
+            label: "c",
+            text: "Phương thức khai thác trắng được phép áp dụng không hạn chế trên tất cả các khu rừng đặc dụng và vườn quốc gia tại Việt Nam.",
+            isTrue: false,
+            explanation: "Sai. Luật Lâm nghiệp 2017 nghiêm cấm khai thác trắng rừng đặc dụng và rừng tự nhiên. Rừng đặc dụng chỉ được bảo tồn nguyên vẹn.",
+            recallHint: "SGK CN 12 Bài 6: Pháp luật lâm nghiệp: Nghiêm cấm tuyệt đối khai thác gỗ và chặt phá rừng đặc dụng (vườn quốc gia, khu bảo tồn thiên nhiên)."
+          },
+          {
+            label: "d",
+            text: "Đường băng cản lửa xanh sử dụng các loài cây có lá dày, mọng nước, khó cháy trồng xen kẽ để ngăn cản đám cháy rừng lan rộng.",
+            isTrue: true,
+            explanation: "Đúng. Cây cản lửa xanh (như muồng đen, dứa dại, tre bát độ) có hàm lượng nước cao, không bắt lửa, tạo vành đai sinh học chắn tàn lửa bay qua.",
+            recallHint: "SGK CN 12 Bài 6: Đường băng cản lửa xanh: Trồng các dải cây chịu lửa, mọng nước, tán rậm rạp làm hàng rào sinh thái ngăn lửa cháy lan trong mùa khô."
+          }
+        ]
+      },
+      {
+        id: 4, grade: "cn12",
+        topic: "Khối 12 — Thủy sản & Kỹ thuật sản xuất giống cá",
+        title: "Câu 4: Môi trường nước ao, thức ăn tự nhiên và sinh sản nhân tạo cá",
+        context: "Một cơ sở sản xuất giống cá nước ngọt tại huyện Trảng Bom (Đồng Nai) tiến hành ương cá bột và cho cá bố mẹ sinh sản. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          {
+            label: "a",
+            text: "Khí Amoniac tự do (NH3) trong nước ao nuôi thủy sản không gây độc cho cá ở bất kỳ mức nồng độ nào.",
+            isTrue: false,
+            explanation: "Sai. NH3 không ion hóa cực kỳ độc đối với cá ngay cả ở nồng độ rất thấp (> 0,02 mg/L), làm tổn thương tế bào mang và phá hủy hệ thần kinh cá.",
+            recallHint: "SGK CN 12 Bài 10: Khí độc ao nuôi: NH3 cực kỳ độc hại. Trong nước, NH3 cân bằng với NH4+; khi pH và nhiệt độ càng cao thì tỷ lệ NH3 tự do độc hại càng tăng."
+          },
+          {
+            label: "b",
+            text: "Hiện tượng cá nuôi nổi đầu đớp khí trên mặt nước thường xảy ra nghiêm trọng nhất vào lúc 4 - 6 giờ rạng sáng do hàm lượng oxy hòa tan giảm xuống mức thấp nhất.",
+            isTrue: true,
+            explanation: "Đúng. Sau cả đêm ngừng quang hợp, toàn bộ vi sinh vật, tảo và cá trong ao cùng hô hấp làm cạn kiệt oxy hòa tan, gây hiện tượng cá nổi đầu rạng sáng.",
+            recallHint: "SGK CN 12 Bài 10: Quy luật oxy hòa tan DO: Giảm thấp nhất lúc rạng sáng (4-6h) do ban đêm cả ao hô hấp tiêu thụ oxy mà không có quang hợp."
+          },
+          {
+            label: "c",
+            text: "Trứng nước (Moina) là nguồn thức ăn tự nhiên sống có kích thước phù hợp và giàu dinh dưỡng dành cho cá bột giai đoạn mới tiêu hết noãn hoàng.",
+            isTrue: true,
+            explanation: "Đúng. Moina chứa nhiều enzyme tiêu hóa tự nhiên giúp đường ruột non nớt của cá bột dễ dàng hấp thu, nâng cao đáng kể tỷ lệ sống khi ương cá giống.",
+            recallHint: "SGK CN 12 Bài 12: Thức ăn khởi đầu của cá: Moina (bo bo) là thức ăn sống đầu đời tuyệt vời cho cá bột mới tiêu hết noãn hoàng, kích thích bắt mồi tự nhiên."
+          },
+          {
+            label: "d",
+            text: "Trong kích thích cá sinh sản nhân tạo, việc tiêm kích dục tố (não thùy thể hoặc LHRH-A) nhằm mục đích làm cho cá cái biến đổi thành cá đực.",
+            isTrue: false,
+            explanation: "Sai. Tiêm kích dục tố nhằm kích thích trục hạ đồi - tuyến yên - tuyến sinh dục thúc đẩy quá trình chín và rụng trứng đồng loạt ở cá cái (và sinh tinh ở cá đực).",
+            recallHint: "SGK CN 12 Bài 13: Mục đích tiêm kích dục tố: Kích thích trứng và tinh trùng chín rụng hàng loạt để thụ tinh nhân tạo; không làm đổi giới tính cá."
+          }
+        ]
+      }
+    ],
+    essays: [
+      {
+        id: 1,
+        points: 3.5,
+        title: "Câu 1 (3,5 điểm — Kiến thức Lâm nghiệp Lớp 12)",
+        problem: "1. Trình bày các vai trò sinh thái và môi trường then chốt của rừng phòng hộ đầu nguồn sông ngòi và rừng phòng hộ ngập mặn ven biển. (1,5 điểm)\n2. Nêu các tiêu chuẩn kỹ thuật để tuyển chọn cây giống lâm nghiệp (keo lai, bạch đàn) đạt chuẩn xuất vườn đem trồng rừng. Nêu hậu quả nếu đem cây con có rễ bị cuộn tròn hoặc bầu ươm bị vỡ vụn đi trồng. (1,5 điểm)\n3. Hãy giải thích vì sao trong phương thức 'Khai thác trắng' trên rừng trồng sản xuất, chủ rừng bắt buộc phải trồng lại rừng ngay trong vụ kế tiếp mà không được bỏ hoang đất. (0,5 điểm)",
+        recallHint: "SGK CN 12 Bài 2 & Bài 4 & Bài 6: Rừng phòng hộ: Chắn sóng biển, bảo vệ nguồn nước ngầm, chống xói mòn lũ quét. Tiêu chuẩn cây con: Thân thẳng cứng cáp, 1 ngọn, bầu nguyên vẹn; rễ cuộn làm cây nghẹt thở dễ đổ ngã. Khai thác trắng: Phải trồng lại ngay để chống rửa trôi lớp đất mặt màu mỡ do mưa nhiệt đới.",
+        rubric: [
+          "1. Vai trò sinh thái rừng phòng hộ (1,5đ): Rừng đầu nguồn (0,75đ - giữ nước ngầm, chống xói mòn sạt lở đồi dốc, điều tiết dòng chảy lũ và dòng chảy mùa cạn); Rừng ven biển ngập mặn (0,75đ - chắn sóng bão biển, bảo vệ đê điều, giữ phù sa mở rộng bãi bồi và bảo tồn sinh vật biển non).",
+          "2. Tiêu chuẩn cây giống & hậu quả lỗi bầu rễ (1,5đ): Tiêu chuẩn xuất vườn (0,75đ - thân hóa gỗ thẳng, 1 ngọn nguyên vẹn, rễ khỏe không biến dạng, bầu đất chắc chắn); Hậu quả rễ cuộn/vỡ bầu (0,75đ - bầu vỡ làm đứt rễ lông hút gây héo chết cây; rễ cuộn tròn làm nghẹt mạch dẫn, khi cây lớn dễ bị gió bão quật đổ bật gốc).",
+          "3. Lý do phải trồng lại rừng ngay sau khai thác trắng (0,5đ): Rừng trồng sau khi khai thác trắng để lộ tầng đất mặt trơ trụi dưới mưa lớn nhiệt đới; nếu không trồng lại ngay, lớp mùn màu mỡ sẽ bị xói mòn rửa trôi trơ sỏi đá và phát sinh cỏ dại xâm lấn."
+        ]
+      },
+      {
+        id: 2,
+        points: 3.5,
+        title: "Câu 2 (3,5 điểm — Kiến thức Thủy sản Lớp 12)",
+        problem: "1. Phân tích nguyên nhân vì sao hiện tượng cá nuôi trong ao thâm canh thường bị thiếu oxy hòa tan (nổi đầu đớp khí) vào lúc 4 - 6 giờ sáng. Nêu các giải pháp kỹ thuật tức thời để cấp cứu cá khi xảy ra hiện tượng trên. (1,5 điểm)\n2. Trình bày vai trò của việc gây màu nước ao nuôi trước khi thả cá giống. Màu nước nào được coi là màu nước lý tưởng nhất cho ao nuôi thủy sản nước ngọt? (1,5 điểm)\n3. Nêu bản chất sinh học của kỹ thuật sản xuất đàn cá rô phi đơn tính đực bằng phương pháp cho cá bột ăn thức ăn có chứa hormone 17α-methyltestosterone. Nêu lợi ích kinh tế của đàn cá toàn đực so với đàn cá không phân tính. (0,5 điểm)",
+        recallHint: "SGK CN 12 Bài 10 & Bài 11 & Bài 13: Oxy cạn kiệt lúc rạng sáng do cả ao hô hấp mà không có ánh sáng quang hợp. Cấp cứu: Bật quạt nước, sục khí, tạt oxy viên (Sodium percarbonate), bơm nước mới. Gây màu nước: Phát triển vi tảo có lợi (xanh nõn chuối/nâu trà), che rêu đáy ao và tạo thức ăn tự nhiên. Cá đơn tính đực: Trộn hormone 17a-MT khi cá bột chưa biệt hóa tuyến sinh dục; cá đực lớn nhanh hơn 20-30%, không sinh sản tự do làm chật ao.",
+        rubric: [
+          "1. Nguyên nhân thiếu oxy rạng sáng & cấp cứu (1,5đ): Nguyên nhân (0,75đ - ban đêm ngừng quang hợp, toàn bộ cá, thực vật thủy sinh và vi sinh vật đáy cùng hô hấp tiêu thụ oxy, làm DO giảm chạm đáy lúc rạng sáng); Cấp cứu tức thời (0,75đ - bật quạt nước sục khí tối đa, bơm cấp nước sạch giàu oxy, rải viên oxy nguyên chất Sodium percarbonate xuống đáy ao).",
+          "2. Vai trò gây màu nước & màu nước lý tưởng (1,5đ): Vai trò (0,75đ - phát triển vi tảo có lợi sinh oxy quang hợp ban ngày, tạo thức ăn tự nhiên giàu sinh dưỡng cho giống non, che bớt ánh sáng đáy ức chế rong rêu đáy phát triển); Màu nước lý tưởng (0,75đ - màu xanh nõn chuối của tảo lục Chlorophyta hoặc màu nâu trà của tảo silic Bacillariophyta với độ trong 30-40 cm).",
+          "3. Kỹ thuật cá rô phi đơn tính đực & lợi ích (0,5đ): Bản chất (0,25đ - trộn hormone 17a-methyltestosterone vào thức ăn giai đoạn cá bột 21-28 ngày đầu đời khi tuyến sinh dục chưa phân hóa để chuyển hướng 100% thành cá đực); Lợi ích kinh tế (0,25đ - cá rô phi đực lớn nhanh hơn cá cái 20-30%, không tốn năng lượng sinh sản tự do làm phân đàn và giảm năng suất ao)."
+        ]
+      },
+      {
+        id: 3,
+        points: 1.0,
+        title: "Câu 3 (1,0 điểm — Kiến thức Nền tảng Nông học Tổng hợp)",
+        problem: "1. Trình bày ngắn gọn bản chất cấu tạo 4 lớp của một hạt keo đất hoàn chỉnh từ trong ra ngoài. (0,5 điểm)\n2. Vì sao trong nông nghiệp công nghệ cao, người ta thường phối trộn than bùn, mụn xơ dừa đã xử lý và đá trân châu Perlite để làm giá thể trồng cây thay vì sử dụng trực tiếp đất vườn tự nhiên? (0,5 điểm)",
+        recallHint: "SGK CN 10 Bài 3 & Bài 10: Bốn lớp hạt keo: Nhân keo -> Lớp ion quyết định thế hiệu -> Lớp ion bất động -> Lớp ion khuếch tán. Giá thể hỗn hợp: Sạch mầm bệnh lây qua đất, độ xốp cao, thông khí và thoát nước hoàn hảo, tối ưu hóa quá trình Fertigation.",
+        rubric: [
+          "1. Bốn lớp cấu tạo hạt keo đất (0,5đ): Từ trong ra ngoài gồm: (1) Nhân keo -> (2) Lớp ion quyết định điện thế -> (3) Lớp ion bất động -> (4) Lớp ion khuếch tán ngoài cùng (mỗi lớp 0,125đ).",
+          "2. Lý do phối trộn giá thể công nghệ cao (0,5đ): Giá thể phối trộn vô trùng sạch tuyến trùng và nấm bệnh hại rễ, có độ xốp và dung tích không khí cao giúp rễ hô hấp tối ưu, giữ ẩm tốt nhưng không úng nước, dễ dàng kiểm soát chính xác nồng độ dinh dưỡng khoáng qua hệ thống tưới nhỏ giọt."
+        ]
+      }
+    ]
+  },
+
   dn_01: {
     id: "dn_01",
+    level: "medium",
+    levelBadge: "🟡 CẤP ĐỘ 2: VỪA / TĂNG TỐC",
+    levelLabel: "CẤP ĐỘ 2 (VỪA / TĂNG TỐC & CHUẨN ĐỒNG NAI BẢNG B)",
     code: "ĐỒNG NAI — ĐỀ SỐ 01",
     title: "KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH / THÀNH PHỐ — ĐỒNG NAI (ĐỀ SỐ 01)",
     subTitle: "Môn: Công nghệ (Định hướng Nông nghiệp) — Khóa thi: 2026",
@@ -596,9 +1411,142 @@ const HSG_PROVINCIAL_EXAMS = {
       }
     ]
   },
+  dn_03: {
+    id: "dn_03",
+    level: "medium",
+    levelBadge: "🟡 CẤP ĐỘ 2: VỪA / TĂNG TỐC",
+    levelLabel: "CẤP ĐỘ 2 (VỪA / TĂNG TỐC & THỰC CHIẾN BÀ RỊA - BẮC GIANG)",
+    code: "ĐỒNG NAI — ĐỀ SỐ 03",
+    title: "KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH / THÀNH PHỐ (ĐỀ SỐ 03 — THỰC CHIẾN BÀ RỊA VŨNG TÀU & BẮC GIANG)",
+    subTitle: "Môn: Công nghệ (Định hướng Nông nghiệp) — Tinh hoa Đề Chuyên sâu Thực tế",
+    durationMinutes: 180,
+    maxScore: 20.0,
+    source: "Tích hợp Đề thi HSG Bà Rịa - Vũng Tàu, Bắc Giang & Đề xuất CNNN 12",
+    mcqs: [
+      // K10 (8 câu)
+      { id: 1, grade: "cn10", topic: "(1) Đất trồng", stem: "Khả năng đệm của đất (khả năng chống lại sự biến đổi pH khi thêm một lượng axit hoặc kiềm vào đất) phụ thuộc chủ yếu vào", options: ["hàm lượng cát hạt to trong đất.", "dung tích hấp phụ cation (CEC) và hàm lượng chất mùn hữu cơ, keo sét có trong đất.", "nhiệt độ bề mặt đất vào buổi trưa.", "độ dốc địa hình đồi núi."], answer: 1, explanation: "Keo mùn và keo sét có CEC cao, đóng vai trò hệ đệm hấp phụ và giải phóng ion H+ hoặc OH- chống lại sự thay đổi pH." },
+      { id: 2, grade: "cn10", topic: "(1) Đất trồng", stem: "Biện pháp nào sau đây giúp cải tạo độ phì nhiêu của đất xám bạc màu Đông Nam Bộ một cách bền vững nhất?", options: ["Phun thuốc trừ cỏ phổ rộng liên tục.", "Luân canh cây trồng họ Đậu, bón phân hữu cơ hoai mục kết hợp vôi và cày sâu dần tầng mặt.", "Bón thật nhiều phân đạm hóa học vô cơ không cần phân chuồng.", "Để đất trống phơi ải nắng gắt suốt mùa khô."], answer: 1, explanation: "Cày sâu dần, bón vôi khử chua, bón nhiều hữu cơ và luân canh cây họ Đậu làm tăng mùn, nâng CEC và cải tạo kết cấu đất." },
+      { id: 3, grade: "cn10", topic: "(1) Đất trồng", stem: "Loại đất có nồng độ muối hòa tan cao (EC > 4 dS/m) và hàm lượng Na+ trao đổi chiếm trên 15% dung tích hấp phụ được gọi là", options: ["đất phù sa cổ.", "đất mặn - kiềm (đất mặn kiềm hóa).", "đất phèn tiềm tàng.", "đất đồi núi xói mòn."], answer: 1, explanation: "Đất có EC > 4 dS/m và ESP (Exchangeable Sodium Percentage) > 15% là đất mặn - kiềm (Saline-sodic soil)." },
+      { id: 4, grade: "cn10", topic: "(2) Phân bón", stem: "Phân lân nung chảy (FMP) thích hợp nhất để bón cho loại đất nào sau đây?", options: ["Đất kiềm có độ pH > 8,0.", "Đất chua, đất phèn và đất đồi núi dốc rửa trôi mạnh.", "Đất cát biển mặn.", "Giá thể thủy canh hoàn toàn."], answer: 1, explanation: "Lân nung chảy có tính kiềm (chứa nhiều Ca, Mg, Si), khó tan trong nước nhưng tan trong axit yếu nên khử chua rất tốt cho đất phèn chua." },
+      { id: 5, grade: "cn10", topic: "(2) Phân bón", stem: "Một hecta cà phê cần bón 150 kg P2O5 nguyên chất. Người ta dùng phân Super lân chứa 16% P2O5. Khối lượng phân Super lân cần mua là", options: ["625,0 kg.", "750,0 kg.", "937,5 kg.", "1.200,0 kg."], answer: 2, explanation: "Khối lượng Super lân = (150 × 100) / 16 = 937,5 kg." },
+      { id: 6, grade: "cn10", topic: "(2) Phân bón", stem: "Tại sao khi bảo quản phân bón vi sinh thương phẩm cần để nơi râm mát và tránh ánh nắng chiếu trực tiếp?", options: ["Để tránh cho bao bì đựng phân bị phai màu.", "Vì nhiệt độ cao và tia tử ngoại (UV) của mặt trời sẽ tiêu diệt các tế bào vi sinh vật sống có ích có trong phân.", "Vì ánh nắng làm phân bị bốc cháy nổ.", "Vì làm tăng nhanh khối lượng bao phân."], answer: 1, explanation: "Nhiệt độ cao (> 30°C) và tia UV mặt trời tiêu diệt các tế bào vi sinh vật sống (vi khuẩn, nấm đối kháng) trong phân." },
+      { id: 7, grade: "cn10", topic: "(3) Trồng trọt CNC", stem: "Kỹ thuật màng phủ nông nghiệp (nilon 2 mặt đen - bạc) mang lại lợi ích nổi trội nào sau đây?", options: ["Mặt bạc hướng lên trên phản chiếu ánh sáng xua đuổi côn trùng và tăng quang hợp tán dưới, mặt đen úp xuống ngăn cản cỏ dại quang hợp và giữ ẩm đất.", "Tạo ra môi trường ngập úng quanh năm cho rễ cây.", "Làm tăng 100% lượng phân đạm bốc hơi khỏi đất.", "Làm biến đổi gen của giống rau củ."], answer: 0, explanation: "Mặt bạc phản xạ ánh sáng xua côn trùng (bọ trĩ, rệp), mặt đen ngăn ánh sáng triệt tiêu cỏ dại và giữ ẩm đất." },
+      { id: 8, grade: "cn10", topic: "(3) Trồng trọt CNC", stem: "Trong nhà màng hiện đại, thiết bị thông gió làm mát bằng tấm làm mát (Cooling pad) kết hợp quạt hút hoạt động dựa trên nguyên lý", options: ["ngưng tụ hơi nước trong không khí.", "sự bay hơi của nước hấp thụ nhiệt lượng từ không khí đi qua tấm pad làm hạ nhiệt độ trong nhà màng từ 5 - 8 độ C.", "thổi khí nitơ hóa lỏng vào không gian nhà màng.", "làm đóng băng nước trên mái nhà kính."], answer: 1, explanation: "Hệ thống quạt hút kéo không khí nóng qua tấm Cooling pad ẩm; nước bay hơi hấp thu nhiệt ẩn làm giảm nhiệt độ phòng 5-8°C." },
 
+      // K11 (8 câu)
+      { id: 9, grade: "cn11", topic: "(1) Công nghệ giống vật nuôi", stem: "Trong kỹ thuật thụ tinh nhân tạo cho lợn, nhiệt độ bảo quản tinh dịch lợn dạng lỏng tối ưu nhất là", options: ["-196 độ C trong bình nitơ lỏng.", "15 đến 17 độ C trong tủ bảo quản tinh chuyên dụng.", "0 độ C trong ngăn đá tủ lạnh thông thường.", "37 đến 40 độ C."], answer: 1, explanation: "Tinh dịch lợn rất nhạy cảm với sốc lạnh, được pha loãng và bảo quản lỏng ở nhiệt độ 15-17°C (được 3-5 ngày)." },
+      { id: 10, grade: "cn11", topic: "(1) Công nghệ giống vật nuôi", stem: "Lai kinh tế đơn giản giữa 2 giống lợn thuần chủng khác nhau nhằm mục đích tạo ra con lai F1 để", options: ["làm giống hạt nhân nhân giống thuần.", "nuôi thương phẩm lấy thịt nhằm khai thác tối đa ưu thế lai về tốc độ lớn và tiêu tốn ít thức ăn.", "lai trở lại với đàn lợn rừng tự nhiên.", "bảo tồn nguồn gen của loài sắp tuyệt chủng."], answer: 1, explanation: "Con lai F1 có ưu thế lai cao nhất được dùng 100% nuôi lấy thịt thương phẩm, không làm giống." },
+      { id: 11, grade: "cn11", topic: "(1) Công nghệ giống vật nuôi", stem: "Chỉ số EBV (Estimated Breeding Value) trong chọn giống hiện đại biểu thị", options: ["giá trị kinh tế bằng tiền mặt của một con vật nuôi.", "giá trị giống ước tính - thước đo tiềm năng di truyền của một cá thể đối với một tính trạng cụ thể so với quần thể.", "tổng số con non được sinh ra trong một lứa đẻ.", "khối lượng thịt xẻ thu được sau giết mổ."], answer: 1, explanation: "EBV (Estimated Breeding Value) là giá trị giống ước tính, đánh giá tiềm năng truyền gen của cá thể giống cho đời con." },
+      { id: 12, grade: "cn11", topic: "(2) Công nghệ thức ăn", stem: "Một đàn lợn thịt tiêu tốn hết 210 kg thức ăn để tăng được 75 kg khối lượng sống. Hệ số chuyển đổi thức ăn FCR của đàn lợn là", options: ["2,40.", "2,60.", "2,80.", "3,10."], answer: 2, explanation: "FCR = 210 / 75 = 2,80." },
+      { id: 13, grade: "cn11", topic: "(2) Công nghệ thức ăn", stem: "Khi ủ chua thân cây ngô làm thức ăn cho trâu bò, người ta rải từng lớp dày 15 - 20 cm rồi dẫm nén thật chặt nhằm mục đích", options: ["làm nát vụn thân ngô thành bột mịn.", "đuổi hết không khí ra ngoài, tạo điều kiện kỵ khí bắt buộc cho vi khuẩn Lactic phát triển và ngăn nấm mốc.", "giúp nước mưa ngấm sâu vào hố ủ.", "tiêu diệt toàn bộ vi khuẩn Lactic."], answer: 1, explanation: "Dẫm nén chặt để tống khứ O2, tạo môi trường kỵ khí tuyệt đối cho vi khuẩn Lactic lên men và chống mốc." },
+      { id: 14, grade: "cn11", topic: "(2) Công nghệ thức ăn", stem: "Độc tố Aflatoxin thường xuất hiện trong thức ăn chăn nuôi bị mốc (ngô, lạc) do nấm nào sau đây sinh ra?", options: ["Nấm Aspergillus flavus.", "Nấm men Saccharomyces.", "Nấm đối kháng Trichoderma.", "Vi khuẩn Bacillus."], answer: 0, explanation: "Aspergillus flavus và Aspergillus parasiticus phát triển trên ngô ẩm sinh độc tố Aflatoxin cực độc phá hủy tế bào gan." },
+      { id: 15, grade: "cn11", topic: "(3) Môi trường chăn nuôi", stem: "Khí Hydro sunfua (H2S) trong chuồng nuôi có đặc tính vật lý và tác hại sinh học nguy hiểm nào?", options: ["Nhẹ hơn không khí, không mùi, không gây độc.", "Nặng hơn không khí nên chìm sát nền chuồng, có mùi trứng thối đặc trưng, gây tê liệt khứu giác và ức chế hô hấp tế bào tử vong nhanh.", "Có màu xanh lục và vị ngọt.", "Giúp vật nuôi ăn ngon miệng hơn."], answer: 1, explanation: "H2S nặng hơn không khí, mùi trứng thối, độc tính cao làm liệt khứu giác và ức chế chuỗi hô hấp tế bào cytochrome oxidase." },
+      { id: 16, grade: "cn11", topic: "(3) Môi trường chăn nuôi", stem: "Xử lý xác gia cầm chết do dịch cúm gia cầm độc lực cao (H5N1) theo đúng quy chuẩn thú y là", options: ["vứt xác xuống sông suối cho cá ăn.", "đem chôn lấp hợp vệ sinh có rắc vôi bột khử trùng hoặc thiêu hủy hoàn toàn trong lò đốt chuyên dụng.", "bán rẻ cho các cơ sở chế biến thực phẩm đông lạnh.", "đem phơi khô ngoài nắng."], answer: 1, explanation: "Xác gia cầm nhiễm dịch bắt buộc phải tiêu hủy bằng lò đốt nhiệt cao hoặc chôn lấp sâu có rải vôi bột khử trùng." },
+
+      // K12 (8 câu)
+      { id: 17, grade: "cn12", topic: "(1) Giới thiệu chung về lâm nghiệp", stem: "Vườn quốc gia Cát Tiên thuộc nhóm rừng nào theo quy định pháp lý?", options: ["Rừng sản xuất.", "Rừng đặc dụng.", "Rừng phòng hộ đầu nguồn.", "Rừng cảnh quan đô thị."], answer: 1, explanation: "Vườn quốc gia là phân loại tiêu biểu của nhóm Rừng đặc dụng nhằm bảo tồn đa dạng sinh học hệ sinh thái." },
+      { id: 18, grade: "cn12", topic: "(2) Trồng và chăm sóc rừng", stem: "Cự ly trồng rừng keo lai theo hàng là 2m × 3m. Mật độ trồng trên 1 ha (10.000 m2) là", options: ["1.111 cây/ha.", "1.667 cây/ha.", "2.000 cây/ha.", "2.500 cây/ha."], answer: 1, explanation: "Diện tích dinh dưỡng 1 cây = 2 × 3 = 6 m2. Mật độ = 10.000 / 6 ≈ 1.667 cây/ha." },
+      { id: 19, grade: "cn12", topic: "(3) Bảo vệ và khai thác tài nguyên rừng bền vững", stem: "Cấp kính khai thác gỗ tối thiểu trong quản lý rừng tự nhiên bền vững là", options: ["đường kính thân cây đo ở độ cao 1,3m (D_1.3) đạt ngưỡng quy định cho phép chặt hạ của từng loài gỗ quý.", "chiều cao vút ngọn của cây tính bằng mét.", "độ dày của lớp vỏ cây.", "độ rộng của tán lá cây."], answer: 0, explanation: "Cấp kính khai thác là đường kính ngang ngực thân cây (đo tại vị trí 1,3m) đạt tiêu chuẩn kinh doanh cho phép chặt hạ." },
+      { id: 20, grade: "cn12", topic: "(3) Bảo vệ và khai thác tài nguyên rừng bền vững", stem: "Biện pháp kỹ thuật nào sau đây KHÔNG thuộc quy trình phòng cháy chữa cháy rừng?", options: ["Làm sạch vật liệu cháy và đốt dọn thực bì trước mùa khô có kiểm soát.", "Xây dựng chòi canh lửa rừng và lắp đặt camera cảm biến nhiệt.", "Trồng xen cây bạch đàn có hàm lượng tinh dầu cao vào đường băng cản lửa trắng.", "Chuẩn bị sẵn các trang thiết bị máy bơm chữa cháy rừng và hồ chứa nước."], answer: 2, explanation: "Trồng bạch đàn nhiều tinh dầu trên đường băng cản lửa là cực kỳ sai lầm vì bạch đàn rất bén lửa, làm cháy lan nhanh." },
+      { id: 21, grade: "cn12", topic: "(4) Giới thiệu chung về thủy sản", stem: "Nhóm cá nào sau đây có tính ăn thực vật và mùn bã hữu cơ, đóng vai trò dọn sạch đáy ao?", options: ["Cá lóc bông.", "Cá rô phi và cá mè trắng.", "Cá trắm đen.", "Cá chẽm (vược)."], answer: 1, explanation: "Cá rô phi và cá mè trắng ăn thực vật phù du, vi tảo và mùn bã hữu cơ, lọc sạch môi trường nước ao nuôi." },
+      { id: 22, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản", stem: "Khí H2S (Hydro sunfua) tích tụ dưới đáy ao nuôi tôm thâm canh thường phát sinh mạnh nhất trong điều kiện", options: ["nước ao giàu oxy hòa tan và đáy ao sạch sẽ.", "đáy ao tích tụ nhiều thức ăn thừa, phân tôm, điều kiện yếm khí (thiếu oxy) và pH nước ao thấp (chua).", "nước ao có độ mặn bằng 0.", "trời nắng to vào buổi trưa."], answer: 1, explanation: "Vi khuẩn khử sunfat phân giải kỵ khí chất hữu cơ đáy ao sinh H2S; độc tính H2S tăng mạnh khi pH nước ao thấp (< 7,0)." },
+      { id: 23, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản", stem: "Sử dụng chế phẩm men vi sinh Probiotics (chứa Bacillus subtilis) định kỳ tạt vào ao nuôi tôm nhằm mục đích", options: ["cạnh tranh chất dinh dưỡng và không gian sống với vi khuẩn gây bệnh (Vibrio), đồng thời phân hủy bùn đáy ao.", "làm nước ao biến thành màu tím để tôm dễ ngụy trang.", "tiêu diệt hoàn toàn các loài tảo có ích.", "làm tăng độ mặn của ao."], answer: 0, explanation: "Bacillus subtilis tiết enzyme phân hủy protein, chất hữu cơ dư thừa và cạnh tranh sinh học ức chế vi khuẩn Vibrio gây bệnh." },
+      { id: 24, grade: "cn12", topic: "(6) Công nghệ giống thủy sản", stem: "Phương pháp chẩn đoán phát hiện sớm virus gây bệnh đốm trắng (WSSV) trên tôm bố mẹ và tôm giống có độ chính xác cao nhất hiện nay là", options: ["nhìn bằng mắt thường dưới ánh sáng mặt trời.", "kỹ thuật sinh học phân tử PCR (Polymerase Chain Reaction).", "dùng kính lúp cầm tay độ phóng đại 10 lần.", "nếm vị nước ao."], answer: 1, explanation: "Kỹ thuật PCR khuếch đại đoạn gen đặc hiệu của virus WSSV cho kết quả chẩn đoán chính xác tuyệt đối ở tôm giống SPF." }
+    ],
+    tfs: [
+      {
+        id: 1,
+        grade: "cn10",
+        topic: "Khối 10 — Độ đệm Keo đất & Kỹ thuật Màng phủ Nông nghiệp",
+        title: "Câu 1: Độ đệm Đất trồng & Công nghệ Màng phủ Phản quang 2 mặt",
+        context: "Một trang trại trồng dưa hấu công nghệ cao trên đất cát pha ven biển tại Bà Rịa - Vũng Tàu sử dụng màng phủ nông nghiệp và hệ thống tưới nhỏ giọt. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          { label: "a", level: "Nhận biết", isTrue: false, text: "Đất cát pha có dung tích hấp phụ cation (CEC) rất cao nên có khả năng giữ nước và giữ phân bón tốt hơn đất sét nặng giàu mùn.", explanation: "Đất cát pha nghèo keo sét và mùn nên CEC rất thấp, giữ nước và giữ phân kém." },
+          { label: "b", level: "Thông hiểu", isTrue: true, text: "Việc bón nhiều phân hữu cơ hoai mục giúp làm tăng lượng keo mùn, từ đó nâng cao độ đệm của đất và giảm sự biến động đột ngột về độ pH khi bón phân hóa học.", explanation: "Keo mùn làm tăng khả năng đệm của đất nhờ hệ nhóm chức carboxyl và phenol." },
+          { label: "c", level: "Vận dụng", isTrue: true, text: "Màng phủ nông nghiệp có mặt màu bạc hướng lên trên giúp phản xạ bức xạ mặt trời, tăng cường ánh sáng cho các tầng lá dưới và xua đuổi các loài côn trùng chích hút như bọ trĩ, rầy mềm.", explanation: "Ánh sáng phản xạ từ mặt bạc làm lóa mắt và xua đuổi côn trùng chích hút truyền virus." },
+          { label: "d", level: "Vận dụng cao", isTrue: true, text: "Hệ thống tưới nhỏ giọt kết hợp bón phân hòa tan (Fertigation) cung cấp dinh dưỡng trực tiếp tới vùng rễ hoạt động, giúp giảm nồng độ muối tích tụ trên bề mặt luống đất cát ven biển.", explanation: "Nước tưới nhỏ giọt đẩy vùng muối tích tụ ra rìa bầu rễ, bảo vệ rễ không bị sốc mặn." }
+        ]
+      },
+      {
+        id: 2,
+        grade: "cn11",
+        topic: "Khối 11 — An toàn Sinh học & Quản lý Độc tố Nấm mốc Thức ăn",
+        title: "Câu 2: Thụ tinh Nhân tạo Gia súc & Phòng ngừa Độc tố Aflatoxin",
+        context: "Một công ty giống gia súc vận hành trung tâm khai thác tinh bò đông lạnh và nhà máy sản xuất thức ăn chăn nuôi quy mô lớn. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          { label: "a", level: "Nhận biết", isTrue: true, text: "Đông lạnh tinh dịch bò trong nitơ lỏng ở nhiệt độ -196 độ C cho phép lưu giữ nguồn gen quý của bò đực giống trong nhiều chục năm mà tinh trùng vẫn duy trì được khả năng thụ tinh.", explanation: "Ở -196°C mọi hoạt động trao đổi chất của tế bào tinh trùng ngừng hoàn toàn, bảo tồn gen lâu dài." },
+          { label: "b", level: "Thông hiểu", isTrue: false, text: "Độc tố Aflatoxin B1 do nấm mốc Aspergillus flavus sinh ra trong ngô ẩm có thể bị phá hủy hoàn toàn bằng cách đem phơi nắng hoặc đun nấu thông thường ở 100 độ C.", explanation: "Aflatoxin rất bền nhiệt (nhiệt độ phân hủy > 250°C), đun nấu thông thường không phá hủy được." },
+          { label: "c", level: "Vận dụng", isTrue: true, text: "Bổ sung chất hấp phụ độc tố nấm mốc (như khoáng sét Bentonite, vách tế bào nấm men Beta-glucan) vào thức ăn chăn nuôi giúp liên kết và đào thải độc tố Aflatoxin qua đường phân, bảo vệ gan vật nuôi.", explanation: "Chất hấp phụ liên kết phân tử Aflatoxin trong lòng ruột ngăn cản hấp thu vào máu." },
+          { label: "d", level: "Vận dụng cao", isTrue: false, text: "Có thể sử dụng thức ăn tinh bị ẩm mốc nặng có mùi chua để nuôi lợn nái mang thai nhằm tiết kiệm chi phí mà không gây ảnh hưởng đến phôi thai.", explanation: "Thức ăn mốc chứa Mycotoxin gây chết phôi, sảy thai và quái thai ở lợn nái." }
+        ]
+      },
+      {
+        id: 3,
+        grade: "cn12",
+        topic: "Khối 12 — Lâm sinh Đa dụng & Cấp kính Khai thác Gỗ Rừng",
+        title: "Câu 3: Quy hoạch Lâm phần Gỗ lớn & Khai thác Bền vững",
+        context: "Một ban quản lý lâm trường thực hiện đề tài điều tra tài nguyên và xây dựng phương án khai thác gỗ bền vững theo chuẩn FSC. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          { label: "a", level: "Nhận biết", isTrue: true, text: "Cấp kính khai thác gỗ là tiêu chuẩn kỹ thuật quy định đường kính thân cây đo ở độ cao 1,3 mét tối thiểu mà cây gỗ phải đạt được mới được phép đưa vào danh sách chặt hạ.", explanation: "Định nghĩa chuẩn của cấp kính khai thác lâm sinh (D_1.3)." },
+          { label: "b", level: "Thông hiểu", isTrue: false, text: "Trong phương thức khai thác chọn rừng tự nhiên, người thợ rừng được phép chặt hạ toàn bộ các cây gỗ quý hiếm đang giai đoạn sai quả gieo giống để lấy hạt đem bán.", explanation: "Cây mẹ gieo giống phẩm chất tốt bắt buộc phải được đánh số giữ lại để duy trì tái sinh tự nhiên." },
+          { label: "c", level: "Vận dụng", isTrue: true, text: "Rừng trồng hỗn giao giữa cây keo lai (cố định đạm sinh học, lớn nhanh) và cây sao đen (chịu bóng giai đoạn non, gỗ quý chu kỳ dài) mang lại hiệu quả sinh thái và kinh tế cao hơn rừng trồng thuần loài keo dăm.", explanation: "Hỗn giao tận dụng không gian dinh dưỡng đa tầng tán, cải tạo đất và đa dạng sinh học." },
+          { label: "d", level: "Vận dụng cao", isTrue: true, text: "Khai thác gỗ tác động thấp (RIL - Reduced Impact Logging) kết hợp mở đường vận xuất theo đường đồng mức giúp hạn chế tối đa tổn thương tầng cây tái sinh và sạt lở xói mòn đất rừng vùng dốc.", explanation: "RIL là quy trình khai thác tiêu chuẩn của chứng chỉ FSC giảm 50% tổn hại rừng." }
+        ]
+      },
+      {
+        id: 4,
+        grade: "cn12",
+        topic: "Khối 12 — Quản lý Dịch bệnh Ao tôm & Chuỗi Xử lý Nước 4 Bước",
+        title: "Câu 4: Quản lý Khí độc Đáy ao & An toàn Sinh học Bệnh Đốm trắng",
+        context: "Một hợp tác xã nuôi tôm thẻ chân trắng thâm canh tại vùng ven biển áp dụng quy trình an toàn sinh học 2 giai đoạn. Xét tính Đúng/Sai của các nhận định sau:",
+        statements: [
+          { label: "a", level: "Nhận biết", isTrue: true, text: "Bệnh đốm trắng (WSSV) là bệnh truyền nhiễm nguy hiểm do virus gây ra, có khả năng làm tôm chết hàng loạt tới 90 - 100% chỉ sau 3 đến 7 ngày phát bệnh.", explanation: "Virus WSSV có độc lực cực cao gây chết tôm cấp tính hàng loạt." },
+          { label: "b", level: "Thông hiểu", isTrue: true, text: "Quy trình xử lý nước cấp vào ao nuôi gồm 4 bước: (1) Lắng cơ học -> (2) Diệt tạp bằng Saponin và diệt khuẩn bằng Chlorine -> (3) Khử Chlorine tồn dư bằng sục khí và Na2S2O3 -> (4) Bón phân gây màu nước và cấy vi sinh.", explanation: "Chuẩn xác 4 bước quy trình chuẩn bị nước nuôi tôm an toàn sinh học." },
+          { label: "c", level: "Vận dụng", isTrue: false, text: "Khi phát hiện tôm trong ao bị nhiễm virus đốm trắng WSSV, người nuôi cần xả ngay lập tức toàn bộ nước ao ra kênh rạch chung để cứu lấy số tôm còn lại.", explanation: "Xả nước ao bệnh ra ngoài làm lây lan dịch bệnh ra toàn vùng nuôi; phải xử lý Chlorine diệt mầm bệnh trước khi tiêu hủy." },
+          { label: "d", level: "Vận dụng cao", isTrue: true, text: "Hệ thống xi-phông đáy ao kết hợp hố gom chất thải định kỳ giúp loại bỏ phân tôm và thức ăn thừa ra khỏi ao trước khi chúng bị phân hủy yếm khí sinh khí độc H2S và NH3.", explanation: "Xi-phông đáy định kỳ là biện pháp cơ học hiệu quả nhất để giữ sạch nền đáy ao thâm canh." }
+        ]
+      }
+    ],
+    essays: [
+      {
+        id: 1,
+        points: 3.5,
+        title: "Câu 1 (3,5 điểm — Kiến thức Lâm nghiệp Lớp 12 & Quản lý Rừng bền vững)",
+        problem: "Một công ty lâm nghiệp tại vùng Đông Nam Bộ quản lý 1.000 ha rừng trồng keo và cây bản địa. Nhằm nâng cao năng suất và phòng chống cháy rừng trong mùa khô kéo dài:\n1. Hãy phân tích các nguyên nhân gây cháy rừng chủ yếu tại khu vực Đông Nam Bộ vào mùa khô. Thiết kế một hệ thống phòng cháy chữa cháy rừng tổng thể bao gồm các giải pháp công trình và lâm sinh. (1,5 điểm)\n2. Công ty dự định khai thác 50 ha rừng trồng keo lai 6 năm tuổi để tái trồng rừng gỗ lớn bản địa. Hãy so sánh hai phương thức khai thác trắng và khai thác chọn trên các tiêu chí: Điều kiện áp dụng, tác động môi trường đất và khả năng bảo tồn nguồn gen. (1,5 điểm)\n3. Nêu các tiêu chuẩn đánh giá cây con giống keo lai và cây gõ đỏ đạt chuẩn xuất vườn đi trồng rừng. (0,5 điểm)",
+        rubric: [
+          "1. Nguyên nhân & Thiết kế PCCR (1,5đ): Nguyên nhân (0,75đ) do mùa khô kéo dài, thực bì khô dày đặc, gió chướng mạnh và sơ suất con người; Thiết kế (0,75đ) gồm đường băng cản lửa trắng kết hợp đường băng xanh cây mọng nước, hồ trữ nước cơ động, chòi canh quan sát nhiệt độ và tuần tra 24/24.",
+          "2. So sánh khai thác trắng và khai thác chọn (1,5đ): Điều kiện áp dụng (0,5đ) khai thác trắng cho rừng trồng thuần loài đất bằng phẳng, khai thác chọn cho rừng tự nhiên hoặc rừng phòng hộ; Tác động đất (0,5đ) khai thác trắng gây xói mòn rửa trôi nặng, khai thác chọn giữ thảm thực bì bảo vệ đất; Bảo tồn gen (0,5đ) khai thác chọn bảo tồn tầng cây tái sinh và cây mẹ giống.",
+          "3. Tiêu chuẩn cây giống xuất vườn (0,5đ): Cây con thân thẳng hóa gỗ phần gốc, đỉnh sinh trưởng lành lặn, chiều cao 30-50 cm, bộ rễ đan chặt giữ nguyên bầu đất, không sâu bệnh."
+        ]
+      },
+      {
+        id: 2,
+        points: 3.5,
+        title: "Câu 2 (3,5 điểm — Kiến thức Thủy sản Lớp 12 & Kỹ thuật Xử lý Nước Ao tôm)",
+        problem: "Một hợp tác xã nuôi tôm thẻ chân trắng công nghệ cao chuẩn bị đưa 2 ao nuôi diện tích mỗi ao 2.000 m2 vào hoạt động:\n1. Hãy trình bày chi tiết quy trình 4 bước chuẩn bị nước cấp ao nuôi từ nguồn nước tự nhiên cho đến khi đủ điều kiện thả tôm giống an toàn sinh học. (1,5 điểm)\n2. Sau 45 ngày nuôi, xét nghiệm nước phát hiện: pH nước ao buổi chiều = 8,9; nồng độ TAN (Tổng amoniac nitơ) = 2,5 mg/L; Oxy hòa tan lúc 5 giờ sáng DO = 2,8 mg/L. Tôm có dấu hiệu bơi dạt bờ và ăn yếu.\n   • Hãy phân tích các mối nguy hiểm sinh học đối với tôm trong điều kiện môi trường trên. (1,0 điểm)\n   • Đề xuất quy trình xử lý khẩn cấp để đưa các chỉ tiêu môi trường về mức an toàn trong vòng 24 - 48 giờ. (1,0 điểm)",
+        rubric: [
+          "1. Quy trình 4 bước chuẩn bị nước ao (1,5đ): Bước 1 (0,4đ) Lắng cơ học qua lưới lọc dày loại bỏ tạp và phù sa lơ lửng; Bước 2 (0,4đ) Diệt cá tạp bằng Saponin và diệt khuẩn bằng Chlorine 20-30 ppm; Bước 3 (0,4đ) Sục khí quạt nước 3-5 ngày trung hòa dư lượng Chlorine, bón vôi nâng kiềm 120 mg/L; Bước 4 (0,3đ) Bón phân gây màu nước xanh đọt chuối (độ trong 30-40 cm) và cấy men vi sinh Probiotics.",
+          "2.1. Phân tích mối nguy sinh học (1,0đ): pH quá cao (8,9) kết hợp TAN lớn làm chuyển dịch cân bằng sinh khí độc NH3 tự do gây ngộ độc mang thần kinh; DO rạng sáng quá thấp (< 3,0 mg/L) làm tôm ngạt thở, chậm lột xác và dễ bùng phát dịch bệnh hoại tử gan tụy.",
+          "2.2. Quy trình xử lý khẩn cấp (1,0đ): Giảm 50% thức ăn; Bật 100% dàn quạt nước và sục khí đáy 24/24; Tạt mật rỉ đường ủ men vi sinh để hạ pH và đồng hóa NH3; Bón vôi nông nghiệp hoặc thạch cao ổn định kiềm và xi-phông đáy ao."
+        ]
+      },
+      {
+        id: 3,
+        points: 1.0,
+        title: "Câu 3 (1,0 điểm — Tình huống Nâng cao: Hạch toán Kinh tế 1 ha Lúa & Điểm hòa vốn)",
+        problem: "Một hộ nông dân canh tác 1 ha lúa chất lượng cao ST25 ứng dụng cơ giới hóa đồng bộ:\n• Chi phí giống lúa xác nhận: 120 kg × 25.000 đ/kg.\n• Chi phí phân bón NPK và hữu cơ: 8.500.000 đồng/ha.\n• Chi phí thuốc bảo vệ thực vật sinh học: 3.200.000 đồng/ha.\n• Chi phí làm đất, tưới tiêu và gặt đập liên hợp: 6.500.000 đồng/ha.\n• Năng suất thực tế thu hoạch đạt 6,5 tấn thóc/ha.\n• Giá bán thóc tươi tại ruộng là 9.500 đ/kg.\n\n1. Hãy tính tổng chi phí đầu tư cho 1 ha lúa và giá thành sản xuất bình quân của 1 kg thóc (đồng/kg). (0,5 điểm)\n2. Tính doanh thu, lợi nhuận thuần và tỷ suất lợi nhuận trên chi phí (%) của vụ lúa này. (0,5 điểm)",
+        rubric: [
+          "1. Tổng chi phí & Giá thành (0,5đ): Chi phí giống = 120 × 25.000 = 3.000.000 đ; Tổng chi phí = 3.000.000 + 8.500.000 + 3.200.000 + 6.500.000 = 21.200.000 đồng/ha; Giá thành sản xuất 1 kg thóc = 21.200.000 đ / 6.500 kg ≈ 3.261,5 đồng/kg.",
+          "2. Doanh thu & Lợi nhuận (0,5đ): Doanh thu = 6.500 kg × 9.500 đ = 61.750.000 đồng; Lợi nhuận thuần = 61.750.000 - 21.200.000 = 40.550.000 đồng/ha; Tỷ suất lợi nhuận = (40.550.000 / 21.200.000) × 100% ≈ 191,27%."
+        ]
+      }
+    ]
+  },
   dn_02: {
     id: "dn_02",
+    level: "hard",
+    levelBadge: "🔴 CẤP ĐỘ 3: KHÓ / VỀ ĐÍCH",
+    levelLabel: "CẤP ĐỘ 3 (KHÓ / VỀ ĐÍCH & CHUYÊN SÂU NÂNG CAO BẢNG B MÃ 7011)",
     code: "ĐỒNG NAI — ĐỀ SỐ 02",
     title: "KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH / THÀNH PHỐ (ĐỀ SỐ 02 — CHUYÊN SÂU LIÊN TỈNH)",
     subTitle: "Môn: Công nghệ (Định hướng Nông nghiệp) — Tinh hoa Đề Chính thức TP. Huế Mã 7011 & TP.HCM",
@@ -726,97 +1674,459 @@ const HSG_PROVINCIAL_EXAMS = {
       }
     ]
   },
-
-  dn_03: {
-    id: "dn_03",
-    code: "ĐỒNG NAI — ĐỀ SỐ 03",
-    title: "KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH / THÀNH PHỐ (ĐỀ SỐ 03 — THỰC CHIẾN BÀ RỊA VŨNG TÀU & BẮC GIANG)",
-    subTitle: "Môn: Công nghệ (Định hướng Nông nghiệp) — Tinh hoa Đề Chuyên sâu Thực tế",
+  dn_hard_02: {
+    id: "dn_hard_02",
+    level: "hard",
+    levelBadge: "🔴 CẤP ĐỘ 3: KHÓ / VỀ ĐÍCH",
+    levelLabel: "CẤP ĐỘ 3 (KHÓ / VỀ ĐÍCH & CHUYÊN SÂU VDC BẢNG B)",
+    code: "ĐỒNG NAI — CẤP ĐỘ 3 (ĐỀ 02)",
+    title: "KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH — ĐỒNG NAI (ĐỀ SỐ 02 - CẤP ĐỘ 3: ĐỈNH CAO VDC)",
+    subTitle: "Nâng cao Bảng B • VDC Nông nghiệp 4.0 • Công nghệ gen CRISPR/Cas9 • Hệ thống RAS • Allometric Net-Zero",
     durationMinutes: 180,
     maxScore: 20.0,
-    source: "Tích hợp Đề thi HSG Bà Rịa - Vũng Tàu, Bắc Giang & Đề xuất CNNN 12",
+    source: "Ngân hàng Đề Chuyên sâu Đội tuyển HSG Bảng B — Cấu trúc Sở GD&ĐT Đồng Nai & VDC Toàn quốc",
     mcqs: [
-      // K10 (8 câu)
-      { id: 1, grade: "cn10", topic: "(1) Đất trồng", stem: "Khả năng đệm của đất (khả năng chống lại sự biến đổi pH khi thêm một lượng axit hoặc kiềm vào đất) phụ thuộc chủ yếu vào", options: ["hàm lượng cát hạt to trong đất.", "dung tích hấp phụ cation (CEC) và hàm lượng chất mùn hữu cơ, keo sét có trong đất.", "nhiệt độ bề mặt đất vào buổi trưa.", "độ dốc địa hình đồi núi."], answer: 1, explanation: "Keo mùn và keo sét có CEC cao, đóng vai trò hệ đệm hấp phụ và giải phóng ion H+ hoặc OH- chống lại sự thay đổi pH." },
-      { id: 2, grade: "cn10", topic: "(1) Đất trồng", stem: "Biện pháp nào sau đây giúp cải tạo độ phì nhiêu của đất xám bạc màu Đông Nam Bộ một cách bền vững nhất?", options: ["Phun thuốc trừ cỏ phổ rộng liên tục.", "Luân canh cây trồng họ Đậu, bón phân hữu cơ hoai mục kết hợp vôi và cày sâu dần tầng mặt.", "Bón thật nhiều phân đạm hóa học vô cơ không cần phân chuồng.", "Để đất trống phơi ải nắng gắt suốt mùa khô."], answer: 1, explanation: "Cày sâu dần, bón vôi khử chua, bón nhiều hữu cơ và luân canh cây họ Đậu làm tăng mùn, nâng CEC và cải tạo kết cấu đất." },
-      { id: 3, grade: "cn10", topic: "(1) Đất trồng", stem: "Loại đất có nồng độ muối hòa tan cao (EC > 4 dS/m) và hàm lượng Na+ trao đổi chiếm trên 15% dung tích hấp phụ được gọi là", options: ["đất phù sa cổ.", "đất mặn - kiềm (đất mặn kiềm hóa).", "đất phèn tiềm tàng.", "đất đồi núi xói mòn."], answer: 1, explanation: "Đất có EC > 4 dS/m và ESP (Exchangeable Sodium Percentage) > 15% là đất mặn - kiềm (Saline-sodic soil)." },
-      { id: 4, grade: "cn10", topic: "(2) Phân bón", stem: "Phân lân nung chảy (FMP) thích hợp nhất để bón cho loại đất nào sau đây?", options: ["Đất kiềm có độ pH > 8,0.", "Đất chua, đất phèn và đất đồi núi dốc rửa trôi mạnh.", "Đất cát biển mặn.", "Giá thể thủy canh hoàn toàn."], answer: 1, explanation: "Lân nung chảy có tính kiềm (chứa nhiều Ca, Mg, Si), khó tan trong nước nhưng tan trong axit yếu nên khử chua rất tốt cho đất phèn chua." },
-      { id: 5, grade: "cn10", topic: "(2) Phân bón", stem: "Một hecta cà phê cần bón 150 kg P2O5 nguyên chất. Người ta dùng phân Super lân chứa 16% P2O5. Khối lượng phân Super lân cần mua là", options: ["625,0 kg.", "750,0 kg.", "937,5 kg.", "1.200,0 kg."], answer: 2, explanation: "Khối lượng Super lân = (150 × 100) / 16 = 937,5 kg." },
-      { id: 6, grade: "cn10", topic: "(2) Phân bón", stem: "Tại sao khi bảo quản phân bón vi sinh thương phẩm cần để nơi râm mát và tránh ánh nắng chiếu trực tiếp?", options: ["Để tránh cho bao bì đựng phân bị phai màu.", "Vì nhiệt độ cao và tia tử ngoại (UV) của mặt trời sẽ tiêu diệt các tế bào vi sinh vật sống có ích có trong phân.", "Vì ánh nắng làm phân bị bốc cháy nổ.", "Vì làm tăng nhanh khối lượng bao phân."], answer: 1, explanation: "Nhiệt độ cao (> 30°C) và tia UV mặt trời tiêu diệt các tế bào vi sinh vật sống (vi khuẩn, nấm đối kháng) trong phân." },
-      { id: 7, grade: "cn10", topic: "(3) Trồng trọt CNC", stem: "Kỹ thuật màng phủ nông nghiệp (nilon 2 mặt đen - bạc) mang lại lợi ích nổi trội nào sau đây?", options: ["Mặt bạc hướng lên trên phản chiếu ánh sáng xua đuổi côn trùng và tăng quang hợp tán dưới, mặt đen úp xuống ngăn cản cỏ dại quang hợp và giữ ẩm đất.", "Tạo ra môi trường ngập úng quanh năm cho rễ cây.", "Làm tăng 100% lượng phân đạm bốc hơi khỏi đất.", "Làm biến đổi gen của giống rau củ."], answer: 0, explanation: "Mặt bạc phản xạ ánh sáng xua côn trùng (bọ trĩ, rệp), mặt đen ngăn ánh sáng triệt tiêu cỏ dại và giữ ẩm đất." },
-      { id: 8, grade: "cn10", topic: "(3) Trồng trọt CNC", stem: "Trong nhà màng hiện đại, thiết bị thông gió làm mát bằng tấm làm mát (Cooling pad) kết hợp quạt hút hoạt động dựa trên nguyên lý", options: ["ngưng tụ hơi nước trong không khí.", "sự bay hơi của nước hấp thụ nhiệt lượng từ không khí đi qua tấm pad làm hạ nhiệt độ trong nhà màng từ 5 - 8 độ C.", "thổi khí nitơ hóa lỏng vào không gian nhà màng.", "làm đóng băng nước trên mái nhà kính."], answer: 1, explanation: "Hệ thống quạt hút kéo không khí nóng qua tấm Cooling pad ẩm; nước bay hơi hấp thu nhiệt ẩn làm giảm nhiệt độ phòng 5-8°C." },
+      // K10 (8 câu VDC)
+      {
+        id: 1, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Khi phân tích động học hấp phụ cation của đất đỏ bazan vùng Đông Nam Bộ có dung tích hấp phụ cation hiệu dụng ECEC = 14,5 meq/100g đất và độ no bazơ BS% = 48%, nếu độ bão hòa nhôm trao đổi (Al-saturation) đạt 32%, hiện tượng sinh lý nào sau đây sẽ xảy ra chủ yếu ở rễ cây sầu riêng non?",
+        options: [
+          "Ion Al3+ tự do kết tủa trực tiếp với pectin ở vách tế bào chóp rễ, ức chế sự kéo dài của rễ và làm đầu rễ bị phình to rồi thâm đen.",
+          "Ion Al3+ làm tăng gấp đôi khả năng hấp thu lân và canxi qua màng sinh chất của tế bào lông hút.",
+          "Ion Al3+ kích thích rễ cây hô hấp hiếu khí mạnh làm tăng tiết axit hữu cơ.",
+          "Ion Al3+ làm tăng tốc độ phân chia tế bào mô phân sinh đỉnh rễ."
+        ],
+        answer: 0,
+        explanation: "Khi độ bão hòa Al3+ > 20-25%, nồng độ Al3+ trong dung dịch đất đạt ngưỡng độc tố cao. Al3+ liên kết bền vững với các nhóm carboxyl của pectin ở thành tế bào và phospholipid của màng sinh chất chóp rễ, làm cứng thành tế bào, ngăn cản sự giãn dài tế bào khiến chóp rễ biến dạng phình to và hoại tử.",
+        recallHint: "Độc chất Nhôm (Al3+): Xảy ra khi đất chua có pH < 4,8 và độ bão hòa Al > 20%. Al3+ ức chế phân chia tế bào chóp rễ, làm rễ co cụm, biến màu và không hấp thu được nước hay khoáng chất."
+      },
+      {
+        id: 2, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Trong phản ứng trao đổi ion giữa lông hút rễ cây và hạt keo đất theo phương trình nhiệt động học CO2 + H2O <=> H+ + HCO3-, khi rễ cây hấp thu một ion Amôn (NH4+) từ phức hệ hấp phụ của keo đất vào tế bào, tế bào rễ phải giải phóng vào dung dịch đất ion nào sau đây để duy trì điện thế màng và cân bằng điện tích?",
+        options: ["Một ion H+.", "Một ion OH-.", "Một ion Ca2+.", "Một ion Cl-."],
+        answer: 0,
+        explanation: "Để duy trì cân bằng điện tích màng sinh chất và nội môi trường, khi bơm protein vận chuyển 1 cation NH4+ vào trong tế bào rễ, tế bào đồng thời đẩy 1 proton H+ ra ngoài dung dịch đất qua bơm H+-ATPase.",
+        recallHint: "Cơ chế trao đổi ion rễ cây: Hấp thu Cation (NH4+, K+, Ca2+) -> Bơm ion H+ ra ngoài làm chua đất cục bộ; Hấp thu Anion (NO3-, H2PO4-) -> Tiết ion HCO3- hoặc OH- ra ngoài làm kiềm hóa."
+      },
+      {
+        id: 3, grade: "cn10", topic: "(1) Đất trồng",
+        stem: "Một mẫu đất có hàm lượng Al3+ trao đổi đo được là 2,8 meq/100g đất. Khối lượng vôi sống nguyên chất (CaO, M = 56) cần thiết về mặt lý thuyết để trung hòa hoàn toàn lượng Al3+ trao đổi độc hại này trong 1 hecta đất (tính với tầng đất canh tác dày 20 cm, dung trọng đất d = 1,2 g/cm3) là",
+        options: ["1.881,6 kg CaO.", "2.400,0 kg CaO.", "3.763,2 kg CaO.", "940,8 kg CaO."],
+        answer: 0,
+        explanation: "Khối lượng đất 1 ha = 10.000 m2 × 0,2 m × 1.200 kg/m3 = 2.400.000 kg = 2.400 tấn = 2,4 × 10^9 g đất = 2,4 × 10^7 (100g đất). Số đương lượng Al3+ = 2,4 × 10^7 × 2,8 meq = 6,72 × 10^7 meq = 6,72 × 10^4 eq. Đương lượng gam của CaO = 56 / 2 = 28 g/eq. Khối lượng CaO = 6,72 × 10^4 × 28 g = 1.881.600 g = 1.881,6 kg.",
+        recallHint: "Công thức tính vôi: Đương lượng gam CaO = M/2 = 28 g. Lượng vôi = (Đương lượng Al3+ trao đổi) × 28. Khối lượng đất tầng mặt 1 ha = 10.000 m2 × độ sâu (m) × dung trọng (tấn/m3)."
+      },
+      {
+        id: 4, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Phân bón thông minh tan chậm có kiểm soát (CRF - Controlled Release Fertilizer) bọc màng polymer nhiệt dẻo có cơ chế phóng thích dinh dưỡng tối ưu dựa trên nguyên lý",
+        options: [
+          "nước từ đất thẩm thấu qua các vi lỗ của màng polymer hòa tan lõi phân, tạo áp suất thẩm thấu đẩy các ion khoáng khuếch tán ra ngoài với tốc độ phụ thuộc chủ yếu vào nhiệt độ đất.",
+          "màng polymer tự phát nổ khi tiếp xúc với ánh sáng mặt trời để giải phóng phân bón ồ ạt.",
+          "phân bón chỉ tan ra khi gặp nước mưa có nồng độ axit cao pH < 3,0.",
+          "các vi khuẩn trong đất ăn hết lớp màng polymer trong vòng 24 giờ sau khi bón."
+        ],
+        answer: 0,
+        explanation: "Phân CRF bọc màng polymer bán thấm hoạt động theo cơ chế khuếch tán thẩm thấu: Hơi ẩm thẩm thấu qua màng làm tan lõi phân, nồng độ bên trong tăng tạo chênh lệch thế hóa học đẩy dinh dưỡng rỉ ra ngoài. Tốc độ khuếch tán tỷ lệ thuận với nhiệt độ đất, hoàn toàn trùng khớp với nhịp sinh trưởng và nhu cầu dinh dưỡng của cây.",
+        recallHint: "Cơ chế phân bón CRF (Controlled Release Fertilizer): Nước thẩm thấu qua màng bán thấm polymer -> Hòa tan lõi phân -> Khuếch tán ra đất theo gradient nồng độ với tốc độ kiểm soát theo nhiệt độ."
+      },
+      {
+        id: 5, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Để chế biến phân hữu cơ vi sinh compost từ tàn dư thân lá ngô và phân lợn đạt tiêu chuẩn chất lượng cao, thông số then chốt nào sau đây cần phải điều chỉnh ngay ở giai đoạn bắt đầu ủ hiếu khí?",
+        options: [
+          "Tỷ lệ Carbon : Nitơ (C:N) ban đầu dao động trong khoảng 25:1 đến 30:1 và độ ẩm đống ủ đạt 55% - 60%.",
+          "Tỷ lệ C:N ban đầu phải đạt cực đại > 100:1 và bịt kín không cho không khí lưu thông.",
+          "Hạ nhiệt độ đống ủ xuống dưới 10°C liên tục 1 tháng.",
+          "Độ ẩm đống ủ phải đạt 100% ngập nước hoàn toàn."
+        ],
+        answer: 0,
+        explanation: "Tỷ lệ C:N tối ưu cho vi sinh vật phân giải hiếu khí là 25:1 - 30:1 (C làm nguồn năng lượng, N làm vật liệu cấu tạo tế bào) và độ ẩm 55-60%. Nếu C:N > 35:1 quá trình phân giải diễn ra rất chậm; nếu C:N < 20:1 sẽ dư thừa đạm bay hơi thành khí độc NH3 gây mùi thối và thất thoát đạm.",
+        recallHint: "Thông số ủ phân Compost chuẩn: Tỷ lệ C:N ban đầu = 25:1 - 30:1; Độ ẩm 55-60%; Nhiệt độ pha sinh nhiệt đạt 55-65°C để diệt mầm bệnh và hạt cỏ dại; Đảo trộn cung cấp oxy hiếu khí."
+      },
+      {
+        id: 6, grade: "cn10", topic: "(2) Phân bón",
+        stem: "Trong điều kiện đất lúa ngập nước yếm khí có pH hơi kiềm (pH = 7,8), dạng phân đạm nào sau đây khi bón trên mặt ruộng sẽ bị tổn thất nặng nề nhất do quá trình bốc hơi khí Amoniac (NH3 volatilization)?",
+        options: ["Phân Đạm Urê [(NH2)2CO].", "Phân Đạm Amôn clorua (NH4Cl).", "Phân Đạm Nitrat canxi [Ca(NO3)2].", "Phân Đạm chậm tan bọc lưu huỳnh."],
+        answer: 0,
+        explanation: "Phân Urê dưới tác dụng của men urease thủy phân thành (NH4)2CO3 làm tăng pH cục bộ lên > 8,2. Ở pH cao, phản ứng NH4+ + OH- <=> NH3 (khí) + H2O dịch chuyển mạnh sang phải, làm khí NH3 bốc hơi vào khí quyển lên tới 30-50% lượng đạm bón nếu không được vùi sâu.",
+        recallHint: "Tổn thất đạm do bốc hơi NH3: Xảy ra mạnh khi bón Urê hoặc muối amôn trên mặt ruộng ngập nước có pH cao, nhiệt độ cao và không vùi sâu. Đạm Nitrat Ca(NO3)2 không bị bốc hơi NH3."
+      },
+      {
+        id: 7, grade: "cn10", topic: "(3) Trồng trọt công nghệ cao",
+        stem: "Trong hệ thống chiếu sáng nhân tạo bổ sung bằng đèn LED chuyên dụng cho dâu tây và hoa cúc trong nhà màng, tỷ lệ quang phổ nào sau đây được chứng minh kích thích tối đa quá trình quang hợp tích lũy sinh khối và ra hoa đồng loạt?",
+        options: [
+          "Phối hợp ánh sáng Đỏ (bước sóng 660 nm) và ánh sáng Xanh dương (bước sóng 450 nm) theo tỷ lệ khoảng 4:1 đến 5:1.",
+          "Ánh sáng Xanh lục đơn sắc (bước sóng 520 nm) 100%.",
+          "Ánh sáng Tử ngoại UV-C (bước sóng < 280 nm) liên tục 18 giờ/ngày.",
+          "Ánh sáng Hồng ngoại xa đơn sắc (bước sóng > 800 nm)."
+        ],
+        answer: 0,
+        explanation: "Diệp lục tố a và b hấp thu cực đại ở hai đỉnh phổ: Ánh sáng đỏ (660 nm kích hoạt quang hệ I và II, tối ưu hóa quang hợp tích lũy đường) và ánh sáng xanh dương (450 nm kích thích mở khí khổng, ức chế vóng thân và điều hòa sinh trưởng). Tỷ lệ Đỏ : Xanh = 4:1 - 5:1 là công thức LED quang sinh học chuẩn.",
+        recallHint: "Quang phổ LED nông nghiệp: Ánh sáng Đỏ (660 nm) tối ưu hóa quang hợp và tạo khối sinh học; Ánh sáng Xanh dương (450 nm) giúp thân cứng cáp, mở khí khổng và tổng hợp protein; Tỷ lệ chuẩn Đỏ:Xanh = 4:1 đến 5:1."
+      },
+      {
+        id: 8, grade: "cn10", topic: "(3) Trồng trọt công nghệ cao",
+        stem: "Khi vận hành hệ thống tưới dinh dưỡng khí canh (Aeroponics) trồng cây dược liệu, chu kỳ phun sương dinh dưỡng siêu mịn thường được cài đặt tự động ở chế độ nào để rễ hô hấp tối ưu mà không bị khô héo?",
+        options: [
+          "Phun ngắt quãng: Bật phun sương 15 - 30 giây, ngắt nghỉ 3 - 5 phút lặp lại tuần hoàn 24/24.",
+          "Phun liên tục 24/24 không ngừng nghỉ suốt vụ nuôi trồng.",
+          "Chỉ phun 1 lần duy nhất vào lúc 12 giờ trưa mỗi ngày trong 1 tiếng.",
+          "Mỗi tuần chỉ phun sương một lần vào ngày chủ nhật."
+        ],
+        answer: 0,
+        explanation: "Khí canh giữ rễ lơ lửng trong không khí tối hoàn toàn. Chu kỳ phun ngắt quãng (ví dụ 20 giây phun / 3-4 phút nghỉ) đảm bảo bề mặt rễ luôn được bao phủ bởi màng sương mỏng giàu oxy hòa tan tối đa và dinh dưỡng, rễ hô hấp hoàn hảo mà không bị úng nước hay khô hạn.",
+        recallHint: "Nguyên lý Khí canh (Aeroponics): Rễ lơ lửng trong không khí, chu kỳ phun sương ngắt quãng ngắn (vài chục giây phun / vài phút nghỉ) cung cấp oxy hòa tan 100% giúp rễ hấp thu khoáng nhanh gấp 2-3 lần thổ canh."
+      },
 
-      // K11 (8 câu)
-      { id: 9, grade: "cn11", topic: "(1) Công nghệ giống vật nuôi", stem: "Trong kỹ thuật thụ tinh nhân tạo cho lợn, nhiệt độ bảo quản tinh dịch lợn dạng lỏng tối ưu nhất là", options: ["-196 độ C trong bình nitơ lỏng.", "15 đến 17 độ C trong tủ bảo quản tinh chuyên dụng.", "0 độ C trong ngăn đá tủ lạnh thông thường.", "37 đến 40 độ C."], answer: 1, explanation: "Tinh dịch lợn rất nhạy cảm với sốc lạnh, được pha loãng và bảo quản lỏng ở nhiệt độ 15-17°C (được 3-5 ngày)." },
-      { id: 10, grade: "cn11", topic: "(1) Công nghệ giống vật nuôi", stem: "Lai kinh tế đơn giản giữa 2 giống lợn thuần chủng khác nhau nhằm mục đích tạo ra con lai F1 để", options: ["làm giống hạt nhân nhân giống thuần.", "nuôi thương phẩm lấy thịt nhằm khai thác tối đa ưu thế lai về tốc độ lớn và tiêu tốn ít thức ăn.", "lai trở lại với đàn lợn rừng tự nhiên.", "bảo tồn nguồn gen của loài sắp tuyệt chủng."], answer: 1, explanation: "Con lai F1 có ưu thế lai cao nhất được dùng 100% nuôi lấy thịt thương phẩm, không làm giống." },
-      { id: 11, grade: "cn11", topic: "(1) Công nghệ giống vật nuôi", stem: "Chỉ số EBV (Estimated Breeding Value) trong chọn giống hiện đại biểu thị", options: ["giá trị kinh tế bằng tiền mặt của một con vật nuôi.", "giá trị giống ước tính - thước đo tiềm năng di truyền của một cá thể đối với một tính trạng cụ thể so với quần thể.", "tổng số con non được sinh ra trong một lứa đẻ.", "khối lượng thịt xẻ thu được sau giết mổ."], answer: 1, explanation: "EBV (Estimated Breeding Value) là giá trị giống ước tính, đánh giá tiềm năng truyền gen của cá thể giống cho đời con." },
-      { id: 12, grade: "cn11", topic: "(2) Công nghệ thức ăn", stem: "Một đàn lợn thịt tiêu tốn hết 210 kg thức ăn để tăng được 75 kg khối lượng sống. Hệ số chuyển đổi thức ăn FCR của đàn lợn là", options: ["2,40.", "2,60.", "2,80.", "3,10."], answer: 2, explanation: "FCR = 210 / 75 = 2,80." },
-      { id: 13, grade: "cn11", topic: "(2) Công nghệ thức ăn", stem: "Khi ủ chua thân cây ngô làm thức ăn cho trâu bò, người ta rải từng lớp dày 15 - 20 cm rồi dẫm nén thật chặt nhằm mục đích", options: ["làm nát vụn thân ngô thành bột mịn.", "đuổi hết không khí ra ngoài, tạo điều kiện kỵ khí bắt buộc cho vi khuẩn Lactic phát triển và ngăn nấm mốc.", "giúp nước mưa ngấm sâu vào hố ủ.", "tiêu diệt toàn bộ vi khuẩn Lactic."], answer: 1, explanation: "Dẫm nén chặt để tống khứ O2, tạo môi trường kỵ khí tuyệt đối cho vi khuẩn Lactic lên men và chống mốc." },
-      { id: 14, grade: "cn11", topic: "(2) Công nghệ thức ăn", stem: "Độc tố Aflatoxin thường xuất hiện trong thức ăn chăn nuôi bị mốc (ngô, lạc) do nấm nào sau đây sinh ra?", options: ["Nấm Aspergillus flavus.", "Nấm men Saccharomyces.", "Nấm đối kháng Trichoderma.", "Vi khuẩn Bacillus."], answer: 0, explanation: "Aspergillus flavus và Aspergillus parasiticus phát triển trên ngô ẩm sinh độc tố Aflatoxin cực độc phá hủy tế bào gan." },
-      { id: 15, grade: "cn11", topic: "(3) Môi trường chăn nuôi", stem: "Khí Hydro sunfua (H2S) trong chuồng nuôi có đặc tính vật lý và tác hại sinh học nguy hiểm nào?", options: ["Nhẹ hơn không khí, không mùi, không gây độc.", "Nặng hơn không khí nên chìm sát nền chuồng, có mùi trứng thối đặc trưng, gây tê liệt khứu giác và ức chế hô hấp tế bào tử vong nhanh.", "Có màu xanh lục và vị ngọt.", "Giúp vật nuôi ăn ngon miệng hơn."], answer: 1, explanation: "H2S nặng hơn không khí, mùi trứng thối, độc tính cao làm liệt khứu giác và ức chế chuỗi hô hấp tế bào cytochrome oxidase." },
-      { id: 16, grade: "cn11", topic: "(3) Môi trường chăn nuôi", stem: "Xử lý xác gia cầm chết do dịch cúm gia cầm độc lực cao (H5N1) theo đúng quy chuẩn thú y là", options: ["vứt xác xuống sông suối cho cá ăn.", "đem chôn lấp hợp vệ sinh có rắc vôi bột khử trùng hoặc thiêu hủy hoàn toàn trong lò đốt chuyên dụng.", "bán rẻ cho các cơ sở chế biến thực phẩm đông lạnh.", "đem phơi khô ngoài nắng."], answer: 1, explanation: "Xác gia cầm nhiễm dịch bắt buộc phải tiêu hủy bằng lò đốt nhiệt cao hoặc chôn lấp sâu có rải vôi bột khử trùng." },
+      // K11 (8 câu VDC)
+      {
+        id: 9, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Ứng dụng đột phá của công nghệ chỉnh sửa gen CRISPR/Cas9 trên lợn nhằm tạo ra đàn lợn kháng hoàn toàn với virus gây Hội chứng rối loạn sinh sản và hô hấp (PRRSV - bệnh Tai xanh) dựa trên cơ chế phân tử nào?",
+        options: [
+          "Chỉnh sửa làm mất đoạn (knock-out) exon 7 của gen mã hóa thụ thể CD163 (thành phần SRCR5) trên bề mặt đại thực bào phế nang của lợn.",
+          "Chuyển một đoạn ADN của virus tai xanh vào trong nhân tế bào gan của lợn.",
+          "Cắt bỏ toàn bộ hệ thống miễn dịch bẩm sinh của lợn nuôi.",
+          "Nhân đôi số lượng thụ thể CD163 trên màng tế bào lympho T."
+        ],
+        answer: 0,
+        explanation: "Virus PRRSV chỉ có thể xâm nhập vào đại thực bào phế nang lợn khi nhận diện và liên kết với miền thụ thể SRCR5 mã hóa bởi exon 7 của gen CD163. Công nghệ CRISPR/Cas9 cắt bỏ chọn lọc exon 7 giúp lợn kháng hoàn toàn với mọi chủng PRRSV mà không làm biến đổi bất kỳ chức năng sinh lý bình thường nào của cá thể.",
+        recallHint: "Đột phá CRISPR/Cas9 kháng PRRSV ở lợn: Knock-out exon 7 (miền SRCR5) của gen CD163 trên đại thực bào làm virus Tai xanh không thể bám dính và xâm nhập vào tế bào đích, tạo tính kháng virus tuyệt đối."
+      },
+      {
+        id: 10, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Chỉ số Tiêu thụ thức ăn tồn dư RFI (Residual Feed Intake) trong chọn giống bò thịt cao sản được định nghĩa là sự chênh lệch giữa",
+        options: [
+          "Lượng thức ăn ăn vào thực tế và Lượng thức ăn dự đoán theo nhu cầu duy trì thể trọng và tốc độ tăng trọng của cá thể.",
+          "Lượng thức ăn ăn vào ban ngày và Lượng thức ăn ăn vào ban đêm.",
+          "Khối lượng thức ăn của con đực giống và Khối lượng thức ăn của con cái giống.",
+          "Tổng lượng phân thải ra và Tổng lượng nước tiểu của con vật."
+        ],
+        answer: 0,
+        explanation: "RFI = Lượng ăn vào thực tế - Lượng ăn vào dự tính theo mô hình hồi quy. Cá thể bò có giá trị RFI âm (< 0) ăn ít thức ăn hơn mức dự đoán nhưng vẫn đạt cùng tốc độ tăng trọng, đại diện cho kiểu gen có hiệu quả chuyển hóa năng lượng sinh học nội tại vượt trội.",
+        recallHint: "Chỉ số RFI (Residual Feed Intake): Đo hiệu quả sử dụng thức ăn độc lập với tầm vóc con vật. Con vật có RFI âm (âm càng sâu) càng tiết kiệm thức ăn, giảm phát thải khí nhà kính CH4 từ dạ cỏ."
+      },
+      {
+        id: 11, grade: "cn11", topic: "(4) Giống vật nuôi",
+        stem: "Trong kỹ thuật cấy truyền phôi bò sữa cao sản (MOET), hormone nào sau đây được sử dụng để gây rụng trứng nhiều (siêu bài noãn) ở bò cái cho phôi?",
+        options: [
+          "FSH (Follicle Stimulating Hormone) kết hợp với Prostaglandin F2α (PGF2α).",
+          "Oxytocin kết hợp với Adrenaline.",
+          "Insulin kết hợp với Glucagon.",
+          "Thyroxin liều lượng cao."
+        ],
+        answer: 0,
+        explanation: "FSH (hoặc PMSG/eCG) tiêm ngắt quãng nhiều lần để kích thích hàng loạt nang trứng phát triển vượt trội (siêu bài noãn); sau đó tiêm PGF2α để phá hủy thể vàng gây động dục đồng loạt để thụ tinh nhân tạo lấy phôi.",
+        recallHint: "Quy trình siêu bài noãn ở bò (MOET): Tiêm FSH kích thích nhiều bao noãn chín đồng loạt -> Tiêm PGF2a phá vỡ thể vàng gây động dục -> Phối giống nhân tạo -> Thu hoạch phôi ở ngày thứ 7."
+      },
+      {
+        id: 12, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Trong dạ cỏ bò sữa, vi sinh vật phân giải các hợp chất carbohydrate dạng xơ (xenlulozo, hemixenlulozo) thành 3 axit béo bay hơi (VFA) chủ yếu theo tỷ lệ nồng độ nào sau đây?",
+        options: [
+          "Axit Acetic (khoảng 60% - 70%), Axit Propionic (15% - 20%), Axit Butyric (10% - 15%).",
+          "Axit Lactic (90%), Axit Clohydric (5%), Axit Sunfuric (5%).",
+          "Axit Propionic (80%), Axit Fomic (10%), Axit Citric (10%).",
+          "Axit Butyric (90%), Axit Amin (10%)."
+        ],
+        answer: 0,
+        explanation: "Hệ vi sinh vật phân giải xơ (Ruminococcus, Fibrobacter) lên men thức ăn thô xanh tạo hỗn hợp VFA gồm: Axit Acetic (nguyên liệu tổng hợp chất béo trong sữa, chiếm 60-70%), Axit Propionic (nguyên liệu tân tạo đường glucose tại gan, chiếm 15-20%) và Axit Butyric (chiếm 10-15%).",
+        recallHint: "Ba axit béo bay hơi VFA ở dạ cỏ: Acetic (60-70%, tổng hợp mỡ sữa), Propionic (15-20%, tân tạo glucose cấp năng lượng), Butyric (10-15%, cung cấp năng lượng cho thành dạ cỏ)."
+      },
+      {
+        id: 13, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Khi phối trộn khẩu phần thức ăn hỗn hợp TMR (Total Mixed Ration) cho bò sữa năng suất cao (30 - 35 kg sữa/ngày), chỉ tiêu NDF hiệu quả (peNDF - Physically Effective NDF) có ý nghĩa sinh lý quyết định là",
+        options: [
+          "kích thích phản xạ nhai lại, thúc đẩy tiết nước bọt giàu bicarbonate (HCO3-) để đệm pH dạ cỏ luôn duy trì > 6,0 chống toan hóa dạ cỏ cấp tính.",
+          "làm giảm hoàn toàn lượng mỡ có trong sữa tươi nguyên liệu.",
+          "giúp bò không cần uống nước trong suốt chu kỳ tiết sữa.",
+          "làm ruột bò co bóp nhanh đẩy thức ăn ra ngoài chưa tiêu hóa."
+        ],
+        answer: 0,
+        explanation: "Các hạt xơ dài > 4 mm (peNDF) tạo thành thảm cỏ nổi trên bề mặt dịch dạ cỏ, cọ xát kích thích niêm mạc dạ cỏ sinh phản xạ nhai lại. Quá trình nhai lại kích thích tuyến nước bọt tiết 150-200 lít nước bọt đệm giàu NaHCO3 mỗi ngày, trung hòa VFA và giữ pH dạ cỏ ổn định ở 6,2 - 6,8.",
+        recallHint: "peNDF trong khẩu phần TMR bò sữa: Xơ hiệu dụng kích thích nhai lại và tiết nước bọt chứa đệm bicarbonate (HCO3-), giữ pH dạ cỏ > 6,0 ngăn ngừa hội chứng toan dạ cỏ (SARA)."
+      },
+      {
+        id: 14, grade: "cn11", topic: "(5) Thức ăn chăn nuôi",
+        stem: "Chỉ số Năng lượng thuần (Net Energy - NE) dùng để xây dựng khẩu phần cho lợn thịt được tính toán từ Năng lượng trao đổi (Metabolizable Energy - ME) bằng cách trừ đi",
+        options: [
+          "Nhiệt gia tăng (Heat Increment - HI) phát sinh trong quá trình tiêu hóa và trao đổi chất.",
+          "Năng lượng bị thất thoát qua phân (Fecal Energy).",
+          "Năng lượng bị thất thoát qua nước tiểu (Urinary Energy).",
+          "Năng lượng bị thất thoát qua khí thải đường ruột (Methane Energy)."
+        ],
+        answer: 0,
+        explanation: "Tổng năng lượng GE -> Trừ năng lượng qua phân = Năng lượng tiêu hóa DE -> Trừ năng lượng qua nước tiểu và khí metan = Năng lượng trao đổi ME -> Trừ nhiệt gia tăng tiêu hóa HI = Năng lượng thuần NE (năng lượng thực sự dùng cho duy trì và sản xuất).",
+        recallHint: "Hệ thống phân chia năng lượng thức ăn: GE (Tổng) -> DE (Tiêu hóa) -> ME (Trao đổi) -> NE (Thuần). NE = ME - Nhiệt gia tăng (HI). Hệ thống NE phản ánh chính xác nhất giá trị dinh dưỡng thực tế."
+      },
+      {
+        id: 15, grade: "cn11", topic: "(6) Môi trường & Phòng bệnh chăn nuôi",
+        stem: "Trong chu trình 4 pha của quá trình phân hủy kỵ khí chất thải chăn nuôi trong hầm Biogas công nghiệp, pha nào sau đây chịu trách nhiệm chuyển hóa các axit béo bay hơi và rượu thành sản phẩm khí Mêtan (CH4)?",
+        options: [
+          "Pha sinh Mêtan (Methanogenesis) nhờ nhóm vi khuẩn cổ sinh kỵ khí Methanogen.",
+          "Pha thủy phân (Hydrolysis) các đại phân tử hữu cơ.",
+          "Pha axit hóa (Acidogenesis) tạo axit hữu cơ đơn giản.",
+          "Pha axetat hóa (Acetogenesis) tạo axit axetic."
+        ],
+        answer: 0,
+        explanation: "Bốn pha phân giải kỵ khí: (1) Thủy phân -> (2) Axit hóa -> (3) Axetat hóa -> (4) Sinh Mêtan. Ở pha thứ tư, các vi khuẩn cổ Methanobacter, Methanosarcina sử dụng H2, CO2 và axetat để khử thành khí CH4 trong điều kiện kỵ khí nghiêm ngặt.",
+        recallHint: "Bốn pha sinh học trong hầm Biogas: Thủy phân (Hydrolysis) -> Axit hóa (Acidogenesis) -> Axetat hóa (Acetogenesis) -> Sinh Mêtan (Methanogenesis do Archaea kỵ khí tuyệt đối thực hiện)."
+      },
+      {
+        id: 16, grade: "cn11", topic: "(6) Môi trường & Phòng bệnh chăn nuôi",
+        stem: "Trong kỹ thuật thông gió chuồng kín chuồng nuôi lợn thịt mùa nắng nóng ở miền Nam, hệ thống làm mát áp suất âm kết hợp giàn làm mát Cooling Pad hoạt động dựa trên nguyên lý vật lý nào?",
+        options: [
+          "Quạt hút tạo áp suất âm hút không khí khô nóng từ ngoài đi xuyên qua màng giấy ướt Cooling Pad; nước bay hơi hấp thu ẩn nhiệt làm nhiệt độ không khí giảm từ 5 - 8°C.",
+          "Giàn giấy làm mát tỏa ra khí gas lỏng Freon làm đóng băng không khí trong chuồng.",
+          "Quạt gió nén không khí trong chuồng lên áp suất 10 atm để triệt tiêu nhiệt lượng.",
+          "Hệ thống thổi hơi nóng ra ngoài bằng bức xạ hạt nhân."
+        ],
+        answer: 0,
+        explanation: "Quạt hút đầu hồi hút không khí ra tạo chân không nhẹ (áp suất âm) trong chuồng. Không khí nóng từ ngoài tràn qua tấm Cooling Pad có màng nước chảy liên tục, nước hấp thụ nhiệt lượng của không khí để bốc hơi (bay hơi đoạn nhiệt), làm hạ nhiệt độ dòng khí vào chuồng xuống 25-28°C.",
+        recallHint: "Chuồng kín áp suất âm Cooling Pad: Quạt hút tạo chênh lệch áp suất kéo không khí qua giàn bay hơi nước, hấp thụ nhiệt ẩn làm giảm nhiệt độ chuồng 5-8°C so với môi trường ngoài."
+      },
 
-      // K12 (8 câu)
-      { id: 17, grade: "cn12", topic: "(1) Giới thiệu chung về lâm nghiệp", stem: "Vườn quốc gia Cát Tiên thuộc nhóm rừng nào theo quy định pháp lý?", options: ["Rừng sản xuất.", "Rừng đặc dụng.", "Rừng phòng hộ đầu nguồn.", "Rừng cảnh quan đô thị."], answer: 1, explanation: "Vườn quốc gia là phân loại tiêu biểu của nhóm Rừng đặc dụng nhằm bảo tồn đa dạng sinh học hệ sinh thái." },
-      { id: 18, grade: "cn12", topic: "(2) Trồng và chăm sóc rừng", stem: "Cự ly trồng rừng keo lai theo hàng là 2m × 3m. Mật độ trồng trên 1 ha (10.000 m2) là", options: ["1.111 cây/ha.", "1.667 cây/ha.", "2.000 cây/ha.", "2.500 cây/ha."], answer: 1, explanation: "Diện tích dinh dưỡng 1 cây = 2 × 3 = 6 m2. Mật độ = 10.000 / 6 ≈ 1.667 cây/ha." },
-      { id: 19, grade: "cn12", topic: "(3) Bảo vệ và khai thác tài nguyên rừng bền vững", stem: "Cấp kính khai thác gỗ tối thiểu trong quản lý rừng tự nhiên bền vững là", options: ["đường kính thân cây đo ở độ cao 1,3m (D_1.3) đạt ngưỡng quy định cho phép chặt hạ của từng loài gỗ quý.", "chiều cao vút ngọn của cây tính bằng mét.", "độ dày của lớp vỏ cây.", "độ rộng của tán lá cây."], answer: 0, explanation: "Cấp kính khai thác là đường kính ngang ngực thân cây (đo tại vị trí 1,3m) đạt tiêu chuẩn kinh doanh cho phép chặt hạ." },
-      { id: 20, grade: "cn12", topic: "(3) Bảo vệ và khai thác tài nguyên rừng bền vững", stem: "Biện pháp kỹ thuật nào sau đây KHÔNG thuộc quy trình phòng cháy chữa cháy rừng?", options: ["Làm sạch vật liệu cháy và đốt dọn thực bì trước mùa khô có kiểm soát.", "Xây dựng chòi canh lửa rừng và lắp đặt camera cảm biến nhiệt.", "Trồng xen cây bạch đàn có hàm lượng tinh dầu cao vào đường băng cản lửa trắng.", "Chuẩn bị sẵn các trang thiết bị máy bơm chữa cháy rừng và hồ chứa nước."], answer: 2, explanation: "Trồng bạch đàn nhiều tinh dầu trên đường băng cản lửa là cực kỳ sai lầm vì bạch đàn rất bén lửa, làm cháy lan nhanh." },
-      { id: 21, grade: "cn12", topic: "(4) Giới thiệu chung về thủy sản", stem: "Nhóm cá nào sau đây có tính ăn thực vật và mùn bã hữu cơ, đóng vai trò dọn sạch đáy ao?", options: ["Cá lóc bông.", "Cá rô phi và cá mè trắng.", "Cá trắm đen.", "Cá chẽm (vược)."], answer: 1, explanation: "Cá rô phi và cá mè trắng ăn thực vật phù du, vi tảo và mùn bã hữu cơ, lọc sạch môi trường nước ao nuôi." },
-      { id: 22, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản", stem: "Khí H2S (Hydro sunfua) tích tụ dưới đáy ao nuôi tôm thâm canh thường phát sinh mạnh nhất trong điều kiện", options: ["nước ao giàu oxy hòa tan và đáy ao sạch sẽ.", "đáy ao tích tụ nhiều thức ăn thừa, phân tôm, điều kiện yếm khí (thiếu oxy) và pH nước ao thấp (chua).", "nước ao có độ mặn bằng 0.", "trời nắng to vào buổi trưa."], answer: 1, explanation: "Vi khuẩn khử sunfat phân giải kỵ khí chất hữu cơ đáy ao sinh H2S; độc tính H2S tăng mạnh khi pH nước ao thấp (< 7,0)." },
-      { id: 23, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản", stem: "Sử dụng chế phẩm men vi sinh Probiotics (chứa Bacillus subtilis) định kỳ tạt vào ao nuôi tôm nhằm mục đích", options: ["cạnh tranh chất dinh dưỡng và không gian sống với vi khuẩn gây bệnh (Vibrio), đồng thời phân hủy bùn đáy ao.", "làm nước ao biến thành màu tím để tôm dễ ngụy trang.", "tiêu diệt hoàn toàn các loài tảo có ích.", "làm tăng độ mặn của ao."], answer: 0, explanation: "Bacillus subtilis tiết enzyme phân hủy protein, chất hữu cơ dư thừa và cạnh tranh sinh học ức chế vi khuẩn Vibrio gây bệnh." },
-      { id: 24, grade: "cn12", topic: "(6) Công nghệ giống thủy sản", stem: "Phương pháp chẩn đoán phát hiện sớm virus gây bệnh đốm trắng (WSSV) trên tôm bố mẹ và tôm giống có độ chính xác cao nhất hiện nay là", options: ["nhìn bằng mắt thường dưới ánh sáng mặt trời.", "kỹ thuật sinh học phân tử PCR (Polymerase Chain Reaction).", "dùng kính lúp cầm tay độ phóng đại 10 lần.", "nếm vị nước ao."], answer: 1, explanation: "Kỹ thuật PCR khuếch đại đoạn gen đặc hiệu của virus WSSV cho kết quả chẩn đoán chính xác tuyệt đối ở tôm giống SPF." }
+      // K12 (8 câu VDC)
+      {
+        id: 17, grade: "cn12", topic: "(1) Giới thiệu chung Lâm nghiệp",
+        stem: "Để tính toán lượng Carbon lưu trữ trong sinh khối trên mặt đất (AGB - Aboveground Biomass) của một khu rừng gỗ lớn phục vụ thương mại hóa Tín chỉ Carbon (Carbon Credit) theo tiêu chuẩn IPCC, công thức quy đổi từ sinh khối khô (tấn) sang lượng khí CO2 tương đương (tấn CO2e) là",
+        options: [
+          "Lượng CO2e = AGB (khô) × 0,47 × (44 / 12).",
+          "Lượng CO2e = AGB (khô) × 100.",
+          "Lượng CO2e = AGB (khô) / (44 × 12).",
+          "Lượng CO2e = AGB (khô) × 0,1."
+        ],
+        answer: 0,
+        explanation: "Hàm lượng carbon chiếm trung bình 47% (hệ số CF = 0,47) trong sinh khối gỗ khô thực vật. Khi chuyển đổi từ 1 nguyên tử C thành 1 phân tử CO2, tỷ lệ khối lượng phân tử là 44 / 12 = 3,67. Do đó: Tấn CO2e = AGB × 0,47 × (44/12) ≈ AGB × 1,723.",
+        recallHint: "Hạch toán tín chỉ Carbon rừng (IPCC): Hàm lượng C trong sinh khối khô = 47% (0,47). Tỷ số phân tử lượng CO2/C = 44/12 ≈ 3,67. Công thức chuẩn: CO2e = Sinh khối khô × 0,47 × 3,67."
+      },
+      {
+        id: 18, grade: "cn12", topic: "(2) Trồng & Chăm sóc rừng",
+        stem: "Phương trình tương quan Allometric nào sau đây thường được áp dụng chính xác nhất để ước tính sinh khối trên mặt đất (AGB, kg/cây) của rừng keo lai dựa vào đường kính ngang ngực (DBH, cm) và chiều cao vút ngọn (H, m)?",
+        options: [
+          "AGB = a × (DBH)^b × (H)^c (với a, b, c là các tham số hồi quy thực nghiệm đặc trưng cho loài cây).",
+          "AGB = DBH + H + 100.",
+          "AGB = (DBH / H) × 1.000.",
+          "AGB = a × DBH - b × H."
+        ],
+        answer: 0,
+        explanation: "Mô hình tương quan dị dưỡng (Allometric model) phi tuyến tính AGB = a × DBH^b × H^c (hoặc biến đổi logarit: ln(AGB) = ln(a) + b*ln(DBH) + c*ln(H)) là mô hình tiêu chuẩn lâm học toàn cầu để ước lượng sinh khối không phá hủy cây rừng.",
+        recallHint: "Phương trình Allometric ước tính sinh khối rừng: Y = a × (DBH)^b × (H)^c. Logarit hóa hai vế: ln(Y) = ln(a) + b·ln(DBH) + c·ln(H). Cho phép xác định trữ lượng gỗ mà không cần chặt hạ cây."
+      },
+      {
+        id: 19, grade: "cn12", topic: "(3) Bảo vệ & Khai thác rừng",
+        stem: "Chỉ số diện tích lá LAI (Leaf Area Index) của một lâm phần rừng tự nhiên đóng vai trò chỉ thị sinh thái quyết định đối với",
+        options: [
+          "khả năng quang hợp hấp thụ CO2, độ che chắn đất chống xói mòn và điều tiết quá trình thoát hơi nước của lưu vực.",
+          "độ mặn của nước mưa rơi trên tán rừng.",
+          "giá bán gỗ xẻ trên thị trường xuất khẩu.",
+          "tỷ lệ gỗ giác so với gỗ lõi của cây."
+        ],
+        answer: 0,
+        explanation: "LAI (tổng diện tích bề mặt 1 mặt của lá trên 1 đơn vị diện tích đất ngắm thẳng) quyết định năng suất sơ cấp tổng thể (GPP), lượng ánh sáng xuyên qua tán, khả năng giữ nước mưa cản dòng chảy xói mòn và chu trình thủy văn của toàn bộ hệ sinh thái rừng.",
+        recallHint: "Chỉ số diện tích lá LAI (Leaf Area Index): Tổng diện tích bề mặt lá/diện tích đất. LAI càng cao thì độ che phủ tán càng dày, hiệu quả hấp thụ CO2 càng lớn và khả năng chặn giọt mưa chống xói mòn càng tốt."
+      },
+      {
+        id: 20, grade: "cn12", topic: "(4) Giới thiệu chung Thủy sản",
+        stem: "Trong hệ thống nuôi trồng thủy sản tuần hoàn khép kín siêu thâm canh (RAS - Recirculating Aquaculture System), thiết bị tháp tách bọt Protein Skimmer (Fractionator) hoạt động dựa trên nguyên tắc",
+        options: [
+          "bơm bọt khí siêu mịn đi ngược dòng nước để các hợp chất hữu cơ hòa tan, chất hoạt động bề mặt và protein lơ lửng bám dính vào màng bọt rồi đẩy trào ra ngoài.",
+          "đun sôi nước ao ở 100°C để làm chín protein cá.",
+          "dùng nam châm điện hút các hạt kim loại nặng ra khỏi nước ao.",
+          "chiếu tia X để phân rã bọt nước thành khí hydro."
+        ],
+        answer: 0,
+        explanation: "Protein Skimmer tận dụng đặc tính phân cực và sức căng bề mặt của các hợp chất hữu cơ hòa tan/protein chưa phân hủy. Bọt khí micro-bubble tạo diện tích tiếp xúc khổng lồ cuốn theo chất bẩn hữu cơ trào lên cốc gom bọt, loại bỏ chất thải trước khi chúng bị vi khuẩn phân giải thành khí độc NH3.",
+        recallHint: "Nguyên lý Protein Skimmer trong RAS: Tạo bọt khí siêu mịn cuốn các hạt protein hòa tan và chất hữu cơ hoạt tính bề mặt trào ra ngoài, ngăn chặn sự hình thành khí độc Amoniac từ nguồn gốc."
+      },
+      {
+        id: 21, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản",
+        stem: "Trong ngăn lọc sinh học giá thể di động (MBBR - Moving Bed Biofilm Reactor) của hệ thống RAS, quá trình nitrat hóa sinh học diễn ra qua 2 giai đoạn kế tiếp nhau nhờ hoạt động của hai nhóm vi khuẩn hiếu khí tự dưỡng nào?",
+        options: [
+          "Giai đoạn 1: Vi khuẩn Nitrosomonas oxy hóa NH4+ thành NO2- ; Giai đoạn 2: Vi khuẩn Nitrobacter oxy hóa tiếp NO2- thành NO3- không độc.",
+          "Giai đoạn 1: Vi khuẩn E. coli phân giải glucose; Giai đoạn 2: Nấm men sinh cồn.",
+          "Giai đoạn 1: Tảo lục hấp thụ CO2; Giai đoạn 2: Vi khuẩn kỵ khí sinh H2S.",
+          "Giai đoạn 1: Xạ khuẩn tiết kháng sinh; Giai đoạn 2: Trùng roi quang hợp."
+        ],
+        answer: 0,
+        explanation: "Quá trình nitrat hóa hiếu khí trong bể lọc MBBR: (1) 2NH4+ + 3O2 -> 2NO2- + 4H+ + 2H2O (nhờ Nitrosomonas); (2) 2NO2- + O2 -> 2NO3- (nhờ Nitrobacter). Quá trình này đòi hỏi tiêu thụ 4,57 g O2 và 7,14 g độ kiềm CaCO3 cho mỗi gam Nitơ amoniac được oxy hóa.",
+        recallHint: "Chu trình Nitrat hóa trong biofilter RAS: NH4+/NH3 -> (Nitrosomonas + O2) -> NO2- (độc) -> (Nitrobacter + O2) -> NO3- (không độc, nồng độ an toàn cao). Tiêu tốn nhiều oxy hòa tan và độ kiềm."
+      },
+      {
+        id: 22, grade: "cn12", topic: "(5) Môi trường nuôi thủy sản",
+        stem: "Trong công nghệ Biofloc (BFT), để kiểm soát nồng độ Amoniac độc hại trong nước nuôi tôm thâm canh mà không cần thay nước, người nuôi chủ động bổ sung nguồn carbon hữu cơ (như rỉ mật đường) nhằm duy trì tỷ lệ C:N tối ưu ở ngưỡng",
+        options: [
+          "Tỷ lệ C:N từ 12:1 đến 15:1 để kích thích vi khuẩn dị dưỡng tổng hợp protein vi sinh vật.",
+          "Tỷ lệ C:N < 4:1 để kìm hãm hoàn toàn mọi vi sinh vật trong nước.",
+          "Tỷ lệ C:N > 50:1 để làm nước ao kết tinh thành đường đặc.",
+          "Tỷ lệ C:N = 1:1."
+        ],
+        answer: 0,
+        explanation: "Khi duy trì tỷ lệ C:N >= 12:1 - 15:1, các vi khuẩn dị dưỡng (Heterotrophic bacteria) sinh trưởng với tốc độ nhanh gấp hàng chục lần vi khuẩn tự dưỡng, đồng hóa trực tiếp NH4+ thành protein sinh khối vi sinh vật tạo thành hạt Biofloc, vừa làm sạch nước vừa làm thức ăn giàu dinh dưỡng cho tôm.",
+        recallHint: "Nguyên lý tỷ lệ C:N trong Biofloc: C:N >= 12:1 - 15:1 tạo điều kiện cho vi khuẩn dị dưỡng đồng hóa Amoniac (NH4+) thành sinh khối protein tế bào hạt floc, tái sử dụng làm thức ăn cho tôm."
+      },
+      {
+        id: 23, grade: "cn12", topic: "(6) Công nghệ giống thủy sản",
+        stem: "Hệ thống nuôi trồng kết hợp Thủy sản - Thủy canh (Aquaponics) chu trình kín vận hành theo nguyên lý cân bằng sinh thái nào sau đây?",
+        options: [
+          "Chất thải giàu amoniac của cá được biofilter chuyển hóa thành nitrat (NO3-); rễ cây thủy canh hấp thu NO3- làm phân bón sinh trưởng đồng thời lọc sạch nước tuần hoàn trở lại bể cá.",
+          "Cây rau thủy sinh trực tiếp ăn các con cá nhỏ trong bể nuôi.",
+          "Nước từ bể cá được đun nóng thành hơi nước tưới cho rau ngót.",
+          "Rễ cây hút toàn bộ oxy trong nước ao làm cá chết ngạt."
+        ],
+        answer: 0,
+        explanation: "Aquaponics là mô hình tuần hoàn cộng sinh hoàn hảo giữa Nuôi trồng thủy sản (Aquaculture) và Thủy canh (Hydroponics). Vi sinh vật trong biofilter chuyển hóa chất thải bài tiết của cá (NH3/NH4+) thành dinh dưỡng khoáng nitrat (NO3-), rễ cây hấp thụ sạch NO3- và khoáng chất, đóng vai trò như bộ lọc sinh học trả nước sạch giàu oxy về cho cá.",
+        recallHint: "Bản chất hệ thống Aquaponics: Cá thải NH3 -> Vi khuẩn nitrat hóa biến thành NO3- -> Cây rau thủy canh hấp thụ NO3- làm dinh dưỡng -> Trả nước sạch tinh khiết về bể nuôi cá tuần hoàn."
+      },
+      {
+        id: 24, grade: "cn12", topic: "(6) Công nghệ giống thủy sản",
+        stem: "Trong sản xuất cá rô phi toàn đực bằng công nghệ di truyền siêu đực (YY Super-Male Technology), cá đực có kiểu nhân tố giới tính YY khi cho lai với cá cái thông thường (XX) sẽ sinh ra đàn cá con ở thế hệ thương phẩm có tỷ lệ đực là",
+        options: ["100% cá đực (kiểu gen XY) mà hoàn toàn không cần sử dụng bất kỳ hóa chất hormone nào.", "50% đực (XY) và 50% cái (XX).", "100% cá cái (XX).", "75% cá đực và 25% cá cái."],
+        answer: 0,
+        explanation: "Cá siêu đực YY chỉ tạo ra một loại giao tử duy nhất mang nhiễm sắc thể Y. Cá cái XX chỉ tạo giao tử X. Phép lai YY × XX -> 100% con lai mang kiểu gen XY (giới tính đực hoàn toàn tự nhiên), an toàn sinh học tuyệt đối và được chứng nhận hữu cơ quốc tế.",
+        recallHint: "Công nghệ cá siêu đực YY: Phép lai cá đực YY × cá cái XX -> 100% đời con mang kiểu gen XY (cá đực tự nhiên 100%), không tồn dư hormone sinh trưởng, thân thiện với môi trường."
+      }
     ],
     tfs: [
       {
-        id: 1,
-        grade: "cn10",
-        topic: "Khối 10 — Độ đệm Keo đất & Kỹ thuật Màng phủ Nông nghiệp",
-        title: "Câu 1: Độ đệm Đất trồng & Công nghệ Màng phủ Phản quang 2 mặt",
-        context: "Một trang trại trồng dưa hấu công nghệ cao trên đất cát pha ven biển tại Bà Rịa - Vũng Tàu sử dụng màng phủ nông nghiệp và hệ thống tưới nhỏ giọt. Xét tính Đúng/Sai của các nhận định sau:",
+        id: 1, grade: "cn10",
+        topic: "Khối 10 — Hóa thổ nhưỡng chuyên sâu & Trao đổi ion Al3+/H+",
+        title: "Câu 1: Cân bằng CEC động, độc chất nhôm Al3+ và tính toán vôi cải tạo đất bazan",
+        context: "Một viện nghiên cứu nông nghiệp tiến hành khảo sát tầng đất mặt (0 - 20 cm) của vùng đất bazan trồng sầu riêng VietGAP tại Long Khánh (Đồng Nai) có dung tích hấp phụ cation hiệu dụng ECEC = 16 meq/100g đất, pH_H2O = 4,2 và hàm lượng ion Al3+ trao đổi là 3,2 meq/100g đất. Xét tính Đúng/Sai của các nhận định sau:",
         statements: [
-          { label: "a", level: "Nhận biết", isTrue: false, text: "Đất cát pha có dung tích hấp phụ cation (CEC) rất cao nên có khả năng giữ nước và giữ phân bón tốt hơn đất sét nặng giàu mùn.", explanation: "Đất cát pha nghèo keo sét và mùn nên CEC rất thấp, giữ nước và giữ phân kém." },
-          { label: "b", level: "Thông hiểu", isTrue: true, text: "Việc bón nhiều phân hữu cơ hoai mục giúp làm tăng lượng keo mùn, từ đó nâng cao độ đệm của đất và giảm sự biến động đột ngột về độ pH khi bón phân hóa học.", explanation: "Keo mùn làm tăng khả năng đệm của đất nhờ hệ nhóm chức carboxyl và phenol." },
-          { label: "c", level: "Vận dụng", isTrue: true, text: "Màng phủ nông nghiệp có mặt màu bạc hướng lên trên giúp phản xạ bức xạ mặt trời, tăng cường ánh sáng cho các tầng lá dưới và xua đuổi các loài côn trùng chích hút như bọ trĩ, rầy mềm.", explanation: "Ánh sáng phản xạ từ mặt bạc làm lóa mắt và xua đuổi côn trùng chích hút truyền virus." },
-          { label: "d", level: "Vận dụng cao", isTrue: true, text: "Hệ thống tưới nhỏ giọt kết hợp bón phân hòa tan (Fertigation) cung cấp dinh dưỡng trực tiếp tới vùng rễ hoạt động, giúp giảm nồng độ muối tích tụ trên bề mặt luống đất cát ven biển.", explanation: "Nước tưới nhỏ giọt đẩy vùng muối tích tụ ra rìa bầu rễ, bảo vệ rễ không bị sốc mặn." }
+          {
+            label: "a",
+            text: "Độ bão hòa nhôm trao đổi của mẫu đất trên đạt 20%, nằm ngay ngưỡng bắt đầu gây độc cho sự phát triển của hệ thống lông hút rễ cây sầu riêng.",
+            isTrue: true,
+            explanation: "Đúng. Độ bão hòa Al = (Al3+ / ECEC) × 100% = (3,2 / 16) × 100% = 20%. Ở mức bão hòa 20%, nồng độ Al3+ trong dung dịch đất bắt đầu ức chế phân chia tế bào chóp rễ sầu riêng non.",
+            recallHint: "Công thức độ bão hòa Al: %Al-saturation = (Al3+ trao đổi / ECEC) × 100%. Ngưỡng độc hại đối với cây ăn quả mẫn cảm (sầu riêng, bưởi) là khi %Al >= 20%."
+          },
+          {
+            label: "b",
+            text: "Khi rễ cây hô hấp hiếu khí thải CO2, ion H+ được giải phóng vào dung dịch đất sẽ có ái lực trao đổi đẩy được ion Ca2+ trên bề mặt keo đất mạnh hơn ion Al3+.",
+            isTrue: false,
+            explanation: "Sai. Quy luật ái lực trao đổi lyotropic của cation phụ thuộc vào điện tích và bán kính hydrat hóa: Al3+ > Ca2+ > Mg2+ > K+ > NH4+ > Na+. Cation có hóa trị 3 (Al3+) liên kết với keo đất bền chặt hơn cation hóa trị 2 (Ca2+).",
+            recallHint: "Quy luật ái lực hấp phụ cation (Dãy Hofmeister/Lyotropic): Al3+ > Fe3+ > Ca2+ > Mg2+ > K+ = NH4+ > Na+. Cation có hóa trị càng cao thì ái lực hấp phụ với hạt keo âm càng mạnh."
+          },
+          {
+            label: "c",
+            text: "Để trung hòa hoàn toàn 3,2 meq Al3+/100g đất trên 1 ha (tầng đất 20 cm, dung trọng d = 1,2 g/cm3), khối lượng đá vôi nông nghiệp tinh khiết (CaCO3, M = 100) cần bón về mặt lý thuyết là 3.840 kg.",
+            isTrue: true,
+            explanation: "Đúng. Khối lượng đất 1 ha = 10.000 × 0,2 × 1.200 = 2.400.000 kg = 2,4 × 10^7 (100g đất). Tổng đương lượng Al3+ = 2,4 × 10^7 × 3,2 meq = 7,68 × 10^7 meq = 7,68 × 10^4 eq. Đương lượng gam CaCO3 = 100 / 2 = 50 g/eq. Khối lượng CaCO3 = 7,68 × 10^4 × 50 g = 3.840 kg (3,84 tấn).",
+            recallHint: "Công thức tính vôi CaCO3: Đương lượng gam = 50 g/eq. Khối lượng vôi = (Tổng số eq Al3+) × 50 g. 1 ha đất sâu 20cm, d=1,2 nặng 2.400 tấn = 2,4.10^7 mẫu 100g."
+          },
+          {
+            label: "d",
+            text: "Sau khi bón vôi nông nghiệp khử chua, dung tích hấp phụ cation phụ thuộc pH (pH-dependent CEC) của đất bazan sẽ bị giảm đi nghiêm trọng.",
+            isTrue: false,
+            explanation: "Sai. Khi bón vôi nâng độ pH từ 4,2 lên 6,0-6,5, các nhóm -OH trên bề mặt oxit sắt, nhôm và các nhóm carboxyl (-COOH) của mùn hữu cơ sẽ tăng cường phân ly giải phóng H+, làm tăng mật độ điện tích âm trên bề mặt keo, do đó làm TĂNG dung tích hấp phụ CEC của đất.",
+            recallHint: "Dung tích CEC phụ thuộc pH: Khi pH đất tăng (do bón vôi), các nhóm chức trên bề mặt khoáng sét và mùn tăng phân ly ion H+, tạo thêm nhiều vị trí mang điện tích âm -> CEC tăng lên."
+          }
         ]
       },
       {
-        id: 2,
-        grade: "cn11",
-        topic: "Khối 11 — An toàn Sinh học & Quản lý Độc tố Nấm mốc Thức ăn",
-        title: "Câu 2: Thụ tinh Nhân tạo Gia súc & Phòng ngừa Độc tố Aflatoxin",
-        context: "Một công ty giống gia súc vận hành trung tâm khai thác tinh bò đông lạnh và nhà máy sản xuất thức ăn chăn nuôi quy mô lớn. Xét tính Đúng/Sai của các nhận định sau:",
+        id: 2, grade: "cn11",
+        topic: "Khối 11 — Công nghệ sinh học gen CRISPR/Cas9 & Tiêu hóa dạ cỏ",
+        title: "Câu 2: Đột phá chỉnh sửa gen CD163 kháng PRRSV và cân bằng VFA dạ cỏ",
+        context: "Tại một trung tâm công nghệ sinh học nông nghiệp cao hợp tác với trang trại chăn nuôi bò sữa và lợn giống, các nhà khoa học tiến hành thử nghiệm công nghệ chỉnh sửa gen và theo dõi trao đổi chất. Xét tính Đúng/Sai của các nhận định sau:",
         statements: [
-          { label: "a", level: "Nhận biết", isTrue: true, text: "Đông lạnh tinh dịch bò trong nitơ lỏng ở nhiệt độ -196 độ C cho phép lưu giữ nguồn gen quý của bò đực giống trong nhiều chục năm mà tinh trùng vẫn duy trì được khả năng thụ tinh.", explanation: "Ở -196°C mọi hoạt động trao đổi chất của tế bào tinh trùng ngừng hoàn toàn, bảo tồn gen lâu dài." },
-          { label: "b", level: "Thông hiểu", isTrue: false, text: "Độc tố Aflatoxin B1 do nấm mốc Aspergillus flavus sinh ra trong ngô ẩm có thể bị phá hủy hoàn toàn bằng cách đem phơi nắng hoặc đun nấu thông thường ở 100 độ C.", explanation: "Aflatoxin rất bền nhiệt (nhiệt độ phân hủy > 250°C), đun nấu thông thường không phá hủy được." },
-          { label: "c", level: "Vận dụng", isTrue: true, text: "Bổ sung chất hấp phụ độc tố nấm mốc (như khoáng sét Bentonite, vách tế bào nấm men Beta-glucan) vào thức ăn chăn nuôi giúp liên kết và đào thải độc tố Aflatoxin qua đường phân, bảo vệ gan vật nuôi.", explanation: "Chất hấp phụ liên kết phân tử Aflatoxin trong lòng ruột ngăn cản hấp thu vào máu." },
-          { label: "d", level: "Vận dụng cao", isTrue: false, text: "Có thể sử dụng thức ăn tinh bị ẩm mốc nặng có mùi chua để nuôi lợn nái mang thai nhằm tiết kiệm chi phí mà không gây ảnh hưởng đến phôi thai.", explanation: "Thức ăn mốc chứa Mycotoxin gây chết phôi, sảy thai và quái thai ở lợn nái." }
+          {
+            label: "a",
+            text: "Công nghệ CRISPR/Cas9 loại bỏ exon 7 của gen CD163 trên lợn tạo khả năng kháng virus PRRSV bằng cách ngăn cản virus liên kết giải phóng hệ gen vào tế bào chất của đại thực bào.",
+            isTrue: true,
+            explanation: "Đúng. Miền ngoại bào SRCR5 (do exon 7 mã hóa) là cổng thụ thể duy nhất để glycoprotein của virus tai xanh bám dính và dung hợp màng tế bào. Loại bỏ miền này giúp lợn miễn nhiễm tuyệt đối với PRRSV.",
+            recallHint: "Cơ chế phân tử CRISPR/Cas9 gen CD163: Cắt chính xác exon 7 mã hóa thụ thể SRCR5, làm virus PRRSV mất vị trí bám dính, không xâm nhập được vào đại thực bào phế nang lợn."
+          },
+          {
+            label: "b",
+            text: "Lợn chỉnh sửa gen CD163 bị suy giảm nghiêm trọng khả năng dọn dẹp phức hợp hemoglobin-haptoglobin tự do trong tuần hoàn máu.",
+            isTrue: false,
+            explanation: "Sai. Chức năng sinh lý bình thường của protein CD163 (nhận diện và thanh thải phức hợp hemoglobin-haptoglobin để tái chế sắt) do các miền SRCR khác đảm nhiệm, việc cắt bỏ riêng exon 7 (SRCR5) hoàn toàn không ảnh hưởng đến chức năng sinh lý dọn dẹp sắt tự nhiên.",
+            recallHint: "Tính đặc hiệu của chỉnh sửa gen CD163: Chỉ cắt bỏ vùng thụ thể bám của virus (exon 7), bảo tồn nguyên vẹn các miền sinh lý khác, lợn lớn nhanh khỏe mạnh và sinh sản hoàn toàn bình thường."
+          },
+          {
+            label: "c",
+            text: "Trong dạ cỏ bò sữa, khẩu phần thức ăn có tỷ lệ thức ăn tinh (tinh bột) quá cao (> 65%) sẽ kích thích vi khuẩn Streptococcus bovis phát triển mạnh sinh nhiều axit lactic, làm sụt giảm pH dạ cỏ xuống < 5,5 gây toan dạ cỏ cấp tính.",
+            isTrue: true,
+            explanation: "Đúng. Lên men tinh bột nhanh giải phóng lượng lớn axit lactic (pK_a = 3,86 mạnh hơn nhiều so với VFA). Axit lactic tích tụ vượt quá ngưỡng đệm làm pH dạ cỏ giảm sâu, phá hủy hệ vi sinh vật phân giải xơ và làm tổn thương nhung mao dạ cỏ.",
+            recallHint: "Toan hóa dạ cỏ cấp tính (Lactic Acidosis): Do dư thừa thức ăn tinh bột, vi khuẩn Streptococcus bovis lên men tạo axit lactic làm pH dạ cỏ < 5,2-5,5, ngừng nhu động dạ cỏ và gây tử vong."
+          },
+          {
+            label: "d",
+            text: "Axit béo bay hơi Propionic sinh ra trong dạ cỏ là tiền chất chủ yếu được gan bò sử dụng để tổng hợp nên chất béo (mỡ bơ) trong sữa tươi nguyên liệu.",
+            isTrue: false,
+            explanation: "Sai. Axit Propionic được hấp thu qua vách dạ cỏ vào tĩnh mạch cửa chuyển về gan để tân tạo Glucose (cung cấp năng lượng và tổng hợp đường Lactose của sữa). Axit Acetic mới là tiền chất chính tổng hợp chất béo trong sữa.",
+            recallHint: "Vai trò sinh hóa của VFA: Axit Acetic -> Tổng hợp mỡ sữa; Axit Propionic -> Tân tạo Glucose ở gan và tổng hợp đường Lactose; Axit Butyric -> Cung cấp năng lượng cho biểu mô nhung mao dạ cỏ."
+          }
         ]
       },
       {
-        id: 3,
-        grade: "cn12",
-        topic: "Khối 12 — Lâm sinh Đa dụng & Cấp kính Khai thác Gỗ Rừng",
-        title: "Câu 3: Quy hoạch Lâm phần Gỗ lớn & Khai thác Bền vững",
-        context: "Một ban quản lý lâm trường thực hiện đề tài điều tra tài nguyên và xây dựng phương án khai thác gỗ bền vững theo chuẩn FSC. Xét tính Đúng/Sai của các nhận định sau:",
+        id: 3, grade: "cn12",
+        topic: "Khối 12 — Lâm nghiệp Allometric, Phương trình sinh khối & Tín chỉ Carbon",
+        title: "Câu 3: Động thái sinh trưởng lâm phần, chỉ số LAI và hạch toán tín chỉ carbon Net-Zero",
+        context: "Một công ty lâm nghiệp tại Đồng Nai quản lý 1.000 ha rừng trồng keo lai 7 năm tuổi tiến hành điều tra lâm học để lập hồ sơ dự án Tín chỉ Carbon rừng theo cơ chế VCS (Verified Carbon Standard). Xét tính Đúng/Sai của các nhận định sau:",
         statements: [
-          { label: "a", level: "Nhận biết", isTrue: true, text: "Cấp kính khai thác gỗ là tiêu chuẩn kỹ thuật quy định đường kính thân cây đo ở độ cao 1,3 mét tối thiểu mà cây gỗ phải đạt được mới được phép đưa vào danh sách chặt hạ.", explanation: "Định nghĩa chuẩn của cấp kính khai thác lâm sinh (D_1.3)." },
-          { label: "b", level: "Thông hiểu", isTrue: false, text: "Trong phương thức khai thác chọn rừng tự nhiên, người thợ rừng được phép chặt hạ toàn bộ các cây gỗ quý hiếm đang giai đoạn sai quả gieo giống để lấy hạt đem bán.", explanation: "Cây mẹ gieo giống phẩm chất tốt bắt buộc phải được đánh số giữ lại để duy trì tái sinh tự nhiên." },
-          { label: "c", level: "Vận dụng", isTrue: true, text: "Rừng trồng hỗn giao giữa cây keo lai (cố định đạm sinh học, lớn nhanh) và cây sao đen (chịu bóng giai đoạn non, gỗ quý chu kỳ dài) mang lại hiệu quả sinh thái và kinh tế cao hơn rừng trồng thuần loài keo dăm.", explanation: "Hỗn giao tận dụng không gian dinh dưỡng đa tầng tán, cải tạo đất và đa dạng sinh học." },
-          { label: "d", level: "Vận dụng cao", isTrue: true, text: "Khai thác gỗ tác động thấp (RIL - Reduced Impact Logging) kết hợp mở đường vận xuất theo đường đồng mức giúp hạn chế tối đa tổn thương tầng cây tái sinh và sạt lở xói mòn đất rừng vùng dốc.", explanation: "RIL là quy trình khai thác tiêu chuẩn của chứng chỉ FSC giảm 50% tổn hại rừng." }
+          {
+            label: "a",
+            text: "Trong phương trình Allometric tính sinh khối trên mặt đất ln(AGB) = -2,15 + 1,85·ln(DBH) + 0,92·ln(H), khi đường kính ngang ngực DBH tăng lên gấp đôi thì sinh khối AGB của cây gỗ sẽ tăng lên xấp xỉ 3,6 lần.",
+            isTrue: true,
+            explanation: "Đúng. AGB tỷ lệ với (DBH)^1,85. Khi DBH tăng 2 lần thì (2)^1,85 ≈ 3,605 lần (tăng khoảng 3,6 lần sinh khối khô).",
+            recallHint: "Toán học phương trình Allometric: Y = a·X^b. Tỷ lệ tăng trưởng tương đối: Khi biến độc lập X tăng k lần thì hàm Y tăng (k)^b lần. Ở đây 2^1,85 = 3,605 lần."
+          },
+          {
+            label: "b",
+            text: "Nếu một hecta rừng keo lai có sinh khối khô tích lũy trung bình là 150 tấn AGB/ha, lượng khí CO2 tương đương được khu rừng này hấp thụ và lưu giữ cố định trên mặt đất là khoảng 258,5 tấn CO2e/ha.",
+            isTrue: true,
+            explanation: "Đúng. Lượng CO2e = AGB × 0,47 × (44/12) = 150 × 0,47 × 3,6667 ≈ 258,5 tấn CO2e/ha.",
+            recallHint: "Công thức chuyển đổi sinh khối sang CO2e: CO2e = Sinh khối khô (tấn) × 0,47 × (44/12). 150 × 0,47 × 3,667 = 258,5 tấn CO2e/ha."
+          },
+          {
+            label: "c",
+            text: "Biện pháp tỉa thưa chuyển hóa rừng gỗ nhỏ (chu kỳ 5 năm) sang rừng gỗ lớn (chu kỳ 12 năm) làm giảm tổng lượng carbon lưu trữ dài hạn của hệ sinh thái rừng.",
+            isTrue: false,
+            explanation: "Sai. Kéo dài chu kỳ lên 12 năm nuôi dưỡng cây gỗ lớn giúp duy trì bể chứa carbon trên mặt đất và trong đất liên tục, sản phẩm gỗ lớn được chế biến thành đồ gỗ nội thất bền vững hàng chục năm (lưu giữ carbon cố định lâu dài), trong khi rừng gỗ nhỏ 5 năm làm dăm giấy phân hủy phát thải CO2 nhanh.",
+            recallHint: "Lợi ích tín chỉ Carbon của rừng gỗ lớn: Kéo dài thời gian cố định carbon của tầng tán, giảm phát thải từ hoạt động khai thác lặp lại nhiều lần, gỗ lớn dùng làm vật liệu xây dựng bền vững lưu giữ carbon vĩnh viễn."
+          },
+          {
+            label: "d",
+            text: "Chỉ số diện tích lá LAI đạt tối ưu trong khoảng 4,0 - 6,0 cho phép lâm phần rừng keo hấp thu tối đa bức xạ quang hợp hiệu dụng (PAR) và giảm thiểu xói mòn hạt mưa rơi tự do.",
+            isTrue: true,
+            explanation: "Đúng. Ở LAI = 4,0 - 6,0, tán rừng khép kín nhiều tầng hấp thu trên 95% năng lượng ánh sáng PAR và tiêu tán động năng của các giọt mưa rào nhiệt đới, bảo vệ lớp đất mặt hoàn hảo.",
+            recallHint: "Ý nghĩa sinh thái của chỉ số LAI: LAI = 4 - 6 là ngưỡng vàng hấp thu bức xạ mặt trời PAR tối đa, đồng thời tán lá dày đặc giữ lại 20-30% lượng mưa trực tiếp, bảo vệ mặt đất khỏi xói mòn sạt lở."
+          }
         ]
       },
       {
-        id: 4,
-        grade: "cn12",
-        topic: "Khối 12 — Quản lý Dịch bệnh Ao tôm & Chuỗi Xử lý Nước 4 Bước",
-        title: "Câu 4: Quản lý Khí độc Đáy ao & An toàn Sinh học Bệnh Đốm trắng",
-        context: "Một hợp tác xã nuôi tôm thẻ chân trắng thâm canh tại vùng ven biển áp dụng quy trình an toàn sinh học 2 giai đoạn. Xét tính Đúng/Sai của các nhận định sau:",
+        id: 4, grade: "cn12",
+        topic: "Khối 12 — Hệ thống RAS tuần hoàn, Động học MBBR & Aquaponics",
+        title: "Câu 4: Cân bằng Nitrat hóa trong lọc sinh học MBBR và công nghệ cá siêu đực YY",
+        context: "Một trang trại nuôi cá rô phi siêu thâm canh tại Đồng Nai vận hành hệ thống tuần hoàn RAS công suất 50 tấn cá/vụ kết hợp tháp lọc sinh học MBBR và hệ Aquaponics trồng xà lách thủy canh. Xét tính Đúng/Sai của các nhận định sau:",
         statements: [
-          { label: "a", level: "Nhận biết", isTrue: true, text: "Bệnh đốm trắng (WSSV) là bệnh truyền nhiễm nguy hiểm do virus gây ra, có khả năng làm tôm chết hàng loạt tới 90 - 100% chỉ sau 3 đến 7 ngày phát bệnh.", explanation: "Virus WSSV có độc lực cực cao gây chết tôm cấp tính hàng loạt." },
-          { label: "b", level: "Thông hiểu", isTrue: true, text: "Quy trình xử lý nước cấp vào ao nuôi gồm 4 bước: (1) Lắng cơ học -> (2) Diệt tạp bằng Saponin và diệt khuẩn bằng Chlorine -> (3) Khử Chlorine tồn dư bằng sục khí và Na2S2O3 -> (4) Bón phân gây màu nước và cấy vi sinh.", explanation: "Chuẩn xác 4 bước quy trình chuẩn bị nước nuôi tôm an toàn sinh học." },
-          { label: "c", level: "Vận dụng", isTrue: false, text: "Khi phát hiện tôm trong ao bị nhiễm virus đốm trắng WSSV, người nuôi cần xả ngay lập tức toàn bộ nước ao ra kênh rạch chung để cứu lấy số tôm còn lại.", explanation: "Xả nước ao bệnh ra ngoài làm lây lan dịch bệnh ra toàn vùng nuôi; phải xử lý Chlorine diệt mầm bệnh trước khi tiêu hủy." },
-          { label: "d", level: "Vận dụng cao", isTrue: true, text: "Hệ thống xi-phông đáy ao kết hợp hố gom chất thải định kỳ giúp loại bỏ phân tôm và thức ăn thừa ra khỏi ao trước khi chúng bị phân hủy yếm khí sinh khí độc H2S và NH3.", explanation: "Xi-phông đáy định kỳ là biện pháp cơ học hiệu quả nhất để giữ sạch nền đáy ao thâm canh." }
+          {
+            label: "a",
+            text: "Để oxy hóa hoàn toàn 1,0 kg Tổng Nitơ Amoniac (TAN) thành dạng Nitrat (NO3-) trong bể lọc MBBR, hệ thống sục khí bắt buộc phải tiêu tốn tối thiểu về mặt lý thuyết là 4,57 kg Oxy hòa tan (O2).",
+            isTrue: true,
+            explanation: "Đúng. Phương trình hóa nghiệm nitrat hóa: NH4+ + 2O2 -> NO3- + 2H+ + H2O. Về mặt phân tử: 1 mol N (14g) cần 2 mol O2 (64g) -> Tỷ lệ lý thuyết = 64 / 14 ≈ 4,57 kg O2 / kg TAN.",
+            recallHint: "Động học Nitrat hóa bể lọc MBBR: Cần 4,57 kg O2 và 7,14 kg độ kiềm CaCO3 để oxy hóa hoàn toàn 1 kg Amoniac (TAN) thành Nitrat NO3-."
+          },
+          {
+            label: "b",
+            text: "Quá trình nitrat hóa trong bể lọc sinh học làm tăng nhanh độ kiềm và làm tăng độ pH của nước tuần hoàn trong hệ thống RAS.",
+            isTrue: false,
+            explanation: "Sai. Quá trình nitrat hóa giải phóng 2 ion H+ cho mỗi ion NH4+ được chuyển hóa, do đó làm sụt giảm độ kiềm (tiêu tốn 7,14 kg độ kiềm CaCO3 cho 1 kg TAN) và làm hạ pH nước. Cần bổ sung NaHCO3 liên tục để giữ pH ổn định.",
+            recallHint: "Sự suy giảm độ kiềm trong lọc sinh học: Phản ứng nitrat hóa sinh ra ion H+ làm tụt pH và phá hủy hệ đệm kiềm. Phải thường xuyên châm thêm vôi hoặc bột nở NaHCO3."
+          },
+          {
+            label: "c",
+            text: "Trong công nghệ tạo giống cá rô phi đơn tính đực di truyền YY, cá đực siêu đực (YY) khi thụ tinh với cá cái bình thường (XX) sẽ cho ra thế hệ con lai thương phẩm F1 gồm 100% cá đực tự nhiên mà không tồn dư hóa chất hormone.",
+            isTrue: true,
+            explanation: "Đúng. Tinh trùng của cá siêu đực 100% mang nhiễm sắc thể Y, kết hợp với trứng mang nhiễm sắc thể X tạo 100% hợp tử XY (cá đực). Đây là công nghệ sinh học di truyền sạch đạt chứng chỉ hữu cơ.",
+            recallHint: "Cơ sở di truyền cá siêu đực YY: Kiểu gen bố YY sinh 100% giao tử Y; Kiểu gen mẹ XX sinh 100% giao tử X -> Hợp tử F1 là 100% XY (cá rô phi đực 100%)."
+          },
+          {
+            label: "d",
+            text: "Trong hệ thống Aquaponics khép kín, nồng độ ion Nitrat (NO3-) ở mức 50 - 100 mg/L vừa hoàn toàn an toàn cho cá rô phi vừa là nồng độ dinh dưỡng đa lượng tối ưu cho cây rau xà lách thủy canh hấp thu.",
+            isTrue: true,
+            explanation: "Đúng. Cá rô phi có khả năng chịu đựng NO3- lên tới > 200 mg/L; ngưỡng 50 - 100 mg/L NO3- cung cấp đầy đủ nguồn đạm khoáng hòa tan dồi dào để rau xà lách sinh trưởng nhanh, tạo lá xanh nõn không cần bổ sung đạm hóa học vô cơ.",
+            recallHint: "Ngưỡng Nitrat trong Aquaponics: NO3- an toàn cho cá ở ngưỡng dưới 150-200 mg/L; rau xà lách thủy canh hấp thu tốt nhất ở nồng độ 50-100 mg/L NO3-, tạo sự cân bằng cộng sinh hoàn hảo."
+          }
         ]
       }
     ],
@@ -824,37 +2134,46 @@ const HSG_PROVINCIAL_EXAMS = {
       {
         id: 1,
         points: 3.5,
-        title: "Câu 1 (3,5 điểm — Kiến thức Lâm nghiệp Lớp 12 & Quản lý Rừng bền vững)",
-        problem: "Một công ty lâm nghiệp tại vùng Đông Nam Bộ quản lý 1.000 ha rừng trồng keo và cây bản địa. Nhằm nâng cao năng suất và phòng chống cháy rừng trong mùa khô kéo dài:\n1. Hãy phân tích các nguyên nhân gây cháy rừng chủ yếu tại khu vực Đông Nam Bộ vào mùa khô. Thiết kế một hệ thống phòng cháy chữa cháy rừng tổng thể bao gồm các giải pháp công trình và lâm sinh. (1,5 điểm)\n2. Công ty dự định khai thác 50 ha rừng trồng keo lai 6 năm tuổi để tái trồng rừng gỗ lớn bản địa. Hãy so sánh hai phương thức khai thác trắng và khai thác chọn trên các tiêu chí: Điều kiện áp dụng, tác động môi trường đất và khả năng bảo tồn nguồn gen. (1,5 điểm)\n3. Nêu các tiêu chuẩn đánh giá cây con giống keo lai và cây gõ đỏ đạt chuẩn xuất vườn đi trồng rừng. (0,5 điểm)",
+        title: "Câu 1 (3,5 điểm — Kiến thức Lâm nghiệp Chuyên sâu Lớp 12)",
+        problem: "Một công ty lâm nghiệp tại vùng Đông Nam Bộ quản lý khu rừng trồng keo lai (chu kỳ gỗ lớn 12 năm) diện tích 500 ha với mật độ trồng ban đầu là 1.600 cây/ha.\n1. Hãy trình bày cơ sở khoa học và xây dựng phương án kỹ thuật 'Tỉa thưa nuôi dưỡng rừng' qua 2 lần: Xác định thời điểm tuổi tỉa thưa (Lần 1 và Lần 2), cường độ chặt tỉa (% số cây), mật độ duy trì cuối cùng của lâm phần khi bước vào tuổi khai thác thành thục công nghệ để tạo ra cây gỗ lớn có đường kính DBH > 30 cm đạt tiêu chuẩn chứng chỉ FSC. (1,5 điểm)\n2. Dựa vào mô hình Allometric ln(AGB) = -2,15 + 1,85·ln(DBH) + 0,92·ln(H) (với DBH tính bằng cm, H tính bằng m, AGB tính bằng kg/cây):\n   • Hãy ước tính sinh khối trên mặt đất (AGB) của một cây keo thành thục có DBH = 32 cm và H = 22 m. (0,75 điểm)\n   • Với mật độ cuối cùng là 500 cây/ha, tính trữ lượng sinh khối khô (tấn/ha) và lượng khí CO2 tương đương (tấn CO2e/ha) được lưu giữ trên 1 hecta rừng này. (0,75 điểm)\n3. Nêu 2 điều kiện bắt buộc để khu rừng này được tổ chức quốc tế cấp Tín chỉ Carbon rừng theo tiêu chuẩn VCS (Verified Carbon Standard). (0,5 điểm)",
+        recallHint: "Lâm nghiệp chuyên sâu: Tỉa thưa Lần 1 (tuổi 3-4, giảm xuống 800-900 cây/ha), Lần 2 (tuổi 6-7, giảm xuống 400-500 cây/ha). Allometric: Thay số tính ln(AGB) -> AGB (kg). Tính CO2e = Sinh khối khô × 0,47 × (44/12). VCS đòi hỏi: Tính bổ sung (Additionality) và Tính lâu dài (Permanence chống rủi ro cháy rừng).",
         rubric: [
-          "1. Nguyên nhân & Thiết kế PCCR (1,5đ): Nguyên nhân (0,75đ) do mùa khô kéo dài, thực bì khô dày đặc, gió chướng mạnh và sơ suất con người; Thiết kế (0,75đ) gồm đường băng cản lửa trắng kết hợp đường băng xanh cây mọng nước, hồ trữ nước cơ động, chòi canh quan sát nhiệt độ và tuần tra 24/24.",
-          "2. So sánh khai thác trắng và khai thác chọn (1,5đ): Điều kiện áp dụng (0,5đ) khai thác trắng cho rừng trồng thuần loài đất bằng phẳng, khai thác chọn cho rừng tự nhiên hoặc rừng phòng hộ; Tác động đất (0,5đ) khai thác trắng gây xói mòn rửa trôi nặng, khai thác chọn giữ thảm thực bì bảo vệ đất; Bảo tồn gen (0,5đ) khai thác chọn bảo tồn tầng cây tái sinh và cây mẹ giống.",
-          "3. Tiêu chuẩn cây giống xuất vườn (0,5đ): Cây con thân thẳng hóa gỗ phần gốc, đỉnh sinh trưởng lành lặn, chiều cao 30-50 cm, bộ rễ đan chặt giữ nguyên bầu đất, không sâu bệnh."
+          "1. Phương án tỉa thưa 2 lần nuôi dưỡng rừng gỗ lớn (1,5đ): Lần 1 ở tuổi 3-4 khi khép tán, chặt 40-45% cây cong queo sâu bệnh, đưa mật độ về 850-900 cây/ha (0,5đ); Lần 2 ở tuổi 6-7 khi tái khép tán, chặt 40-45% cây kém phẩm chất, đưa mật độ cuối về 450-500 cây/ha (0,5đ); Bảo đảm không gian dinh dưỡng tối ưu để đường kính DBH đạt > 30 cm sau 12 năm đạt chuẩn chứng chỉ rừng bền vững FSC xuất khẩu gỗ (0,5đ).",
+          "2. Tính toán sinh khối và tín chỉ carbon (1,5đ):",
+          "  • Tính đúng ln(AGB) = -2,15 + 1,85·ln(32) + 0,92·ln(22) = -2,15 + 1,85·(3,4657) + 0,92·(3,0910) = -2,15 + 6,4115 + 2,8437 = 7,1052 -> AGB = e^(7,1052) ≈ 1.218,3 kg/cây (0,75đ).",
+          "  • Với mật độ 500 cây/ha: Tổng sinh khối khô = 500 × 1.218,3 kg = 609.150 kg/ha ≈ 609,15 tấn/ha (0,375đ); Lượng CO2e cố định = 609,15 × 0,47 × (44/12) ≈ 1.050,4 tấn CO2e/ha (0,375đ).",
+          "3. Hai điều kiện bắt buộc của chuẩn tín chỉ carbon VCS (0,5đ): Tính bổ sung (Additionality - dự án chứng minh nếu không có nguồn tiền tín chỉ carbon thì rừng gỗ lớn không được duy trì, nguy cơ bị chặt sớm chu kỳ ngắn) (0,25đ); Tính lâu dài và biện pháp dự phòng rủi ro cháy rừng/sâu bệnh (Permanence & Buffer Pool) (0,25đ)."
         ]
       },
       {
         id: 2,
         points: 3.5,
-        title: "Câu 2 (3,5 điểm — Kiến thức Thủy sản Lớp 12 & Kỹ thuật Xử lý Nước Ao tôm)",
-        problem: "Một hợp tác xã nuôi tôm thẻ chân trắng công nghệ cao chuẩn bị đưa 2 ao nuôi diện tích mỗi ao 2.000 m2 vào hoạt động:\n1. Hãy trình bày chi tiết quy trình 4 bước chuẩn bị nước cấp ao nuôi từ nguồn nước tự nhiên cho đến khi đủ điều kiện thả tôm giống an toàn sinh học. (1,5 điểm)\n2. Sau 45 ngày nuôi, xét nghiệm nước phát hiện: pH nước ao buổi chiều = 8,9; nồng độ TAN (Tổng amoniac nitơ) = 2,5 mg/L; Oxy hòa tan lúc 5 giờ sáng DO = 2,8 mg/L. Tôm có dấu hiệu bơi dạt bờ và ăn yếu.\n   • Hãy phân tích các mối nguy hiểm sinh học đối với tôm trong điều kiện môi trường trên. (1,0 điểm)\n   • Đề xuất quy trình xử lý khẩn cấp để đưa các chỉ tiêu môi trường về mức an toàn trong vòng 24 - 48 giờ. (1,0 điểm)",
+        title: "Câu 2 (3,5 điểm — Kiến thức Thủy sản Chuyên sâu Lớp 12)",
+        problem: "Một cơ sở nuôi tôm thẻ chân trắng siêu thâm canh tại ven biển ứng dụng công nghệ tuần hoàn khép kín RAS với quy mô thể tích nước nuôi là 200 m3, mật độ nuôi 300 con/m3. Tổng sinh khối tôm ở tháng thứ 3 đạt 1.200 kg. Khẩu phần ăn hàng ngày là 36 kg thức ăn viên (chứa 40% protein thô, tỷ lệ Nitơ chiếm 16% khối lượng protein).\n1. Biết rằng tôm đồng hóa giữ lại được 35% lượng Nitơ thức ăn vào cơ thể; 15% Nitơ bị thất thoát dưới dạng phân rắn được gom xả qua máy lọc trống (Drum filter); 50% lượng Nitơ còn lại bài tiết trực tiếp vào nước dưới dạng Tổng Nitơ Amoniac (TAN).\n   • Hãy tính tổng khối lượng TAN (kg) phát sinh hòa tan vào nước nuôi trong một ngày đêm. (0,75 điểm)\n   • Tính khối lượng Oxy hòa tan (O2, kg) tối thiểu cần cung cấp riêng cho bể lọc sinh học MBBR trong 1 ngày để vi khuẩn nitrat hóa chuyển hóa hoàn toàn lượng TAN trên thành Nitrat NO3-. (0,75 điểm)\n2. Giải thích chi tiết nguyên lý hoạt động của tháp tách bọt Protein Skimmer và vai trò của việc bổ sung vi khuẩn dị dưỡng kết hợp mật rỉ đường đối với việc giảm tải cho bể lọc sinh học MBBR. (1,5 điểm)\n3. Nêu giải pháp điều chỉnh độ kiềm (Alkalinity) và pH cho hệ thống tuần hoàn này khi chỉ số pH có xu hướng giảm liên tục xuống dưới 7,0. (0,5 điểm)",
+        recallHint: "Thủy sản VDC: Khối lượng Nitơ ăn vào = 36 kg × 40% × 16% = 2,304 kg N. TAN thải ra = 2,304 × 50% = 1,152 kg TAN/ngày. Lượng O2 cho nitrat hóa = 1,152 × 4,57 ≈ 5,26 kg O2/ngày. Protein Skimmer cuốn protein lơ lửng trước khi bị phân hủy; Vi khuẩn dị dưỡng hấp thu NH4+ thành floc; Bổ sung NaHCO3 nâng kiềm và ổn định pH.",
         rubric: [
-          "1. Quy trình 4 bước chuẩn bị nước ao (1,5đ): Bước 1 (0,4đ) Lắng cơ học qua lưới lọc dày loại bỏ tạp và phù sa lơ lửng; Bước 2 (0,4đ) Diệt cá tạp bằng Saponin và diệt khuẩn bằng Chlorine 20-30 ppm; Bước 3 (0,4đ) Sục khí quạt nước 3-5 ngày trung hòa dư lượng Chlorine, bón vôi nâng kiềm 120 mg/L; Bước 4 (0,3đ) Bón phân gây màu nước xanh đọt chuối (độ trong 30-40 cm) và cấy men vi sinh Probiotics.",
-          "2.1. Phân tích mối nguy sinh học (1,0đ): pH quá cao (8,9) kết hợp TAN lớn làm chuyển dịch cân bằng sinh khí độc NH3 tự do gây ngộ độc mang thần kinh; DO rạng sáng quá thấp (< 3,0 mg/L) làm tôm ngạt thở, chậm lột xác và dễ bùng phát dịch bệnh hoại tử gan tụy.",
-          "2.2. Quy trình xử lý khẩn cấp (1,0đ): Giảm 50% thức ăn; Bật 100% dàn quạt nước và sục khí đáy 24/24; Tạt mật rỉ đường ủ men vi sinh để hạ pH và đồng hóa NH3; Bón vôi nông nghiệp hoặc thạch cao ổn định kiềm và xi-phông đáy ao."
+          "1.1. Tính khối lượng TAN phát sinh (0,75đ): Lượng Protein ăn vào = 36 × 40% = 14,4 kg protein; Lượng Nitơ tổng ăn vào = 14,4 × 16% = 2,304 kg N; Lượng TAN bài tiết vào nước = 2,304 × 50% = 1,152 kg TAN/ngày.",
+          "1.2. Tính lượng Oxy hòa tan cho bể lọc MBBR (0,75đ): Theo lý thuyết nitrat hóa, oxy hóa 1 kg TAN cần 4,57 kg O2; Khối lượng O2 cần cung cấp cho bể lọc MBBR trong 1 ngày = 1,152 × 4,57 ≈ 5,265 kg O2/ngày.",
+          "2. Nguyên lý Protein Skimmer & vi khuẩn dị dưỡng (1,5đ):",
+          "  • Nguyên lý Protein Skimmer (0,75đ): Tạo bọt khí siêu nhỏ micro-bubble sục từ đáy cột lên; các phân tử protein và chất hữu cơ hòa tan có tính lưỡng cực bám dính vào màng bọt khí, nổi lên bề mặt tạo khối bọt cô đặc trào ra ngoài cốc gom bọt, loại bỏ chất thải hữu cơ trước khi bị phân hủy sinh ra khí độc.",
+          "  • Vai trò vi khuẩn dị dưỡng + rỉ đường (0,75đ): Bổ sung rỉ đường nâng C:N >= 12:1 kích thích vi khuẩn dị dưỡng sinh sản nhanh, sử dụng trực tiếp TAN làm nguồn đạm để tổng hợp sinh khối protein vi khuẩn (Biofloc), giảm 30-50% nồng độ TAN trước khi nước đi vào bể MBBR, giúp ngăn chặn hiện tượng quá tải lọc sinh học.",
+          "3. Giải pháp điều chỉnh độ kiềm và pH (0,5đ): Do nitrat hóa làm tiêu hao ion kiềm sinh H+, cần châm liên tục dung dịch muối Sodium Bicarbonate (NaHCO3) hòa tan (vừa cung cấp HCO3- làm nguồn carbon vô cơ cho vi khuẩn nitrat hóa vừa nâng pH lên 7,8 - 8,2 an toàn cho tôm)."
         ]
       },
       {
         id: 3,
         points: 1.0,
-        title: "Câu 3 (1,0 điểm — Tình huống Nâng cao: Hạch toán Kinh tế 1 ha Lúa & Điểm hòa vốn)",
-        problem: "Một hộ nông dân canh tác 1 ha lúa chất lượng cao ST25 ứng dụng cơ giới hóa đồng bộ:\n• Chi phí giống lúa xác nhận: 120 kg × 25.000 đ/kg.\n• Chi phí phân bón NPK và hữu cơ: 8.500.000 đồng/ha.\n• Chi phí thuốc bảo vệ thực vật sinh học: 3.200.000 đồng/ha.\n• Chi phí làm đất, tưới tiêu và gặt đập liên hợp: 6.500.000 đồng/ha.\n• Năng suất thực tế thu hoạch đạt 6,5 tấn thóc/ha.\n• Giá bán thóc tươi tại ruộng là 9.500 đ/kg.\n\n1. Hãy tính tổng chi phí đầu tư cho 1 ha lúa và giá thành sản xuất bình quân của 1 kg thóc (đồng/kg). (0,5 điểm)\n2. Tính doanh thu, lợi nhuận thuần và tỷ suất lợi nhuận trên chi phí (%) của vụ lúa này. (0,5 điểm)",
+        title: "Câu 3 (1,0 điểm — Tình huống Nông học VDC & Net-Zero)",
+        problem: "Trong chiến lược phát triển Nông nghiệp sinh thái bền vững hướng tới mục tiêu phát thải ròng bằng '0' (Net-Zero Carbon) vào năm 2050 của Việt Nam, hãy phân tích cơ chế khoa học của 2 giải pháp kỹ thuật sau đây nhằm giảm thiểu phát thải khí nhà kính:\n1. Giải pháp kỹ thuật tưới ướt - khô xen kẽ (AWD - Alternate Wetting and Drying) trong canh tác lúa nước nhằm giảm phát thải khí Mêtan (CH4). (0,5 điểm)\n2. Giải pháp thu gom 100% chất thải chăn nuôi lợn đưa vào hầm Biogas công nghiệp kết hợp máy ép tách phân rắn ủ phân hữu cơ compost bón cho vườn cây ăn quả lâu năm. (0,5 điểm)",
+        recallHint: "Net-Zero Nông nghiệp: AWD phơi ruộng nứt chân chim ngắt quãng giúp oxy tràn vào đất ức chế vi khuẩn sinh mêtan Methanogen và oxy hóa CH4 thành CO2 (GWP thấp hơn 28 lần). Biogas ngăn phân lộ thiên kỵ khí sinh CH4 và N2O, compost bón cây cố định carbon trong đất và thay thế phân đạm hóa học.",
         rubric: [
-          "1. Tổng chi phí & Giá thành (0,5đ): Chi phí giống = 120 × 25.000 = 3.000.000 đ; Tổng chi phí = 3.000.000 + 8.500.000 + 3.200.000 + 6.500.000 = 21.200.000 đồng/ha; Giá thành sản xuất 1 kg thóc = 21.200.000 đ / 6.500 kg ≈ 3.261,5 đồng/kg.",
-          "2. Doanh thu & Lợi nhuận (0,5đ): Doanh thu = 6.500 kg × 9.500 đ = 61.750.000 đồng; Lợi nhuận thuần = 61.750.000 - 21.200.000 = 40.550.000 đồng/ha; Tỷ suất lợi nhuận = (40.550.000 / 21.200.000) × 100% ≈ 191,27%."
+          "1. Cơ chế kỹ thuật AWD giảm phát thải CH4 (0,5đ): Trong các đợt rút nước phơi ruộng nứt chân chim, không khí giàu oxy khuếch tán sâu vào tầng đất canh tác làm tăng thế oxy hóa khử Eh (từ âm sang dương), ức chế hoàn toàn hoạt động của nhóm vi khuẩn cổ sinh mêtan Methanogen (vốn là sinh vật kỵ khí tuyệt đối), đồng thời kích hoạt vi khuẩn oxy hóa mêtan (Methanotrophic), làm giảm từ 40% đến 50% lượng phát thải khí CH4 ra khí quyển.",
+          "2. Cơ chế Biogas khép kín và ủ Compost (0,5đ): Ngăn chặn 100% việc phân hủy kỵ khí lộ thiên ở các hố phân hở (nguồn phát thải CH4 và N2O có tiềm năng nóng lên toàn cầu GWP gấp 28 và 265 lần CO2); khí CH4 thu hồi được đốt sinh nhiệt/điện sạch; bã rắn ủ compost hiếu khí tạo mùn liên kết cố định Carbon hữu cơ lâu dài trong đất vườn cây ăn quả và thay thế phân đạm hóa học (giảm phát thải từ công nghệ sản xuất phân vô cơ)."
         ]
       }
     ]
-  }
+  },
+
 };
 
 // ============================================================================
@@ -1124,12 +2443,12 @@ function validateDongNaiHsgExam(exam) {
     detail: "Mỗi câu 4 ý đều xếp theo trình tự tăng dần mức độ nhận thức (ý a -> b -> c -> d)."
   });
 
-  // Tiêu chí 10: Phân tách rõ ràng barem Bảng A và Bảng B (Không trộn lẫn)
+  // Tiêu chí 10: Chuẩn hóa barem Bảng B (0,25đ nhận định + 0,125đ giải thích)
   checks.push({
     id: 10,
-    name: "Phân tách rõ ràng công thức chấm Bảng A và Bảng B",
+    name: "Chuẩn hóa công thức chấm Bảng B (0,25đ nhận định + 0,125đ giải thích)",
     passed: true,
-    detail: "Bảng A (0,125đ đúng + 0,25đ giải thích) và Bảng B (0,25đ đúng + 0,125đ giải thích) được quản lý tách rời tuyệt đối."
+    detail: "Toàn bộ hệ thống áp dụng độc quyền barem Bảng B (0,25đ đúng + 0,125đ giải thích cơ sở khoa học = 0,375đ/ý, tổng 6,0đ phần II) theo QĐ 1540/QĐ-SGDĐT Đồng Nai."
   });
 
   // Tiêu chí 11: Phần III Tự luận đủ 8,0 điểm (7,0đ Lớp 12 + 1,0đ Tổng hợp nâng cao)
@@ -1183,14 +2502,35 @@ function validateDongNaiHsgExam(exam) {
 // ============================================================================
 // 5. BỘ TỰ SINH ĐỀ THI HSG ĐỒNG NAI THEO MA TRẬN (ĐỀ SỐ 04)
 // ============================================================================
-function generateDynamicDongNaiExam() {
-  const basePool = [
-    ...HSG_PROVINCIAL_EXAMS.dn_01.mcqs,
-    ...HSG_PROVINCIAL_EXAMS.dn_02.mcqs,
-    ...HSG_PROVINCIAL_EXAMS.dn_03.mcqs
-  ];
 
-  // Lọc 8 câu K10, 8 câu K11, 8 câu K12
+// ============================================================================
+// 5. BỘ TỰ SINH ĐỀ THI HSG ĐỒNG NAI THEO MA TRẬN VÀ CẤP ĐỘ (ĐỀ SỐ 04)
+// ============================================================================
+function generateDynamicDongNaiExam(targetLevel) {
+  const lvl = targetLevel || HSG_MASTER_STATE.selectedLevel || 'all';
+  let examPool = [];
+  if (lvl === 'easy') {
+    examPool = [HSG_PROVINCIAL_EXAMS.dn_easy_01, HSG_PROVINCIAL_EXAMS.dn_easy_02];
+  } else if (lvl === 'medium') {
+    examPool = [HSG_PROVINCIAL_EXAMS.dn_01, HSG_PROVINCIAL_EXAMS.dn_03];
+  } else if (lvl === 'hard') {
+    examPool = [HSG_PROVINCIAL_EXAMS.dn_02, HSG_PROVINCIAL_EXAMS.dn_hard_02];
+  } else {
+    examPool = [
+      HSG_PROVINCIAL_EXAMS.dn_easy_01,
+      HSG_PROVINCIAL_EXAMS.dn_easy_02,
+      HSG_PROVINCIAL_EXAMS.dn_01,
+      HSG_PROVINCIAL_EXAMS.dn_03,
+      HSG_PROVINCIAL_EXAMS.dn_02,
+      HSG_PROVINCIAL_EXAMS.dn_hard_02
+    ];
+  }
+
+  const basePool = [];
+  examPool.forEach(ex => {
+    if (ex && ex.mcqs) basePool.push(...ex.mcqs);
+  });
+
   const k10 = basePool.filter(q => q.grade === "cn10").sort(() => Math.random() - 0.5);
   const k11 = basePool.filter(q => q.grade === "cn11").sort(() => Math.random() - 0.5);
   const k12 = basePool.filter(q => q.grade === "cn12").sort(() => Math.random() - 0.5);
@@ -1201,24 +2541,29 @@ function generateDynamicDongNaiExam() {
     ...k12.slice(0, 8)
   ].map((q, idx) => ({ ...q, id: idx + 1 }));
 
-  const tfPool = [
-    ...HSG_PROVINCIAL_EXAMS.dn_01.tfs,
-    ...HSG_PROVINCIAL_EXAMS.dn_02.tfs,
-    ...HSG_PROVINCIAL_EXAMS.dn_03.tfs
-  ].sort(() => Math.random() - 0.5);
+  const tfPool = [];
+  examPool.forEach(ex => {
+    if (ex && ex.tfs) tfPool.push(...ex.tfs);
+  });
+  tfPool.sort(() => Math.random() - 0.5);
   const selectedTfs = tfPool.slice(0, 4).map((q, idx) => ({ ...q, id: idx + 1 }));
+
+  const levelTag = lvl === 'easy' ? 'DỄ / KHỞI ĐỘNG' : (lvl === 'hard' ? 'KHÓ / VỀ ĐÍCH' : (lvl === 'medium' ? 'VỪA / TĂNG TỐC' : 'TỰ SINH TOÀN DIỆN'));
 
   return {
     id: "dn_auto",
-    code: "ĐỒNG NAI — ĐỀ TỰ SINH THEO MA TRẬN",
-    title: "KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH / THÀNH PHỐ (ĐỀ TỰ SINH THEO MA TRẬN)",
-    subTitle: "Môn: Công nghệ (Định hướng Nông nghiệp) — 180 phút (Thang điểm 20,0)",
+    level: lvl === 'all' ? 'medium' : lvl,
+    levelBadge: `🎲 CẤP ĐỘ: ${levelTag}`,
+    levelLabel: `ĐỀ TỰ SINH — ${levelTag}`,
+    code: `ĐỒNG NAI — ĐỀ TỰ SINH (${levelTag})`,
+    title: `KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH / THÀNH PHỐ (ĐỀ TỰ SINH THEO MA TRẬN — ${levelTag})`,
+    subTitle: `Môn: Công nghệ (Định hướng Nông nghiệp) — 180 phút (Thang điểm 20,0)`,
     durationMinutes: 180,
     maxScore: 20.0,
-    source: "Tự động sinh ngẫu nhiên bám sát ma trận Đồng Nai (8 K10 + 8 K11 + 8 K12)",
+    source: `Tự động sinh ngẫu nhiên bám sát ma trận Đồng Nai (8 K10 + 8 K11 + 8 K12) theo cấp độ ${levelTag}`,
     mcqs: selectedMcqs,
     tfs: selectedTfs,
-    essays: HSG_PROVINCIAL_EXAMS.dn_01.essays
+    essays: (lvl === 'easy' ? HSG_PROVINCIAL_EXAMS.dn_easy_01.essays : (lvl === 'hard' ? HSG_PROVINCIAL_EXAMS.dn_hard_02.essays : HSG_PROVINCIAL_EXAMS.dn_01.essays))
   };
 }
 
@@ -1233,13 +2578,20 @@ function getCurrentHsgExam() {
     }
     return HSG_PROVINCIAL_EXAMS.dn_auto;
   }
-  return HSG_PROVINCIAL_EXAMS[exId] || HSG_PROVINCIAL_EXAMS.dn_01;
+  return HSG_PROVINCIAL_EXAMS[exId] || HSG_PROVINCIAL_EXAMS.dn_easy_01;
+}
+
+function getExamsForCurrentLevel() {
+  const lvl = HSG_MASTER_STATE.selectedLevel || 'all';
+  const allList = Object.values(HSG_PROVINCIAL_EXAMS).filter(e => e.id !== 'dn_auto');
+  if (lvl === 'all') return allList;
+  return allList.filter(e => e.level === lvl);
 }
 
 // 1. XUẤT ĐỀ THI DÀNH CHO HỌC SINH (TUYỆT ĐỐI KHÔNG CHỨA ĐÁP ÁN / HƯỚNG DẪN CHẤM)
 function exportHsgStudentExamDoc() {
   const exam = getCurrentHsgExam();
-  const tbl = HSG_MASTER_STATE.tableMode || 'A';
+  const tbl = 'B';
   let html = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
     <head><meta charset="utf-8"><title>De Thi HSG Danh Cho Hoc Sinh</title>
@@ -1267,290 +2619,308 @@ function exportHsgStudentExamDoc() {
             <strong>NĂM HỌC 2025 – 2026</strong><br/>
             <strong>MÔN: CÔNG NGHỆ (ĐỊNH HƯỚNG NÔNG NGHIỆP)</strong><br/>
             <em>Thời gian làm bài: 180 phút, không kể thời gian phát đề</em><br/>
-            <strong>BẢNG THI: BẢNG ${tbl}</strong>
+            <strong>BẢNG THI: BẢNG ${tbl}</strong> • <strong>${escapeHtml(exam.levelLabel || '')}</strong>
           </td>
         </tr>
       </table>
-      <hr style="border: 1px solid #000;"/>
+      <hr style="border: 1px solid #000; margin: 4px 0 16px;"/>
+
+      <h3 style="text-align:center;">MÃ ĐỀ THI: ${escapeHtml(exam.code)}</h3>
+      <p style="text-align:center; font-style:italic; margin-bottom:16px;">(Thí sinh làm bài trực tiếp vào Phiếu trả lời, không viết vào đề thi này)</p>
 
       <h4>PHẦN I. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (6,0 điểm)</h4>
-      <p><em>Thí sinh trả lời từ câu 1 đến câu 24. Mỗi câu hỏi thí sinh chỉ chọn một phương án đúng nhất. Mỗi câu trả lời đúng được 0,25 điểm.</em></p>
-      ${exam.mcqs.map((q, i) => `
-        <div class="q-stem">Câu ${i + 1} (${escapeHtml(q.topic)}): ${escapeHtml(q.stem)}</div>
-        ${(q.options || []).map((opt, oIdx) => `
-          <div class="q-opt"><strong>${String.fromCharCode(65 + oIdx)}.</strong> ${escapeHtml(opt)}</div>
-        `).join("")}
-      `).join("")}
+      <p><em>Thí sinh trả lời từ câu 1 đến câu 24. Mỗi câu hỏi chỉ chọn một phương án đúng nhất.</em></p>
+  `;
 
-      <h4 style="page-break-before:always;">PHẦN II. CÂU TRẮC NGHIỆM ĐÚNG / SAI CÓ GIẢI THÍCH (6,0 điểm)</h4>
-      <p><em>Thí sinh trả lời từ câu 1 đến câu 4. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh ghi nhận định Đúng hoặc Sai và viết lời giải thích ngắn gọn cơ sở khoa học vào phiếu trả lời bài thi.</em><br/>
-      <strong>Quy tắc tính điểm BẢNG ${tbl}:</strong> ${tbl === 'A' ? 'Xác định đúng ý: 0,125 điểm; Lời giải thích đúng cơ sở khoa học: 0,25 điểm (Tối đa 0,375 điểm/ý).' : 'Xác định đúng ý: 0,25 điểm; Lời giải thích đúng cơ sở khoa học: 0,125 điểm (Tối đa 0,375 điểm/ý).'}</p>
-      ${exam.tfs.map((q, qIdx) => `
-        <p><strong>${escapeHtml(q.title)}:</strong><br/>${escapeHtml(q.context)}</p>
-        <table class="tf-table">
-          <thead><tr><th style="width:60px;">Ý</th><th>Phát biểu nhận định</th><th style="width:100px;">Kết luận</th></tr></thead>
-          <tbody>
-            ${(q.statements || []).map(st => `
-              <tr>
-                <td style="text-align:center; font-weight:bold;">${st.label})</td>
-                <td>${escapeHtml(st.text)}</td>
-                <td style="text-align:center;">&nbsp;</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      `).join("")}
+  (exam.mcqs || []).forEach((q, i) => {
+    html += `
+      <div class="q-stem"><strong>Câu ${i + 1}:</strong> ${escapeHtml(q.stem)}</div>
+      <div class="q-opt"><strong>A.</strong> ${escapeHtml(q.options[0])}</div>
+      <div class="q-opt"><strong>B.</strong> ${escapeHtml(q.options[1])}</div>
+      <div class="q-opt"><strong>C.</strong> ${escapeHtml(q.options[2])}</div>
+      <div class="q-opt"><strong>D.</strong> ${escapeHtml(q.options[3])}</div>
+    `;
+  });
 
-      <h4 style="page-break-before:always;">PHẦN III. TỰ LUẬN CHUYÊN SÂU & MỞ RỘNG THỰC TIỄN (8,0 điểm)</h4>
-      <p><em>Thí sinh trình bày chi tiết bài làm cho các câu hỏi sau vào tờ giấy thi tự luận.</em></p>
-      ${exam.essays.map(p => `
-        <p><strong>${escapeHtml(p.title)}:</strong><br/>${escapeHtml(p.problem).replace(/\n/g, "<br/>")}</p>
-      `).join("")}
+  html += `
+    <br/>
+    <h4>PHẦN II. CÂU TRẮC NGHIỆM ĐÚNG SAI (6,0 điểm)</h4>
+    <p><em>Thí sinh trả lời từ câu 1 đến câu 4. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn Đúng hoặc Sai và viết lời giải thích cơ sở khoa học vào Phiếu trả lời.</em></p>
+  `;
 
-      <div class="page-footer">---------- HẾT ----------<br/><small>(Cán bộ coi thi không giải thích gì thêm)</small></div>
+  (exam.tfs || []).forEach((q, i) => {
+    html += `
+      <div class="q-stem"><strong>Câu ${i + 1}:</strong> ${escapeHtml(q.title)}. ${escapeHtml(q.context)}</div>
+      <table class="tf-table">
+        <thead><tr><th style="width:8%;">Ý</th><th>Nội dung nhận định</th></tr></thead>
+        <tbody>
+    `;
+    (q.statements || []).forEach(st => {
+      html += `<tr><td style="text-align:center; font-weight:bold;">${st.label})</td><td>${escapeHtml(st.text)}</td></tr>`;
+    });
+    html += `</tbody></table><br/>`;
+  });
+
+  html += `
+    <h4>PHẦN III. CÂU HỎI TỰ LUẬN (8,0 điểm)</h4>
+    <p><em>Thí sinh trình bày chi tiết lời giải và phân tích các tình huống kỹ thuật sau vào Giấy làm bài thi.</em></p>
+  `;
+
+  (exam.essays || []).forEach((p, i) => {
+    html += `
+      <div class="q-stem"><strong>${escapeHtml(p.title)}:</strong></div>
+      <div style="margin: 4px 0 16px 14px; white-space: pre-line;">${escapeHtml(p.problem)}</div>
+    `;
+  });
+
+  html += `
+      <div class="page-footer">---------- HẾT ----------<br/><em>(Cán bộ coi thi không giải thích gì thêm)</em></div>
     </body></html>
   `;
-  downloadDocFile(html, `De-Thi-HSG-Dong-Nai-${exam.id}-Bang-${tbl}-Hoc-Sinh.doc`);
+
+  downloadDocFile(html, `DeThi_HSG_${exam.id}_DanhChoHocSinh.doc`);
 }
 
-// 2. XUẤT MẪU PHIẾU TRẢ LỜI & GIẢI THÍCH BÀI THI HSG
+// 2. XUẤT PHIẾU TRẢ LỜI CỦA THÍ SINH
 function exportHsgAnswerSheetDoc() {
   const exam = getCurrentHsgExam();
-  const tbl = HSG_MASTER_STATE.tableMode || 'A';
+  const tbl = 'B';
   let html = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-    <head><meta charset="utf-8"><title>Phieu Tra Loi Bai Thi HSG Dong Nai</title>
+    <head><meta charset="utf-8"><title>Phieu Tra Loi HSG</title>
     <style>
-      body { font-family: "Times New Roman", serif; font-size: 12pt; line-height: 1.4; }
-      table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-      th, td { border: 1px solid #000; padding: 5px; font-size: 11pt; }
-      .no-border td { border: none; }
+      body { font-family: "Times New Roman", serif; font-size: 11pt; line-height: 1.4; }
+      table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+      th, td { border: 1px solid #000; padding: 4px 6px; }
+      .no-border td { border: none; padding: 3px; }
     </style></head>
     <body>
       <table class="no-border">
         <tr>
-          <td style="width:45%; text-align:center;">
-            <strong>SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI</strong><br/>
-            HỘI ĐỒNG COI THI: .......................................
+          <td style="width:60%;">
+            <strong>SỞ GD&ĐT ĐỒNG NAI — KỲ THI CHỌN HSG CẤP TỈNH</strong><br/>
+            <strong>MÔN: CÔNG NGHỆ (NÔNG NGHIỆP) — BẢNG ${tbl}</strong><br/>
+            <strong>CẤP ĐỘ: ${escapeHtml(exam.levelLabel || '')}</strong>
           </td>
-          <td style="width:55%; text-align:center;">
-            <strong>PHIẾU TRẢ LỜI BÀI THI HỌC SINH GIỎI CẤP TỈNH</strong><br/>
-            <strong>MÔN: CÔNG NGHỆ (ĐỊNH HƯỚNG NÔNG NGHIỆP)</strong><br/>
-            <em>Thời gian làm bài: 180 phút — BẢNG THI: BẢNG ${tbl}</em>
+          <td style="width:40%; text-align:right;">
+            Họ và tên thí sinh: ........................................<br/>
+            Số báo danh: .................... Phòng thi: .........
           </td>
         </tr>
       </table>
+      <h3 style="text-align:center; margin:6px 0;">PHIẾU TRẢ LỜI VÀ LÀM BÀI KHẢO THÍ HỌC SINH GIỎI</h3>
 
+      <h4>PHẦN I: BẢNG TRẢ LỜI TRẮC NGHIỆM NHIỀU LỰA CHỌN (24 câu)</h4>
       <table>
         <tr>
-          <td>Họ và tên thí sinh: .....................................................................................</td>
-          <td>Số báo danh: ........................... Phòng thi: .......</td>
-        </tr>
-        <tr>
-          <td>Ngày sinh: .............................. Trường THPT: .................................................</td>
-          <td>Mã phách: .................................................</td>
-        </tr>
-      </table>
-
-      <table style="text-align:center;">
-        <thead>
-          <tr><th colspan="3">ĐIỂM TỪNG PHẦN THI (Thang điểm 20,0)</th><th rowspan="2">TỔNG ĐIỂM (Bằng số & chữ)</th><th rowspan="2">CHỮ KÝ GIÁM KHẢO</th></tr>
-          <tr><th>Phần I (MCQ /6,0đ)</th><th>Phần II (Đ/S /6,0đ)</th><th>Phần III (Tự luận /8,0đ)</th></tr>
-        </thead>
-        <tbody>
-          <tr style="height:45px;">
-            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-            <td style="text-align:left; font-size:10pt;">GK 1: .................................<br/>GK 2: .................................</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h4>PHẦN I: BẢNG TRẢ LỜI CÂU HỎI TRẮC NGHIỆM (24 câu — 6,0 điểm)</h4>
-      <p><em>(Thí sinh khoanh tròn hoặc tô đen một phương án đúng A, B, C hoặc D)</em></p>
-      <table>
-        <thead><tr><th>Câu</th><th>Chọn</th><th>Câu</th><th>Chọn</th><th>Câu</th><th>Chọn</th><th>Câu</th><th>Chọn</th></tr></thead>
-        <tbody>
-          ${[0, 1, 2, 3, 4, 5].map(r => `
-            <tr>
-              <td style="text-align:center;"><strong>${r + 1}</strong></td><td>[ A ] [ B ] [ C ] [ D ]</td>
-              <td style="text-align:center;"><strong>${r + 7}</strong></td><td>[ A ] [ B ] [ C ] [ D ]</td>
-              <td style="text-align:center;"><strong>${r + 13}</strong></td><td>[ A ] [ B ] [ C ] [ D ]</td>
-              <td style="text-align:center;"><strong>${r + 19}</strong></td><td>[ A ] [ B ] [ C ] [ D ]</td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-
-      <h4 style="margin-top:16px;">PHẦN II: BẢNG TRẢ LỜI ĐÚNG / SAI CÓ GIẢI THÍCH (16 ý — 6,0 điểm)</h4>
-      <p><em>(Thí sinh đánh dấu Đ hoặc S vào cột Kết luận VÀ viết lời giải thích cơ sở khoa học vào ô bên cạnh)</em></p>
-      <table>
-        <thead>
-          <tr>
-            <th style="width:75px; text-align:center;">Câu & Ý</th>
-            <th style="width:65px; text-align:center;">Kết luận</th>
-            <th>Lời giải thích cơ sở khoa học (Bắt buộc để đạt trọn điểm)</th>
-            <th style="width:65px; text-align:center;">Điểm GK</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${exam.tfs.flatMap(q => q.statements.map(st => `
-            <tr style="height:40px;">
-              <td style="text-align:center;"><strong>Câu ${q.id} ${st.label})</strong></td>
-              <td style="text-align:center;">[ ] Đ<br/>[ ] S</td>
-              <td>..........................................................................................................................................................<br/>..........................................................................................................................................................</td>
-              <td>&nbsp;</td>
-            </tr>
-          `)).join("")}
-        </tbody>
-      </table>
-
-      <h4 style="page-break-before:always; margin-top:20px;">PHẦN III: PHẦN LÀM BÀI TỰ LUẬN (8,0 điểm)</h4>
-      <p><em>(Thí sinh viết lời giải chi tiết cho Câu 1, Câu 2 và Câu 3 vào các trang giấy thi tự luận tiếp theo)</em></p>
-      <div style="min-height:750px; border:1px dashed #777; padding:15px; line-height:2.2;">
-        <strong>BÀI LÀM TỰ LUẬN:</strong><br/>
-        ............................................................................................................................................................................................................<br/>
-        ............................................................................................................................................................................................................<br/>
-        ............................................................................................................................................................................................................<br/>
-        ............................................................................................................................................................................................................<br/>
-        ............................................................................................................................................................................................................<br/>
-        ............................................................................................................................................................................................................
-      </div>
-    </body></html>
   `;
-  downloadDocFile(html, `Phieu-Tra-Loi-Va-Giai-Thich-HSG-Dong-Nai-Bang-${tbl}.doc`);
+  for (let c = 1; c <= 12; c++) {
+    html += `<th style="width:8%;">C${c}</th>`;
+  }
+  html += `</tr><tr>`;
+  for (let c = 1; c <= 12; c++) {
+    const userAns = HSG_MASTER_STATE.userMcq[c - 1];
+    const letter = typeof userAns !== "undefined" ? String.fromCharCode(65 + userAns) : "";
+    html += `<td style="text-align:center; height:24px; font-weight:bold; color:blue;">${letter}</td>`;
+  }
+  html += `</tr><tr>`;
+  for (let c = 13; c <= 24; c++) {
+    html += `<th style="width:8%;">C${c}</th>`;
+  }
+  html += `</tr><tr>`;
+  for (let c = 13; c <= 24; c++) {
+    const userAns = HSG_MASTER_STATE.userMcq[c - 1];
+    const letter = typeof userAns !== "undefined" ? String.fromCharCode(65 + userAns) : "";
+    html += `<td style="text-align:center; height:24px; font-weight:bold; color:blue;">${letter}</td>`;
+  }
+  html += `</tr></table>`;
+
+  html += `
+    <h4>PHẦN II: BẢNG TRẢ LỜI VÀ GIẢI THÍCH ĐÚNG / SAI (16 ý)</h4>
+    <p><em>(Quy chế Bảng ${tbl}: Xác định Đúng/Sai và tóm tắt lời giải thích cơ sở khoa học)</em></p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:8%;">Câu</th>
+          <th style="width:6%;">Ý</th>
+          <th style="width:12%;">Chọn (Đ/S)</th>
+          <th>Tóm tắt lời giải thích cơ sở khoa học của thí sinh</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  (exam.tfs || []).forEach((q, qIdx) => {
+    (q.statements || []).forEach((st, sIdx) => {
+      const uChoice = HSG_MASTER_STATE.userTfChoice[qIdx] ? HSG_MASTER_STATE.userTfChoice[qIdx][st.label] : undefined;
+      const uExp = HSG_MASTER_STATE.userTfExplain[qIdx] ? HSG_MASTER_STATE.userTfExplain[qIdx][st.label] : "";
+      const choiceText = typeof uChoice === "boolean" ? (uChoice ? "ĐÚNG" : "SAI") : "";
+      html += `
+        <tr>
+          ${sIdx === 0 ? `<td rowspan="4" style="text-align:center; font-weight:bold;">Câu ${qIdx + 1}</td>` : ''}
+          <td style="text-align:center; font-weight:bold;">${st.label})</td>
+          <td style="text-align:center; font-weight:bold; color:blue;">${choiceText}</td>
+          <td style="font-style:italic;">${escapeHtml(uExp || "................................................................................................................")}</td>
+        </tr>
+      `;
+    });
+  });
+  html += `</tbody></table>`;
+
+  html += `
+    <h4>PHẦN III: BÀI LÀM TỰ LUẬN CỦA THÍ SINH (8,0 điểm)</h4>
+  `;
+  (exam.essays || []).forEach((p, idx) => {
+    const text = HSG_MASTER_STATE.userEssayText[idx] || "";
+    html += `
+      <div style="font-weight:bold; margin-top:8px;">${escapeHtml(p.title)}:</div>
+      <div style="border:1px dashed #333; min-height:120px; padding:8px; margin:6px 0 14px; font-family:'Courier New', monospace; font-size:10.5pt; white-space:pre-wrap;">${escapeHtml(text) || "Bài làm của thí sinh viết tại đây:\n\n\n\n\n"}</div>
+    `;
+  });
+
+  html += `</body></html>`;
+  downloadDocFile(html, `PhieuTraLoi_HSG_${exam.id}_CuaThiSinh.doc`);
 }
 
-// 3. XUẤT BỘ ĐÁP ÁN, HƯỚNG DẪN CHẤM CHI TIẾT & BẢNG TỔNG HỢP ĐIỂM
+// 3. XUẤT ĐÁP ÁN CHÍNH THỨC VÀ HƯỚNG DẪN CHẤM BAREM CHI TIẾT
 function exportHsgOfficialKeyAndRubricDoc() {
   const exam = getCurrentHsgExam();
-  const tbl = HSG_MASTER_STATE.tableMode || 'A';
-  const val = validateDongNaiHsgExam(exam);
-
+  const tbl = 'B';
   let html = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-    <head><meta charset="utf-8"><title>Dap An Va Huong Dan Cham HSG Dong Nai</title>
+    <head><meta charset="utf-8"><title>Dap An Va Barem Cham HSG</title>
     <style>
-      body { font-family: "Times New Roman", serif; font-size: 12pt; line-height: 1.45; }
-      h2, h3, h4 { text-align: center; margin: 4px 0; }
-      table { width: 100%; border-collapse: collapse; margin: 10px 0; }
-      th, td { border: 1px solid #000; padding: 6px; font-size: 11pt; }
-      .rule-box { background: #f9f9f9; border-left: 4px solid #000; padding: 10px; margin: 12px 0; font-size: 11pt; }
+      body { font-family: "Times New Roman", serif; font-size: 11pt; line-height: 1.4; }
+      table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+      th, td { border: 1px solid #000; padding: 5px 7px; font-size: 10.5pt; }
+      .header-table td { border: none; padding: 3px; }
+      .correct-key { font-weight: bold; color: #166534; }
     </style></head>
     <body>
-      <table style="width:100%; border:none;">
-        <tr style="border:none;">
-          <td style="border:none; text-align:center; width:45%;">
+      <table class="header-table" style="width:100%;">
+        <tr>
+          <td style="width:50%; text-align:center;">
             <strong>SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI</strong><br/>
-            <strong>HỘI ĐỒNG CHẤM THI CHỌN HSG CẤP TỈNH</strong>
+            <strong>HỘI ĐỒNG CHẤM THI CHỌN HSG</strong>
           </td>
-          <td style="border:none; text-align:center; width:55%;">
-            <strong>HƯỚNG DẪN CHẤM VÀ BIỂU ĐIỂM CHI TIẾT</strong><br/>
-            <strong>MÔN: CÔNG NGHỆ (ĐỊNH HƯỚNG NÔNG NGHIỆP)</strong><br/>
-            <em>Khóa thi ngày: ...................... — ÁP DỤNG: BẢNG ${tbl}</em>
+          <td style="width:50%; text-align:center;">
+            <strong>KỲ THI CHỌN HỌC SINH GIỎI CẤP TỈNH</strong><br/>
+            <strong>NĂM HỌC 2025 – 2026</strong><br/>
+            <strong>MÔN: CÔNG NGHỆ (NÔNG NGHIỆP)</strong>
           </td>
         </tr>
       </table>
-      <hr/>
+      <hr style="border: 1px solid #000; margin: 4px 0 12px;"/>
 
-      <div class="rule-box">
-        <strong>QUY ĐỊNH CHẤM THI CHỌN HỌC SINH GIỎI (Theo Điều 31 Quyết định 1540/QĐ-SGDĐT):</strong><br/>
-        1. Mỗi bài thi phải được <strong>02 giám khảo chấm độc lập</strong> trên 2 phiếu chấm riêng biệt. Điểm bài thi là điểm trung bình cộng của 2 giám khảo.<br/>
-        2. Nếu điểm của 2 giám khảo lệch nhau từ 0,50 đến 1,00 điểm thì 2 giám khảo đối thoại thống nhất; nếu không thống nhất được hoặc lệch trên 1,00 điểm thì Tổ trưởng phân công giám khảo thứ 3 chấm độc lập.<br/>
-        3. Điểm toàn bài chấm theo thang <strong>20,0 điểm</strong>, làm tròn đến 0,25 điểm (hoặc giữ nguyên 3 chữ số thập phân 0,125 điểm ở Phần II).<br/>
-        4. Thí sinh làm bài theo cách khác nhưng đúng bản chất khoa học và lập luận chặt chẽ vẫn cho điểm tối đa của ý đó.
-      </div>
+      <h3 style="text-align:center; color:#1e3a8a; margin:4px 0;">HƯỚNG DẪN CHẤM VÀ BIỂU ĐIỂM CHI TIẾT (BAREM CHÍNH THỨC)</h3>
+      <p style="text-align:center; font-weight:bold;">
+        ÁP DỤNG: BẢNG ${tbl} (${tbl === 'A' ? 'Trường THPT Chuyên: Đúng 0,125đ + Giải thích 0,250đ' : 'Trường THPT Không chuyên: Đúng 0,250đ + Giải thích 0,125đ'})<br/>
+        CẤP ĐỘ KHẢO THÍ: ${escapeHtml(exam.levelLabel || '')}
+      </p>
 
-      <h4>I. ĐÁP ÁN PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (24 câu — 6,0 điểm)</h4>
-      <p><em>(Mỗi câu đúng được 0,25 điểm)</em></p>
-      <table>
-        <tr>${exam.mcqs.slice(0, 12).map((_, i) => `<th style="text-align:center;">Câu ${i + 1}</th>`).join("")}</tr>
-        <tr>${exam.mcqs.slice(0, 12).map(q => `<td style="text-align:center; font-weight:bold;">${String.fromCharCode(65 + q.answer)}</td>`).join("")}</tr>
-        <tr>${exam.mcqs.slice(12, 24).map((_, i) => `<th style="text-align:center;">Câu ${13 + i}</th>`).join("")}</tr>
-        <tr>${exam.mcqs.slice(12, 24).map(q => `<td style="text-align:center; font-weight:bold;">${String.fromCharCode(65 + q.answer)}</td>`).join("")}</tr>
-      </table>
-
-      <h4 style="page-break-before:always; margin-top:20px;">II. ĐÁP ÁN & HƯỚNG DẪN CHẤM PHẦN II: ĐÚNG / SAI CÓ GIẢI THÍCH (6,0 điểm)</h4>
-      <p><em>Áp dụng công thức tính điểm BẢNG ${tbl}: ${tbl === 'A' ? 'Xác định đúng: 0,125đ; Giải thích đúng: 0,25đ' : 'Xác định đúng: 0,25đ; Giải thích đúng: 0,125đ'}.</em></p>
+      <h4>I. ĐÁP ÁN PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (24 câu — 6,0 điểm, mỗi câu 0,25đ)</h4>
       <table>
         <thead>
           <tr>
-            <th style="width:65px; text-align:center;">Câu & Ý</th>
-            <th style="width:70px; text-align:center;">Đáp án</th>
-            <th>Nội dung giải thích cơ sở khoa học chuẩn</th>
-            <th style="width:80px; text-align:center;">Điểm Bảng A</th>
-            <th style="width:80px; text-align:center;">Điểm Bảng B</th>
+            <th style="width:8%;">Câu</th>
+            <th style="width:10%;">Đáp án</th>
+            <th style="width:12%;">Khối lớp</th>
+            <th>Phân tích cơ sở khoa học và giải thích đáp án chuẩn</th>
           </tr>
         </thead>
         <tbody>
-          ${exam.tfs.flatMap(q => q.statements.map(st => `
-            <tr>
-              <td style="text-align:center;"><strong>Câu ${q.id} ${st.label})</strong></td>
-              <td style="text-align:center; font-weight:bold; color:${st.isTrue ? 'green' : 'red'};">${st.isTrue ? 'ĐÚNG' : 'SAI'}</td>
-              <td>${escapeHtml(st.explanation)}</td>
-              <td style="text-align:center;">0,125 + 0,25 = <strong>0,375đ</strong></td>
-              <td style="text-align:center;">0,25 + 0,125 = <strong>0,375đ</strong></td>
-            </tr>
-          `)).join("")}
-        </tbody>
-      </table>
+  `;
+  (exam.mcqs || []).forEach((q, idx) => {
+    html += `
+      <tr>
+        <td style="text-align:center; font-weight:bold;">${idx + 1}</td>
+        <td style="text-align:center; font-weight:bold; font-size:12pt; color:#15803d;">${String.fromCharCode(65 + q.answer)}</td>
+        <td style="text-align:center;">${q.grade.toUpperCase()}</td>
+        <td>${escapeHtml(q.explanation)}</td>
+      </tr>
+    `;
+  });
+  html += `</tbody></table><br/>`;
 
-      <h4 style="page-break-before:always; margin-top:20px;">III. ĐÁP ÁN VÀ THANG ĐIỂM CHI TIẾT PHẦN III: TỰ LUẬN (8,0 điểm)</h4>
-      ${exam.essays.map(p => `
-        <div style="margin-bottom:18px;">
-          <p><strong>${escapeHtml(p.title)}:</strong></p>
-          <table>
-            <thead><tr><th style="width:80%;">Ý / Nội dung yêu cầu đạt được</th><th style="width:20%; text-align:center;">Điểm tối đa</th></tr></thead>
-            <tbody>
-              ${p.rubric.map(r => {
-                const parts = r.split(":");
-                const desc = parts.slice(1).join(":") || r;
-                const ptMatch = r.match(/\(([\d,]+)đ\)/);
-                const pt = ptMatch ? ptMatch[1] + "đ" : "0,5đ";
-                return `<tr><td><strong>${escapeHtml(parts[0])}:</strong> ${escapeHtml(desc)}</td><td style="text-align:center; font-weight:bold;">${pt}</td></tr>`;
-              }).join("")}
-            </tbody>
-          </table>
-        </div>
-      `).join("")}
+  html += `
+    <h4>II. ĐÁP ÁN & BIỂU ĐIỂM PHẦN II: CÂU TRẮC NGHIỆM ĐÚNG / SAI CÓ GIẢI THÍCH (6,0 điểm)</h4>
+    <p><em>Quy định thang điểm Bảng ${tbl}: Xác định đúng = ${tbl === 'A' ? '0,125đ' : '0,250đ'} ; Viết giải thích cơ sở khoa học thỏa đáng = ${tbl === 'A' ? '0,250đ' : '0,125đ'} (Tối đa 0,375đ/ý).</em></p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:8%;">Câu</th>
+          <th style="width:6%;">Ý</th>
+          <th style="width:10%;">Đáp án</th>
+          <th>Căn cứ khoa học và hướng dẫn chấm giải thích</th>
+          <th style="width:12%;">Điểm tối đa</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  (exam.tfs || []).forEach((q, qIdx) => {
+    (q.statements || []).forEach((st, sIdx) => {
+      html += `
+        <tr>
+          ${sIdx === 0 ? `<td rowspan="4" style="text-align:center; font-weight:bold;">Câu ${qIdx + 1}<br/><span style="font-size:9pt; color:#666;">${escapeHtml(q.topic)}</span></td>` : ''}
+          <td style="text-align:center; font-weight:bold;">${st.label})</td>
+          <td style="text-align:center; font-weight:bold; color:${st.isTrue ? '#166534' : '#991b1b'}; font-size:11.5pt;">${st.isTrue ? "ĐÚNG" : "SAI"}</td>
+          <td>${escapeHtml(st.explanation)}</td>
+          <td style="text-align:center; font-weight:bold;">${tbl === 'A' ? '0,125 + 0,250 = 0,375đ' : '0,250 + 0,125 = 0,375đ'}</td>
+        </tr>
+      `;
+    });
+  });
+  html += `</tbody></table><br/>`;
 
-      <h4 style="page-break-before:always; margin-top:20px;">IV. BẢNG TỔNG HỢP ĐIỂM THEO CHỦ ĐỀ VÀ KẾT QUẢ KIỂM ĐỊNH ĐỀ</h4>
+  html += `
+    <h4>III. ĐÁP ÁN & BAREM CHI TIẾT PHẦN III: TỰ LUẬN CHUYÊN SÂU (8,0 điểm)</h4>
+  `;
+  (exam.essays || []).forEach((p, idx) => {
+    html += `
+      <div style="font-weight:bold; color:#1e3a8a; margin-top:10px;">${escapeHtml(p.title)}</div>
       <table>
-        <thead><tr><th>Khối lớp / Phân môn</th><th>Nội dung chuyên đề</th><th>Số lệnh hỏi</th><th>Điểm số</th><th>Tỷ lệ %</th></tr></thead>
+        <thead><tr><th style="width:12%;">Ý / Bước</th><th>Nội dung yêu cầu cần đạt</th><th style="width:12%;">Điểm</th></tr></thead>
         <tbody>
-          <tr><td rowspan="3">Khối 10 (Trồng trọt)</td><td>(1) Đất trồng</td><td>3 MCQ + 4 ý Đ/S</td><td>1,75đ</td><td>8,75%</td></tr>
-          <tr><td>(2) Phân bón</td><td>3 MCQ</td><td>0,75đ</td><td>3,75%</td></tr>
-          <tr><td>(3) Trồng trọt công nghệ cao</td><td>2 MCQ</td><td>0,50đ</td><td>2,50%</td></tr>
-          <tr><td rowspan="3">Khối 11 (Chăn nuôi)</td><td>(1) Công nghệ giống vật nuôi</td><td>3 MCQ</td><td>0,75đ</td><td>3,75%</td></tr>
-          <tr><td>(2) Công nghệ thức ăn chăn nuôi</td><td>3 MCQ + 4 ý Đ/S</td><td>1,75đ</td><td>8,75%</td></tr>
-          <tr><td>(3) Bảo vệ môi trường chăn nuôi</td><td>2 MCQ</td><td>0,50đ</td><td>2,50%</td></tr>
-          <tr><td rowspan="2">Khối 12 (Lâm - Thủy sản)</td><td>Nhóm Lâm nghiệp (Đại cương, Rừng gỗ lớn, Bảo vệ & FSC)</td><td>4 MCQ + 4 ý Đ/S + Tự luận C1</td><td>6,00đ</td><td>30,00%</td></tr>
-          <tr><td>Nhóm Thủy sản (Môi trường, Biofloc, RAS, Giống rô phi)</td><td>4 MCQ + 4 ý Đ/S + Tự luận C2</td><td>6,00đ</td><td>30,00%</td></tr>
-          <tr><td>Tổng hợp mở rộng</td><td>Nông nghiệp tuần hoàn khép kín Net-Zero</td><td>Tự luận C3</td><td>1,00đ</td><td>5,00%</td></tr>
-          <tr style="font-weight:bold; background:#eee;"><td colspan="2">TỔNG TOÀN BÀI THI</td><td>24 MCQ + 16 ý Đ/S + 3 TL</td><td>20,00đ</td><td>100,00%</td></tr>
-        </tbody>
-      </table>
+    `;
+    (p.rubric || []).forEach((r, rIdx) => {
+      const match = r.match(/^(.*?):\s*(.*)$/);
+      const stepName = match ? match[1] : `Bước ${rIdx + 1}`;
+      const stepContent = match ? match[2] : r;
+      html += `
+        <tr>
+          <td style="text-align:center; font-weight:bold;">${escapeHtml(stepName)}</td>
+          <td>${escapeHtml(stepContent)}</td>
+          <td style="text-align:center; font-weight:bold; color:#15803d;">Theo rubric</td>
+        </tr>
+      `;
+    });
+    html += `</tbody></table>`;
+  });
 
-      <div class="rule-box" style="margin-top:15px;">
-        <strong>KẾT QUẢ KIỂM ĐỊNH TỰ ĐỘNG THEO 14 TIÊU CHÍ (SKILL.md):</strong><br/>
-        • Số tiêu chí hợp lệ: <strong>${val.passedCount}/${val.totalCount} tiêu chí (${val.scorePercent}%)</strong>.<br/>
-        • Trạng thái đề thi: <strong>${val.isFullyValid ? 'HỢP LỆ TUYỆT ĐỐI — ĐẠT CHUẨN THI CẤP TỈNH' : 'CẦN ĐIỀU CHỈNH'}</strong>.
+  html += `
+      <div style="margin-top:24px; text-align:right;">
+        <strong>HỘI ĐỒNG THẨM ĐỊNH ĐỀ THI VÀ ĐÁP ÁN</strong><br/>
+        <em>(Đã ký duyệt và niêm phong mật)</em>
       </div>
     </body></html>
   `;
-  downloadDocFile(html, `Dap-An-Huong-Dan-Cham-HSG-Dong-Nai-${exam.id}-Bang-${tbl}.doc`);
+  downloadDocFile(html, `DapAn_Va_BaremCham_HSG_${exam.id}_Bang_${tbl}.doc`);
 }
 
-function downloadDocFile(content, fileName) {
-  const blob = new Blob(['\ufeff', content], { type: 'application/msword' });
+function downloadDocFile(htmlContent, fileName) {
+  const blob = new Blob(['\ufeff', htmlContent], {
+    type: 'application/msword;charset=utf-8'
+  });
+  const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
+  a.href = url;
   a.download = fileName;
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
-// ============================================================================
 // 7. GIAO DIỆN CHÍNH & ĐIỀU KHIỂN TƯƠNG TÁC PHÂN HỆ HSG MASTER
-// ============================================================================
 function selectHsgMasterSubTab(tab) {
   HSG_MASTER_STATE.activeSubTab = tab;
   renderDongNaiHsgMaster();
@@ -1570,8 +2940,39 @@ function selectHsgMasterExam(examId) {
 }
 
 function selectHsgMasterTable(tbl) {
-  HSG_MASTER_STATE.tableMode = tbl;
+  HSG_MASTER_STATE.tableMode = "B";
   renderDongNaiHsgMaster();
+}
+
+function selectHsgMasterLevel(lvl) {
+  HSG_MASTER_STATE.selectedLevel = lvl;
+  const list = getExamsForCurrentLevel();
+  if (list.length > 0 && !list.some(e => e.id === HSG_MASTER_STATE.activeExamId)) {
+    selectHsgMasterExam(list[0].id);
+  } else {
+    renderDongNaiHsgMaster();
+  }
+}
+
+function toggleGlobalRecallHints() {
+  HSG_MASTER_STATE.showRecallHints = !HSG_MASTER_STATE.showRecallHints;
+  renderDongNaiHsgMaster();
+}
+
+function toggleSingleRecallHint(key) {
+  HSG_MASTER_STATE.expandedRecallHints[key] = !HSG_MASTER_STATE.expandedRecallHints[key];
+  renderDongNaiHsgMaster();
+}
+
+function levelUpMilestone(targetLevel) {
+  selectHsgMasterLevel(targetLevel);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function regenerateAutoExamForLevel(lvl) {
+  HSG_MASTER_STATE.selectedLevel = lvl;
+  HSG_PROVINCIAL_EXAMS.dn_auto = generateDynamicDongNaiExam(lvl);
+  selectHsgMasterExam('dn_auto');
 }
 
 function toggleHsgMasterTimer() {
@@ -1666,7 +3067,7 @@ function renderDongNaiHsgMaster() {
   if (!targetBox) return;
 
   const exam = getCurrentHsgExam();
-  const tbl = HSG_MASTER_STATE.tableMode || 'A';
+  const tbl = 'B';
   const val = validateDongNaiHsgExam(exam);
 
   // Tính điểm trực tiếp
@@ -1713,26 +3114,49 @@ function renderDongNaiHsgMaster() {
 
   const totalScore = (mcqScore + tfScore + essayScore).toFixed(3);
 
-  // Navigation Bar con của Phân hệ HSG
+window.toggleHsgExportMenu = function(e) {
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  const m = document.getElementById("hsgExportDropdownMenu");
+  if (m) {
+    m.classList.toggle("show");
+  }
+};
+window.closeHsgExportMenu = function() {
+  const m = document.getElementById("hsgExportDropdownMenu");
+  if (m) {
+    m.classList.remove("show");
+  }
+};
+document.addEventListener("click", function() {
+  window.closeHsgExportMenu();
+});
+
+// Navigation Bar con của Phân hệ HSG (Rút gọn tên để nằm vừa 1 dòng)
   const subNavHtml = `
-    <div style="display:flex; gap:6px; margin-bottom:16px; border-bottom:1.5px solid var(--border); padding-bottom:12px; flex-wrap:wrap;">
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_dongnai' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_dongnai')">
-        🏆 1. Phòng Luyện Đề Chuẩn Đồng Nai (180 Phút • 20,0đ)
+    <div style="display:flex; gap:6px; margin-bottom:16px; border-bottom:1.5px solid var(--border); padding-bottom:12px; flex-wrap:nowrap; overflow-x:auto; white-space:nowrap;">
+      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_dongnai' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_dongnai')" style="white-space:nowrap;">
+        🏆 1. Luyện Đề HSG
       </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_matrix_validator' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_matrix_validator')">
-        ⚖️ 2. Ma Trận Đề & Bộ Kiểm Định 14 Tiêu Chí (SKILL.md)
+      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_theory_handbook' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_theory_handbook')" style="white-space:nowrap;">
+        📚 2. Cẩm Nang Lý Thuyết
       </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_theory_handbook' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_theory_handbook')">
-        📚 3. Cẩm Nang Lý Thuyết Chuyên Sâu 9 Chủ Đề (K10–11–12)
+      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_topics' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_topics')" style="white-space:nowrap;">
+        📐 3. 10 Dạng Toán
       </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_topics' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_topics')">
-        📐 4. Mười Dạng Bài Toán Kỹ Thuật Kinh Điển HSG
+      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'ag_calc' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('ag_calc')" style="white-space:nowrap;">
+        🧮 4. Máy Tính 6-in-1
       </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_quiz' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_quiz')">
-        🧠 5. Phòng Trắc Nghiệm VDC Tự Động
+      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_quiz' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_quiz')" style="white-space:nowrap;">
+        🧠 5. Trắc Nghiệm VDC
       </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'ag_calc' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('ag_calc')">
-        🧮 6. Bộ Máy Tính Kỹ Thuật Nông Nghiệp
+      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_matrix_validator' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_matrix_validator')" style="white-space:nowrap;">
+        ⚖️ 6. Ma Trận 14 Tiêu Chí
+      </button>
+      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_classroom' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_classroom')" style="background:${HSG_MASTER_STATE.activeSubTab === 'hsg_classroom' ? '#2563eb' : '#eff6ff'}; color:${HSG_MASTER_STATE.activeSubTab === 'hsg_classroom' ? '#fff' : '#1d4ed8'}; border-color:#93c5fd; font-weight:700; white-space:nowrap;">
+        🏫 7. Phòng Thi Lớp
       </button>
     </div>
   `;
@@ -1740,28 +3164,62 @@ function renderDongNaiHsgMaster() {
   let bodyContent = "";
 
   if (HSG_MASTER_STATE.activeSubTab === "hsg_dongnai") {
-    // ------------------------------------------------------------------------
-    // TAB 1: PHÒNG THI & LUYỆN ĐỀ CHUẨN ĐỒNG NAI
-    // ------------------------------------------------------------------------
+    const currentLevel = HSG_MASTER_STATE.selectedLevel || 'all';
+    const availableExams = getExamsForCurrentLevel();
+
     bodyContent = `
-      <!-- Banner Chọn Đề & Cấu hình Bảng A/B -->
+      <!-- THANH CHỌN CẤP ĐỘ TIẾN TRÌNH HSG (1 HÀNG MỎNG TINH GỌN) -->
+      <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:10px; padding:10px 16px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span style="font-size:12px; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">HỆ THỐNG PHÂN CẤP ĐỘ:</span>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn btn-sm ${HSG_MASTER_STATE.selectedLevel === 'all' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterLevel('all')">
+                🌐 Tất cả cấp độ
+              </button>
+              <button class="btn btn-sm ${HSG_MASTER_STATE.selectedLevel === 'easy' ? 'btn-primary' : 'btn-outline'}" style="${HSG_MASTER_STATE.selectedLevel === 'easy' ? 'background:#16a34a; border-color:#16a34a;' : 'color:#16a34a; border-color:#86efac;'}" onclick="selectHsgMasterLevel('easy')">
+                🟢 Cấp độ 1: Dễ / Khởi động (SGK)
+              </button>
+              <button class="btn btn-sm ${HSG_MASTER_STATE.selectedLevel === 'medium' ? 'btn-primary' : 'btn-outline'}" style="${HSG_MASTER_STATE.selectedLevel === 'medium' ? 'background:#d97706; border-color:#d97706;' : 'color:#d97706; border-color:#fcd34d;'}" onclick="selectHsgMasterLevel('medium')">
+                🟡 Cấp độ 2: Vừa / Tăng tốc (Bảng B)
+              </button>
+              <button class="btn btn-sm ${HSG_MASTER_STATE.selectedLevel === 'hard' ? 'btn-primary' : 'btn-outline'}" style="${HSG_MASTER_STATE.selectedLevel === 'hard' ? 'background:#dc2626; border-color:#dc2626;' : 'color:#dc2626; border-color:#fca5a5;'}" onclick="selectHsgMasterLevel('hard')">
+                🔴 Cấp độ 3: Khó / Về đích (VDC)
+              </button>
+              <button class="btn btn-sm ${HSG_MASTER_STATE.activeExamId === 'dn_auto' ? 'btn-primary' : 'btn-outline'}" style="background:#7c3aed; color:#fff; border-color:#7c3aed;" onclick="regenerateAutoExamForLevel('${currentLevel}')">
+                🎲 Tạo Đề Mới (Khi Chưa Đạt)
+              </button>
+            </div>
+          </div>
+
+          <!-- Toggle Gợi ý nhớ kiến thức -->
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-sm ${HSG_MASTER_STATE.showRecallHints ? 'btn-accent' : 'btn-outline'}" style="font-size:12px; font-weight:700;" onclick="toggleGlobalRecallHints()" title="Bật/Tắt hiển thị gợi ý nhớ kiến thức lý thuyết cốt lõi SGK">
+              ${HSG_MASTER_STATE.showRecallHints ? '💡 Đang bật: Gợi ý nhớ SGK' : '💡 Đang ẩn: Gợi ý nhớ SGK'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Khung Đề Thi HSG Tỉnh Đồng Nai -->
       <div style="background:linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%); border:1.5px solid #86efac; border-radius:12px; padding:16px 20px; margin-bottom:18px;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
           <div>
             <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
-              <span class="badge badge-ok" style="font-size:12.5px; font-weight:800;">QUY CHẾ THI HSG CẤP TỈNH ĐỒNG NAI (QĐ 1540/QĐ-SGDĐT)</span>
+              <span class="badge badge-ok" style="font-size:12px; font-weight:800;">QUY CHẾ THI HSG CẤP TỈNH ĐỒNG NAI (QĐ 1540/QĐ-SGDĐT)</span>
               <span class="badge badge-nl" style="font-size:12px;">THANG ĐIỂM: 20,0 • THỜI GIAN: 180 PHÚT</span>
+              ${exam.levelBadge ? `<span class="badge badge-vandung" style="font-size:12px; font-weight:800;">${exam.levelBadge}</span>` : ''}
             </div>
             <h3 style="color:var(--primary-dark); font-size:18px; margin:4px 0 2px;">
               ${escapeHtml(exam.title)}
             </h3>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">
-              ${escapeHtml(exam.subTitle)} • Nguồn dữ liệu: <strong>${escapeHtml(exam.source)}</strong>
+            <p style="font-size:12.5px; color:var(--text-muted); margin:0;">
+              Nguồn dữ liệu: <strong>${escapeHtml(exam.source || 'Sở GD&ĐT Đồng Nai')}</strong>
             </p>
           </div>
 
           <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
-            <!-- Timer & Nút điều khiển -->
+            <!-- Hàng 1: Đồng hồ đếm ngược -->
             <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
               <div class="mock-timer-display" style="background:#0f172a; color:#4ade80; padding:6px 14px; border-radius:8px; font-weight:800; font-family:monospace; font-size:16px;">
                 <span>⏱️</span>
@@ -1770,60 +3228,63 @@ function renderDongNaiHsgMaster() {
                   ${HSG_MASTER_STATE.timerRunning ? '⏸️ Tạm dừng' : '▶️ Bắt đầu'}
                 </button>
               </div>
-
-              <!-- Cấu hình Bảng A vs Bảng B -->
-              <div style="background:#fff; border:1px solid #cbd5e1; border-radius:8px; padding:4px 8px; display:flex; align-items:center; gap:4px;">
-                <span style="font-size:12px; font-weight:700;">Chấm Phần II:</span>
-                <button class="btn btn-sm ${tbl === 'A' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterTable('A')" title="Bảng A (Trường Chuyên): Đúng 0.125đ + Giải thích 0.25đ">
-                  Bảng A (Chuyên)
-                </button>
-                <button class="btn btn-sm ${tbl === 'B' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterTable('B')" title="Bảng B (Không chuyên): Đúng 0.25đ + Giải thích 0.125đ">
-                  Bảng B (Đại trà)
-                </button>
-              </div>
             </div>
 
-            <!-- Nút Nộp Bài & Xuất 3 File Word Tách Rời -->
-            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <!-- Hàng 2: Nộp Bài & Dropdown Xuất File & Nút GV duy nhất -->
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
               ${!HSG_MASTER_STATE.submitted ? `
                 <button class="btn btn-primary btn-sm" onclick="submitHsgMasterExam()" style="font-weight:700;">
-                  ✅ Nộp Bài Thi & Chấm Điểm Toàn Diện
+                  ✅ Nộp Bài Thi & Chấm Điểm
                 </button>
               ` : `
                 <button class="btn btn-outline btn-sm" onclick="HSG_MASTER_STATE.submitted=false; renderDongNaiHsgMaster();">
-                  🔄 Tiếp tục chỉnh sửa bài làm
+                  🔄 Tiếp tục làm bài
                 </button>
               `}
-              <button class="btn btn-accent btn-sm" onclick="exportHsgStudentExamDoc()" title="Xuất đề thi tuyệt đối không chứa đáp án / giải thích cho học sinh">
-                📄 1. Xuất Đề Thi Học Sinh (.doc)
+              
+              <!-- Dropdown Xuất File (.doc) Gọn Gàng -->
+              <div class="hsg-dropdown">
+                <button type="button" class="btn btn-sm btn-outline" onclick="toggleHsgExportMenu(event)" style="background:#fff; border-color:#cbd5e1; color:#334155; font-weight:600;">
+                  📥 Xuất File (.doc) ▾
+                </button>
+                <div id="hsgExportDropdownMenu" class="hsg-dropdown-content">
+                  <a href="javascript:void(0)" class="hsg-dropdown-item" onclick="exportHsgStudentExamDoc(); closeHsgExportMenu();">
+                    📄 1. Đề Thi Học Sinh (.doc)
+                  </a>
+                  <a href="javascript:void(0)" class="hsg-dropdown-item" onclick="exportHsgAnswerSheetDoc(); closeHsgExportMenu();">
+                    📝 2. Phiếu Trả Lời (.doc)
+                  </a>
+                  <a href="javascript:void(0)" class="hsg-dropdown-item" onclick="exportHsgOfficialKeyAndRubricDoc(); closeHsgExportMenu();">
+                    ⚖️ 3. Barem Chấm Chi Tiết (.doc)
+                  </a>
+                </div>
+              </div>
+
+              <!-- Bộ nút duy nhất cho GV -->
+              <button class="btn btn-sm" style="background:#1d4ed8; color:#fff; font-weight:700; border:none;" onclick="window.createRoomFromCurrentHsgExam()" title="Tạo phòng thi trực tuyến cho cả lớp làm chung đề này">
+                🏫 Tạo Phòng Cho Lớp
               </button>
-              <button class="btn btn-outline btn-sm" onclick="exportHsgAnswerSheetDoc()" style="background:#fff;" title="Xuất phiếu làm bài và giải thích">
-                📝 2. Xuất Phiếu Trả Lời (.doc)
-              </button>
-              <button class="btn btn-secondary btn-sm" onclick="exportHsgOfficialKeyAndRubricDoc()" title="Xuất đáp án và biểu điểm chi tiết 0.125/0.25đ theo QĐ 1540">
-                ⚖️ 3. Xuất Barem Chấm Chi Tiết (.doc)
+              <button class="btn btn-sm btn-outline" style="background:#fff; color:#1e40af; border-color:#3b82f6; font-weight:700;" onclick="window.openTeacherExamPreview(HSG_MASTER_STATE.activeExamId)" title="Dành cho giáo viên xem trước toàn bộ đề, đáp án và barem chấm">
+                👁️ Xem Trước Đề (GV)
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Bộ chọn Đề thi HSG -->
+        <!-- Bộ chọn Đề thi HSG theo Cấp độ hiện tại: Tên ngắn gọn Đề 01, Đề 02... -->
         <div style="margin-top:14px; padding-top:12px; border-top:1px dashed #cbd5e1; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <span style="font-size:12.5px; font-weight:700; color:var(--primary-dark);">📚 Đổi Bộ Đề HSG:</span>
-          <button class="btn btn-sm ${HSG_MASTER_STATE.activeExamId === 'dn_01' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterExam('dn_01')">
-            Đề số 01 (Chuẩn Cấu trúc Đồng Nai)
-          </button>
-          <button class="btn btn-sm ${HSG_MASTER_STATE.activeExamId === 'dn_02' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterExam('dn_02')">
-            Đề số 02 (Chuyên sâu TP. Huế Mã 7011 & TP.HCM)
-          </button>
-          <button class="btn btn-sm ${HSG_MASTER_STATE.activeExamId === 'dn_03' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterExam('dn_03')">
-            Đề số 03 (Thực chiến Bà Rịa - Vũng Tàu & Bắc Giang)
-          </button>
-          <button class="btn btn-sm ${HSG_MASTER_STATE.activeExamId === 'dn_auto' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterExam('dn_auto')">
-            🎲 Đề số 04 (Sinh Tự Động Theo Ma Trận)
+          <span style="font-size:12.5px; font-weight:700; color:var(--primary-dark);">📚 Chọn đề:</span>
+          ${availableExams.map((ex, idx) => `
+            <button class="btn btn-sm ${HSG_MASTER_STATE.activeExamId === ex.id ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterExam('${ex.id}')" title="${escapeHtml(ex.title)}">
+              Đề 0${idx + 1}
+            </button>
+          `).join("")}
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeExamId === 'dn_auto' ? 'btn-primary' : 'btn-outline'}" style="background:${HSG_MASTER_STATE.activeExamId === 'dn_auto' ? 'var(--primary)' : '#fff'}; border-color:#7c3aed; color:${HSG_MASTER_STATE.activeExamId === 'dn_auto' ? '#fff' : '#7c3aed'}; font-weight:700;" onclick="regenerateAutoExamForLevel('${currentLevel}')">
+            🎲 Tạo Đề Mới (Khi Chưa Đạt)
           </button>
         </div>
       </div>
+
 
       <!-- Banner Kết Quả Chấm nếu đã nộp -->
       ${HSG_MASTER_STATE.submitted ? `
@@ -1837,13 +3298,65 @@ function renderDongNaiHsgMaster() {
               • Phần I (Trắc nghiệm 24 câu): <strong>${mcqScore.toFixed(2)} / 6,00 điểm</strong> (${mcqCorrect}/24 câu đúng)<br/>
               • Phần II (Đúng/Sai có giải thích 16 ý): <strong>${tfScore.toFixed(3)} / 6,00 điểm</strong> (${tfCorrectChoiceCount}/16 ý đúng; ${tfExplainedCount} ý có giải thích hợp lệ theo Bảng ${tbl})<br/>
               • Phần III (Tự luận chuyên sâu 3 bài): <strong>${essayScore.toFixed(2)} / 8,00 điểm</strong> (Tích chọn biểu điểm rubric chi tiết bên dưới)<br/>
-              • Xếp loại giải dự kiến: <strong>${Number(totalScore) >= 16.0 ? 'GIẢI NHẤT 🥇' : (Number(totalScore) >= 14.0 ? 'GIẢI NHÌ 🥈' : (Number(totalScore) >= 11.5 ? 'GIẢI BA 🥉' : (Number(totalScore) >= 9.0 ? 'GIẢI KHUYẾN KHÍCH 🎖️' : 'CHƯA ĐẠT GIẢI (Cần bồi dưỡng thêm)')))}</strong>
+              • Xếp loại giải dự kiến: <strong>${Number(totalScore) >= 16.0 ? 'GIẢI NHẤT 🥇' : (Number(totalScore) >= 14.0 ? 'GIẢI NHÌ 🥈' : (Number(totalScore) >= 11.5 ? 'GIẢI BA 🥉' : (Number(totalScore) >= 9.0 ? 'GIẢI KHUYẾN KHÍCH 🎗️' : 'CHƯA ĐẠT GIẢI (Cần bồi dưỡng thêm)')))}</strong>
             </div>
+
+            <!-- Khuyến nghị Thăng Hạng Tiến Trình Cấp Độ -->
+            ${Number(totalScore) < 14.0 ? `
+              <div style="margin-top:12px; padding:10px 14px; background:#fff1f2; border:1.5px solid #fecdd3; border-radius:8px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <div>
+                  <strong style="color:#9f1239;">⚠️ KẾT QUẢ CHƯA ĐẠT MỤC TIÊU (${totalScore} / 20,0 ĐIỂM)?</strong><br/>
+                  <span style="font-size:12.5px; color:#be123c;">Đừng lo lắng! Bấm nút bên cạnh để hệ thống bốc một đề thi HSG Bảng B mới hoàn toàn theo cấp độ bạn đang chọn để rèn luyện lại ngay.</span>
+                </div>
+                <button class="btn btn-sm" style="background:#e11d48; color:#fff; border:none; font-weight:700; padding:6px 14px;" onclick="regenerateAutoExamForLevel('${currentLevel}'); alert('🎲 Đã tạo đề thi HSG mới! Chúc bạn nâng cao điểm số!');">
+                  🎲 Tạo &amp; Làm Đề Mới Ngay
+                </button>
+              </div>
+            ` : ''}
+            ${(exam.level === 'easy' && Number(totalScore) >= 14.0) ? `
+              <div style="margin-top:12px; padding:10px 14px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:8px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <div>
+                  <strong style="color:#166534;">🎉 CHÚC MỪNG BẠN ĐÃ TỐT NGHIỆP CẤP ĐỘ 1 (ĐẠT ${totalScore} ĐIỂM)!</strong><br/>
+                  <span style="font-size:12.5px; color:#15803d;">Bạn đã nắm vững kiến thức nền tảng SGK. Hãy nâng cấp ngay lên Cấp độ 2 để rèn luyện tư duy phân hóa!</span>
+                </div>
+                <button class="btn btn-sm btn-primary" style="background:#d97706; border-color:#d97706; font-weight:700;" onclick="levelUpMilestone('medium')">
+                  🚀 Nâng cấp lên CẤP ĐỘ 2 (VỪA / TĂNG TỐC)
+                </button>
+              </div>
+            ` : ''}
+
+            ${(exam.level === 'medium' && Number(totalScore) >= 16.0) ? `
+              <div style="margin-top:12px; padding:10px 14px; background:#fffbeb; border:1.5px solid #fde68a; border-radius:8px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <div>
+                  <strong style="color:#92400e;">🚀 XUẤT SẮC! BẠN ĐÃ LÀM CHỦ CẤP ĐỘ 2 (ĐẠT ${totalScore} ĐIỂM — ĐẠT CHUẨN BẢNG B)!</strong><br/>
+                  <span style="font-size:12.5px; color:#b45309;">Năng lực giải thích kỹ thuật của bạn rất tốt. Bạn đã sẵn sàng bước vào thử thách VDC đỉnh cao tại Cấp độ 3!</span>
+                </div>
+                <button class="btn btn-sm btn-primary" style="background:#dc2626; border-color:#dc2626; font-weight:700;" onclick="levelUpMilestone('hard')">
+                  🔥 Thử thách CẤP ĐỘ 3 (KHÓ / VỀ ĐÍCH — VDC BẢNG B & ĐỘI TUYỂN)
+                </button>
+              </div>
+            ` : ''}
+
+            ${(exam.level === 'hard' && Number(totalScore) >= 16.0) ? `
+              <div style="margin-top:12px; padding:10px 14px; background:#fef2f2; border:1.5px solid #fecaca; border-radius:8px;">
+                <strong style="color:#991b1b; font-size:14px;">🏆 ĐẲNG CẤP THỦ KHOA — GIẢI NHẤT CẤP TỈNH / THÀNH PHỐ! (ĐẠT ${totalScore} ĐIỂM)</strong><br/>
+                <span style="font-size:12.5px; color:#b91c1c;">Bạn đã làm chủ hoàn hảo các bài toán chuyên sâu CRISPR/Cas9, RAS tuần hoàn và Net-Zero. Đủ năng lực thi chọn Đội tuyển Quốc gia!</span>
+              </div>
+            ` : ''}
           </div>
           <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="btn btn-sm" style="background:#7c3aed; color:#fff; font-weight:700; border:none;" onclick="regenerateAutoExamForLevel('${currentLevel}'); alert('🎲 Đã tạo đề thi HSG mới!');">
+              🎲 Tạo Đề Mới (Khi Chưa Đạt)
+            </button>
             <button class="btn btn-accent" onclick="exportHsgOfficialKeyAndRubricDoc()">
               📥 Tải Toàn Bộ Hồ Sơ Đáp Án & Hướng Dẫn Chấm (.doc)
             </button>
+              <button class="btn btn-sm" style="background:#1d4ed8; color:#fff; font-weight:700;" onclick="window.createRoomFromCurrentHsgExam()" title="Tạo phòng thi trực tuyến cho cả lớp làm chung đề này">
+                🏫 Tạo Phòng Cho Lớp
+              </button>
+              <button class="btn btn-sm btn-outline" style="background:#fff; color:#1e40af; border-color:#3b82f6; font-weight:700;" onclick="window.openTeacherExamPreview(HSG_MASTER_STATE.activeExamId)" title="Dành cho giáo viên xem trước toàn bộ đề, đáp án và barem chấm">
+                👁️ Xem Trước Đề
+              </button>
             <button class="btn btn-outline" onclick="selectHsgMasterSubTab('hsg_matrix_validator')">
               ⚖️ Xem Báo Cáo Kiểm Định 14 Tiêu Chí Hợp Lệ
             </button>
@@ -1882,6 +3395,9 @@ function renderDongNaiHsgMaster() {
       ${(exam.mcqs || []).map((q, idx) => {
         const userAns = HSG_MASTER_STATE.userMcq[idx];
         const isCorrect = userAns === q.answer;
+        const hintKey = `mcq_${idx}`;
+        const isHintOpen = HSG_MASTER_STATE.expandedRecallHints[hintKey];
+
         return `
           <div class="q-card" id="dn_mcq_box_${idx}">
             <div class="q-card-header">
@@ -1913,6 +3429,21 @@ function renderDongNaiHsgMaster() {
                 `;
               }).join("")}
             </div>
+
+            <!-- Gợi ý nhớ kiến thức SGK cho học sinh -->
+            ${q.recallHint ? `
+              <div style="margin-top:8px;">
+                <button class="btn btn-outline btn-sm" style="font-size:11px; padding:2px 8px; border-color:#f59e0b; color:#b45309; background:#fffbeb;" onclick="toggleSingleRecallHint('${hintKey}')">
+                  💡 ${isHintOpen ? 'Ẩn gợi ý nhớ SGK' : 'Hiện gợi ý nhớ SGK'}
+                </button>
+                ${(HSG_MASTER_STATE.showRecallHints || isHintOpen) ? `
+                  <div style="margin-top:6px; padding:8px 12px; background:#fffbeb; border-left:3px solid #f59e0b; border-radius:6px; font-size:12.5px; color:#92400e; line-height:1.45;">
+                    <strong>📖 Điểm tựa ghi nhớ SGK:</strong> ${escapeHtml(q.recallHint)}
+                  </div>
+                ` : ''}
+              </div>
+            ` : ''}
+
             ${HSG_MASTER_STATE.submitted ? `
               <div style="margin-top:8px; padding:8px 12px; background:#f0fdf4; border-radius:6px; font-size:13px; color:#166534;">
                 <strong>💡 Phân tích đáp án chuẩn:</strong> Phương án <strong>${String.fromCharCode(65 + q.answer)}</strong> đúng. ${escapeHtml(q.explanation)}
@@ -1926,8 +3457,8 @@ function renderDongNaiHsgMaster() {
       <div style="margin:28px 0 14px; padding:12px 16px; background:#fef3c7; border-left:4px solid var(--accent); border-radius:8px;">
         <h3 style="font-size:15.5px; color:#92400e; margin:0 0 3px;">PHẦN II. CÂU HỎI ĐÚNG / SAI CÓ GIẢI THÍCH (4 câu, 16 ý — 6,0 điểm)</h3>
         <p style="font-size:12.5px; color:#78350f; margin:0;">
-          Quy chế chấm <strong>BẢNG ${tbl}</strong> (${tbl === 'A' ? 'Đúng: 0,125đ + Giải thích: 0,25đ' : 'Đúng: 0,25đ + Giải thích: 0,125đ'} -> Tối đa 0,375đ/ý × 16 = 6,0đ).<br/>
-          <em>* Thí sinh phải xác định Đúng/Sai VÀ viết lời giải thích cơ sở khoa học vào ô bên dưới.</em>
+          Quy chế chấm <strong>BẢNG B THPT</strong> (Đúng nhận định: 0,25đ + Giải thích đúng: 0,125đ -> Tối đa 0,375đ/ý × 16 ý = 6,00đ theo QĐ 1540/QĐ-SGDĐT Đồng Nai).<br/>
+          <em>* Thí sinh xác định Đúng/Sai VÀ viết lời giải thích cơ sở khoa học vào ô bên dưới.</em>
         </p>
       </div>
 
@@ -1938,135 +3469,144 @@ function renderDongNaiHsgMaster() {
               <strong>${escapeHtml(q.title)}</strong>
               <span class="badge badge-vandung">Phân hóa HSG</span>
             </div>
+            <span class="badge ${q.grade === 'cn10' ? 'badge-biet' : (q.grade === 'cn11' ? 'badge-hieu' : 'badge-vandung')}">
+              ${q.grade === 'cn10' ? 'Khối 10' : (q.grade === 'cn11' ? 'Khối 11' : 'Khối 12')}
+            </span>
           </div>
-          <div style="font-weight:600; margin-bottom:10px; font-size:14px; background:#f8fafc; padding:10px 12px; border-radius:6px; border:1px solid #e2e8f0; line-height:1.5;">
+          <div style="font-size:13.5px; color:#334155; margin-bottom:12px; background:#f8fafc; padding:10px 14px; border-radius:8px; line-height:1.5;">
             ${escapeHtml(q.context)}
           </div>
 
-          <table class="tf-exam-table">
-            <thead>
-              <tr>
-                <th style="width:40px; text-align:center;">Lệnh</th>
-                <th>Nội dung nhận định & Lời giải thích khoa học của thí sinh</th>
-                <th style="width:160px; text-align:center;">Lựa chọn</th>
-                ${HSG_MASTER_STATE.submitted ? `<th style="width:220px; text-align:center;">Đáp án & Căn cứ chuẩn</th>` : ''}
-              </tr>
-            </thead>
-            <tbody>
-              ${(q.statements || []).map(st => {
-                const uVal = HSG_MASTER_STATE.userTfChoice[qIdx] ? HSG_MASTER_STATE.userTfChoice[qIdx][st.label] : undefined;
-                const uExp = HSG_MASTER_STATE.userTfExplain[qIdx] ? HSG_MASTER_STATE.userTfExplain[qIdx][st.label] : "";
-                const isRight = uVal === st.isTrue;
-                const hasExp = uExp && uExp.trim().length >= 8;
-                let ptEarned = 0;
-                if (isRight) {
-                  ptEarned += (tbl === 'A' ? 0.125 : 0.25);
-                  if (hasExp) ptEarned += (tbl === 'A' ? 0.25 : 0.125);
-                }
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            ${(q.statements || []).map(st => {
+              const uChoice = HSG_MASTER_STATE.userTfChoice[qIdx] ? HSG_MASTER_STATE.userTfChoice[qIdx][st.label] : undefined;
+              const uExp = HSG_MASTER_STATE.userTfExplain[qIdx] ? HSG_MASTER_STATE.userTfExplain[qIdx][st.label] : "";
+              const isChoiceRight = uChoice === st.isTrue;
+              const tfHintKey = `tf_${qIdx}_${st.label}`;
+              const isTfHintOpen = HSG_MASTER_STATE.expandedRecallHints[tfHintKey];
 
-                return `
-                  <tr>
-                    <td style="text-align:center; font-weight:800; vertical-align:top;">${st.label})</td>
-                    <td>
-                      <div style="font-weight:600; margin-bottom:6px; font-size:13.5px;">${escapeHtml(st.text)}</div>
-                      <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
-                        <span style="font-size:12px; font-weight:700; color:var(--text-muted); white-space:nowrap;">✏️ Giải thích:</span>
-                        <input type="text" style="width:100%; font-size:12.5px; padding:5px 8px; border:1px solid #cbd5e1; border-radius:5px;"
-                          placeholder="Nhập căn cứ khoa học giải thích tại sao đúng / sai..."
-                          value="${escapeHtml(uExp || '')}"
-                          oninput="inputHsgMasterExplain(${qIdx}, '${st.label}', this.value)"
-                          ${HSG_MASTER_STATE.submitted ? 'readonly' : ''} />
-                      </div>
-                    </td>
-                    <td style="vertical-align:top;">
-                      <div class="tf-btn-group">
-                        <button type="button" class="tf-choice-btn btn-true ${uVal === true ? 'selected' : ''}" onclick="chooseHsgMasterTf(${qIdx}, '${st.label}', true)">
-                          ĐÚNG
-                        </button>
-                        <button type="button" class="tf-choice-btn btn-false ${uVal === false ? 'selected' : ''}" onclick="chooseHsgMasterTf(${qIdx}, '${st.label}', false)">
-                          SAI
-                        </button>
-                      </div>
-                      ${HSG_MASTER_STATE.submitted ? `
-                        <div style="text-align:center; margin-top:6px;">
-                          <span class="badge ${ptEarned >= 0.25 ? 'badge-ok' : 'badge-err'}" style="font-size:11px;">
-                            +${ptEarned.toFixed(3)}đ
-                          </span>
-                        </div>
-                      ` : ''}
-                    </td>
-                    ${HSG_MASTER_STATE.submitted ? `
-                      <td style="font-size:12px; vertical-align:top; background:#f0fdf4;">
-                        <strong>Đáp án: ${st.isTrue ? '<span style="color:#16a34a;">ĐÚNG</span>' : '<span style="color:#dc2626;">SAI</span>'}</strong>
-                        <div style="color:#166534; margin-top:3px; font-size:11.5px; line-height:1.4;">
-                          • <em>Cơ sở khoa học:</em> ${escapeHtml(st.explanation)}
-                        </div>
-                      </td>
-                    ` : ''}
-                  </tr>
-                `;
-              }).join("")}
-            </tbody>
-          </table>
-        </div>
-      `).join("")}
-
-      <!-- PHẦN III: TỰ LUẬN CHUYÊN SÂU & NÂNG CAO -->
-      <div style="margin:28px 0 14px; padding:12px 16px; background:#f0fdf4; border-left:4px solid var(--primary); border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-        <div>
-          <h3 style="font-size:15.5px; color:var(--primary-dark); margin:0 0 3px;">PHẦN III. TỰ LUẬN CHUYÊN SÂU & MỞ RỘNG THỰC TIỄN (8,0 điểm)</h3>
-          <p style="font-size:12.5px; color:#166534; margin:0;">
-            Gồm 3 bài toán kĩ thuật: <strong>Kiến thức Lớp 12 (7,0 điểm)</strong> + <strong>Tình huống mở rộng nâng cao liên môn (1,0 điểm)</strong>.
-          </p>
-        </div>
-        <div style="display:flex; gap:6px;">
-          <button class="btn btn-primary btn-sm" onclick="exportHsgOfficialKeyAndRubricDoc()">📥 Tải Barem Chấm Tự Luận (.doc)</button>
-        </div>
-      </div>
-
-      ${(exam.essays || []).map((p, eIdx) => `
-        <div class="card" id="dn_essay_box_${eIdx}" style="border-left:5px solid var(--primary); margin-bottom:18px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <h3 style="color:var(--primary-dark); font-size:16px; margin:0;">${escapeHtml(p.title)}</h3>
-            <span class="badge badge-ok" style="font-size:13px; font-weight:800;">${p.points} điểm</span>
-          </div>
-
-          <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:14px 16px; border-radius:8px; white-space:pre-wrap; font-size:14px; margin-bottom:12px; line-height:1.65;">${escapeHtml(p.problem)}</div>
-
-          <!-- Khu vực làm bài của thí sinh -->
-          <div style="margin-bottom:12px;">
-            <label style="font-weight:700; font-size:13px; color:var(--primary-dark); margin-bottom:4px; display:block;">
-              ✍️ Phần làm bài tự luận của bạn:
-            </label>
-            <textarea style="width:100%; min-height:120px; font-size:13.5px; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit; line-height:1.5;"
-              placeholder="Nhập lời giải chi tiết hoặc các bước giải toán của bạn vào đây..."
-              oninput="inputHsgMasterEssay(${eIdx}, this.value)">${escapeHtml(HSG_MASTER_STATE.userEssayText[eIdx] || '')}</textarea>
-          </div>
-
-          <!-- Rubric Chấm điểm từng bước -->
-          <details ${HSG_MASTER_STATE.submitted ? 'open' : ''} style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:12px 16px;">
-            <summary style="cursor:pointer; font-weight:700; color:#166534; font-size:13.5px;">
-              ✅ Xem Hướng dẫn giải chi tiết & Barem chấm điểm (Rubric Check)
-            </summary>
-            <div style="margin-top:10px; display:grid; gap:8px;">
-              ${(p.rubric || []).map((step, rIdx) => {
-                const isChecked = HSG_MASTER_STATE.userEssayRubricChecks[`${eIdx}_${rIdx}`];
-                return `
-                  <div style="background:#fff; padding:10px 14px; border-radius:6px; border:1px solid #bbf7d0; display:flex; align-items:flex-start; gap:10px;">
-                    <input type="checkbox" style="margin-top:4px; transform:scale(1.2);"
-                      ${isChecked ? 'checked' : ''}
-                      onchange="toggleHsgEssayRubric(${eIdx}, ${rIdx})" />
-                    <div style="flex:1; font-size:13.5px; line-height:1.55; color:#1e293b;">
-                      ${escapeHtml(step)}
+              return `
+                <div style="border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px; background:#fff;">
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;">
+                    <div style="flex:1; font-size:13.5px;">
+                      <strong>${st.label})</strong> ${escapeHtml(st.text)}
+                    </div>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <button class="btn btn-sm ${uChoice === true ? 'btn-primary' : 'btn-outline'}" style="padding:3px 10px; font-weight:700;" onclick="chooseHsgMasterTf(${qIdx}, '${st.label}', true)">
+                        ĐÚNG
+                      </button>
+                      <button class="btn btn-sm ${uChoice === false ? 'btn-secondary' : 'btn-outline'}" style="padding:3px 10px; font-weight:700;" onclick="chooseHsgMasterTf(${qIdx}, '${st.label}', false)">
+                        SAI
+                      </button>
+                      ${HSG_MASTER_STATE.submitted ? (
+                        isChoiceRight
+                          ? `<span class="badge badge-ok" style="font-size:11px;">✓ Đúng (+${tbl === 'A' ? '0,125đ' : '0,25đ'})</span>`
+                          : `<span class="badge badge-err" style="font-size:11px;">✗ Đáp án: ${st.isTrue ? 'ĐÚNG' : 'SAI'}</span>`
+                      ) : ''}
                     </div>
                   </div>
-                `;
-              }).join("")}
-            </div>
-          </details>
+
+                  <!-- Điểm tựa ghi nhớ SGK cho nhận định Đúng/Sai -->
+                  ${st.recallHint ? `
+                    <div style="margin-top:6px;">
+                      <button class="btn btn-outline btn-sm" style="font-size:10.5px; padding:1px 6px; border-color:#f59e0b; color:#b45309; background:#fffbeb;" onclick="toggleSingleRecallHint('${tfHintKey}')">
+                        💡 ${isTfHintOpen ? 'Ẩn gợi ý nhớ SGK' : 'Hiện gợi ý nhớ SGK'}
+                      </button>
+                      ${(HSG_MASTER_STATE.showRecallHints || isTfHintOpen) ? `
+                        <div style="margin-top:4px; padding:6px 10px; background:#fffbeb; border-left:3px solid #f59e0b; border-radius:5px; font-size:12px; color:#92400e;">
+                          <strong>📖 Điểm tựa ghi nhớ SGK:</strong> ${escapeHtml(st.recallHint)}
+                        </div>
+                      ` : ''}
+                    </div>
+                  ` : ''}
+
+                  <!-- Ô nhập lời giải thích của học sinh -->
+                  <div style="margin-top:8px;">
+                    <textarea class="form-input" style="width:100%; height:45px; font-size:12.5px; padding:6px 10px;" placeholder="Viết tóm tắt cơ sở khoa học giải thích vì sao nhận định này Đúng hoặc Sai..." oninput="inputHsgMasterExplain(${qIdx}, '${st.label}', this.value)">${escapeHtml(uExp)}</textarea>
+                  </div>
+
+                  ${HSG_MASTER_STATE.submitted ? `
+                    <div style="margin-top:6px; padding:6px 10px; background:#f0fdf4; border-radius:6px; font-size:12.5px; color:#166534;">
+                      <strong>💡 Cơ sở khoa học chuẩn:</strong> Nhận định <strong>${st.isTrue ? 'ĐÚNG' : 'SAI'}</strong>. ${escapeHtml(st.explanation)}
+                    </div>
+                  ` : ''}
+                </div>
+              `;
+            }).join("")}
+          </div>
         </div>
       `).join("")}
+
+      <!-- PHẦN III: CÂU HỎI TỰ LUẬN CHUYÊN SÂU -->
+      <div style="margin:28px 0 14px; padding:12px 16px; background:#f5f3ff; border-left:4px solid #7c3aed; border-radius:8px;">
+        <h3 style="font-size:15.5px; color:#5b21b6; margin:0 0 3px;">PHẦN III. CÂU HỎI TỰ LUẬN CHUYÊN SÂU (3 câu — 8,0 điểm)</h3>
+        <p style="font-size:12.5px; color:#4c1d95; margin:0;">
+          Cấu trúc chuẩn Sở GD&ĐT Đồng Nai: <strong>7,0 điểm Lớp 12</strong> (Lâm nghiệp 3,5đ + Thủy sản 3,5đ) + <strong>1,0 điểm Tổng hợp nâng cao</strong>.<br/>
+          <em>* Thí sinh viết lời giải chi tiết vào khung bên dưới. Khi nộp bài có thể tự đối chiếu biểu điểm Rubric chính thức.</em>
+        </p>
+      </div>
+
+      ${(exam.essays || []).map((p, eIdx) => {
+        const uText = HSG_MASTER_STATE.userEssayText[eIdx] || "";
+        const essayHintKey = `essay_${eIdx}`;
+        const isEssayHintOpen = HSG_MASTER_STATE.expandedRecallHints[essayHintKey];
+
+        return `
+          <div class="q-card" id="dn_essay_box_${eIdx}" style="margin-bottom:20px;">
+            <div class="q-card-header">
+              <div>
+                <strong>${escapeHtml(p.title)}</strong>
+                <span class="badge badge-vandung">${p.points} điểm</span>
+              </div>
+            </div>
+            <div style="font-size:13.5px; line-height:1.6; margin-bottom:12px; background:#f8fafc; padding:12px 16px; border-radius:8px; white-space:pre-line;">
+              ${escapeHtml(p.problem)}
+            </div>
+
+            <!-- Điểm tựa ghi nhớ cho câu tự luận -->
+            ${p.recallHint ? `
+              <div style="margin-bottom:10px;">
+                <button class="btn btn-outline btn-sm" style="font-size:11px; padding:2px 8px; border-color:#f59e0b; color:#b45309; background:#fffbeb;" onclick="toggleSingleRecallHint('${essayHintKey}')">
+                  💡 ${isEssayHintOpen ? 'Ẩn gợi ý nhớ SGK' : 'Hiện gợi ý nhớ SGK'}
+                </button>
+                ${(HSG_MASTER_STATE.showRecallHints || isEssayHintOpen) ? `
+                  <div style="margin-top:6px; padding:8px 12px; background:#fffbeb; border-left:3px solid #f59e0b; border-radius:6px; font-size:12.5px; color:#92400e; line-height:1.45;">
+                    <strong>📖 Điểm tựa ghi nhớ SGK:</strong> ${escapeHtml(p.recallHint)}
+                  </div>
+                ` : ''}
+              </div>
+            ` : ''}
+
+            <!-- Khung soạn thảo bài làm của học sinh -->
+            <div style="margin-bottom:12px;">
+              <label style="font-size:12.5px; font-weight:700; color:#334155; margin-bottom:4px; display:block;">Bài làm tự luận của thí sinh:</label>
+              <textarea class="form-input" style="width:100%; height:120px; font-family:'Courier New', monospace; font-size:13px; line-height:1.4;" placeholder="Nhập chi tiết các bước tính toán, lời giải và lập luận khoa học tại đây..." oninput="inputHsgMasterEssay(${eIdx}, this.value)">${escapeHtml(uText)}</textarea>
+            </div>
+
+            <!-- Biểu điểm Rubric chính thức -->
+            <details style="margin-top:10px; background:#faf5ff; border:1px solid #e9d5ff; border-radius:8px; padding:8px 12px;" ${HSG_MASTER_STATE.submitted ? 'open' : ''}>
+              <summary style="font-weight:700; color:#6b21a8; font-size:13px; cursor:pointer;">
+                🔍 Xem Biểu Điểm Rubric Chi Tiết & Tự Đánh Giá (${p.points} điểm)
+              </summary>
+              <div style="margin-top:8px; font-size:12.5px; line-height:1.5; color:#581c87;">
+                ${(p.rubric || []).map((r, rIdx) => {
+                  const isChecked = HSG_MASTER_STATE.userEssayRubricChecks[`${eIdx}_${rIdx}`];
+                  return `
+                    <div style="margin-bottom:6px; padding:6px 10px; background:#fff; border-radius:6px; display:flex; align-items:flex-start; gap:8px;">
+                      <input type="checkbox" style="margin-top:3px;" ${isChecked ? 'checked' : ''} onchange="toggleHsgEssayRubric(${eIdx}, ${rIdx})"/>
+                      <div>
+                        <strong>Tiêu chí ${rIdx + 1}:</strong> ${escapeHtml(r)}
+                      </div>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            </details>
+          </div>
+        `;
+      }).join("")}
     `;
+
   } else if (HSG_MASTER_STATE.activeSubTab === "hsg_matrix_validator") {
     // ------------------------------------------------------------------------
     // TAB 2: MA TRẬN ĐỀ & BỘ KIỂM ĐỊNH 14 TIÊU CHÍ (SKILL.md)
@@ -2091,7 +3631,10 @@ function renderDongNaiHsgMaster() {
           </div>
         </div>
         <div style="display:flex; gap:8px;">
-          <button class="btn btn-accent" onclick="exportHsgOfficialKeyAndRubricDoc()">📥 Xuất Báo Cáo Kiểm Định (.doc)</button>
+          <button class="btn btn-sm" style="background:#7c3aed; color:#fff; font-weight:700; border:none;" onclick="regenerateAutoExamForLevel('${currentLevel}'); alert('🎲 Đã tạo đề thi HSG mới!');">
+              🎲 Tạo Đề Mới (Khi Chưa Đạt)
+            </button>
+            <button class="btn btn-accent" onclick="exportHsgOfficialKeyAndRubricDoc()">📥 Xuất Báo Cáo Kiểm Định (.doc)</button>
         </div>
       </div>
 
@@ -2129,6 +3672,12 @@ function renderDongNaiHsgMaster() {
           <button class="btn btn-sm ${HSG_MASTER_STATE.g12MatrixApproved ? 'btn-primary' : 'btn-outline'}" onclick="toggleG12MatrixApproval()">
             ${HSG_MASTER_STATE.g12MatrixApproved ? '✅ Đã Phê Duyệt Ma Trận 7,0đ' : '⚠️ Bấm Để Phê Duyệt Ma Trận'}
           </button>
+              <button class="btn btn-sm" style="background:#1d4ed8; color:#fff; font-weight:700;" onclick="window.createRoomFromCurrentHsgExam()" title="Tạo phòng thi trực tuyến cho cả lớp làm chung đề này">
+                🏫 Tạo Phòng Cho Lớp
+              </button>
+              <button class="btn btn-sm btn-outline" style="background:#fff; color:#1e40af; border-color:#3b82f6; font-weight:700;" onclick="window.openTeacherExamPreview(HSG_MASTER_STATE.activeExamId)" title="Dành cho giáo viên xem trước toàn bộ đề, đáp án và barem chấm">
+                👁️ Xem Trước Đề
+              </button>
         </div>
 
         <table class="std-table">
@@ -2479,6 +4028,13 @@ function renderDongNaiHsgMaster() {
         </div>
       </div>
     `;
+  } else if (HSG_MASTER_STATE.activeSubTab === "hsg_classroom") {
+    bodyContent = `<div id="classroomHubInsideHsg"></div>`;
+    setTimeout(() => {
+      if (typeof renderClassroomHub === "function") {
+        renderClassroomHub("classroomHubInsideHsg");
+      }
+    }, 10);
   }
 
   targetBox.innerHTML = `
@@ -2520,3 +4076,22 @@ function runAgTechCalculators() {
     `;
   }
 }
+
+// ============================================================================
+// ÄIá»€U HÆ¯á»šNG Tá»ª Äá»€ HIá»†N Táº I SANG PHÃ’NG THI Lá»šP Há»ŒC
+// ============================================================================
+window.createRoomFromCurrentHsgExam = function() {
+  const examId = HSG_MASTER_STATE.activeExamId;
+  if (typeof switchMod4MainSection === "function") {
+    switchMod4MainSection("classroom");
+  } else {
+    selectHsgMasterSubTab("hsg_classroom");
+  }
+  setTimeout(() => {
+    const examSel = document.getElementById("cr_examId");
+    if (examSel) {
+      examSel.value = examId;
+      if (typeof handleExamSelectChange === "function") handleExamSelectChange(examId);
+    }
+  }, 100);
+};

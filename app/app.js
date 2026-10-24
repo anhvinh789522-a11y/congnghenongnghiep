@@ -4,7 +4,7 @@
 const state = {
   currentStep: 1,
   meta: {
-    department: localStorage.getItem("cv7991_department") || "SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC",
+    department: (localStorage.getItem("cv7991_department") && localStorage.getItem("cv7991_department") !== "SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC") ? localStorage.getItem("cv7991_department") : "SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI",
     school: localStorage.getItem("cv7991_school") || "TRƯỜNG THPT LỘC NINH",
     group: localStorage.getItem("cv7991_group") || "TỔ TIN - CÔNG NGHỆ",
     subjectName: "CÔNG NGHỆ 10 (CÔNG NGHỆ TRỒNG TRỌT)",
@@ -57,6 +57,18 @@ const state = {
       ]
     }
   },
+  // Cấu hình Khổ giấy, Căn lề, Phông chữ & Bố cục xuất bản (Chuẩn NĐ 30 & CV 7991)
+  printLayout: {
+    mode: "hybrid_cv7991", // 'hybrid_cv7991' (Mặc định: Ma trận/Đặc tả khổ ngang, Đề/Đáp án khổ dọc) | 'all_landscape' | 'all_portrait'
+    fontSize: "13pt",      // '11pt' | '12pt' | '13pt'
+    marginPreset: "nd30",  // 'nd30' | 'compact'
+    lessonColWidth: 280,   // px
+    specYccdWidth: 450,    // px
+    matrixOrientation: "landscape",
+    specOrientation: "landscape",
+    examOrientation: "portrait",
+    answerKeyOrientation: "portrait"
+  },
   // Bước 3: Dữ liệu Ma trận theo từng unitId
   matrixRows: {},
   // Bước 4: Dữ liệu Bản đặc tả
@@ -87,6 +99,12 @@ const state = {
 
 // Khởi tạo ứng dụng
 document.addEventListener("DOMContentLoaded", () => {
+  let savedDept = localStorage.getItem("cv7991_department");
+  if (!savedDept || savedDept === "SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC") {
+    savedDept = "SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI";
+    localStorage.setItem("cv7991_department", savedDept);
+  }
+  state.meta.department = savedDept;
   const deptEl = document.getElementById("metaDepartment");
   const schoolEl = document.getElementById("metaSchool");
   const groupEl = document.getElementById("metaGroup");
@@ -703,11 +721,15 @@ function renderStep2Config() {
     totalBox.classList.toggle("error", Math.abs(calc.grandTotalPoints - 10) > 0.001);
   }
 
-  document.getElementById("metricTnVsTlVal").textContent =
-    `TN: ${round2(calc.mcq.totalPoints + calc.tf.totalPoints + calc.short.totalPoints)}đ (${round1((calc.mcq.totalPoints + calc.tf.totalPoints + calc.short.totalPoints) * 10)}%) | TL: ${calc.essay.totalPoints}đ (${round1(calc.essay.totalPoints * 10)}%)`;
+  const tnTlValEl = document.getElementById("metricTnVsTlVal");
+  if (tnTlValEl) {
+    tnTlValEl.textContent = `TN: ${round2(calc.mcq.totalPoints + calc.tf.totalPoints + calc.short.totalPoints)}đ (${round1((calc.mcq.totalPoints + calc.tf.totalPoints + calc.short.totalPoints) * 10)}%) | TL: ${calc.essay.totalPoints}đ (${round1(calc.essay.totalPoints * 10)}%)`;
+  }
 
-  document.getElementById("metricCognitiveRatioVal").textContent =
-    `${calc.cognitive.bietPct}% : ${calc.cognitive.hieuPct}% : ${calc.cognitive.vandungPct}%`;
+  const cogRatioValEl = document.getElementById("metricCognitiveRatioVal");
+  if (cogRatioValEl) {
+    cogRatioValEl.textContent = `${calc.cognitive.bietPct}% : ${calc.cognitive.hieuPct}% : ${calc.cognitive.vandungPct}%`;
+  }
 
   const barEl = document.getElementById("cognitiveStackedBar");
   if (barEl) {
@@ -1089,6 +1111,100 @@ function getRowPointCalculation(row) {
   return { totalPoints, totalItems };
 }
 
+// ============================================================================
+// CẤU HÌNH BỐ CỤC KHỔ GIẤY, ĐỘ RỘNG CỘT & PHÔNG CHỮ IN ẤN (CHUẨN CV 7991 & NĐ 30)
+// ============================================================================
+
+function setDocumentOrientation(docType, orientation) {
+  if (docType === "matrix") state.printLayout.matrixOrientation = orientation;
+  if (docType === "spec") state.printLayout.specOrientation = orientation;
+  if (docType === "exam") state.printLayout.examOrientation = orientation;
+  if (docType === "answerKey") state.printLayout.answerKeyOrientation = orientation;
+
+  const lBtn = document.getElementById(`${docType}OrientLandscapeBtn`);
+  const pBtn = document.getElementById(`${docType}OrientPortraitBtn`);
+  if (lBtn && pBtn) {
+    if (orientation === "landscape") {
+      lBtn.className = "btn btn-xs btn-primary";
+      pBtn.className = "btn btn-xs btn-outline";
+    } else {
+      lBtn.className = "btn btn-xs btn-outline";
+      pBtn.className = "btn btn-xs btn-primary";
+    }
+  }
+}
+
+function setOverallOrientation(mode) {
+  state.printLayout.mode = mode;
+  const sel = document.getElementById('overallPageOrientationSelect');
+  if (sel) sel.value = mode;
+  if (mode === "all_landscape") {
+    state.printLayout.matrixOrientation = "landscape";
+    state.printLayout.specOrientation = "landscape";
+    state.printLayout.examOrientation = "landscape";
+    state.printLayout.answerKeyOrientation = "landscape";
+  } else if (mode === "all_portrait") {
+    state.printLayout.matrixOrientation = "portrait";
+    state.printLayout.specOrientation = "portrait";
+    state.printLayout.examOrientation = "portrait";
+    state.printLayout.answerKeyOrientation = "portrait";
+  } else { // hybrid_cv7991
+    state.printLayout.matrixOrientation = "landscape";
+    state.printLayout.specOrientation = "landscape";
+    state.printLayout.examOrientation = "portrait";
+    state.printLayout.answerKeyOrientation = "portrait";
+  }
+  setDocumentOrientation("matrix", state.printLayout.matrixOrientation);
+  setDocumentOrientation("spec", state.printLayout.specOrientation);
+  setDocumentOrientation("exam", state.printLayout.examOrientation);
+}
+
+function setLessonColWidth(width, btnElem) {
+  state.printLayout.lessonColWidth = width;
+  const th = document.getElementById("matrixColLessonTh");
+  if (th) {
+    th.style.width = width + "px";
+    th.style.minWidth = width + "px";
+  }
+  document.documentElement.style.setProperty("--matrix-lesson-w", width + "px");
+  if (btnElem && btnElem.parentElement) {
+    btnElem.parentElement.querySelectorAll(".col-w-btn").forEach(b => {
+      b.className = "btn btn-xs btn-outline col-w-btn";
+    });
+    btnElem.className = "btn btn-xs btn-primary col-w-btn";
+  }
+  renderMatrixTable();
+}
+
+function setSpecYccdWidth(width, btnElem) {
+  state.printLayout.specYccdWidth = width;
+  const th = document.getElementById("specColYccdTh");
+  if (th) {
+    th.style.width = width + "px";
+    th.style.minWidth = width + "px";
+  }
+  if (btnElem && btnElem.parentElement) {
+    btnElem.parentElement.querySelectorAll("button").forEach(b => {
+      b.className = "btn btn-xs btn-outline";
+    });
+    btnElem.className = "btn btn-xs btn-primary";
+  }
+}
+
+function setPrintFontSize(fontSize) {
+  state.printLayout.fontSize = fontSize;
+  ["matrixFontSizeSelect", "specFontSizeSelect", "examFontSizeSelect", "overallFontSizeSelect"].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) sel.value = fontSize;
+  });
+}
+
+function setPrintMargins(marginPreset) {
+  state.printLayout.marginPreset = marginPreset;
+  const sel = document.getElementById("overallMarginSelect");
+  if (sel) sel.value = marginPreset;
+}
+
 function renderMatrixTable() {
   const tbody = document.getElementById("matrixTableBody");
   const tfoot = document.getElementById("matrixTableFoot");
@@ -1115,37 +1231,38 @@ function renderMatrixTable() {
     sums.totalItems += rowCalc.totalItems;
     sums.totalPoints = round2(sums.totalPoints + rowCalc.totalPoints);
 
+    const colW = state.printLayout?.lessonColWidth || 280;
     return `
       <tr>
         <td class="text-center">${idx + 1}</td>
-        <td>
-          <div style="font-size:11px; color:#64748b;">${escapeHtml(u.chapter)} • ${u.periods} tiết</div>
-          <strong>${escapeHtml(u.lesson)}</strong>
+        <td style="min-width:${colW}px; line-height:1.35; padding:6px 8px;">
+          <div style="font-size:11px; color:#64748b; margin-bottom:2px;">${escapeHtml(u.chapter)} • ${u.periods} tiết</div>
+          <strong style="font-size:13px; color:#1e293b;">${escapeHtml(u.lesson)}</strong>
         </td>
         <!-- MCQ -->
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.mcq_biet}" onchange="updateMatrixCell('${u.id}', 'mcq_biet', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.mcq_hieu}" onchange="updateMatrixCell('${u.id}', 'mcq_hieu', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.mcq_vandung}" onchange="updateMatrixCell('${u.id}', 'mcq_vandung', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_biet}" onchange="updateMatrixCell('${u.id}', 'mcq_biet', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_hieu}" onchange="updateMatrixCell('${u.id}', 'mcq_hieu', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_vandung}" onchange="updateMatrixCell('${u.id}', 'mcq_vandung', this.value)" /></td>
         <!-- TF -->
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.tf_biet}" onchange="updateMatrixCell('${u.id}', 'tf_biet', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.tf_hieu}" onchange="updateMatrixCell('${u.id}', 'tf_hieu', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.tf_vandung}" onchange="updateMatrixCell('${u.id}', 'tf_vandung', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_biet}" onchange="updateMatrixCell('${u.id}', 'tf_biet', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_hieu}" onchange="updateMatrixCell('${u.id}', 'tf_hieu', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_vandung}" onchange="updateMatrixCell('${u.id}', 'tf_vandung', this.value)" /></td>
         <!-- Short -->
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.short_biet}" onchange="updateMatrixCell('${u.id}', 'short_biet', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.short_hieu}" onchange="updateMatrixCell('${u.id}', 'short_hieu', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" style="width:42px;padding:2px;" min="0" value="${r.short_vandung}" onchange="updateMatrixCell('${u.id}', 'short_vandung', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_biet}" onchange="updateMatrixCell('${u.id}', 'short_biet', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_hieu}" onchange="updateMatrixCell('${u.id}', 'short_hieu', this.value)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_vandung}" onchange="updateMatrixCell('${u.id}', 'short_vandung', this.value)" /></td>
         <!-- Essay -->
         <td class="text-center">
-          <input type="number" class="compact-num" style="width:38px;padding:2px;" min="0" value="${r.essay_biet}" onchange="updateMatrixCell('${u.id}', 'essay_biet', this.value)" title="Số câu TL Biết" />
-          ${r.essay_biet > 0 ? `<div style="font-size:10.5px;color:#1d4ed8;">${r.essay_points_biet}đ</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_biet}" onchange="updateMatrixCell('${u.id}', 'essay_biet', this.value)" title="Số câu TL Biết" />
+          ${r.essay_biet > 0 ? `<div style="font-size:10px;color:#1d4ed8;font-weight:700;">${r.essay_points_biet}đ</div>` : ''}
         </td>
         <td class="text-center">
-          <input type="number" class="compact-num" style="width:38px;padding:2px;" min="0" value="${r.essay_hieu}" onchange="updateMatrixCell('${u.id}', 'essay_hieu', this.value)" title="Số câu TL Hiểu" />
-          ${r.essay_hieu > 0 ? `<div style="font-size:10.5px;color:#b45309;">${r.essay_points_hieu}đ</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_hieu}" onchange="updateMatrixCell('${u.id}', 'essay_hieu', this.value)" title="Số câu TL Hiểu" />
+          ${r.essay_hieu > 0 ? `<div style="font-size:10px;color:#b45309;font-weight:700;">${r.essay_points_hieu}đ</div>` : ''}
         </td>
         <td class="text-center">
-          <input type="number" class="compact-num" style="width:38px;padding:2px;" min="0" value="${r.essay_vandung}" onchange="updateMatrixCell('${u.id}', 'essay_vandung', this.value)" title="Số câu TL Vận dụng" />
-          ${r.essay_vandung > 0 ? `<div style="font-size:10.5px;color:#be185d;">${r.essay_points_vandung}đ</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_vandung}" onchange="updateMatrixCell('${u.id}', 'essay_vandung', this.value)" title="Số câu TL Vận dụng" />
+          ${r.essay_vandung > 0 ? `<div style="font-size:10px;color:#be185d;font-weight:700;">${r.essay_points_vandung}đ</div>` : ''}
         </td>
         <td class="text-center"><strong>${rowCalc.totalItems}</strong></td>
         <td class="text-center"><strong>${rowCalc.totalPoints.toFixed(2)}đ</strong></td>
@@ -2285,7 +2402,7 @@ function buildFullAiAuditPrompt() {
 // ============================================================================
 
 function syncExamMetaFromInputs() {
-  state.meta.department = document.getElementById("metaDepartment")?.value || state.meta.department || "SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC";
+  state.meta.department = document.getElementById("metaDepartment")?.value || state.meta.department || "SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI";
   state.meta.school = document.getElementById("metaSchool")?.value || state.meta.school || "TRƯỜNG THPT LỘC NINH";
   state.meta.group = document.getElementById("metaGroup")?.value || state.meta.group || "TỔ TIN - CÔNG NGHỆ";
   state.meta.subjectName = document.getElementById("metaSubject")?.value || state.meta.subjectName || "CÔNG NGHỆ 10";
@@ -2300,11 +2417,11 @@ function syncExamMetaFromInputs() {
 
 function applySchoolPreset(preset) {
   if (preset === "loc_ninh") {
-    state.meta.department = "SỞ GIÁO DỤC VÀ ĐÀO TẠO BÌNH PHƯỚC";
+    state.meta.department = "SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI";
     state.meta.school = "TRƯỜNG THPT LỘC NINH";
     state.meta.group = "TỔ TIN - CÔNG NGHỆ";
   } else if (preset === "dong_nai") {
-    state.meta.department = "SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI";
+    state.meta.department = "SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI";
     if (!state.meta.school || state.meta.school === "TRƯỜNG THPT ...") {
       state.meta.school = "TRƯỜNG THPT LỘC NINH";
     }
@@ -2333,7 +2450,244 @@ function applySchoolPreset(preset) {
   if (state.currentStep === 5) renderExamEditor();
 }
 
-function createWordBlobDoc(title, bodyContent) {
+// ============================================================================
+// HÀM XÂY DỰNG BẢNG MA TRẬN & BẢN ĐẶC TẢ CHUẨN IN WORD (KHÔNG CÓ FORM INPUTS)
+// ============================================================================
+
+function buildCleanMatrixHtmlForWord() {
+  const selectedUnits = state.units.filter(u => u.selected);
+  const sums = {
+    mcq_biet: 0, mcq_hieu: 0, mcq_vandung: 0,
+    tf_biet: 0, tf_hieu: 0, tf_vandung: 0,
+    short_biet: 0, short_hieu: 0, short_vandung: 0,
+    essay_biet: 0, essay_hieu: 0, essay_vandung: 0,
+    essay_points_biet: 0, essay_points_hieu: 0, essay_points_vandung: 0,
+    totalItems: 0, totalPoints: 0
+  };
+
+  const rowsHtml = selectedUnits.map((u, idx) => {
+    const r = state.matrixRows[u.id] || {};
+    const rowCalc = getRowPointCalculation(r);
+    Object.keys(sums).forEach(k => {
+      if (r[k] !== undefined) sums[k] = round2(sums[k] + r[k]);
+    });
+    sums.totalItems += rowCalc.totalItems;
+    sums.totalPoints = round2(sums.totalPoints + rowCalc.totalPoints);
+
+    const valStr = (v) => (v && v > 0) ? `<strong>${v}</strong>` : `<span style="color:#94a3b8;">-</span>`;
+    const essayStr = (count, pts) => {
+      if (!count || count <= 0) return `<span style="color:#94a3b8;">-</span>`;
+      return `<strong>${count}</strong><br/><span style="font-size:9pt;color:#1e40af;">(${pts}đ)</span>`;
+    };
+
+    return `
+      <tr>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${idx + 1}</td>
+        <td style="border:1px solid #000; text-align:left; font-size:10.5pt; padding:4pt 6pt;">
+          <div style="font-size:9.5pt; color:#475569;">${escapeHtml(u.chapter)} (${u.periods} tiết)</div>
+          <strong>${escapeHtml(u.lesson)}</strong>
+        </td>
+        <!-- MCQ -->
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.mcq_biet)}</td>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.mcq_hieu)}</td>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.mcq_vandung)}</td>
+        <!-- TF -->
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.tf_biet)}</td>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.tf_hieu)}</td>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.tf_vandung)}</td>
+        <!-- Short -->
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.short_biet)}</td>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.short_hieu)}</td>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${valStr(r.short_vandung)}</td>
+        <!-- Essay -->
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${essayStr(r.essay_biet, r.essay_points_biet)}</td>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${essayStr(r.essay_hieu, r.essay_points_hieu)}</td>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${essayStr(r.essay_vandung, r.essay_points_vandung)}</td>
+        <!-- Totals -->
+        <td style="border:1px solid #000; text-align:center; font-weight:bold; font-size:10pt;">${rowCalc.totalItems}</td>
+        <td style="border:1px solid #000; text-align:center; font-weight:bold; font-size:10pt; color:#1e40af;">${rowCalc.totalPoints.toFixed(2)}đ</td>
+        <td style="border:1px solid #000; text-align:center; font-weight:bold; font-size:10pt;">${(rowCalc.totalPoints * 10).toFixed(0)}%</td>
+      </tr>
+    `;
+  }).join("");
+
+  const pc = state.partConfig;
+  const totalTfStmts = sums.tf_biet + sums.tf_hieu + sums.tf_vandung;
+  const tfPointAvg = totalTfStmts > 0 ? ((pc.tf.numQuestions * pc.tf.pointsPerQuestion) / totalTfStmts) : 0.25;
+
+  const bietPoints = round2(sums.mcq_biet * pc.mcq.pointsPerQ + sums.tf_biet * tfPointAvg + sums.short_biet * pc.short.pointsPerQ + sums.essay_points_biet);
+  const hieuPoints = round2(sums.mcq_hieu * pc.mcq.pointsPerQ + sums.tf_hieu * tfPointAvg + sums.short_hieu * pc.short.pointsPerQ + sums.essay_points_hieu);
+  const vdPoints = round2(sums.mcq_vandung * pc.mcq.pointsPerQ + sums.tf_vandung * tfPointAvg + sums.short_vandung * pc.short.pointsPerQ + sums.essay_points_vandung);
+
+  return `
+    <table style="width:100%; border-collapse:collapse; table-layout:fixed; font-family:'Times New Roman',serif; margin:8pt 0;">
+      <thead>
+        <tr style="background:#f2f2f2;">
+          <th rowspan="2" style="border:1px solid #000; width:3.5%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">TT</th>
+          <th rowspan="2" style="border:1px solid #000; width:26.5%; text-align:center; font-weight:bold; padding:4pt 6pt; font-size:10.5pt;">Bài học / Đơn vị kiến thức</th>
+          <th colspan="3" style="border:1px solid #000; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">I. TN Nhiều LC (câu)</th>
+          <th colspan="3" style="border:1px solid #000; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">II. Đúng - Sai (ý)</th>
+          <th colspan="3" style="border:1px solid #000; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">III. Trả lời ngắn (câu)</th>
+          <th colspan="3" style="border:1px solid #000; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">IV. Tự luận (câu)</th>
+          <th rowspan="2" style="border:1px solid #000; width:6%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">Tổng lệnh</th>
+          <th rowspan="2" style="border:1px solid #000; width:6.5%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">Tổng điểm</th>
+          <th rowspan="2" style="border:1px solid #000; width:6%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">Tỉ lệ %</th>
+        </tr>
+        <tr style="background:#f2f2f2;">
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">B</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">H</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">VD</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">B</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">H</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">VD</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">B</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">H</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">VD</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">B</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">H</th>
+          <th style="border:1px solid #000; width:4.3%; text-align:center; font-size:9.5pt; font-weight:bold; padding:3pt 1pt;">VD</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rowsHtml}
+      </tbody>
+      <tfoot>
+        <tr style="background:#f8fafc; font-weight:bold;">
+          <td colspan="2" style="border:1px solid #000; text-align:center; padding:4pt 6pt; font-size:10pt;">TỔNG CỘNG SỐ LỆNH HỎI / CÂU</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.mcq_biet}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.mcq_hieu}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.mcq_vandung}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.tf_biet}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.tf_hieu}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.tf_vandung}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.short_biet}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.short_hieu}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.short_vandung}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.essay_biet}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.essay_hieu}</td>
+          <td style="border:1px solid #000; text-align:center;">${sums.essay_vandung}</td>
+          <td style="border:1px solid #000; text-align:center; color:#1e40af;">${sums.totalItems}</td>
+          <td style="border:1px solid #000; text-align:center; color:#1e40af;">${sums.totalPoints.toFixed(2)}đ</td>
+          <td style="border:1px solid #000; text-align:center;">100%</td>
+        </tr>
+        <tr style="background:#f1f5f9; font-weight:bold;">
+          <td colspan="2" style="border:1px solid #000; text-align:center; padding:4pt 6pt; font-size:10pt;">TỔNG ĐIỂM THEO CẤP ĐỘ TƯ DUY</td>
+          <td colspan="3" style="border:1px solid #000; text-align:center; font-size:9.5pt;">Biết: ${bietPoints.toFixed(2)}đ (${(bietPoints * 10).toFixed(0)}%)</td>
+          <td colspan="3" style="border:1px solid #000; text-align:center; font-size:9.5pt;">Hiểu: ${hieuPoints.toFixed(2)}đ (${(hieuPoints * 10).toFixed(0)}%)</td>
+          <td colspan="6" style="border:1px solid #000; text-align:center; font-size:9.5pt;">Vận dụng: ${vdPoints.toFixed(2)}đ (${(vdPoints * 10).toFixed(0)}%)</td>
+          <td colspan="3" style="border:1px solid #000; text-align:center; font-size:10.5pt; color:#15803d;">TỔNG: 10.00đ (100%)</td>
+        </tr>
+      </tfoot>
+    </table>
+  `;
+}
+
+function buildCleanSpecHtmlForWord() {
+  const selectedUnits = state.units.filter(u => u.selected);
+  let mcqCursor = 1;
+  let tfCursor = 1;
+  let shortCursor = 1;
+  let essayCursor = 1;
+
+  const rowsHtml = selectedUnits.map((u, idx) => {
+    const r = state.matrixRows[u.id] || {};
+    const mcqTotal = (r.mcq_biet || 0) + (r.mcq_hieu || 0) + (r.mcq_vandung || 0);
+    const tfTotal = (r.tf_biet || 0) + (r.tf_hieu || 0) + (r.tf_vandung || 0);
+    const shortTotal = (r.short_biet || 0) + (r.short_hieu || 0) + (r.short_vandung || 0);
+    const essayTotal = (r.essay_biet || 0) + (r.essay_hieu || 0) + (r.essay_vandung || 0);
+
+    const mcqRange = mcqTotal > 0 ? `Câu ${mcqCursor} → Câu ${mcqCursor + mcqTotal - 1}` : "-";
+    mcqCursor += mcqTotal;
+
+    const tfRange = tfTotal > 0 ? `${tfTotal} ý hỏi<br/>(B:${r.tf_biet}, H:${r.tf_hieu}, VD:${r.tf_vandung})` : "-";
+    tfCursor += tfTotal;
+
+    const shortRange = shortTotal > 0 ? `Câu ${shortCursor} → Câu ${shortCursor + shortTotal - 1}` : "-";
+    shortCursor += shortTotal;
+
+    const essayRange = essayTotal > 0 ? `Câu TL ${essayCursor}<br/>(${round2((r.essay_points_biet||0) + (r.essay_points_hieu||0) + (r.essay_points_vandung||0))}đ)` : "-";
+    essayCursor += essayTotal;
+
+    return `
+      <tr>
+        <td style="border:1px solid #000; text-align:center; font-size:10pt;">${idx + 1}</td>
+        <td style="border:1px solid #000; font-size:10pt; padding:4pt 6pt;">
+          <div style="font-size:9pt; color:#475569;">${escapeHtml(u.chapter)}</div>
+          <strong>${escapeHtml(u.lesson)}</strong>
+        </td>
+        <td style="border:1px solid #000; font-size:9.5pt; padding:4pt 6pt; line-height:1.35; text-align:justify;">
+          ${u.yccd.biet ? `<div style="margin-bottom:3pt;"><strong style="color:#1d4ed8;">* Nhận biết:</strong> ${escapeHtml(u.yccd.biet)}</div>` : ''}
+          ${u.yccd.hieu ? `<div style="margin-bottom:3pt;"><strong style="color:#b45309;">* Thông hiểu:</strong> ${escapeHtml(u.yccd.hieu)}</div>` : ''}
+          ${u.yccd.vandung ? `<div><strong style="color:#be185d;">* Vận dụng:</strong> ${escapeHtml(u.yccd.vandung)}</div>` : ''}
+        </td>
+        <td style="border:1px solid #000; text-align:center; font-size:9.5pt;">
+          ${(u.competencies || []).map(c => `<strong>${escapeHtml(c)}</strong>`).join("<br/>")}
+        </td>
+        <td style="border:1px solid #000; text-align:center; font-size:9.5pt;">
+          <strong>${mcqTotal > 0 ? mcqTotal + ' câu' : '-'}</strong><br/>
+          <span style="font-size:8.5pt; color:#475569;">${mcqRange}</span>
+        </td>
+        <td style="border:1px solid #000; text-align:center; font-size:9.5pt;">
+          <strong>${tfRange}</strong>
+        </td>
+        <td style="border:1px solid #000; text-align:center; font-size:9.5pt;">
+          <strong>${shortTotal > 0 ? shortTotal + ' câu' : '-'}</strong><br/>
+          <span style="font-size:8.5pt; color:#475569;">${shortRange}</span>
+        </td>
+        <td style="border:1px solid #000; text-align:center; font-size:9.5pt;">
+          <strong>${essayTotal > 0 ? essayTotal + ' câu' : '-'}</strong><br/>
+          <span style="font-size:8.5pt; color:#475569;">${essayRange}</span>
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  return `
+    <table style="width:100%; border-collapse:collapse; table-layout:fixed; font-family:'Times New Roman',serif; margin:8pt 0;">
+      <thead>
+        <tr style="background:#f2f2f2;">
+          <th style="border:1px solid #000; width:3.5%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">TT</th>
+          <th style="border:1px solid #000; width:20%; text-align:center; font-weight:bold; padding:4pt 6pt; font-size:10pt;">Bài học / Chủ đề</th>
+          <th style="border:1px solid #000; width:44.5%; text-align:center; font-weight:bold; padding:4pt 6pt; font-size:10pt;">Yêu cầu cần đạt</th>
+          <th style="border:1px solid #000; width:6%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">Mã NL</th>
+          <th style="border:1px solid #000; width:6.5%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">I. MCQ</th>
+          <th style="border:1px solid #000; width:6.5%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">II. Đ/S</th>
+          <th style="border:1px solid #000; width:6.5%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">III. TLN</th>
+          <th style="border:1px solid #000; width:6.5%; text-align:center; font-weight:bold; padding:4pt 2pt; font-size:10pt;">IV. TL</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rowsHtml}
+      </tbody>
+    </table>
+  `;
+}
+
+function createWordBlobDoc(title, bodyContent, customOptions = {}) {
+  const opt = Object.assign({
+    mode: state.printLayout?.mode || "hybrid_cv7991",
+    fontSize: state.printLayout?.fontSize || "13pt",
+    marginPreset: state.printLayout?.marginPreset || "nd30",
+    orientation: "portrait"
+  }, customOptions);
+
+  const marginLandscape = (opt.marginPreset === "compact")
+    ? "15mm 10mm 15mm 15mm"
+    : "15mm 15mm 15mm 20mm"; // Khổ ngang: Trên 15mm, Dưới 15mm, Phải 15mm, Trái 20mm (đóng gáy)
+
+  const marginPortrait = (opt.marginPreset === "compact")
+    ? "15mm 10mm 15mm 15mm"
+    : "20mm 15mm 20mm 30mm"; // Chuẩn Nghị định 30/2020: Trên 20mm, Dưới 20mm, Trái 30mm (đóng gáy), Phải 15mm
+
+  let formattedBody = bodyContent;
+  if (!formattedBody.includes('class="WordSectionLandscape"') && !formattedBody.includes('class="WordSectionPortrait"')) {
+    if (opt.orientation === "landscape") {
+      formattedBody = `<div class="WordSectionLandscape">${bodyContent}</div>`;
+    } else {
+      formattedBody = `<div class="WordSectionPortrait">${bodyContent}</div>`;
+    }
+  }
+
   const fullDoc = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
     <head>
@@ -2349,29 +2703,41 @@ function createWordBlobDoc(title, bodyContent) {
       </xml>
       <![endif]-->
       <style>
-        @page WordSection1 {
+        @page WordSectionPortrait {
           size: 210mm 297mm;
-          margin: 20mm 15mm 20mm 30mm; /* Chuan Nghi dinh 30/2020: Tren 20mm, Duoi 20mm, Trai 30mm (dong gay), Phai 15mm */
+          margin: ${marginPortrait};
+          mso-page-orientation: portrait;
           mso-header-margin: 15mm;
           mso-footer-margin: 15mm;
           mso-paper-source: 0;
         }
-        div.WordSection1 {
-          page: WordSection1;
+        div.WordSectionPortrait {
+          page: WordSectionPortrait;
+        }
+        @page WordSectionLandscape {
+          size: 297mm 210mm;
+          margin: ${marginLandscape};
+          mso-page-orientation: landscape;
+          mso-header-margin: 12mm;
+          mso-footer-margin: 12mm;
+          mso-paper-source: 0;
+        }
+        div.WordSectionLandscape {
+          page: WordSectionLandscape;
         }
         body {
           font-family: "Times New Roman", Times, serif;
-          font-size: 13pt;
+          font-size: ${opt.fontSize};
           line-height: 1.3;
           color: #000000;
           text-align: justify;
         }
         p {
           font-family: "Times New Roman", Times, serif;
-          font-size: 13pt;
+          font-size: ${opt.fontSize};
           line-height: 1.3;
           margin-top: 0;
-          margin-bottom: 5pt;
+          margin-bottom: 4.5pt;
           text-align: justify;
         }
         h1, h2, h3, h4 {
@@ -2386,13 +2752,16 @@ function createWordBlobDoc(title, bodyContent) {
           border-collapse: collapse;
           margin: 6pt 0;
           font-family: "Times New Roman", Times, serif;
+          table-layout: fixed;
         }
         th, td {
           border: 1px solid #000000;
-          padding: 4pt 6pt;
-          font-size: 11pt;
-          vertical-align: top;
+          padding: 4.5pt 5pt;
+          font-size: 10.5pt;
+          vertical-align: middle;
           line-height: 1.25;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
         th {
           background-color: #f2f2f2;
@@ -2420,12 +2789,15 @@ function createWordBlobDoc(title, bodyContent) {
           break-before: page;
           mso-break-type: section-break;
         }
+        .section-break {
+          clear: all;
+          page-break-before: always;
+          mso-break-type: section-break;
+        }
       </style>
     </head>
     <body>
-      <div class="WordSection1">
-        ${bodyContent}
-      </div>
+      ${formattedBody}
     </body>
     </html>
   `;
@@ -2656,35 +3028,39 @@ function buildExamAnswerKeyOnlyHtml() {
 }
 
 // 3. Xây dựng nội dung file Ma trận & Bản đặc tả (Phụ lục 1 & Phụ lục 2)
-function buildMatrixAndSpecOnlyHtml() {
+function buildMatrixAndSpecHeaderHtml() {
   syncExamMetaFromInputs();
-  const matrixHtml = document.getElementById("matrixExportArea")?.innerHTML || "";
-  const specHtml = document.getElementById("specExportArea")?.innerHTML || "";
-  let html = `
+  return `
     <table style="width:100%; border:none; margin-bottom:10pt;">
       <tr>
-        <td style="border:none; text-align:center; width:45%; vertical-align:top; font-size:11pt;">
+        <td style="border:none; text-align:center; width:45%; vertical-align:top; font-size:11pt; padding:2pt 4pt;">
           <strong>${escapeHtml(state.meta.department.toUpperCase())}</strong><br/>
           <strong>${escapeHtml(state.meta.school.toUpperCase())}</strong><br/>
           <strong>${escapeHtml((state.meta.group || 'TỔ TIN - CÔNG NGHỆ').toUpperCase())}</strong>
         </td>
-        <td style="border:none; text-align:center; width:55%; vertical-align:top;">
+        <td style="border:none; text-align:center; width:55%; vertical-align:top; padding:2pt 4pt;">
           <strong style="font-size:12pt;">HỒ SƠ CHUYÊN MÔN THEO CÔNG VĂN 7991/BGDĐT-GDTrH</strong><br/>
           <strong>MA TRẬN VÀ BẢN ĐẶC TẢ ĐỀ KIỂM TRA ${escapeHtml(state.meta.examTerm).toUpperCase()}</strong><br/>
           <i>MÔN: ${escapeHtml(state.meta.subjectName).toUpperCase()} - THỜI GIAN: ${state.meta.duration} PHÚT</i>
         </td>
       </tr>
     </table>
-    <hr style="border:none; border-top:1px solid #000; margin:6pt 0 10pt 0;"/>
-
-    <h3 style="text-align:center; margin:10pt 0 6pt 0;">PHẦN 1. MA TRẬN ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 1)</h3>
-    ${matrixHtml}
-
-    <div class="page-break"></div>
-    <h3 style="text-align:center; margin:10pt 0 6pt 0;">PHẦN 2. BẢN ĐẶC TẢ ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 2)</h3>
-    ${specHtml}
+    <hr style="border:none; border-top:1px solid #000; margin:4pt 0 8pt 0;"/>
   `;
-  return html;
+}
+
+function buildMatrixAndSpecOnlyHtml() {
+  const headerHtml = buildMatrixAndSpecHeaderHtml();
+  const matrixClean = buildCleanMatrixHtmlForWord();
+  const specClean = buildCleanSpecHtmlForWord();
+  return `
+    ${headerHtml}
+    <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN 1. MA TRẬN ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 1)</h3>
+    ${matrixClean}
+    <div class="page-break"></div>
+    <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN 2. BẢN ĐẶC TẢ ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 2)</h3>
+    ${specClean}
+  `;
 }
 
 // Hàm gộp cả Đề thi + Hướng dẫn chấm (dành cho hàm xuất trọn bộ)
@@ -2701,7 +3077,8 @@ function exportExamOnlyWord(triggerCheck = true) {
   const doExport = () => {
     syncExamMetaFromInputs();
     const content = buildExamQuestionsOnlyHtml();
-    const blob = createWordBlobDoc(`De-Thi-${state.meta.examCode}`, content);
+    const orientation = state.printLayout?.examOrientation || "portrait";
+    const blob = createWordBlobDoc(`De-Thi-${state.meta.examCode}`, content, { orientation: orientation });
     downloadWordBlob(blob, `De-Thi-${state.meta.examCode}-${state.meta.subjectName.replace(/\s+/g, '-')}.doc`);
   };
   if (triggerCheck) {
@@ -2715,7 +3092,8 @@ function exportExamOnlyWord(triggerCheck = true) {
 function exportMatrixSpecWord() {
   syncExamMetaFromInputs();
   const content = buildMatrixAndSpecOnlyHtml();
-  const blob = createWordBlobDoc(`Ma-Tran-Dac-Ta-CV7991`, content);
+  const orientation = state.printLayout?.matrixOrientation || "landscape";
+  const blob = createWordBlobDoc(`Ma-Tran-Dac-Ta-CV7991`, content, { orientation: orientation });
   downloadWordBlob(blob, `Ma-Tran-Dac-Ta-CV7991-${state.meta.subjectName.replace(/\s+/g, '-')}.doc`);
 }
 
@@ -2724,7 +3102,8 @@ function exportAnswerKeyWord(triggerCheck = true) {
   const doExport = () => {
     syncExamMetaFromInputs();
     const content = buildExamAnswerKeyOnlyHtml();
-    const blob = createWordBlobDoc(`Huong-Dan-Cham-${state.meta.examCode}`, content);
+    const orientation = state.printLayout?.answerKeyOrientation || "portrait";
+    const blob = createWordBlobDoc(`Huong-Dan-Cham-${state.meta.examCode}`, content, { orientation: orientation });
     downloadWordBlob(blob, `Huong-Dan-Cham-Dap-An-${state.meta.examCode}.doc`);
   };
   if (triggerCheck) {
@@ -2738,7 +3117,7 @@ function exportAnswerKeyWord(triggerCheck = true) {
 function exportAllSeparatedFiles() {
   checkAuditBeforeDownload(() => {
     syncExamMetaFromInputs();
-    alert("🚀 Bắt đầu tải 3 file rời về máy tính:\n1. Ma trận & Đặc tả (.doc)\n2. Đề thi in cho học sinh (.doc)\n3. Hướng dẫn chấm & Đáp án (.doc)");
+    alert("🚀 Bắt đầu tải 3 file rời về máy tính:\n1. Ma trận & Đặc tả (Khổ Ngang)\n2. Đề thi in cho học sinh (Khổ Dọc)\n3. Hướng dẫn chấm & Đáp án (Khổ Dọc)");
     exportMatrixSpecWord();
     setTimeout(() => {
       exportExamOnlyWord(false);
@@ -2752,25 +3131,60 @@ function exportAllSeparatedFiles() {
 // E. Tải trọn bộ Hồ sơ (Gộp cả 4 phần trong 1 file .doc duy nhất)
 function exportFullWordDocument() {
   syncExamMetaFromInputs();
-  const matrixHtml = document.getElementById("matrixExportArea")?.innerHTML || "";
-  const specHtml = document.getElementById("specExportArea")?.innerHTML || "";
+  const headerHtml = buildMatrixAndSpecHeaderHtml();
+  const matrixHtml = buildCleanMatrixHtmlForWord();
+  const specHtml = buildCleanSpecHtmlForWord();
   const examHtml = buildPrintableExamHtml();
 
-  const bodyContent = `
-    <h2>HỒ SƠ ĐỀ KIỂM TRA ĐỊNH KỲ ${escapeHtml(state.meta.examTerm.toUpperCase())}</h2>
-    <h3>MÔN: ${escapeHtml(state.meta.subjectName.toUpperCase())} (Theo Công văn số 7991/BGDĐT-GDTrH)</h3>
-    <p style="text-align:center; font-weight:bold; margin:2pt 0 6pt 0;">${escapeHtml(state.meta.department.toUpperCase())} — ${escapeHtml(state.meta.school.toUpperCase())} — ${escapeHtml((state.meta.group || 'TỔ TIN - CÔNG NGHỆ').toUpperCase())}</p>
-    <hr/>
-    <h3>PHẦN 1. MA TRẬN ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 1)</h3>
-    ${matrixHtml}
-    <div class="page-break"></div>
-    <h3>PHẦN 2. BẢN ĐẶC TẢ ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 2)</h3>
-    ${specHtml}
-    <div class="page-break"></div>
-    ${examHtml}
-  `;
+  let bodyContent = "";
+  const mode = state.printLayout?.mode || "hybrid_cv7991";
 
-  const blob = createWordBlobDoc(`Ho-So-De-Thi-CV7991-${state.meta.examCode}`, bodyContent);
+  if (mode === "hybrid_cv7991") {
+    // Chuẩn CV 7991: Ma trận & Bản đặc tả in Khổ Ngang, Đề thi & Hướng dẫn chấm in Khổ Dọc
+    bodyContent = `
+      <div class="WordSectionLandscape">
+        ${headerHtml}
+        <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN 1. MA TRẬN ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 1)</h3>
+        ${matrixHtml}
+        <div class="page-break"></div>
+        <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN 2. BẢN ĐẶC TẢ ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 2)</h3>
+        ${specHtml}
+      </div>
+      <br clear="all" style="page-break-before:always; mso-break-type:section-break" />
+      <div class="WordSectionPortrait">
+        ${examHtml}
+      </div>
+    `;
+  } else if (mode === "all_landscape") {
+    bodyContent = `
+      <div class="WordSectionLandscape">
+        ${headerHtml}
+        <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN 1. MA TRẬN ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 1)</h3>
+        ${matrixHtml}
+        <div class="page-break"></div>
+        <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN 2. BẢN ĐẶC TẢ ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 2)</h3>
+        ${specHtml}
+        <div class="page-break"></div>
+        ${examHtml}
+      </div>
+    `;
+  } else {
+    // all_portrait
+    bodyContent = `
+      <div class="WordSectionPortrait">
+        ${headerHtml}
+        <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN 1. MA TRẬN ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 1)</h3>
+        ${matrixHtml}
+        <div class="page-break"></div>
+        <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN 2. BẢN ĐẶC TẢ ĐỀ KIỂM TRA ĐỊNH KỲ (PHỤ LỤC 2)</h3>
+        ${specHtml}
+        <div class="page-break"></div>
+        ${examHtml}
+      </div>
+    `;
+  }
+
+  const blob = createWordBlobDoc(`Ho-So-De-Thi-CV7991-${state.meta.examCode}`, bodyContent, { mode: mode });
   downloadWordBlob(blob, `Ho-So-Tron-Bo-CV7991-${state.meta.examCode}.doc`);
 }
 
@@ -3424,13 +3838,134 @@ function closeVariantsModal() {
   if (modal) modal.classList.remove("open");
 }
 
-function generateThreeVariantExams(showToast = true) {
-  const codes = ["101", "102", "103"];
-  state.variantExams = codes.map((code, idx) => buildSingleExamVariantFromCurrentMatrix(idx, code));
+function generateFourVariantExams(showToast = true) {
+  const codes = ["101", "102", "103", "104"];
+
+  // Đề 1 (Mã 101): Lấy trực tiếp từ state.exam hiện tại đã được kiểm định/tối ưu
+  const mainExam = JSON.parse(JSON.stringify(state.exam));
+  const exam101 = {
+    variantNumber: 1,
+    examCode: codes[0],
+    mcq: mainExam.mcq || [],
+    tf: mainExam.tf || [],
+    short: mainExam.short || [],
+    essay: mainExam.essay || []
+  };
+
+  // Đề 2, 3, 4: Sinh từ ma trận với hoán vị câu hỏi, đảo phương án A-B-C-D và bối cảnh kỹ thuật
+  const exam102 = buildSingleExamVariantFromCurrentMatrix(1, codes[1]);
+  const exam103 = buildSingleExamVariantFromCurrentMatrix(2, codes[2]);
+  const exam104 = buildSingleExamVariantFromCurrentMatrix(3, codes[3]);
+
+  state.variantExams = [exam101, exam102, exam103, exam104];
+  openVariantsModal();
   renderVariantsModal();
   if (showToast) {
-    alert("⚡ Đã sinh thành công Bộ 3 Đề Biến Thể (Mã đề 101 • 102 • 103) giữ nguyên 100% cấu trúc Ma trận!");
+    alert("⚡ Đã sinh thành công Bộ 4 Đề Tương Tự (Mã 101 • 102 • 103 • 104) chuẩn 100% Ma trận & Bản đặc tả!");
   }
+}
+
+// Bảng Ma trận Đáp Án Đối Chiếu Cả 4 Mã Đề (rất tiện cho chấm thi & giám sát coi thi)
+function buildAnswersComparisonTableHtml(variants) {
+  if (!variants || variants.length === 0) return "";
+  const vList = variants.slice(0, 4);
+  const v0 = vList[0] || {};
+  const mcqLen = (v0.mcq || []).length;
+  const tfLen = (v0.tf || []).length;
+  const shortLen = (v0.short || []).length;
+
+  let html = `
+    <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:8px; padding:12px; margin-bottom:12px;">
+      <h4 style="margin:0 0 8px 0; color:#14532d; font-size:14.5px; display:flex; align-items:center; gap:6px;">
+        <span>📊</span> BẢNG ĐÁP ÁN ĐỐI CHIẾU 4 MÃ ĐỀ TRẮC NGHIỆM (101 • 102 • 103 • 104)
+      </h4>
+      <p style="font-size:12px; color:#64748b; margin:0 0 10px 0;">
+        Giúp giáo viên đối soát nhanh phương án đúng giữa 4 mã đề trong cùng một phòng thi:
+      </p>
+
+      <!-- I. MCQ -->
+      ${mcqLen > 0 ? `
+        <strong style="font-size:12.5px; color:#1e40af; display:block; margin-bottom:4px;">PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN (PHƯƠNG ÁN ĐÚNG)</strong>
+        <table class="std-table" style="font-size:12px; margin-bottom:12px; width:100%;">
+          <thead>
+            <tr style="background:#f1f5f9;">
+              <th style="width:55px; text-align:center;">Câu</th>
+              ${vList.map(v => `<th style="text-align:center; color:#15803d; font-weight:800;">Mã ${v.examCode}</th>`).join("")}
+              <th style="width:75px; text-align:center;">Cấp độ</th>
+              <th style="width:65px; text-align:center;">Điểm</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(v0.mcq || []).map((q, idx) => `
+              <tr>
+                <td class="text-center font-bold">Câu ${idx + 1}</td>
+                ${vList.map(v => {
+                  const item = (v.mcq && v.mcq[idx]);
+                  const letter = item ? String.fromCharCode(65 + item.answer) : "-";
+                  return `<td class="text-center" style="font-weight:700; color:#1e40af; font-size:13px;">${letter}</td>`;
+                }).join("")}
+                <td class="text-center">${q.level === 'biet' ? 'Biết' : q.level === 'hieu' ? 'Hiểu' : 'Vận dụng'}</td>
+                <td class="text-center">${q.points}đ</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      ` : ''}
+
+      <!-- II. TF -->
+      ${tfLen > 0 ? `
+        <strong style="font-size:12.5px; color:#1e40af; display:block; margin-bottom:4px;">PHẦN II. TRẮC NGHIỆM ĐÚNG - SAI (KẾT QUẢ Đ/S TỪNG Ý HỎI)</strong>
+        <table class="std-table" style="font-size:12px; margin-bottom:12px; width:100%;">
+          <thead>
+            <tr style="background:#f1f5f9;">
+              <th style="width:55px; text-align:center;">Câu</th>
+              <th style="width:40px; text-align:center;">Ý</th>
+              ${vList.map(v => `<th style="text-align:center; color:#15803d; font-weight:800;">Mã ${v.examCode}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${(v0.tf || []).map((q, qIdx) => (q.statements || []).map((st, sIdx) => `
+              <tr>
+                ${sIdx === 0 ? `<td rowspan="4" class="text-center font-bold" style="vertical-align:middle; background:#f8fafc;">Câu ${qIdx + 1}</td>` : ''}
+                <td class="text-center font-bold">${st.label})</td>
+                ${vList.map(v => {
+                  const targetQ = (v.tf && v.tf[qIdx]);
+                  const targetSt = targetQ && targetQ.statements && targetQ.statements[sIdx];
+                  const isT = targetSt ? targetSt.isTrue : false;
+                  return `<td class="text-center font-bold" style="color:${isT ? '#15803d' : '#dc2626'};">${isT ? 'Đúng' : 'Sai'}</td>`;
+                }).join("")}
+              </tr>
+            `).join("")).join("")}
+          </tbody>
+        </table>
+      ` : ''}
+
+      <!-- III. SHORT -->
+      ${shortLen > 0 ? `
+        <strong style="font-size:12.5px; color:#1e40af; display:block; margin-bottom:4px;">PHẦN III. TRẢ LỜI NGẮN (ĐÁP SỐ CHUẨN)</strong>
+        <table class="std-table" style="font-size:12px; width:100%;">
+          <thead>
+            <tr style="background:#f1f5f9;">
+              <th style="width:55px; text-align:center;">Câu</th>
+              ${vList.map(v => `<th style="text-align:center; color:#15803d; font-weight:800;">Mã ${v.examCode}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${(v0.short || []).map((q, idx) => `
+              <tr>
+                <td class="text-center font-bold">Câu ${idx + 1}</td>
+                ${vList.map(v => {
+                  const item = (v.short && v.short[idx]);
+                  return `<td class="text-center font-bold" style="color:#0f172a;">${escapeHtml(item ? item.answer : '-')}</td>`;
+                }).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      ` : ''}
+    </div>
+  `;
+  return html;
 }
 
 function renderVariantsModal() {
@@ -3441,63 +3976,68 @@ function renderVariantsModal() {
 
   let html = `
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-      <div style="display:flex; gap:6px;">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
         <button class="btn btn-sm ${activeTab === 'exams' ? 'btn-primary' : 'btn-outline'}" onclick="state.variantActiveTab='exams'; renderVariantsModal();">
-          📄 Xem Song Song 3 Đề Biến Thể (Mã 101 • 102 • 103)
+          📄 Xem 4 Đề Tương Tự (Mã 101 • 102 • 103 • 104)
+        </button>
+        <button class="btn btn-sm ${activeTab === 'matrix_answers' ? 'btn-primary' : 'btn-outline'}" onclick="state.variantActiveTab='matrix_answers'; renderVariantsModal();">
+          📊 Bảng Đáp Án Đối Chiếu (4 Mã Đề)
         </button>
         <button class="btn btn-sm ${activeTab === 'solutions' ? 'btn-primary' : 'btn-outline'}" onclick="state.variantActiveTab='solutions'; renderVariantsModal();">
-          ✅ Bảng Đáp Án & Giải Chi Tiết Đúng/Sai (3 Đề)
+          📑 Giải Chi Tiết Từng Mã Đề
         </button>
       </div>
-      <div style="font-size:12.5px; color:var(--primary-dark); font-weight:600;">
-        💡 Mỗi đề biến thể tự động chọn câu hỏi tương đương theo ô Ma trận, đổi ngữ cảnh thực tiễn và đảo phương án
+      <div style="font-size:12px; color:var(--primary-dark); font-weight:700;">
+        💡 Mỗi đề tự động đảo câu hỏi & phương án, giữ 100% cấu trúc Ma trận & Đặc tả
       </div>
     </div>
   `;
 
-  if (activeTab === "exams") {
+  if (activeTab === "matrix_answers") {
+    html += buildAnswersComparisonTableHtml(variants);
+  } else if (activeTab === "exams") {
     html += `
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:12px;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
         ${variants.map((v, vIdx) => `
-          <div style="border:1.5px solid #cbd5e1; border-radius:8px; background:#fff; display:flex; flex-direction:column; max-height:64vh;">
+          <div style="border:1.5px solid #cbd5e1; border-radius:8px; background:#fff; display:flex; flex-direction:column; max-height:64vh; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
             <div style="padding:10px 12px; background:linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%); border-bottom:1px solid #cbd5e1; display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <span class="badge badge-ok">ĐỀ BIẾN THỂ ${v.variantNumber}</span>
-                <strong style="color:var(--primary-dark); margin-left:4px;">Mã đề: ${v.examCode}</strong>
+                <span class="badge badge-ok" style="font-size:11px;">MÃ ĐỀ ${v.examCode}</span>
+                <strong style="color:var(--primary-dark); margin-left:4px; font-size:13px;">Đề số ${v.variantNumber || (vIdx + 1)}</strong>
               </div>
               <div style="display:flex; gap:4px;">
-                <button class="btn btn-outline btn-sm" style="padding:3px 7px; font-size:11.5px;" onclick="applyVariantToMainEditor(${vIdx})" title="Đưa đề này ra màn hình chính Bước 5">⚡ Nạp vào Bước 5</button>
-                <button class="btn btn-primary btn-sm" style="padding:3px 7px; font-size:11.5px;" onclick="exportSingleVariantWord(${vIdx})">📥 Tải .doc</button>
+                <button class="btn btn-outline btn-xs" onclick="applyVariantToMainEditor(${vIdx})" title="Đưa đề này ra màn hình chính Bước 5">⚡ Nạp</button>
+                <button class="btn btn-primary btn-xs" onclick="exportSingleVariantWord(${vIdx})" title="Tải riêng file Word của mã đề này">📥 Tải .doc</button>
               </div>
             </div>
-            <div style="padding:10px 12px; overflow-y:auto; font-size:12.5px; line-height:1.45; flex:1;">
-              ${v.mcq.length > 0 ? `
-                <div style="font-weight:700; color:var(--primary-dark); margin-bottom:6px;">PHẦN I. TRẮC NGHIỆM 4 LỰA CHỌN (${v.mcq.length} câu)</div>
+            <div style="padding:10px 12px; overflow-y:auto; font-size:12px; line-height:1.45; flex:1;">
+              ${(v.mcq || []).length > 0 ? `
+                <div style="font-weight:700; color:var(--primary-dark); margin-bottom:6px;">PHẦN I. TRẮC NGHIỆM (${v.mcq.length} câu)</div>
                 ${v.mcq.map((q, idx) => `
                   <div style="margin-bottom:8px; padding-bottom:6px; border-bottom:1px dashed #e2e8f0;">
                     <div><strong>Câu ${idx + 1}:</strong> ${escapeHtml(q.stem)}</div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px; font-size:11.5px; color:#334155; margin-top:3px;">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px; font-size:11px; color:#334155; margin-top:3px;">
                       ${q.options.map((opt, oIdx) => `<div><strong>${String.fromCharCode(65 + oIdx)}.</strong> ${escapeHtml(opt)}</div>`).join("")}
                     </div>
                   </div>
                 `).join("")}
               ` : ''}
-              ${v.tf.length > 0 ? `
-                <div style="font-weight:700; color:var(--primary-dark); margin:10px 0 6px;">PHẦN II. TRẮC NGHIỆM ĐÚNG - SAI (${v.tf.length} câu)</div>
+              ${(v.tf || []).length > 0 ? `
+                <div style="font-weight:700; color:var(--primary-dark); margin:10px 0 6px;">PHẦN II. ĐÚNG - SAI (${v.tf.length} câu)</div>
                 ${v.tf.map((q, idx) => `
                   <div style="margin-bottom:8px; padding-bottom:6px; border-bottom:1px dashed #e2e8f0;">
                     <div><strong>Câu ${idx + 1}:</strong> ${escapeHtml(q.stem)}</div>
-                    <div style="font-size:11.5px; color:#334155; margin-top:3px;">
+                    <div style="font-size:11px; color:#334155; margin-top:3px;">
                       ${q.statements.map(st => `<div><strong>${st.label})</strong> ${escapeHtml(st.text)}</div>`).join("")}
                     </div>
                   </div>
                 `).join("")}
               ` : ''}
-              ${v.short.length > 0 ? `
+              ${(v.short || []).length > 0 ? `
                 <div style="font-weight:700; color:var(--primary-dark); margin:10px 0 6px;">PHẦN III. TRẢ LỜI NGẮN (${v.short.length} câu)</div>
                 ${v.short.map((q, idx) => `<div style="margin-bottom:6px;"><strong>Câu ${idx + 1}:</strong> ${escapeHtml(q.stem)}</div>`).join("")}
               ` : ''}
-              ${v.essay.length > 0 ? `
+              ${(v.essay || []).length > 0 ? `
                 <div style="font-weight:700; color:var(--primary-dark); margin:10px 0 6px;">PHẦN IV. TỰ LUẬN (${v.essay.length} câu)</div>
                 ${v.essay.map((q, idx) => `<div style="margin-bottom:6px;"><strong>Câu ${idx + 1} (${q.points}đ):</strong> ${escapeHtml(q.stem)}</div>`).join("")}
               ` : ''}
@@ -3507,36 +4047,38 @@ function renderVariantsModal() {
       </div>
     `;
   } else {
+    // solutions tab
     html += `
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:12px;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
         ${variants.map(v => `
-          <div style="border:1.5px solid #cbd5e1; border-radius:8px; background:#fff; padding:10px 12px; max-height:64vh; overflow-y:auto; font-size:12.5px;">
-            <div style="font-weight:700; color:var(--primary-dark); font-size:14px; margin-bottom:8px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">
-              ✅ ĐÁP ÁN & GIẢI CHI TIẾT — MÃ ĐỀ ${v.examCode}
+          <div style="border:1.5px solid #cbd5e1; border-radius:8px; background:#fff; padding:10px 12px; max-height:64vh; overflow-y:auto; font-size:12px;">
+            <div style="font-weight:700; color:var(--primary-dark); font-size:13.5px; margin-bottom:8px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+              <span>✅ ĐÁP ÁN MÃ ĐỀ ${v.examCode}</span>
+              <button class="btn btn-outline btn-xs" onclick="exportSingleVariantWord(${variants.indexOf(v)})">Tải .doc</button>
             </div>
-            ${v.mcq.length > 0 ? `
+            ${(v.mcq || []).length > 0 ? `
               <div style="margin-bottom:10px;">
-                <strong>I. Bảng đáp án Nhiều lựa chọn:</strong>
+                <strong>I. Bảng đáp án MCQ:</strong>
                 <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:4px;">
                   ${v.mcq.map((q, idx) => `
-                    <span style="background:#f0fdf4; border:1px solid #bbf7d0; padding:2px 6px; border-radius:4px; font-size:11.5px;">
+                    <span style="background:#f0fdf4; border:1px solid #bbf7d0; padding:2px 5px; border-radius:4px; font-size:11px;">
                       <strong>${idx + 1}.</strong> <span style="color:#15803d; font-weight:700;">${String.fromCharCode(65 + q.answer)}</span>
                     </span>
                   `).join("")}
                 </div>
               </div>
             ` : ''}
-            ${v.tf.length > 0 ? `
+            ${(v.tf || []).length > 0 ? `
               <div style="margin-bottom:10px;">
                 <strong>II. Bảng giải chi tiết Đúng - Sai:</strong>
-                <table class="std-table" style="margin-top:4px; font-size:11.5px;">
-                  <thead><tr><th style="width:45px;">Câu</th><th style="width:32px;">Ý</th><th style="width:55px;">Đ/S</th><th>Giải thích chuẩn SGK</th></tr></thead>
+                <table class="std-table" style="margin-top:4px; font-size:11px;">
+                  <thead><tr><th style="width:38px;">Câu</th><th style="width:28px;">Ý</th><th style="width:48px;">Đ/S</th><th>Giải thích chuẩn SGK</th></tr></thead>
                   <tbody>
                     ${v.tf.map((q, idx) => q.statements.map((st, sIdx) => `
                       <tr>
-                        ${sIdx === 0 ? `<td rowspan="4" class="text-center"><strong>C${idx + 1}</strong></td>` : ''}
-                        <td class="text-center"><strong>${st.label})</strong></td>
-                        <td class="text-center" style="font-weight:700; color:${st.isTrue ? '#15803d' : '#dc2626'};">${st.isTrue ? 'Đúng' : 'Sai'}</td>
+                        ${sIdx === 0 ? `<td rowspan="4" class="text-center font-bold">C${idx + 1}</td>` : ''}
+                        <td class="text-center font-bold">${st.label})</td>
+                        <td class="text-center font-bold" style="color:${st.isTrue ? '#15803d' : '#dc2626'};">${st.isTrue ? 'Đúng' : 'Sai'}</td>
                         <td>${escapeHtml(st.explanation)}</td>
                       </tr>
                     `).join("")).join("")}
@@ -3544,13 +4086,13 @@ function renderVariantsModal() {
                 </table>
               </div>
             ` : ''}
-            ${v.essay.length > 0 ? `
+            ${(v.essay || []).length > 0 ? `
               <div>
                 <strong>III. Hướng dẫn chấm Tự luận:</strong>
                 ${v.essay.map((q, idx) => `
                   <div style="margin-top:4px; background:#f8fafc; padding:6px 8px; border-radius:5px; border:1px solid #e2e8f0;">
                     <strong>Câu ${idx + 1} (${q.points}đ):</strong><br/>
-                    ${q.rubric.map(r => `• ${escapeHtml(r)}`).join("<br/>")}
+                    ${(q.rubric || []).map(r => `• ${escapeHtml(r)}`).join("<br/>")}
                   </div>
                 `).join("")}
               </div>
@@ -3590,69 +4132,54 @@ function exportSingleVariantWord(vIdx) {
   const v = state.variantExams[vIdx];
   if (!v) return;
   const bodyHtml = buildPrintableExamForCustomData(v, v.examCode);
-  const fullDoc = `
-    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-    <head><meta charset="utf-8"><title>De Bien The ${v.examCode}</title>
-    <style>body{font-family:"Times New Roman",serif;font-size:12pt;line-height:1.4;} table{width:100%;border-collapse:collapse;margin:8pt 0;} th,td{border:1px solid #000;padding:4pt 6pt;font-size:11pt;} .page-break{page-break-before:always;}</style>
-    </head><body>${bodyHtml}</body></html>
-  `;
-  const blob = new Blob(['\ufeff', fullDoc], { type: 'application/msword' });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `De-Bien-The-Ma-${v.examCode}.doc`;
-  a.click();
+  const blob = createWordBlobDoc(`De-Thi-Bien-The-Ma-${v.examCode}`, bodyHtml, { orientation: "portrait" });
+  downloadWordBlob(blob, `De-Thi-Bien-The-Ma-${v.examCode}.doc`);
 }
 
-function exportAllThreeVariantsWord() {
+function exportAllFourVariantsWord() {
   if (!state.variantExams || state.variantExams.length === 0) {
-    generateThreeVariantExams(false);
+    generateFourVariantExams(false);
   }
-  const matrixHtml = document.getElementById("matrixExportArea")?.innerHTML || "";
-  const specHtml = document.getElementById("specExportArea")?.innerHTML || "";
+  const headerHtml = buildMatrixAndSpecHeaderHtml();
+  const matrixHtml = buildCleanMatrixHtmlForWord();
+  const specHtml = buildCleanSpecHtmlForWord();
+  const answersComparisonHtml = buildAnswersComparisonTableHtml(state.variantExams);
+
   const variantsHtml = state.variantExams.map((v, idx) => `
     ${idx > 0 ? '<div class="page-break"></div>' : ''}
-    <h2 style="text-align:center; color:#15803d;">BỘ ĐỀ BIẾN THỂ SỐ ${v.variantNumber} (MÃ ĐỀ: ${v.examCode})</h2>
+    <h2 style="text-align:center; color:#15803d; margin:10pt 0 4pt 0;">ĐỀ KIỂM TRA BIẾN THỂ SỐ ${v.variantNumber || (idx + 1)} (MÃ ĐỀ: ${v.examCode})</h2>
     ${buildPrintableExamForCustomData(v, v.examCode)}
   `).join("");
 
-  const fullDoc = `
-    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-    <head>
-      <meta charset="utf-8">
-      <title>Bo 3 De Bien The 101-102-103 CV7991</title>
-      <style>
-        body { font-family: "Times New Roman", serif; font-size: 12pt; line-height: 1.4; }
-        h1, h2, h3 { text-align: center; margin: 6pt 0; }
-        table { width: 100%; border-collapse: collapse; margin: 8pt 0; }
-        th, td { border: 1px solid #000; padding: 4pt 6pt; font-size: 11pt; }
-        th { background-color: #f0f0f0; font-weight: bold; text-align: center; }
-        .page-break { page-break-before: always; }
-      </style>
-    </head>
-    <body>
-      <h2>HỒ SƠ BỘ 3 ĐỀ BIẾN THỂ (MÃ ĐỀ 101 • 102 • 103) — CHUẨN CÔNG VĂN 7991</h2>
-      <h3>MÔN: ${escapeHtml(state.meta.subjectName)} (${escapeHtml(state.meta.examTerm)})</h3>
-      <hr/>
-      <h3>PHẦN A. MA TRẬN ĐỀ KIỂM TRA CHUNG CHO 3 MÃ ĐỀ (PHỤ LỤC 1)</h3>
+  const bodyContent = `
+    <div class="WordSectionLandscape">
+      ${headerHtml}
+      <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN A. MA TRẬN ĐỀ KIỂM TRA CHUNG CHO 4 MÃ ĐỀ (PHỤ LỤC 1)</h3>
       ${matrixHtml}
       <div class="page-break"></div>
-      <h3>PHẦN B. BẢN ĐẶC TẢ ĐỀ KIỂM TRA CHUNG CHO 3 MÃ ĐỀ (PHỤ LỤC 2)</h3>
+      <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN B. BẢN ĐẶC TẢ ĐỀ KIỂM TRA CHUNG CHO 4 MÃ ĐỀ (PHỤ LỤC 2)</h3>
       ${specHtml}
       <div class="page-break"></div>
+      <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN C. BẢNG ĐÁP ÁN ĐỐI CHIẾU 4 MÃ ĐỀ (101 • 102 • 103 • 104)</h3>
+      ${answersComparisonHtml}
+    </div>
+    <br clear="all" style="page-break-before:always; mso-break-type:section-break" />
+    <div class="WordSectionPortrait">
+      <h3 style="text-align:center; margin:8pt 0 4pt 0;">PHẦN D. NỘI DUNG 4 MÃ ĐỀ THI & HƯỚNG DẪN CHẤM</h3>
       ${variantsHtml}
-    </body>
-    </html>
+    </div>
   `;
-  const blob = new Blob(['\ufeff', fullDoc], { type: 'application/msword' });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `Bo-3-De-Bien-The-101-102-103-CV7991.doc`;
-  a.click();
+
+  const blob = createWordBlobDoc(`Bo-4-De-Tuong-Tu-101-102-103-104-CV7991`, bodyContent, { mode: "hybrid_cv7991" });
+  downloadWordBlob(blob, `Bo-4-De-Tuong-Tu-101-102-103-104-CV7991.doc`);
 }
 
-// ============================================================================
-// CHẾ ĐỘ 2: TẠO ĐỀ TƯƠNG TỰ TỪ 97 ĐỀ MẪU HOẶC FILE TẢI LÊN
-// ============================================================================
+function exportAllThreeVariantsWord() {
+  exportAllFourVariantsWord();
+}
+function generateThreeVariantExams(showToast = true) {
+  generateFourVariantExams(showToast);
+}
 function openSimilarExamModal() {
   const modal = document.getElementById("similarExamModalBackdrop");
   if (!modal) return;
@@ -3889,73 +4416,145 @@ function getSavedExamHistory() {
   }
 }
 
-function updateHistoryCountBadge() {
-  const el = document.getElementById("historyCountBadge");
-  if (el) el.textContent = getSavedExamHistory().length;
+// ============================================================================
+// CHỨC NĂNG LƯU ĐỀ & THƯ VIỆN ĐỀ ĐÃ TẠO (LOCALSTORAGE + SAO LƯU BACKUP JSON)
+// ============================================================================
+
+const SAVED_EXAMS_KEY = "cv7991_saved_exams";
+
+function getSavedExamsList() {
+  try {
+    const raw = localStorage.getItem(SAVED_EXAMS_KEY) || localStorage.getItem(EXAM_HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
 }
 
-function saveCurrentExamToHistory() {
-  const history = getSavedExamHistory();
-  const calc = getPartCalculations();
-  const newItem = {
-    id: "hist_" + Date.now(),
+function updateSavedExamsBadge() {
+  const count = getSavedExamsList().length;
+  ["savedExamCountBadge", "topSavedCountBadge", "step6SavedCountBadge", "historyCountBadge"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = count;
+  });
+}
+
+function updateHistoryCountBadge() {
+  updateSavedExamsBadge();
+}
+
+function saveCurrentExamToLibrary() {
+  syncExamMetaFromInputs();
+  const list = getSavedExamsList();
+  const defaultTitle = `${state.meta.school} — ${state.meta.subjectName} (${state.meta.examTerm}) — Mã ${state.meta.examCode}`;
+  const customTitle = prompt("Nhập tên lưu cho bộ đề kiểm tra này:", defaultTitle);
+  if (customTitle === null) return; // người dùng ấn Cancel
+
+  const examItem = {
+    id: "exam_" + Date.now(),
+    title: (customTitle || defaultTitle).trim(),
     createdAt: new Date().toLocaleString("vi-VN"),
+    auditScore: state.audit?.score || 100,
     meta: JSON.parse(JSON.stringify(state.meta)),
     units: JSON.parse(JSON.stringify(state.units)),
     partConfig: JSON.parse(JSON.stringify(state.partConfig)),
     matrixRows: JSON.parse(JSON.stringify(state.matrixRows)),
+    specOverrides: JSON.parse(JSON.stringify(state.specOverrides || {})),
     exam: JSON.parse(JSON.stringify(state.exam)),
-    summary: `${state.meta.subjectName} • ${state.meta.examTerm} • Mã ${state.meta.examCode} (${calc.grandTotalPoints}đ)`
+    printLayout: JSON.parse(JSON.stringify(state.printLayout || {}))
   };
-  history.unshift(newItem);
-  const trimmed = history.slice(0, 10);
+
+  list.unshift(examItem);
+  const trimmed = list.slice(0, 50); // Lưu tối đa 50 đề
+  localStorage.setItem(SAVED_EXAMS_KEY, JSON.stringify(trimmed));
   localStorage.setItem(EXAM_HISTORY_KEY, JSON.stringify(trimmed));
-  updateHistoryCountBadge();
-  renderHistoryModal();
-  alert("💾 Đã lưu bộ Hồ sơ Đề (Ma trận + Đặc tả + Đề thi) vào Lịch sử trên trình duyệt!");
+  updateSavedExamsBadge();
+  renderSavedExamsModal();
+  alert(`✅ Đã lưu thành công đề "${examItem.title}" vào Thư viện Đề đã lưu!`);
 }
 
-function openHistoryModal() {
+function saveCurrentExamToHistory() {
+  saveCurrentExamToLibrary();
+}
+
+function openSavedExamsModal() {
   const modal = document.getElementById("historyModalBackdrop");
   if (!modal) return;
-  renderHistoryModal();
+  renderSavedExamsModal();
   modal.classList.add("open");
 }
 
-function closeHistoryModal() {
+function openHistoryModal() {
+  openSavedExamsModal();
+}
+
+function closeSavedExamsModal() {
   const modal = document.getElementById("historyModalBackdrop");
   if (modal) modal.classList.remove("open");
 }
 
-function renderHistoryModal() {
+function closeHistoryModal() {
+  closeSavedExamsModal();
+}
+
+function renderSavedExamsModal() {
   const box = document.getElementById("historyModalContent");
   if (!box) return;
-  const list = getSavedExamHistory();
+  const list = getSavedExamsList();
   if (list.length === 0) {
     box.innerHTML = `
-      <div style="text-align:center; padding:28px; color:var(--text-muted);">
-        Chưa có đề nào được lưu. Hãy bấm nút <strong>"💾 Lưu đề hiện tại"</strong> để lưu bộ Ma trận - Đặc tả - Đề thi và tái sử dụng bất cứ lúc nào!
+      <div style="text-align:center; padding:36px 16px; color:#64748b;">
+        <span style="font-size:36px; display:block; margin-bottom:8px;">📂</span>
+        <strong style="font-size:15px; color:#1e293b;">Chưa có đề nào được lưu trong Thư viện</strong>
+        <p style="font-size:12.5px; margin:6px 0 14px;">Bấm nút <strong>"💾 Lưu đề vào thư viện"</strong> ở Bước 5 hoặc Bước 6 để lưu trữ và nạp lại bất cứ lúc nào!</p>
+        <button class="btn btn-primary btn-sm" onclick="saveCurrentExamToLibrary(); renderSavedExamsModal();">💾 Lưu đề hiện tại ngay</button>
       </div>
     `;
     return;
   }
 
   box.innerHTML = `
-    <div style="display:grid; gap:8px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+      <div style="font-size:13px; color:#475569;">
+        Đang có <strong>${list.length}</strong> đề kiểm tra đã lưu trong bộ nhớ:
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button class="btn btn-outline btn-xs" onclick="exportSavedExamsBackupFile()">📤 Xuất file Backup (.json)</button>
+        <button class="btn btn-outline btn-xs" onclick="document.getElementById('importBackupFileInput').click()">📥 Nạp file Backup</button>
+        <input type="file" id="importBackupFileInput" accept=".json" style="display:none;" onchange="importSavedExamsBackupFile(event)" />
+      </div>
+    </div>
+    <div style="display:grid; gap:10px;">
       ${list.map((item, idx) => `
-        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <div>
-            <div style="font-weight:700; color:var(--primary-dark); font-size:13.5px;">
-              #${idx + 1}. ${escapeHtml(item.summary)}
+        <div style="background:#ffffff; border:1.5px solid #cbd5e1; border-radius:10px; padding:12px 14px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="badge" style="background:#e0f2fe; color:#0369a1; font-weight:700;">#${idx + 1}</span>
+                <strong style="font-size:14px; color:#0f172a;">${escapeHtml(item.title || item.summary || 'Đề kiểm tra')}</strong>
+                <span class="badge ${item.auditScore >= 90 ? 'badge-ok' : 'badge-warn'}" style="font-size:11px;">
+                  ${item.auditScore || 100}/100đ
+                </span>
+              </div>
+              <div style="font-size:12px; color:#64748b; margin-top:4px; line-height:1.5;">
+                🕒 Lưu lúc: <strong>${escapeHtml(item.createdAt)}</strong> • Mã đề: <strong>${escapeHtml(item.meta?.examCode || '101')}</strong> • Thời gian: <strong>${item.meta?.duration || 45}'</strong><br/>
+                📊 Quy mô: <strong>${(item.units || []).filter(u => u.selected).length} bài học</strong> • MCQ: ${(item.exam?.mcq || []).length} câu | Đ/S: ${(item.exam?.tf || []).length} câu | TLN: ${(item.exam?.short || []).length} câu | Tự luận: ${(item.exam?.essay || []).length} câu
+              </div>
             </div>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
-              🕒 Lưu lúc: ${escapeHtml(item.createdAt)} • Số bài: ${(item.units || []).filter(u => u.selected).length} bài • MCQ: ${(item.exam?.mcq || []).length} câu | Đ/S: ${(item.exam?.tf || []).length} câu | TL: ${(item.exam?.essay || []).length} câu
+            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+              <button class="btn btn-primary btn-sm" onclick="loadSavedExamToWorkspace('${item.id}')" title="Nạp đề này vào không gian làm việc để xem, sửa, in">
+                📂 Nạp Đề
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="generateFourVariantsFromSaved('${item.id}')" title="Sinh ngay 4 đề tương tự từ đề đã lưu này">
+                ⚡ Sinh 4 Đề
+              </button>
+              <button class="btn btn-accent btn-sm" onclick="quickExportSavedExamWord('${item.id}')" title="Tải ngay file Word của đề này">
+                📥 Tải Word
+              </button>
+              <button class="btn btn-outline btn-sm" style="color:#dc2626; border-color:#fca5a5;" onclick="deleteSavedExamItem('${item.id}')" title="Xóa đề này khỏi danh sách">
+                🗑️
+              </button>
             </div>
-          </div>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            <button class="btn btn-outline btn-sm" onclick="loadHistoryExamItem('${item.id}')">👁️ Xem lại Đề này</button>
-            <button class="btn btn-primary btn-sm" onclick="regenerateFromHistoryMatrix('${item.id}')">🔄 Tạo đề mới từ Ma trận này</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteHistoryExamItem('${item.id}')">✕</button>
           </div>
         </div>
       `).join("")}
@@ -3963,50 +4562,112 @@ function renderHistoryModal() {
   `;
 }
 
-function loadHistoryExamItem(id) {
-  const item = getSavedExamHistory().find(x => x.id === id);
+function renderHistoryModal() {
+  renderSavedExamsModal();
+}
+
+function loadSavedExamToWorkspace(id) {
+  const item = getSavedExamsList().find(x => x.id === id);
   if (!item) return;
   state.meta = JSON.parse(JSON.stringify(item.meta));
   state.units = JSON.parse(JSON.stringify(item.units));
   state.partConfig = JSON.parse(JSON.stringify(item.partConfig));
   state.matrixRows = JSON.parse(JSON.stringify(item.matrixRows));
+  state.specOverrides = JSON.parse(JSON.stringify(item.specOverrides || {}));
   state.exam = JSON.parse(JSON.stringify(item.exam));
+  if (item.printLayout) state.printLayout = JSON.parse(JSON.stringify(item.printLayout));
+  if (item.auditScore !== undefined) state.audit.score = item.auditScore;
+
   ensureTfStatementLevels();
   renderPpctTable();
   renderStep2Config();
   renderMatrixTable();
   renderSpecificationTable();
   renderExamEditor();
-  closeHistoryModal();
-  goToStep(5);
+  closeSavedExamsModal();
+  goToStep(6);
+  alert(`📂 Đã nạp thành công bộ đề "${item.title || item.summary}" vào hệ thống!`);
 }
 
-function regenerateFromHistoryMatrix(id) {
-  const item = getSavedExamHistory().find(x => x.id === id);
+function loadHistoryExamItem(id) {
+  loadSavedExamToWorkspace(id);
+}
+
+function generateFourVariantsFromSaved(id) {
+  loadSavedExamToWorkspace(id);
+  setTimeout(() => {
+    generateFourVariantExams(true);
+  }, 300);
+}
+
+function quickExportSavedExamWord(id) {
+  const item = getSavedExamsList().find(x => x.id === id);
   if (!item) return;
+  const currentSaved = JSON.parse(JSON.stringify({ meta: state.meta, units: state.units, matrixRows: state.matrixRows, exam: state.exam }));
   state.meta = JSON.parse(JSON.stringify(item.meta));
-  state.meta.examCode = String(Math.floor(100 + Math.random() * 899));
   state.units = JSON.parse(JSON.stringify(item.units));
-  state.partConfig = JSON.parse(JSON.stringify(item.partConfig));
   state.matrixRows = JSON.parse(JSON.stringify(item.matrixRows));
-  ensureTfStatementLevels();
-  renderPpctTable();
-  renderStep2Config();
-  renderMatrixTable();
-  renderSpecificationTable();
-  generateExamFromMatrix(false);
-  closeHistoryModal();
-  goToStep(5);
-  alert(`🔄 Đã giữ nguyên Ma trận & Đặc tả cũ và sinh Đề mới thành công (Mã đề: ${state.meta.examCode})!`);
+  state.exam = JSON.parse(JSON.stringify(item.exam));
+
+  exportFullWordDocument();
+
+  // Restore current
+  state.meta = currentSaved.meta;
+  state.units = currentSaved.units;
+  state.matrixRows = currentSaved.matrixRows;
+  state.exam = currentSaved.exam;
+}
+
+function deleteSavedExamItem(id) {
+  if (!confirm("Thầy/cô có chắc chắn muốn xóa đề này khỏi Thư viện đã lưu không?")) return;
+  const list = getSavedExamsList().filter(x => x.id !== id);
+  localStorage.setItem(SAVED_EXAMS_KEY, JSON.stringify(list));
+  localStorage.setItem(EXAM_HISTORY_KEY, JSON.stringify(list));
+  updateSavedExamsBadge();
+  renderSavedExamsModal();
 }
 
 function deleteHistoryExamItem(id) {
-  const list = getSavedExamHistory().filter(x => x.id !== id);
-  localStorage.setItem(EXAM_HISTORY_KEY, JSON.stringify(list));
-  updateHistoryCountBadge();
-  renderHistoryModal();
+  deleteSavedExamItem(id);
 }
 
+function exportSavedExamsBackupFile() {
+  const list = getSavedExamsList();
+  if (list.length === 0) {
+    alert("Chưa có đề nào trong thư viện để xuất sao lưu.");
+    return;
+  }
+  const blob = new Blob([JSON.stringify(list, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `Sao-Luu-Thu-Vien-De-CV7991-${Date.now()}.json`;
+  a.click();
+}
+
+function importSavedExamsBackupFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (Array.isArray(imported)) {
+        const existing = getSavedExamsList();
+        const merged = [...imported, ...existing].slice(0, 50);
+        localStorage.setItem(SAVED_EXAMS_KEY, JSON.stringify(merged));
+        localStorage.setItem(EXAM_HISTORY_KEY, JSON.stringify(merged));
+        updateSavedExamsBadge();
+        renderSavedExamsModal();
+        alert(`✅ Đã nạp thành công ${imported.length} đề kiểm tra từ file sao lưu!`);
+      } else {
+        alert("File sao lưu không đúng định dạng danh sách đề!");
+      }
+    } catch (err) {
+      alert("Lỗi khi đọc file backup: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
 function handleQuickShortcutUpload(event) {
   const file = event.target.files[0];
   if (!file) return;

@@ -1,9 +1,8 @@
-// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
+﻿// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
 // Phần 1: Kiến thức tóm tắt từng bài, câu hỏi nâng cao & Công cụ phân tích lý thuyết
 // Phần 2: Tổng hợp 77 bài giảng PPT trình chiếu & dạy nhanh (+ 42 Chuyên đề)
 // Phần 3: Soạn đề theo học kì (Chuẩn Công văn 7991 - 6 bước + Kho 97 Đề học kì)
 // Phần 4: Ôn tập Học sinh giỏi (HSG), Máy tính Kĩ thuật Nông nghiệp & 48 Đề chính thức Bộ GD&ĐT
-
 const portalState = {
   activeModule: 1, // 1, 2, 3, 4
   // Phần 1: Lý thuyết & Phân tích
@@ -30,7 +29,7 @@ const portalState = {
   mod3ExamGradeFilter: "all",
   mod3ShowArchive: false,
   // Phần 4: Hệ sinh thái Khảo thí Kép (Ôn thi HSG & Luyện thi Tốt nghiệp THPT chuẩn Bộ GD&ĐT)
-  mod4MainSection: "graduation", // 'hsg' | 'graduation'
+  mod4MainSection: "hsg", // 'hsg' | 'graduation'
   // Phân hệ A: Ôn HSG
   mod4HsgSubTab: "hsg_quiz", // 'hsg_quiz' | 'hsg_topics' | 'ag_calc'
   mod4Grade: "all",
@@ -50,7 +49,6 @@ const portalState = {
   gradSubmitted: false,
   gradScore: null
 };
-
 // Dữ liệu Chuyên sâu cho Công cụ Phân tích Lý thuyết (Phần 1) & Bồi dưỡng HSG (Phần 4)
 const THEORY_DEEP_MODELS = [
   {
@@ -167,7 +165,6 @@ const THEORY_DEEP_MODELS = [
     ]
   }
 ];
-
 // Dữ liệu Chuyên đề & Bài toán Kĩ thuật Nông nghiệp cho Phần 4 (Ôn tập HSG)
 const HSG_SPECIAL_PROBLEMS = [
   {
@@ -205,7 +202,6 @@ const HSG_SPECIAL_PROBLEMS = [
     ]
   }
 ];
-
 // ============================================================================
 // CHUYỂN ĐỔI 4 PHÂN HỆ CHÍNH TRÊN THANH ĐIỀU HƯỚNG
 // ============================================================================
@@ -226,24 +222,27 @@ const STANDALONE_META = {
     headerSub: "6 bước tự động Ma trận - Đặc tả - Đề thi - Đề cương ôn tập • Tự chọn bài & Đề chuyển đổi môn"
   },
   4: {
-    title: "🏆 Phần 4: Khảo thí Kép — Ôn HSG & Luyện Thi Tốt Nghiệp THPT Chuẩn Bộ GD&ĐT",
-    headerTitle: "PHẦN 4: HỆ THỐNG KHẢO THÍ KÉP — ÔN THI HSG & TỐT NGHIỆP THPT CHUẨN BỘ GD&ĐT",
-    headerSub: "Phân hệ I: Bồi dưỡng HSG (Trắc nghiệm VDC + Tự luận Kỹ thuật) • Phân hệ II: Luyện thi Tốt nghiệp THPT Chuẩn Mẫu Bộ (24 Trắc nghiệm + 4 Đúng/Sai, Phân tích đề & Gợi ý đề tương tự)"
+    title: "🏆 Phần 4: Bồi Dưỡng Học Sinh Giỏi (Bảng B THPT) — CNNN 10•11•12",
+    headerTitle: "PHẦN 4: BỒI DƯỠNG HỌC SINH GIỎI (CHUYÊN ĐỀ BẢNG B THPT)",
+    headerSub: "3 Cấp độ luyện đề 180 phút (thang 20đ) • Barem Bảng B: 0,25đ nhận định + 0,125đ giải thích • Cẩm nang 9 chủ đề • 10 dạng bài toán kỹ thuật • Máy tính 6-in-1"
+  },
+  5: {
+    title: "🏛️ Phần 5: Luyện Thi Tốt Nghiệp THPT (Chuẩn Mẫu Bộ GD&ĐT) — CNNN 10•11•12",
+    headerTitle: "PHẦN 5: LUYỆN THI TỐT NGHIỆP THPT (CHUẨN ĐỊNH DẠNG MỚI BỘ GD&ĐT)",
+    headerSub: "28 câu (24 Trắc nghiệm + 4 Đúng/Sai) • 50 phút • Thang điểm 10,0 • Kho 48 Đề Bộ GD&ĐT (Mã 0701–0748 PDF) • Chẩn đoán năng lực & Sinh đề tương tự"
   }
 };
-
 function detectStandaloneModule() {
-  if (typeof window.FORCED_MODULE === "number" && window.FORCED_MODULE >= 1 && window.FORCED_MODULE <= 4) {
+  if (typeof window.FORCED_MODULE === "number" && window.FORCED_MODULE >= 1 && window.FORCED_MODULE <= 5) {
     return window.FORCED_MODULE;
   }
   const params = new URLSearchParams(window.location.search);
   const p = Number(params.get("phan") || params.get("tab") || params.get("mod"));
-  if (p >= 1 && p <= 4) return p;
-  const pathMatch = window.location.pathname.match(/phan([1-4])/i);
+  if (p >= 1 && p <= 5) return p;
+  const pathMatch = window.location.pathname.match(/phan([1-5])/i);
   if (pathMatch) return Number(pathMatch[1]);
   return 0;
 }
-
 function returnToWelcomeHub() {
   portalState.activeModule = 0;
   const hub = document.getElementById("portalWelcomeHub");
@@ -253,70 +252,70 @@ function returnToWelcomeHub() {
     void hub.offsetWidth;
     hub.classList.add("reveal-smooth");
   }
-
   // Ẩn tất cả view nội dung
   document.querySelectorAll(".main-module-view").forEach(view => {
     view.classList.remove("active");
   });
-
   // Tắt active trên thanh module nav bar, bật active cho Hub
   const hubBtn = document.getElementById("btnNavHub");
   if (hubBtn) hubBtn.classList.add("active");
   document.querySelectorAll(".module-tab-btn:not(#btnNavHub)").forEach(btn => {
     btn.classList.remove("active");
   });
-
   const stepperBar = document.getElementById("cv7991StepperBar");
   if (stepperBar) stepperBar.style.display = "none";
-
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
 function switchMainModule(modNum) {
   portalState.activeModule = modNum;
-
   // Ẩn/Hiện Cổng Chọn Phân Hệ (Hub)
   const hub = document.getElementById("portalWelcomeHub");
   if (hub) {
     hub.style.display = modNum === 0 ? "block" : "none";
   }
-
   const hubBtn = document.getElementById("btnNavHub");
   if (hubBtn) hubBtn.classList.toggle("active", modNum === 0);
   document.querySelectorAll(".module-tab-btn:not(#btnNavHub)").forEach((btn, idx) => {
     btn.classList.toggle("active", idx + 1 === modNum);
   });
-
   // Hiển thị nội dung từ từ (Lazy reveal transition)
   document.querySelectorAll(".main-module-view").forEach((view, idx) => {
-    const isTarget = idx + 1 === modNum;
+    let isTarget = false;
+    if (view.id) {
+      isTarget = (view.id === `moduleView${modNum}`);
+    } else {
+      isTarget = (idx + 1 === modNum);
+    }
     view.classList.toggle("active", isTarget);
+    view.style.display = isTarget ? "block" : "none";
     if (isTarget) {
       view.classList.remove("reveal-smooth");
       void view.offsetWidth;
       view.classList.add("reveal-smooth");
     }
   });
-
   // Ẩn/hiện thanh Stepper 6 bước (chỉ hiện khi đang ở Phần 3: Soạn đề theo học kì)
   const stepperBar = document.getElementById("cv7991StepperBar");
   if (stepperBar) {
     stepperBar.style.display = modNum === 3 ? "block" : "none";
   }
-
   if (modNum === 1) renderModule1Theory();
   if (modNum === 2) {
     if (typeof init5512Module === "function") init5512Module();
     else renderModule2PptPresenter();
   }
   if (modNum === 3) renderModule3ArchiveBanner();
-  if (modNum === 4) renderModule4Hsg();
-
+  if (modNum === 4) {
+    renderModule4Hsg();
+  }
+  if (modNum === 5) {
+    renderModule5Graduation();
+  }
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
 // Khởi chạy Portal khi trang tải xong
 document.addEventListener("DOMContentLoaded", () => {
+  const standaloneMod = detectStandaloneModule();
   const params = new URLSearchParams(window.location.search);
   const initLesson = params.get("lesson");
   if (initLesson) {
@@ -328,16 +327,17 @@ document.addEventListener("DOMContentLoaded", () => {
       portalState.mod2LessonId = found.id;
     }
   }
-
   renderModule1Theory();
   renderModule2PptPresenter();
   renderModule3ArchiveBanner();
   initHsgQuizPool();
   initGradExam("bo_2025_sample");
-  renderModule4Hsg();
-
-  const standaloneMod = detectStandaloneModule();
-  if (standaloneMod >= 1 && standaloneMod <= 4) {
+  if (standaloneMod === 4) {
+    renderModule4Hsg();
+  } else if (standaloneMod === 5) {
+    renderModule5Graduation();
+  }
+  if (standaloneMod >= 1 && standaloneMod <= 5) {
     portalState.isStandalone = true;
     const meta = STANDALONE_META[standaloneMod];
     if (meta) {
@@ -357,10 +357,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
             <span style="font-size:12px; color:var(--text-muted);">Mở nhanh tab khác:</span>
-            <a href="/phan1.html" target="_blank" class="btn ${standaloneMod === 1 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">📘 Tab 1: Kiến thức SGK</a>
-            <a href="/phan2.html" target="_blank" class="btn ${standaloneMod === 2 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">🖥️ Tab 2: Học liệu cho GV</a>
-            <a href="/phan3.html" target="_blank" class="btn ${standaloneMod === 3 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">📝 Tab 3: Soạn đề Học kì</a>
-            <a href="/phan4.html" target="_blank" class="btn ${standaloneMod === 4 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">🏆 Tab 4: Ôn tập HSG</a>
+            <a href="/phan1.html" target="_blank" class="btn ${standaloneMod === 1 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">📘 Tab 1: SGK</a>
+            <a href="/phan2.html" target="_blank" class="btn ${standaloneMod === 2 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">🖥️ Tab 2: Học liệu 5512</a>
+            <a href="/phan3.html" target="_blank" class="btn ${standaloneMod === 3 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">📝 Tab 3: Đề 7991</a>
+            <a href="/phan4.html" target="_blank" class="btn ${standaloneMod === 4 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">🏆 Tab 4: Bồi dưỡng HSG</a>
+            <a href="/phan5.html" target="_blank" class="btn ${standaloneMod === 5 ? 'btn-primary' : 'btn-outline'} btn-sm" style="text-decoration:none; font-size:12px;">🏛️ Tab 5: Tốt nghiệp THPT</a>
           </div>
         </div>
       `;
@@ -375,7 +376,6 @@ document.addEventListener("DOMContentLoaded", () => {
       switchMainModule(1);
     }
   }
-
   // Phím tắt bàn phím cho Trình chiếu Slide ở Phần 2
   document.addEventListener("keydown", (e) => {
     if (portalState.activeModule !== 2) return;
@@ -389,7 +389,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
 // ============================================================================
 // PHẦN 1: KIẾN THỨC TÓM TẮT TỪNG BÀI, CÂU HỎI NÂNG CAO & CÔNG CỤ PHÂN TÍCH LÝ THUYẾT
 // ============================================================================
@@ -399,7 +398,6 @@ function selectMod1Grade(grade) {
   if (firstLesson) portalState.mod1LessonId = firstLesson.id;
   renderModule1Theory();
 }
-
 function selectMod1Lesson(lessonId) {
   portalState.mod1LessonId = lessonId;
   portalState.mod1FlashcardIdx = 0;
@@ -407,12 +405,10 @@ function selectMod1Lesson(lessonId) {
   portalState.mod1FlashcardsList = [];
   renderModule1Theory();
 }
-
 function selectMod1SubTab(tab) {
   portalState.mod1SubTab = tab;
   renderModule1Theory();
 }
-
 function getQuestionsForLesson(grade, lessonNum) {
   const unitId = getUnitIdForLesson(grade, lessonNum);
   const mcqs = (QUESTION_BANK.mcq || []).filter(q =>
@@ -427,7 +423,6 @@ function getQuestionsForLesson(grade, lessonNum) {
   const essays = (QUESTION_BANK.essay || []).filter(q => q.unitId === unitId);
   return { mcqs, tfs, shorts, essays, unitId };
 }
-
 function getUnitIdForLesson(grade, bai) {
   const b = Number(bai);
   if (grade === "cn10") {
@@ -441,28 +436,58 @@ function getUnitIdForLesson(grade, bai) {
   const map12 = { 1:"cn12_1", 2:"cn12_1", 3:"cn12_2", 4:"cn12_2", 5:"cn12_2", 6:"cn12_3", 7:"cn12_3", 8:"cn12_4", 9:"cn12_4", 10:"cn12_5", 11:"cn12_5", 12:"cn12_5", 13:"cn12_6", 14:"cn12_6", 15:"cn12_6", 16:"cn12_7", 17:"cn12_7", 18:"cn12_7", 19:"cn12_8", 20:"cn12_8", 21:"cn12_8b", 22:"cn12_8b" };
   return map12[b] || "cn12_9";
 }
-
-function formatSgkSectionItem(rawLine) {
+function formatSgkSectionItem(rawLine, secNum, heading) {
   const line = String(rawLine || "").trim();
   if (!line) return "";
   
-  // Tiểu mục số: "1. Vai trò của trồng trọt"
-  if (/^\d+\.\s+/.test(line)) {
-    const num = line.match(/^\d+/)[0];
-    const textOnly = line.replace(/^\d+\.\s*/, '');
-    return `<div style="font-weight:700; color:var(--primary-dark); margin:14px 0 6px 4px; font-size:15px; display:flex; align-items:center; gap:8px;">
-      <span style="background:var(--primary-light); color:var(--primary-dark); font-size:11.5px; padding:2px 8px; border-radius:12px; font-weight:800;">Tiểu mục ${num}</span>
-      <span>${escapeHtml(textOnly)}</span>
+  // Xác định số thứ tự của Phần / Mục lớn (1, 2, 3...)
+  let prefix = secNum || 1;
+  if (heading) {
+    const cleanH = String(heading).trim();
+    const romanMatch = cleanH.match(/^([IVXLCDM]+)[\.\s\:\-]/i);
+    if (romanMatch && romanMatch[1]) {
+      const r = romanMatch[1].toUpperCase();
+      const romanMap = { "I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10 };
+      if (romanMap[r]) prefix = romanMap[r];
+    }
+  }
+
+  // 1. Tiểu mục số: "1. Phân loại..." hoặc "1.1. Phân loại..."
+  if (/^(\d+(?:\.\d+)*)\.?\s+/.test(line)) {
+    const numMatch = line.match(/^(\d+(?:\.\d+)*)\.?\s+/);
+    let numLabel = "";
+    let textOnly = "";
+    if (numMatch) {
+      const rawDigits = numMatch[1];
+      textOnly = line.substring(numMatch[0].length).trim();
+      // Nếu đã có dạng 1.1 hay 2.1 thì giữ nguyên, nếu chỉ là số 1, 2 thì ghép thành prefix.rawDigits
+      if (rawDigits.includes(".")) {
+        numLabel = rawDigits;
+      } else {
+        numLabel = `${prefix}.${rawDigits}`;
+      }
+    }
+    return `<div style="font-weight:700; color:var(--primary-dark); margin:18px 0 8px 2px; font-size:15px; display:flex; align-items:center; gap:8px;">
+      <span style="display:inline-flex; align-items:center; justify-content:center; background:#ecfdf5; color:#047857; font-weight:800; font-size:13px; padding:2px 8px; border-radius:6px; border:1px solid #a7f3d0; font-family:'Plus Jakarta Sans',sans-serif; flex-shrink:0;">${numLabel}</span>
+      <span style="color:#0f172a; font-weight:700; font-size:14.5px;">${escapeHtml(textOnly)}</span>
     </div>`;
   }
   
-  // Tiểu mục chữ: "a) Đảm bảo an ninh lương thực: ..."
+  // 2. Chú thích / Lưu ý quan trọng
+  if (/^(\*|•)?\s*Lưu ý/i.test(line)) {
+    const noteText = line.replace(/^(\*|•)?\s*Lưu ý\s*:?/i, '').trim();
+    return `<div style="background:#fefce8; border:1px solid #fef08a; border-left:4px solid #eab308; border-radius:6px; padding:10px 14px; margin:10px 0 10px 14px; font-size:13.5px; line-height:1.65; color:#854d0e;">
+      💡 <strong style="color:#713f12;">Lưu ý quan trọng:</strong> <span>${escapeHtml(noteText)}</span>
+    </div>`;
+  }
+
+  // 3. Tiểu mục chữ: "a) Đảm bảo an ninh lương thực: ..."
   if (/^[a-eđ]\)\s+/i.test(line)) {
     const match = line.match(/^([a-eđ]\)\s*[^:]+:?)(.*)/i);
     if (match) {
       const label = match[1].trim();
       const desc = match[2].trim();
-      return `<div style="margin:6px 0 6px 14px; font-size:14px; line-height:1.65; color:#334155; display:flex; gap:8px; align-items:flex-start;">
+      return `<div style="margin:5px 0 5px 14px; font-size:14px; line-height:1.65; color:#334155; display:flex; gap:8px; align-items:flex-start;">
         <span style="color:var(--primary); font-weight:800; flex-shrink:0; margin-top:2px;">▸</span>
         <div>
           <strong style="color:#0f172a; font-weight:700;">${escapeHtml(label)}</strong>
@@ -471,15 +496,21 @@ function formatSgkSectionItem(rawLine) {
       </div>`;
     }
   }
-  
-  // Ý gạch đầu dòng có tiêu đề trước dấu hai chấm
+
+  // 4. Nhánh cấp con (dấu + thụt vào sâu hơn)
+  const isSubLevel = /^\+\s+/.test(line);
   const cleanBullet = line.replace(/^[-+•]\s*/, "");
+  const indentLeft = isSubLevel ? "28px" : "14px";
+  const bulletSymbol = isSubLevel ? "–" : "•";
+  const bulletColor = isSubLevel ? "#64748b" : "var(--primary)";
+
+  // Ý gạch đầu dòng có tiêu đề trước dấu hai chấm
   if (cleanBullet.includes(":")) {
     const parts = cleanBullet.split(":");
     const bTitle = parts[0].trim();
     const bBody = parts.slice(1).join(":").trim();
-    return `<div style="display:flex; gap:8px; align-items:flex-start; margin:5px 0 5px 14px; font-size:14px; line-height:1.65; color:#334155;">
-      <span style="color:var(--primary); font-weight:800; flex-shrink:0; margin-top:1px;">•</span>
+    return `<div style="display:flex; gap:8px; align-items:flex-start; margin:5px 0 5px ${indentLeft}; font-size:14px; line-height:1.65; color:#334155;">
+      <span style="color:${bulletColor}; font-weight:800; flex-shrink:0; margin-top:1px;">${bulletSymbol}</span>
       <div>
         <strong style="color:#0f172a; font-weight:700;">${escapeHtml(bTitle)}:</strong>
         <span> ${escapeHtml(bBody)}</span>
@@ -487,335 +518,644 @@ function formatSgkSectionItem(rawLine) {
     </div>`;
   }
   
-  return `<div style="display:flex; gap:8px; align-items:flex-start; margin:5px 0 5px 14px; font-size:14px; line-height:1.65; color:#334155;">
-    <span style="color:var(--primary); font-weight:800; flex-shrink:0; margin-top:1px;">•</span>
+  return `<div style="display:flex; gap:8px; align-items:flex-start; margin:5px 0 5px ${indentLeft}; font-size:14px; line-height:1.65; color:#334155;">
+    <span style="color:${bulletColor}; font-weight:800; flex-shrink:0; margin-top:1px;">${bulletSymbol}</span>
     <span>${escapeHtml(cleanBullet)}</span>
   </div>`;
 }
-
 // ============================================================================
 // HỖ TRỢ SƠ ĐỒ TƯ DUY (MIND MAP) & THẺ NHỚ HỌC NHANH (FLASHCARDS)
 // ============================================================================
+// ============================================================================
+// HỖ TRỢ SƠ ĐỒ TƯ DUY TƯƠNG TÁC ĐA CẤP (NOTEBOOK LM STYLE INTERACTIVE MINDMAP)
+// ============================================================================
+
+// ============================================================================
+// HỖ TRỢ SƠ ĐỒ TƯ DUY TƯƠNG TÁC ĐA CẤP (NOTEBOOK LM STYLE INTERACTIVE MINDMAP)
+// ============================================================================
+
+function toggleMindmapNode(nodeKey) {
+  if (!portalState.mod1MindmapExpanded) {
+    portalState.mod1MindmapExpanded = {};
+  }
+  const isDefaultOpen = nodeKey.startsWith("sec_");
+  const currentVal = portalState.mod1MindmapExpanded[nodeKey] !== undefined 
+    ? portalState.mod1MindmapExpanded[nodeKey] 
+    : isDefaultOpen;
+  portalState.mod1MindmapExpanded[nodeKey] = !currentVal;
+  renderModule1Theory();
+}
+
 function toggleMindmapBranch(idx) {
-  if (!portalState.mod1MindmapCollapsed) portalState.mod1MindmapCollapsed = {};
-  portalState.mod1MindmapCollapsed[idx] = !portalState.mod1MindmapCollapsed[idx];
+  toggleMindmapNode("sec_" + idx);
+}
+
+function setMindmapExpandLevel(level) {
+  const curLesson = (PORTAL_DATA.lessons || []).find(l => l.id === portalState.mod1LessonId);
+  if (!curLesson) return;
+  const sgkSections = (curLesson && curLesson.sgkSections) || [];
+  const exp = {};
+  
+  sgkSections.forEach((sec, sIdx) => {
+    const secKey = "sec_" + sIdx;
+    if (level === "all" || level === "subsections") {
+      exp[secKey] = true;
+    } else {
+      exp[secKey] = false;
+    }
+    
+    let subIdx = 0;
+    (sec.items || []).forEach(it => {
+      const line = String(it).trim();
+      if (/^(\d+(?:\.\d+)*)\.?\s+/.test(line)) {
+        const subKey = "sub_" + sIdx + "_" + subIdx;
+        exp[subKey] = (level === "all");
+        subIdx++;
+      }
+    });
+  });
+  
+  portalState.mod1MindmapExpanded = exp;
   renderModule1Theory();
 }
 
 function expandAllMindmapBranches(expand) {
-  portalState.mod1MindmapCollapsed = {};
-  if (!expand) {
-    const curLesson = (PORTAL_DATA.lessons || []).find(l => l.id === portalState.mod1LessonId);
-    const sgkSections = (curLesson && curLesson.sgkSections) || [];
-    sgkSections.forEach((_, i) => {
-      portalState.mod1MindmapCollapsed[i] = true;
-    });
-  }
+  setMindmapExpandLevel(expand ? "all" : "none");
+}
+
+function setMindmapZoom(delta) {
+  let z = (portalState.mod1MindmapZoom || 100) + delta;
+  if (z < 70) z = 70;
+  if (z > 130) z = 130;
+  portalState.mod1MindmapZoom = z;
   renderModule1Theory();
 }
 
+function formatMindmapLeafContent(rawLine) {
+  const line = String(rawLine || "").trim();
+  if (!line) return "";
+  
+  // 1. Chú thích / Lưu ý quan trọng
+  if (/^(\*|•)?\s*Lưu ý/i.test(line)) {
+    const noteText = line.replace(/^(\*|•)?\s*Lưu ý\s*:?/i, '').trim();
+    return `<div style="background:#fefce8; border:1px solid #fef08a; border-left:3.5px solid #eab308; border-radius:6px; padding:6px 10px; font-size:12.5px; line-height:1.55; color:#854d0e;">
+      💡 <strong style="color:#713f12;">Lưu ý cốt lõi:</strong> <span>${escapeHtml(noteText)}</span>
+    </div>`;
+  }
+  
+  // 2. Điểm chữ: "a) Đảm bảo an ninh lương thực: ..."
+  if (/^[a-eđ]\)\s+/i.test(line)) {
+    const match = line.match(/^([a-eđ]\)\s*[^:]+:?)(.*)/i);
+    if (match) {
+      return `<div style="font-size:13.5px; line-height:1.6; color:#334155;">
+        <span style="color:var(--primary); font-weight:800; margin-right:4px;">▸</span>
+        <strong style="color:#0f172a; font-weight:700;">${escapeHtml(match[1].trim())}</strong>
+        ${match[2] ? `<span> ${escapeHtml(match[2].trim())}</span>` : ''}
+      </div>`;
+    }
+  }
+
+  // 3. Sub-level (bắt đầu bằng dấu +)
+  const isSubLevel = /^\+\s+/.test(line);
+  const clean = line.replace(/^[-+•]\s*/, "");
+  const bulletSymbol = isSubLevel ? "–" : "•";
+  const indentStyle = isSubLevel ? "padding-left:14px; font-size:13px; color:#475569;" : "font-size:13.5px; color:#334155;";
+
+  if (clean.includes(":")) {
+    const parts = clean.split(":");
+    return `<div style="${indentStyle} line-height:1.6;">
+      <span style="color:var(--primary); font-weight:800; margin-right:5px;">${bulletSymbol}</span>
+      <strong style="color:#0f172a; font-weight:700;">${escapeHtml(parts[0].trim())}:</strong>
+      <span> ${escapeHtml(parts.slice(1).join(":").trim())}</span>
+    </div>`;
+  }
+
+  return `<div style="${indentStyle} line-height:1.6;">
+    <span style="color:var(--primary); font-weight:800; margin-right:5px;">${bulletSymbol}</span>
+    <span>${escapeHtml(clean)}</span>
+  </div>`;
+}
+
 function renderMindmapHtml(curLesson, sgkSections) {
-  const branchColors = [
-    { border: "#10b981", bg: "#f0fdf4", headerBg: "#dcfce7", text: "#065f46" },
-    { border: "#3b82f6", bg: "#eff6ff", headerBg: "#dbeafe", text: "#1e40af" },
-    { border: "#f59e0b", bg: "#fffbeb", headerBg: "#fef3c7", text: "#92400e" },
-    { border: "#8b5cf6", bg: "#f5f3ff", headerBg: "#ede9fe", text: "#5b21b6" },
-    { border: "#ec4899", bg: "#fff1f2", headerBg: "#fce7f3", text: "#9d174d" },
-    { border: "#06b6d4", bg: "#f0fdfa", headerBg: "#cffafe", text: "#155e75" }
+  if (!portalState.mod1MindmapExpanded) {
+    portalState.mod1MindmapExpanded = {};
+    sgkSections.forEach((_, sIdx) => {
+      portalState.mod1MindmapExpanded["sec_" + sIdx] = true;
+    });
+  }
+
+  const zoom = portalState.mod1MindmapZoom || 100;
+  
+  const branchThemes = [
+    { border: "#059669", bg: "#f0fdf4", headerBg: "#dcfce7", text: "#065f46", badge: "#059669", lightBg: "#ecfdf5" },
+    { border: "#2563eb", bg: "#eff6ff", headerBg: "#dbeafe", text: "#1e40af", badge: "#2563eb", lightBg: "#eff6ff" },
+    { border: "#d97706", bg: "#fffbeb", headerBg: "#fef3c7", text: "#92400e", badge: "#d97706", lightBg: "#fffbeb" },
+    { border: "#7c3aed", bg: "#f5f3ff", headerBg: "#ede9fe", text: "#5b21b6", badge: "#7c3aed", lightBg: "#f5f3ff" },
+    { border: "#db2777", bg: "#fff1f2", headerBg: "#fce7f3", text: "#9d174d", badge: "#db2777", lightBg: "#fff1f2" },
+    { border: "#0891b2", bg: "#f0fdfa", headerBg: "#cffafe", text: "#155e75", badge: "#0891b2", lightBg: "#f0fdfa" }
   ];
+
+  let totalSubCount = 0;
+  let totalLeafCount = 0;
+
+  const parsedBranches = sgkSections.map((sec, sIdx) => {
+    const heading = sec.heading || ("Mục " + (sIdx + 1));
+    const romanMatch = String(heading).trim().match(/^([IVXLCDM]+)[\.\s\:\-]/i);
+    let prefix = sIdx + 1;
+    if (romanMatch && romanMatch[1]) {
+      const rmap = { "I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10 };
+      if (rmap[romanMatch[1].toUpperCase()]) prefix = rmap[romanMatch[1].toUpperCase()];
+    }
+
+    const theme = branchThemes[sIdx % branchThemes.length];
+    const subNodes = [];
+    let curNode = null;
+
+    (sec.items || []).forEach(it => {
+      const line = String(it).trim();
+      if (!line) return;
+      const numMatch = line.match(/^(\d+(?:\.\d+)*)\.?\s*(.*)/);
+      if (numMatch && (!numMatch[1].includes(".") || numMatch[1].split(".").length === 2)) {
+        const rawDigits = numMatch[1];
+        const textOnly = numMatch[2];
+        const numLabel = rawDigits.includes(".") ? rawDigits : (prefix + "." + rawDigits);
+        curNode = {
+          id: "sub_" + sIdx + "_" + subNodes.length,
+          numLabel: numLabel,
+          title: textOnly,
+          leaves: []
+        };
+        subNodes.push(curNode);
+        totalSubCount++;
+      } else {
+        if (!curNode) {
+          curNode = {
+            id: "sub_" + sIdx + "_0",
+            numLabel: String(prefix),
+            title: "Nội dung trọng tâm",
+            leaves: []
+          };
+          subNodes.push(curNode);
+          totalSubCount++;
+        }
+        curNode.leaves.push(line);
+        totalLeafCount++;
+      }
+    });
+
+    return {
+      id: "sec_" + sIdx,
+      prefix: prefix,
+      heading: heading,
+      theme: theme,
+      subNodes: subNodes
+    };
+  });
 
   return `
     <div class="mindmap-wrapper">
+      <!-- THANH ĐIỀU KHIỂN CHUẨN NOTEBOOK LM -->
       <div class="mindmap-header-bar">
         <div>
-          <h4 style="color:var(--primary-dark); font-size:16px; margin:0;">🌿 Sơ đồ Tư duy Trực quan (Mind Map) — ${escapeHtml(curLesson.title)}</h4>
-          <p style="font-size:12.5px; color:var(--text-muted); margin:3px 0 0;">Hệ thống hóa toàn bộ bài học theo dạng mạng nhánh đa cấp, phân màu trực quan giúp não bộ ghi nhớ sâu</p>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="background:#dcfce7; color:#15803d; font-size:11px; font-weight:800; padding:2px 8px; border-radius:12px; border:1px solid #bbf7d0;">NOTEBOOK LM STYLE</span>
+            <h4 style="color:var(--primary-dark); font-size:16px; margin:0;">🌿 Sơ đồ Tư duy Nhánh Tương tác</h4>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-muted); margin:4px 0 0;">
+            Bấm vào từng <strong>Tiểu mục (1.1, 1.2... 2.1, 2.2...)</strong> để bung ra các lá kiến thức chuyên sâu. Tự do mở/đóng từng nhánh theo tiến trình học tập.
+          </p>
         </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn btn-outline btn-sm" onclick="expandAllMindmapBranches(true)">➕ Mở rộng tất cả</button>
-          <button class="btn btn-outline btn-sm" onclick="expandAllMindmapBranches(false)">➖ Thu gọn tất cả</button>
-          <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ In sơ đồ</button>
-        </div>
-      </div>
-
-      <!-- Nút Trung tâm (Gốc Sơ đồ) -->
-      <div style="text-align:center;">
-        <div class="mindmap-root-node">
-          <div style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.8px; opacity:0.9;">🌱 TRUNG TÂM KIẾN THỨC CỐT LÕI</div>
-          <div style="font-size:18px; margin-top:4px;">${escapeHtml(curLesson.title)}</div>
-          <div style="font-size:12.5px; opacity:0.9; margin-top:4px;">${escapeHtml(curLesson.chapter || '')} • ${escapeHtml(curLesson.sgkInfo || '')}</div>
-        </div>
-      </div>
-
-      <!-- Các Nhánh Kiến thức (Branches) -->
-      <div class="mindmap-tree-branches">
-        ${sgkSections.map((sec, idx) => {
-          const colorTheme = branchColors[idx % branchColors.length];
-          const isCollapsed = portalState.mod1MindmapCollapsed && portalState.mod1MindmapCollapsed[idx] === true;
-          const items = sec.items || [];
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <button class="btn btn-primary btn-sm" onclick="setMindmapExpandLevel('all')" title="Bung tất cả các cấp để xem toàn bộ bài">
+            ➕ Mở rộng tất cả
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="setMindmapExpandLevel('subsections')" title="Mở các mục lớn và tiểu mục (sẵn sàng bấm)">
+            🌿 Mức Tiểu mục
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="setMindmapExpandLevel('none')" title="Thu gọn chỉ giữ tiêu đề">
+            ➖ Thu gọn tất cả
+          </button>
           
-          return `
-            <div class="mindmap-branch-card" style="border-left:5px solid ${colorTheme.border};">
-              <div class="mindmap-branch-header" style="background:${colorTheme.headerBg}; color:${colorTheme.text};" onclick="toggleMindmapBranch(${idx})">
-                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                  <span style="background:${colorTheme.border}; color:#fff; font-size:11px; padding:2px 8px; border-radius:12px; font-weight:700;">NHÁNH ${idx + 1}</span>
-                  <span>${escapeHtml(sec.heading)}</span>
-                </div>
-                <div style="font-size:12.5px; font-weight:700;">${isCollapsed ? '▶ Mở nhánh' : '▼ Thu gọn'}</div>
-              </div>
+          <div style="display:flex; align-items:center; gap:4px; margin-left:6px; background:#f1f5f9; padding:2px 6px; border-radius:6px; border:1px solid #cbd5e1;">
+            <button class="btn btn-ghost btn-xs" onclick="setMindmapZoom(-10)" title="Thu nhỏ sơ đồ" style="padding:2px 6px; font-weight:800;">−</button>
+            <span style="font-size:11.5px; font-weight:700; color:#334155; min-width:38px; text-align:center;">${zoom}%</span>
+            <button class="btn btn-ghost btn-xs" onclick="setMindmapZoom(10)" title="Phóng to sơ đồ" style="padding:2px 6px; font-weight:800;">+</button>
+          </div>
+          
+          <button class="btn btn-outline btn-sm" onclick="window.print()" title="In sơ đồ tư duy">
+            🖨️ In sơ đồ
+          </button>
+        </div>
+      </div>
 
-              ${!isCollapsed ? `
-                <div class="mindmap-branch-content" style="background:${colorTheme.bg};">
-                  <div class="mindmap-leaf-grid">
-                    ${items.map(item => {
-                      const line = String(item).trim();
-                      const isSubTitle = /^\d+\.\s+/.test(line);
-                      const isAlphabet = /^[a-eđ]\)\s+/i.test(line);
-                      
-                      if (isSubTitle) {
-                        return `
-                          <div style="grid-column: 1 / -1; background:#ffffff; border:1px solid ${colorTheme.border}; border-left:4px solid ${colorTheme.border}; border-radius:8px; padding:10px 14px; font-weight:700; color:${colorTheme.text}; font-size:14px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
-                            🔹 ${escapeHtml(line)}
-                          </div>
-                        `;
-                      }
-                      
-                      const cleanLine = line.replace(/^[-+•]\s*/, "");
-                      let kw = "";
-                      let desc = cleanLine;
-                      if (cleanLine.includes(":")) {
-                        const parts = cleanLine.split(":");
-                        kw = parts[0].trim();
-                        desc = parts.slice(1).join(":").trim();
-                      } else {
-                        const words = cleanLine.split(/\s+/);
-                        if (words.length > 4) {
-                          kw = words.slice(0, 3).join(" ");
-                          desc = words.slice(3).join(" ");
-                        } else {
-                          kw = cleanLine;
-                          desc = "";
-                        }
-                      }
-                      const descWords = desc.split(/\s+/);
-                      if (descWords.length > 12) {
-                        desc = descWords.slice(0, 12).join(" ") + "...";
-                      }
-                      return `
-                        <div class="mindmap-leaf-node" style="border-left:3.5px solid ${colorTheme.border}; background:#ffffff; padding:10px 14px;">
-                          <div style="font-weight:700; color:${colorTheme.text}; font-size:13.5px; margin-bottom:3px; display:flex; align-items:center; gap:6px;">
-                            <span>📌</span>
-                            <span>${escapeHtml(kw)}</span>
-                          </div>
-                          ${desc ? `<div style="font-size:12.5px; color:#475569; line-height:1.45;">${escapeHtml(desc)}</div>` : ""}
-                        </div>
-                      `;
-                    }).join("")}
+      <!-- KHUNG CANVAS BẢN ĐỒ TƯ DUY (CHỐNG NGỢP CHỮ, ZOOM LINH HOẠT) -->
+      <div class="nlm-mindmap-canvas" style="transform: scale(${zoom / 100}); transform-origin: top center;">
+        
+        <!-- NÚT GỐC (ROOT NODE) -->
+        <div class="nlm-root-card">
+          <div class="nlm-root-badge">🌱 TRUNG TÂM KIẾN THỨC CỐT LÕI</div>
+          <div style="font-size:18px; font-weight:800; letter-spacing:-0.01em;">${escapeHtml(curLesson.title)}</div>
+          <div style="font-size:12.5px; opacity:0.92; margin-top:6px;">
+            ${escapeHtml(curLesson.chapter || '')} • ${parsedBranches.length} Nhánh Mục lớn • ${totalSubCount} Tiểu mục • ${totalLeafCount} Đơn vị kiến thức
+          </div>
+        </div>
+
+        <!-- CÁC NHÁNH KIẾN THỨC BUNG TỎA ĐA CẤP (BRANCHES CONTAINER) -->
+        <div class="nlm-branch-container">
+          ${parsedBranches.map(sec => {
+            const isSecOpen = portalState.mod1MindmapExpanded[sec.id] !== false;
+            const theme = sec.theme;
+
+            return `
+              <div class="nlm-sec-node" style="border-left:5px solid ${theme.border};">
+                
+                <!-- TIÊU ĐỀ MỤC LỚN (NHÁNH CẤP 1) -->
+                <div class="nlm-sec-header" style="background:${theme.headerBg}; color:${theme.text};" onclick="toggleMindmapNode('${sec.id}')">
+                  <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                    <span style="background:${theme.badge}; color:#ffffff; font-size:11px; padding:3px 10px; border-radius:14px; font-weight:800;">
+                      NHÁNH ${sec.prefix}
+                    </span>
+                    <span style="font-size:15px; font-weight:800;">${escapeHtml(sec.heading)}</span>
+                    <span style="background:rgba(255,255,255,0.85); color:${theme.text}; font-size:11.5px; padding:1px 8px; border-radius:10px; font-weight:700; border:1px solid ${theme.border}44;">
+                      ${sec.subNodes.length} tiểu mục
+                    </span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:6px; font-size:13px; font-weight:700;">
+                    <span>${isSecOpen ? '▼ Thu gọn' : '▶ Mở rộng'}</span>
                   </div>
                 </div>
-              ` : ''}
-            </div>
-          `;
-        }).join("")}
+
+                <!-- NỘI DUNG NHÁNH CẤP 1: CÁC TIỂU MỤC CẤP 2 (CHỈ HIỆN KHI MỤC LỚN MỞ) -->
+                ${isSecOpen ? `
+                  <div class="nlm-sec-body">
+                    <div class="nlm-tree-list">
+                      ${sec.subNodes.map(sub => {
+                        const isSubOpen = portalState.mod1MindmapExpanded[sub.id] === true;
+                        const leafCount = sub.leaves.length;
+
+                        return `
+                          <div class="nlm-sub-item">
+                            <!-- THANH TIỂU MỤC (NHÁNH CẤP 2) - CLICK VÀO BUNG RA CÁC LÁ -->
+                            <div class="nlm-sub-header ${isSubOpen ? 'expanded' : ''}" onclick="toggleMindmapNode('${sub.id}')">
+                              <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="display:inline-flex; align-items:center; justify-content:center; background:${theme.badge}; color:#ffffff; font-weight:800; font-size:12.5px; padding:2px 8px; border-radius:6px; font-family:'Plus Jakarta Sans',sans-serif; flex-shrink:0;">
+                                  ${sub.numLabel}
+                                </span>
+                                <span style="font-weight:700; font-size:14.5px; color:#0f172a;">
+                                  ${escapeHtml(sub.title)}
+                                </span>
+                              </div>
+                              
+                              <!-- NÚT BẤM BUNG / THU NHÁNH CON -->
+                              <div>
+                                <button class="nlm-btn-toggle ${isSubOpen ? 'active' : ''}" onclick="event.stopPropagation(); toggleMindmapNode('${sub.id}')">
+                                  ${isSubOpen 
+                                    ? `<span>− Thu gọn</span> <span style="font-size:10px;">▲</span>` 
+                                    : `<span>+ ${leafCount} ý cốt lõi</span> <span style="font-size:10px;">▼</span>`
+                                  }
+                                </button>
+                              </div>
+                            </div>
+
+                            <!-- CÁC LÁ KIẾN THỨC CẤP 3 (CHỈ HIỆN KHI TIỂU MỤC ĐƯỢC BẤM MỞ) -->
+                            ${isSubOpen ? `
+                              <div class="nlm-leaf-container">
+                                ${sub.leaves.map(leaf => `
+                                  <div class="nlm-leaf-card" style="border-left:3px solid ${theme.badge};">
+                                    ${formatMindmapLeafContent(leaf)}
+                                  </div>
+                                `).join("")}
+                              </div>
+                            ` : ''}
+                          </div>
+                        `;
+                      }).join("")}
+                    </div>
+                  </div>
+                ` : ''}
+
+              </div>
+            `;
+          }).join("")}
+        </div>
+
       </div>
     </div>
   `;
 }
 
+
 // BỘ TRÍCH XUẤT THẺ GHI NHỚ (FLASHCARDS) CHO MỌI BÀI HỌC
+// ============================================================================
+// BỘ TRÍCH XUẤT THẺ GHI NHỚ (FLASHCARDS) CHO MỌI BÀI HỌC
+// ============================================================================
 function buildLessonFlashcards(curLesson, qBundle) {
-  // Bộ 10 Thẻ nhớ Chuẩn mực cho Bài 1 Công nghệ 10
+  // Bộ 14 Thẻ nhớ Chuẩn mực cho Bài 1 Công nghệ 10
   if (curLesson.id === "cn10_b1") {
     return [
       {
         category: "Mục tiêu bài học",
         icon: "🎯",
-        front: "Mục tiêu & Yêu cầu cần đạt (YCCĐ) cốt lõi của Bài 1 là gì?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 4 Chuẩn đầu ra chính:</div><div>• Nắm vững vai trò và triển vọng trồng trọt 4.0 ở Việt Nam.</div><div>• Nêu các thành tựu công nghệ cao nổi bật ở Việt Nam & thế giới.</div><div>• Trình bày được yêu cầu nghề nghiệp với người lao động thời đại mới.</div></div>",
+        front: "Mục tiêu & Yêu cầu cần đạt cốt lõi của Bài 1 là gì?",
+        back: "<div>• <strong>Vai trò & Triển vọng:</strong> Nắm vững vai trò đối với kinh tế - xã hội và triển vọng trong thời đại 4.0.</div><div>• <strong>Thành tựu công nghệ cao:</strong> Nêu được thành tựu nổi bật ở Việt Nam và trên thế giới.</div><div>• <strong>Yêu cầu nghề nghiệp:</strong> Trình bày được yêu cầu cơ bản đối với người lao động ngành trồng trọt.</div>",
         note: "YCCĐ Chuẩn GDPT 2018"
       },
       {
-        category: "Mục I: Vai trò",
+        category: "1.1: An ninh lương thực",
         icon: "🌾",
-        front: "Trồng trọt có những vai trò then chốt nào đối với kinh tế - xã hội?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 5 Vai trò quyết định:</div><div>• (1) Cung cấp lương thực, thực phẩm cho con người.</div><div>• (2) Cung ứng hơn 70% thức ăn cho chăn nuôi.</div><div>• (3) Cung cấp nguyên liệu cho công nghiệp chế biến.</div><div>• (4) Nông sản xuất khẩu mang lại ngoại tệ lớn.</div><div>• (5) Tạo việc làm, phủ xanh và điều hòa môi trường.</div></div>",
-        note: "Bản chất kinh tế quốc dân"
+        front: "Vì sao trồng trọt là ngành quyết định an ninh lương thực quốc gia?",
+        back: "<div>• <strong>Bản chất:</strong> Cung cấp lương thực, thực phẩm thiết yếu (gạo, ngô, rau, quả) nuôi sống con người.</div><div>• <strong>Ý nghĩa chiến lược:</strong> Đảm bảo tự chủ lương thực, ổn định kinh tế - xã hội và quốc phòng trong mọi hoàn cảnh.</div>",
+        note: "Bản chất an ninh quốc gia"
       },
       {
-        category: "Mục I: An ninh lương thực",
-        icon: "💡",
-        front: "Vì sao trồng trọt là ngành duy nhất đảm bảo an ninh lương thực quốc gia?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 Bản chất khoa học:</div><div>• Cây trồng là sinh vật duy nhất trực tiếp quang hợp tạo ra tinh bột và calo nuôi sống xã hội.</div><div>• Không một ngành công nghiệp nào có thể thay thế được cây lương thực.</div></div>",
-        note: "Vấn đề an ninh chiến lược"
+        category: "1.1: Thức ăn chăn nuôi",
+        icon: "🌽",
+        front: "Trồng trọt đóng góp bao nhiêu phần trăm thức ăn cho chăn nuôi?",
+        back: "<div>• Cung cấp hơn <strong>70% nguồn nguyên liệu</strong> sản xuất thức ăn chăn nuôi công nghiệp.</div><div>• <strong>Sản phẩm chính:</strong> Ngô hạt, đậu tương, cám gạo, cỏ tươi, rơm rạ,...</div>",
+        note: "Nguồn nguyên liệu chăn nuôi"
       },
       {
-        category: "Mục II: Giống cây trồng",
+        category: "1.1: Nguyên liệu công nghiệp",
+        icon: "🏭",
+        front: "Trồng trọt cung cấp nguyên liệu cho những ngành công nghiệp nào?",
+        back: "<div>• <strong>Dệt may:</strong> Cung cấp bông, sợi gai, đay.</div><div>• <strong>Chế biến thực phẩm & đồ uống:</strong> Mía đường, cà phê, chè, cao su, tinh dầu, dược liệu.</div>",
+        note: "Nguyên liệu chế biến"
+      },
+      {
+        category: "1.1: Nông sản xuất khẩu",
+        icon: "🚢",
+        front: "Vai trò xuất khẩu nông sản của trồng trọt Việt Nam như thế nào?",
+        back: "<div>• Mang lại nguồn thu <strong>hàng chục tỷ USD mỗi năm</strong> cho ngân sách quốc gia.</div><div>• <strong>Mặt hàng chiến lược:</strong> Gạo (top đầu thế giới), cà phê, hạt điều, hạt tiêu, sầu riêng, thanh long.</div>",
+        note: "Nguồn thu ngoại tệ lớn"
+      },
+      {
+        category: "1.1: Môi trường & Việc làm",
+        icon: "🌳",
+        front: "Ý nghĩa của trồng trọt đối với môi trường và xã hội?",
+        back: "<div>• <strong>Xã hội:</strong> Tạo việc làm và sinh kế cho hàng triệu lao động nông thôn.</div><div>• <strong>Môi trường:</strong> Phủ xanh đất trống, bảo vệ đất, chống xói mòn, điều hòa khí hậu và cân bằng sinh thái.</div>",
+        note: "Giá trị sinh thái & xã hội"
+      },
+      {
+        category: "1.2: Triển vọng trồng trọt",
+        icon: "🚀",
+        front: "3 Hướng phát triển triển vọng của trồng trọt Việt Nam trong bối cảnh cách mạng 4.0?",
+        back: "<div>• <strong>(1) Nông nghiệp công nghệ cao:</strong> Ứng dụng tự động hóa, IoT, cảm biến, nhà kính thông minh.</div><div>• <strong>(2) Nông nghiệp sinh thái, hữu cơ:</strong> Giảm hóa chất, bảo vệ môi trường và sức khỏe cộng đồng.</div><div>• <strong>(3) Hiện đại hóa chuỗi giá trị:</strong> Gắn kết sản xuất - chế biến sâu - xuất khẩu thương hiệu quốc tế.</div>",
+        note: "Định hướng 4.0"
+      },
+      {
+        category: "2.1: Giống lúa ST24, ST25",
         icon: "🇻🇳",
         front: "Thành tựu chọn tạo giống cây trồng nổi bật nhất của Việt Nam là gì?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 Giống lúa ST24 và ST25:</div><div>• Do nhóm kỹ sư Hồ Quang Cua lai tạo thành công.</div><div>• ST25 được vinh danh là Gạo ngon nhất thế giới, phẩm chất hạt gạo mềm dẻo, thơm mùi lá dứa và kháng sâu bệnh tốt.</div></div>",
-        note: "Thành tựu đỉnh cao Việt Nam"
+        back: "<div>• <strong>Giống lúa ST24, ST25:</strong> Do nhóm kỹ sư Hồ Quang Cua lai tạo thành công.</div><div>• <strong>Ý nghĩa:</strong> Đạt giải Gạo ngon nhất thế giới, hạt mềm dẻo, thơm hương lá dứa, nâng tầm thương hiệu hạt gạo Việt Nam.</div>",
+        note: "Gạo ngon nhất thế giới"
       },
       {
-        category: "Mục II: Canh tác thông minh",
+        category: "2.2: Nhà màng thông minh Đà Lạt",
         icon: "🏢",
-        front: "Mô hình nhà màng, nhà kính thông minh tại Đà Lạt, Lâm Đồng có ưu điểm gì?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 Ưu điểm vượt trội:</div><div>• Kiểm soát tự động nhiệt độ, ẩm độ và ánh sáng bằng cảm biến IoT.</div><div>• Ngăn chặn sâu bệnh và mưa bão, sản xuất hoa rau chất lượng cao quanh năm.</div><div>• Tiết kiệm 50% nước tưới và phân bón nhờ hệ thống tưới nhỏ giọt.</div></div>",
-        note: "Công nghệ cao Lâm Đồng"
+        front: "Ưu điểm của mô hình nhà màng, nhà kính thông minh tại Lâm Đồng?",
+        back: "<div>• <strong>Tự động hóa:</strong> Điều hòa nhiệt độ, ẩm độ, ánh sáng bằng cảm biến IoT.</div><div>• <strong>Hiệu quả:</strong> Ngăn sâu bệnh, sản xuất rau hoa cao cấp quanh năm, tiết kiệm 50% nước và phân bón.</div>",
+        note: "Canh tác thông minh"
       },
       {
-        category: "Mục II: Thiết bị bay Drone",
+        category: "2.3: Công nghệ nuôi cấy mô",
+        icon: "🔬",
+        front: "Ứng dụng nuôi cấy mô tế bào (In vitro) trong trồng trọt mang lại lợi ích gì?",
+        back: "<div>• <strong>Nhân giống nhanh:</strong> Tạo hàng triệu cây con sạch bệnh, đồng nhất về di truyền trong thời gian ngắn.</div><div>• <strong>Ứng dụng mạnh:</strong> Hoa lan, khoai tây, chuối cấy mô, cây dược liệu quý.</div>",
+        note: "Công nghệ sinh học"
+      },
+      {
+        category: "2.3: Thiết bị bay Drone",
         icon: "🛩️",
-        front: "Ứng dụng thiết bị bay không người lái (Drone) trong trồng trọt mang lại lợi ích gì?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 3 Lợi ích đột phá:</div><div>• (1) Gieo hạt, bón phân, phun thuốc chính xác, tiết kiệm 90% nước.</div><div>• (2) Năng suất phun gấp 20 lần lao động thủ công.</div><div>• (3) Bảo vệ sức khỏe nông dân vì không phải tiếp xúc trực tiếp hóa chất.</div></div>",
-        note: "Nông nghiệp 4.0 ĐBSCL"
+        front: "Lợi ích khi ứng dụng thiết bị bay không người lái (Drone) trong trồng trọt?",
+        back: "<div>• <strong>Tự động hóa:</strong> Gieo hạt, bón phân, phun thuốc bảo vệ thực vật chính xác theo tọa độ GPS.</div><div>• <strong>Hiệu quả:</strong> Tiết kiệm 30% thuốc và 90% nước, dập dịch bệnh nhanh và bảo vệ sức khỏe người lao động.</div>",
+        note: "Drone nông nghiệp"
       },
       {
-        category: "Mục III: Thế giới (Nhật Bản)",
-        icon: "🇯🇵",
-        front: "Khu vườn thẳng đứng Miyagi (Nhật Bản) ứng dụng công nghệ đột phá nào?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 Nhà máy thực vật (Plant Factory):</div><div>• Sử dụng 17.500 đèn LED chuyên dụng, kiểm soát 100% ánh sáng, CO2 và nhiệt độ.</div><div>• Năng suất xà lách gấp 100 lần so với canh tác ngoài ruộng truyền thống.</div><div>• Tiết kiệm 99% lượng nước tưới.</div></div>",
-        note: "Mô hình Vertical Farming"
+        category: "3.1: Nhà máy thực vật Nhật Bản",
+        icon: "🌱",
+        front: "Mô hình Nhà máy thực vật (Plant Factory) của Nhật Bản có đặc điểm gì?",
+        back: "<div>• <strong>Canh tác trong nhà kín:</strong> Hoàn toàn không phụ thuộc thời tiết bên ngoài.</div><div>• <strong>Công nghệ:</strong> Dùng đèn LED quang phổ chuyên dụng, dung dịch thủy canh tuần hoàn, rau sạch 100% không dùng thuốc trừ sâu.</div>",
+        note: "Đỉnh cao nông nghiệp sạch"
       },
       {
-        category: "Mục III: Thế giới (Hà Lan)",
+        category: "3.2: Nhà kính siêu tự động Hà Lan",
         icon: "🇳🇱",
-        front: "Vì sao diện tích hẹp nhưng Hà Lan là quốc gia xuất khẩu nông sản thứ 2 thế giới?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 Bí quyết công nghệ Hà Lan:</div><div>• Ứng dụng hệ thống nhà kính siêu hiện đại (Vườn Keukenhof, vùng Westland).</div><div>• Sử dụng năng lượng địa nhiệt, tái tuần hoàn 100% nước tưới và khí thải CO2.</div><div>• Robot tự động hóa hoàn toàn khâu thu hoạch và đóng gói.</div></div>",
-        note: "Kỳ tích nông nghiệp Hà Lan"
+        front: "Vì sao ngành trồng trọt Hà Lan đứng hàng đầu thế giới về năng suất?",
+        back: "<div>• <strong>Nhà kính siêu tự động:</strong> Máy tính AI kiểm soát toàn bộ dinh dưỡng, CO2, ánh sáng và nước.</div><div>• <strong>Năng suất:</strong> Đạt năng suất cà chua, ớt chuông gấp 10 lần canh tác ngoài đồng ruộng truyền thống.</div>",
+        note: "Năng suất kỷ lục"
       },
       {
-        category: "Mục III: Thế giới (Israel)",
-        icon: "🇮🇱",
-        front: "Công nghệ tưới nhỏ giọt của Israel giải quyết bài toán nông nghiệp thế nào?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 Giải pháp tưới nhỏ giọt ngầm:</div><div>• Đưa nước và phân bón hòa tan chính xác đến từng vùng rễ cây.</div><div>• Tiết kiệm 60 - 80% nước tưới, chống thất thoát bốc hơi.</div><div>• Biến các vùng sa mạc cằn cỗi Negev thành cánh đồng trù phú.</div></div>",
-        note: "Đỉnh cao tiết kiệm nước"
-      },
-      {
-        category: "Mục IV: Yêu cầu Nghề nghiệp",
+        category: "4.1: Yêu cầu người lao động",
         icon: "👨‍🌾",
-        front: "Người lao động trong ngành trồng trọt công nghệ cao cần đáp ứng những yêu cầu gì?",
-        back: "<div style='font-size:14px; line-height:1.6; color:#1e293b;'><div style='margin-bottom:4px; font-weight:700; color:#166534;'>👉 3 Yêu cầu cốt lõi:</div><div>• (1) Có sức khỏe tốt, chăm chỉ, cẩn thận và yêu thích cây trồng.</div><div>• (2) Có kiến thức nông học và kỹ năng vận hành công nghệ 4.0 (Drone, IoT, nhà kính).</div><div>• (3) Ý thức nghiêm túc về an toàn thực phẩm và bảo vệ môi trường xanh.</div></div>",
-        note: "Phẩm chất & Năng lực 4.0"
+        front: "Người lao động thời đại 4.0 cần đáp ứng những yêu cầu cốt lõi nào?",
+        back: "<div>• <strong>(1) Phẩm chất:</strong> Có sức khỏe tốt, chăm chỉ, cẩn thận và đam mê nghề trồng trọt.</div><div>• <strong>(2) Kỹ năng:</strong> Có kiến thức nông học và năng lực làm chủ công nghệ cao (IoT, Drone, máy móc).</div><div>• <strong>(3) Trách nhiệm:</strong> Tuân thủ an toàn lao động, vệ sinh an toàn thực phẩm và bảo vệ môi trường.</div>",
+        note: "Năng lực thế hệ mới"
       }
     ];
   }
 
+  // Bộ 18 Thẻ nhớ Đầy đủ Chuẩn mực cho Bài 2 Công nghệ 10
+  if (curLesson.id === "cn10_b2") {
+    return [
+      {
+        category: "Mục tiêu bài học",
+        icon: "🎯",
+        front: "3 Yêu cầu cần đạt cốt lõi của Bài 2 là gì?",
+        back: "<div>• <strong>(1) Phân loại</strong> cây trồng theo 3 tiêu chí: nguồn gốc, sinh vật học, mục đích.</div><div>• <strong>(2) Phân tích</strong> mối quan hệ giữa cây trồng và 7 yếu tố chính trong trồng trọt.</div><div>• <strong>(3) Vận dụng</strong> giải thích các biện pháp kĩ thuật canh tác thực tế.</div>",
+        note: "Chuẩn GDPT 2018"
+      },
+      {
+        category: "1.1: Cây nhiệt đới",
+        icon: "🌴",
+        front: "Đặc điểm sinh thái và ví dụ về Cây nhiệt đới?",
+        back: "<div>• <strong>Nhiệt độ thích hợp:</strong> 25°C – 35°C, mẫn cảm với rét lạnh.</div><div>• <strong>Ví dụ:</strong> Lúa nước, ngô, mía, chuối, xoài, thanh long, sầu riêng,...</div>",
+        note: "Nguồn gốc nhiệt đới"
+      },
+      {
+        category: "1.1: Cây á nhiệt đới",
+        icon: "🍵",
+        front: "Đặc điểm sinh thái và ví dụ về Cây á nhiệt đới (cận nhiệt)?",
+        back: "<div>• <strong>Nhiệt độ thích hợp:</strong> 15°C – 25°C, có khả năng chịu lạnh nhẹ.</div><div>• <strong>Ví dụ:</strong> Cây chè, cam, quýt, hồng, nhãn, vải,...</div>",
+        note: "Nguồn gốc á nhiệt đới"
+      },
+      {
+        category: "1.1: Cây ôn đới",
+        icon: "🍎",
+        front: "Đặc điểm sinh thái và ví dụ về Cây ôn đới?",
+        back: "<div>• <strong>Nhiệt độ thích hợp:</strong> 10°C – 20°C, chịu được rét buốt, cần qua đông để phân hóa hoa.</div><div>• <strong>Ví dụ:</strong> Khoai tây, bắp cải, su hào, táo, lê, dâu tây,...</div>",
+        note: "Nguồn gốc ôn đới"
+      },
+      {
+        category: "1.2: Chu kì sống",
+        icon: "⏳",
+        front: "Phân biệt Cây hằng năm và Cây lâu năm theo chu kì sống?",
+        back: "<div>• <strong>Cây hằng năm:</strong> Hoàn thành vòng đời trong 1 năm hoặc dưới 1 năm (lúa, ngô, rau cải, dưa hấu).</div><div>• <strong>Cây lâu năm:</strong> Sinh trưởng nhiều năm, ra hoa kết quả nhiều lần (cà phê, cao su, xoài, cam, tiêu).</div>",
+        note: "Đặc tính sinh vật học"
+      },
+      {
+        category: "1.2: Đặc điểm thân",
+        icon: "🌿",
+        front: "Phân loại cây trồng theo đặc điểm thân gồm những nhóm nào?",
+        back: "<div>• <strong>Cây thân thảo:</strong> Thân mềm, mọng nước, không hóa gỗ (lúa, ngô, chuối, rau).</div><div>• <strong>Cây thân gỗ:</strong> Thân cứng, có mô gỗ phát triển (xoài, nhãn, mít, bạch đàn).</div><div>• <strong>Cây thân leo / bò:</strong> Bò trên đất hoặc leo bám giàn (dưa chuột, dưa hấu, bầu, bí, hồ tiêu).</div>",
+        note: "Hình thái thân"
+      },
+      {
+        category: "1.2: Số lá mầm",
+        icon: "🌱",
+        front: "Phân biệt Cây một lá mầm và Cây hai lá mầm?",
+        back: "<div>• <strong>Cây 1 lá mầm:</strong> Hạt 1 lá mầm, rễ chùm, gân lá song song (lúa, ngô, mía, dừa, hành).</div><div>• <strong>Cây 2 lá mầm:</strong> Hạt 2 lá mầm, rễ cọc, gân lá hình mạng (đậu tương, lạc, xoài, cam, bưởi).</div>",
+        note: "Phân loại theo phôi hạt"
+      },
+      {
+        category: "1.3: Mục đích sử dụng",
+        icon: "📦",
+        front: "Cây trồng được phân loại theo mục đích sử dụng gồm những nhóm nào?",
+        back: "<div>• Gồm 7 nhóm chính: <strong>Lương thực</strong> (lúa, ngô), <strong>Công nghiệp</strong> (cà phê, cao su), <strong>Ăn quả</strong>, <strong>Rau xanh</strong>, <strong>Dược liệu</strong>, <strong>Hoa cảnh</strong> và <strong>Lấy gỗ</strong>.</div>",
+        note: "Nhóm cây kinh tế"
+      },
+      {
+        category: "1.3: Tính tương đối",
+        icon: "💡",
+        front: "Vì sao việc phân loại cây trồng theo mục đích chỉ mang tính tương đối?",
+        back: "<div>• <strong>Vì một cây có thể dùng cho nhiều mục đích:</strong></div><div>Ví dụ: Cây ngô vừa làm lương thực cho người vừa làm thức ăn chăn nuôi; Cây sen vừa lấy củ/hạt làm thực phẩm, vừa làm dược liệu và vừa làm cây cảnh.</div>",
+        note: "Tính đa mục đích"
+      },
+      {
+        category: "2.1: Giống cây trồng",
+        icon: "🌾",
+        front: "Vì sao Giống cây trồng được xem là yếu tố quyết định hàng đầu?",
+        back: "<div>• Giống quy định <strong>tiềm năng năng suất trần</strong> và phẩm chất nông sản.</div><div>• Giống quy định khả năng kháng sâu bệnh và chống chịu ngoại cảnh bất lợi (hạn, mặn, rét, úng).</div>",
+        note: "Yếu tố nội tại tiên quyết"
+      },
+      {
+        category: "2.2: Ánh sáng",
+        icon: "☀️",
+        front: "Dựa vào cường độ ánh sáng, cây trồng được chia thành những nhóm nào?",
+        back: "<div>• <strong>Cây ưa sáng:</strong> Cần nhiều nắng trực tiếp (lúa, ngô, mía, đậu tương, hướng dương).</div><div>• <strong>Cây ưa bóng:</strong> Thích hợp ánh sáng tán xạ / dưới tán che (gừng, phong lan, lá lốt, chè).</div>",
+        note: "Cường độ ánh sáng"
+      },
+      {
+        category: "2.2: Quang chu kì",
+        icon: "💡",
+        front: "Quang chu kì là gì? Cho ví dụ ứng dụng thắp đèn trong sản xuất.",
+        back: "<div>• <strong>Quang chu kì:</strong> Tương quan độ dài ngày/đêm ảnh hưởng đến sự ra hoa tạo củ.</div><div>• <strong>Ứng dụng:</strong> Thắp đèn ban đêm cho thanh long kích thích ra hoa trái vụ; thắp đèn cho hoa cúc để kéo dài cành, ức chế nở sớm.</div>",
+        note: "Điều khiển ra hoa"
+      },
+      {
+        category: "2.3: Nhiệt độ",
+        icon: "🌡️",
+        front: "Khoảng nhiệt độ thích hợp cho đa số cây trồng là bao nhiêu?",
+        back: "<div>• Khoảng thích hợp: <strong>15°C đến 40°C</strong> (nhiệt độ tối ưu: 25°C – 30°C).</div><div>• Dưới 10°C hoặc trên 40°C: Cây ngừng trệ sinh trưởng hoặc bị tổn thương rễ và lá.</div><div>• <strong>Biện pháp:</strong> Bố trí đúng thời vụ, che vòm nilon chống rét, tưới làm mát mùa hè.</div>",
+        note: "Ngưỡng nhiệt sinh thái"
+      },
+      {
+        category: "2.4: Vai trò của nước",
+        icon: "💧",
+        front: "Nước đóng những vai trò quan trọng nào đối với cây trồng?",
+        back: "<div>• Chiếm <strong>70% – 90%</strong> sinh khối tươi của cây.</div><div>• Là dung môi hòa tan vận chuyển chất dinh dưỡng.</div><div>• Tham gia trực tiếp quang hợp và điều hòa nhiệt độ thân cây qua thoát hơi nước.</div>",
+        note: "Sinh lý học của nước"
+      },
+      {
+        category: "2.4: Tưới nhỏ giọt",
+        icon: "🚿",
+        front: "Ưu điểm vượt trội của kĩ thuật tưới nhỏ giọt công nghệ cao?",
+        back: "<div>• Đưa nước và phân bón trực tiếp đến từng vùng rễ cây.</div><div>• <strong>Tiết kiệm 50% – 70% nước</strong>, không làm xói mòn đất.</div><div>• Giữ đất thông thoáng và hạn chế nấm bệnh hại lây lan qua giọt bắn.</div>",
+        note: "Tưới tiêu thông minh"
+      },
+      {
+        category: "2.5: Đất trồng",
+        icon: "🪴",
+        front: "Đặc tính cốt lõi của đất trồng và độ pH thích hợp cho đa số cây trồng?",
+        back: "<div>• <strong>Đặc tính:</strong> Thành phần cơ giới (đất cát, thịt, sét), độ chua/kiềm và độ phì nhiêu mùn.</div><div>• <strong>Độ pH thích hợp:</strong> Từ <strong>5,5 đến 6,5</strong>.</div><div>• <strong>Cải tạo:</strong> Cày bừa tơi xốp, bón vôi khử chua, bón phân chuồng/hữu cơ vi sinh.</div>",
+        note: "Độ phì nhiêu & pH đất"
+      },
+      {
+        category: "2.6: Dinh dưỡng & 4 đúng",
+        icon: "🧪",
+        front: "Thế nào là nguyên tắc '4 đúng' khi bón phân cho cây trồng?",
+        back: "<div>• <strong>(1) Đúng loại phân:</strong> Phù hợp nhu cầu cây và đặc tính đất.</div><div>• <strong>(2) Đúng liều lượng:</strong> Vừa đủ nhu cầu, không thiếu, không thừa gây độc.</div><div>• <strong>(3) Đúng thời điểm:</strong> Bón lúc cây cần (bón lót, bón thúc đẻ nhánh/hoa).</div><div>• <strong>(4) Đúng phương pháp:</strong> Bón vào đất, phun qua lá, vùi sâu tránh bay hơi.</div>",
+        note: "Bón phân khoa học"
+      },
+      {
+        category: "2.7: Kĩ thuật canh tác",
+        icon: "🚜",
+        front: "Ý nghĩa then chốt của Kĩ thuật canh tác trong trồng trọt?",
+        back: "<div>• Là sự tác động chủ động của con người (làm đất, gieo cấy, tưới tiêu, bón phân, BVTV).</div><div>• <strong>Cầu nối tối ưu hóa môi trường:</strong> Giúp giống phát huy tối đa 100% tiềm năng di truyền để đạt năng suất và phẩm chất cao nhất.</div>",
+        note: "Cầu nối giống & môi trường"
+      }
+    ];
+  }
+
+  // Tự động trích xuất ĐẦY ĐỦ thẻ nhớ cho TẤT CẢ các bài học khác
   const cards = [];
-  
-  // 1. Thẻ Mục tiêu & YCCĐ
   if (curLesson.objectives && curLesson.objectives.length > 0) {
     cards.push({
       category: "Mục tiêu bài học",
       icon: "🎯",
-      front: `Mục tiêu & Yêu cầu cần đạt cốt lõi của bài: "${curLesson.title}"?`,
-      back: `
-        <div style="margin-bottom:6px; font-weight:700; color:#166534;">Yêu cầu cần đạt chuẩn SGK:</div>
-        <ul style="margin:0 0 0 18px; padding:0; line-height:1.6; color:#1e293b; font-size:13.5px;">
-          ${curLesson.objectives.slice(0, 3).map(o => { const ws = o.split(/\s+/); return `<li>${escapeHtml(ws.length > 14 ? ws.slice(0, 14).join(' ') + '...' : o)}</li>`; }).join("")}
-        </ul>
-      `,
-      note: "Yêu cầu cần đạt cốt lõi"
+      front: "Yêu cầu cần đạt cốt lõi của bài: " + curLesson.title + "?",
+      back: "<div>" + curLesson.objectives.slice(0, 3).map(o => "<div>• " + escapeHtml(o) + "</div>").join("") + "</div>",
+      note: "Chuẩn GDPT 2018"
     });
   }
 
-  // 2. Thẻ từ các mục SGK (sgkSections)
   const sgkSections = Array.isArray(curLesson.sgkSections) && curLesson.sgkSections.length > 0
     ? curLesson.sgkSections
     : [{ heading: "I. TÓM TẮT KIẾN THỨC TRỌNG TÂM SGK", items: curLesson.summaryPoints || [] }];
 
   sgkSections.forEach((sec, sIdx) => {
-    const rawItems = sec.items || [];
-    let currentTopic = sec.heading;
-    let bulletGroup = [];
-
-    rawItems.forEach(item => {
+    const rawHeading = sec.heading || ("Mục " + (sIdx + 1));
+    (sec.items || []).forEach(item => {
       const line = String(item).trim();
-      if (/^\d+\.\s+/.test(line)) {
-        if (bulletGroup.length > 0) {
+      const clean = line.replace(/^[-+•]\s*/, "");
+      if (clean.includes(":") && !/^(\d+(?:\.\d+)*)\.?\s+/.test(line)) {
+        const parts = clean.split(":");
+        const title = parts[0].trim();
+        const desc = parts.slice(1).join(":").trim();
+        if (title.length > 2 && desc.length > 4) {
           cards.push({
-            category: sec.heading.split(".")[0] || `Phần ${sIdx + 1}`,
-            icon: "📘",
-            front: `Nội dung trọng tâm của: "${currentTopic}"?`,
-            back: `<div style="font-size:14px; line-height:1.6; color:#1e293b;">${bulletGroup.slice(0, 2).map(b => { const cl = b.replace(/^[-+•]\s*/, ''); const ws = cl.split(/\s+/); const sb = ws.length > 12 ? ws.slice(0, 12).join(' ') + '...' : cl; return `<div style="margin-bottom:4px; font-weight:600; color:#166534;">👉 ${escapeHtml(sb)}</div>`; }).join("")}</div>`,
-            note: "Kiến thức chuẩn SGK"
+            category: rawHeading.split(".")[0] || ("Mục " + (sIdx + 1)),
+            icon: "📌",
+            front: "Khái niệm & nội dung cốt lõi của: " + title + "?",
+            back: "<div>• <strong>" + escapeHtml(title) + ":</strong> " + escapeHtml(desc) + "</div>",
+            note: rawHeading
           });
-          bulletGroup = [];
         }
-        currentTopic = line;
-      } else if (line.length > 8) {
-        bulletGroup.push(line);
       }
     });
-
-    if (bulletGroup.length > 0) {
-      cards.push({
-        category: sec.heading.split(".")[0] || `Phần ${sIdx + 1}`,
-        icon: "📘",
-        front: `Trình bày tóm tắt nội dung cốt lõi của: "${currentTopic}"?`,
-        back: `<div style="font-size:14px; line-height:1.6; color:#1e293b;">${bulletGroup.slice(0, 2).map(b => { const cl = b.replace(/^[-+•]\s*/, ''); const ws = cl.split(/\s+/); const sb = ws.length > 12 ? ws.slice(0, 12).join(' ') + '...' : cl; return `<div style="margin-bottom:4px; font-weight:600; color:#166534;">👉 ${escapeHtml(sb)}</div>`; }).join("")}</div>`,
-        note: "Bám sát sách giáo khoa"
-      });
-    }
   });
-
-  // 3. Thẻ từ Lưu ý Sư phạm & Phân tích nếu có
-  if (Array.isArray(curLesson.analysisNotes) && curLesson.analysisNotes.length > 0) {
-    curLesson.analysisNotes.slice(0, 2).forEach((note, nIdx) => {
-      cards.push({
-        category: "Bản chất & Mẹo thi",
-        icon: "💡",
-        front: `Bản chất khoa học & lưu ý quan trọng cần ghi nhớ ở bài: "${curLesson.title}"?`,
-        back: `<div style="font-size:14px; line-height:1.6; color:#78350f; background:#fffbeb; padding:10px 14px; border-radius:8px; border:1px solid #fde68a;">${escapeHtml(note)}</div>`,
-        note: "Trọng tâm nâng cao"
-      });
-    });
-  }
-
-  // 4. Thẻ Câu hỏi Trả lời ngắn & Vận dụng
-  if (qBundle.shorts && qBundle.shorts.length > 0) {
-    qBundle.shorts.slice(0, 4).forEach(sq => {
-      cards.push({
-        category: "Hỏi - Đáp nhanh",
-        icon: "❓",
-        front: sq.stem,
-        back: `<div style="font-weight:600; color:#15803d; font-size:14.5px; background:#f0fdf4; padding:10px 14px; border-radius:8px; border:1px solid #bbf7d0;">👉 Đáp án chuẩn: ${escapeHtml(sq.answer)}</div>`,
-        note: "Câu hỏi định dạng mới Bộ GD&ĐT"
-      });
-    });
-  }
-
-  // 5. Thẻ Trắc nghiệm then chốt có giải thích
-  if (qBundle.mcqs && qBundle.mcqs.length > 0) {
-    const pickMcqs = qBundle.mcqs.filter(q => q.explanation && q.explanation.length > 10).slice(0, 3);
-    pickMcqs.forEach(mq => {
-      const correctText = mq.options && mq.options[mq.answer] ? mq.options[mq.answer] : mq.answer;
-      cards.push({
-        category: "Trắc nghiệm cốt lõi",
-        icon: "🎯",
-        front: mq.stem,
-        back: `
-          <div style="font-weight:700; color:#166534; margin-bottom:8px; font-size:14.5px;">
-            ✅ Đáp án đúng: ${escapeHtml(correctText)}
-          </div>
-          ${mq.explanation ? `<div style="font-size:13.5px; color:#475569; font-style:italic; border-top:1px dashed #cbd5e1; padding-top:6px;">💡 Giải thích: ${escapeHtml(mq.explanation)}</div>` : ''}
-        `,
-        note: "Mức độ: " + (mq.level || "thông hiểu")
-      });
-    });
-  }
 
   return cards;
 }
 
+function toggleGridCardFlip(index, el) {
+  if (!portalState.mod1GridFlipped) portalState.mod1GridFlipped = {};
+  portalState.mod1GridFlipped[index] = !portalState.mod1GridFlipped[index];
+  const cardEl = el || document.getElementById("flipCard_" + index);
+  if (cardEl) {
+    cardEl.classList.toggle("flipped");
+  }
+}
+
+function flipAllGridCards(flipToBack) {
+  if (!portalState.mod1GridFlipped) portalState.mod1GridFlipped = {};
+  const total = (portalState.mod1FlashcardsList || []).length;
+  for (let i = 0; i < total; i++) {
+    portalState.mod1GridFlipped[i] = flipToBack;
+    const el = document.getElementById("flipCard_" + i);
+    if (el) {
+      if (flipToBack) el.classList.add("flipped");
+      else el.classList.remove("flipped");
+    }
+  }
+}
+
 function flipCurrentFlashcard() {
   portalState.mod1FlashcardFlipped = !portalState.mod1FlashcardFlipped;
-  const inner = document.querySelector(".flashcard-card-inner");
+  const inner = document.getElementById("mainFlashcardInner");
   if (inner) {
-    if (portalState.mod1FlashcardFlipped) {
-      inner.classList.add("flipped");
-    } else {
-      inner.classList.remove("flipped");
-    }
+    inner.classList.toggle("flipped");
+  } else {
+    renderModule1Theory();
   }
 }
 
@@ -837,13 +1177,14 @@ function nextFlashcard() {
 }
 
 function shuffleFlashcards() {
-  if (portalState.mod1FlashcardsList && portalState.mod1FlashcardsList.length > 0) {
+  if (portalState.mod1FlashcardsList && portalState.mod1FlashcardsList.length > 1) {
     for (let i = portalState.mod1FlashcardsList.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [portalState.mod1FlashcardsList[i], portalState.mod1FlashcardsList[j]] = [portalState.mod1FlashcardsList[j], portalState.mod1FlashcardsList[i]];
     }
     portalState.mod1FlashcardIdx = 0;
     portalState.mod1FlashcardFlipped = false;
+    portalState.mod1GridFlipped = {};
     renderModule1Theory();
   }
 }
@@ -851,16 +1192,7 @@ function shuffleFlashcards() {
 function markCurrentFlashcard(status) {
   if (!portalState.mod1FlashcardKnown) portalState.mod1FlashcardKnown = {};
   portalState.mod1FlashcardKnown[portalState.mod1FlashcardIdx] = status;
-  if (status === 'known') {
-    const total = (portalState.mod1FlashcardsList || []).length;
-    if (portalState.mod1FlashcardIdx < total - 1) {
-      setTimeout(() => {
-        nextFlashcard();
-      }, 200);
-      return;
-    }
-  }
-  renderModule1Theory();
+  nextFlashcard();
 }
 
 function setFlashcardMode(mode) {
@@ -878,71 +1210,112 @@ function renderFlashcardsHtml(curLesson, qBundle) {
     return `<div class="card"><p>Chưa có dữ liệu thẻ nhớ cho bài này.</p></div>`;
   }
 
-  let idx = portalState.mod1FlashcardIdx;
-  if (idx < 0) idx = 0;
-  if (idx >= total) idx = total - 1;
-  portalState.mod1FlashcardIdx = idx;
-
-  const curCard = cards[idx];
-  const isFlipped = portalState.mod1FlashcardFlipped;
-  const viewMode = portalState.mod1FlashcardMode || 'single';
-
-  const knownCount = Object.values(portalState.mod1FlashcardKnown || {}).filter(v => v === 'known').length;
-  const reviewCount = Object.values(portalState.mod1FlashcardKnown || {}).filter(v => v === 'review').length;
-  const progressPercent = Math.round(((idx + 1) / total) * 100);
-
+  // Mặc định là chế độ 'grid' (BẢNG THẺ LẬT 3D TƯƠNG TÁC)
+  const viewMode = portalState.mod1FlashcardMode || 'grid';
+  
   if (viewMode === 'grid') {
+    if (!portalState.mod1GridFlipped) portalState.mod1GridFlipped = {};
+
     return `
-      <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+      <div class="card" style="padding:20px;">
+        <!-- THANH CÔNG CỤ BẢNG THẺ LẬT -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid #e2e8f0;">
           <div>
-            <h4 style="color:var(--primary-dark); font-size:16px; margin:0;">🗂️ Toàn bộ ${total} Thẻ nhớ — ${escapeHtml(curLesson.title)}</h4>
-            <p style="font-size:12.5px; color:var(--text-muted); margin:3px 0 0;">Chế độ xem dạng lưới: Nhấp vào từng thẻ để lật xem đáp án</p>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="background:#ecfdf5; color:#047857; font-size:11.5px; font-weight:800; padding:2px 8px; border-radius:12px; border:1px solid #a7f3d0;">BẢNG THẺ LẬT 3D</span>
+              <h4 style="color:var(--primary-dark); font-size:16.5px; margin:0;">
+                🗂️ Bảng Thẻ Lật Học Nhanh (${total} thẻ cốt lõi)
+              </h4>
+            </div>
+            <p style="font-size:12.5px; color:var(--text-muted); margin:4px 0 0;">
+              <strong>Câu hỏi đơn giản — Đáp án đơn giản đủ ý.</strong> Nhấp vào bất kỳ thẻ nào trên bảng để lật xem đáp án 3D tức thì.
+            </p>
           </div>
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-primary btn-sm" onclick="setFlashcardMode('single')">🎴 Luyện từng thẻ 3D</button>
-            <button class="btn btn-outline btn-sm" onclick="shuffleFlashcards()">🔀 Xáo trộn</button>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" onclick="flipAllGridCards(true)" title="Lật tất cả các thẻ sang mặt sau để xem nhanh đáp án">
+              🔄 Lật xem tất cả đáp án
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="flipAllGridCards(false)" title="Lật tất cả các thẻ về mặt trước để tự kiểm tra kiến thức">
+              ↩️ Lật về tất cả câu hỏi
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="setFlashcardMode('single')" title="Chuyển sang chế độ luyện từng thẻ 3D">
+              🎴 Luyện từng thẻ 3D
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="shuffleFlashcards()" title="Xáo trộn ngẫu nhiên thứ tự thẻ">
+              🔀 Xáo trộn
+            </button>
           </div>
         </div>
 
-        <div class="flashcard-grid">
-          ${cards.map((c, i) => `
-            <div class="flashcard-mini-card" onclick="const b=this.querySelector('.mini-back-pane'); b.style.display=b.style.display==='none'?'block':'none';">
-              <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                  <span class="flashcard-badge flashcard-badge-front">${c.icon || '📌'} ${escapeHtml(c.category)}</span>
-                  <span style="font-size:12px; font-weight:700; color:var(--text-muted);">#${i + 1}</span>
+        <!-- LƯỚI BẢNG THẺ LẬT 3D (FLIP BOARD GRID) -->
+        <div class="flip-board-grid">
+          ${cards.map((c, i) => {
+            const isFlipped = portalState.mod1GridFlipped && portalState.mod1GridFlipped[i] === true;
+            return `
+              <div id="flipCard_${i}" class="flip-card-item ${isFlipped ? 'flipped' : ''}" onclick="toggleGridCardFlip(${i}, this)">
+                <div class="flip-card-inner">
+                  
+                  <!-- MẶT TRƯỚC (CÂU HỎI ĐƠN GIẢN) -->
+                  <div class="flip-card-front">
+                    <div class="flip-card-header">
+                      <span class="flip-badge">${c.icon || '📌'} ${escapeHtml(c.category)}</span>
+                      <span class="flip-num">#${i + 1}</span>
+                    </div>
+                    <div class="flip-card-question">
+                      ${escapeHtml(c.front)}
+                    </div>
+                    <div class="flip-card-footer">
+                      <span style="font-size:11px; color:#94a3b8;">${escapeHtml(c.note || '')}</span>
+                      <span class="flip-hint">👆 Nhấp để lật xem đáp án ➔</span>
+                    </div>
+                  </div>
+
+                  <!-- MẶT SAU (ĐÁP ÁN ĐƠN GIẢN ĐỦ Ý) -->
+                  <div class="flip-card-back">
+                    <div class="flip-card-header">
+                      <span class="flip-badge-back">✅ ĐÁP ÁN ĐỦ Ý</span>
+                      <span class="flip-num">#${i + 1}</span>
+                    </div>
+                    <div class="flip-card-answer">
+                      ${c.back}
+                    </div>
+                    <div class="flip-card-footer">
+                      <span style="font-size:11px; color:#15803d; font-weight:600;">Chuẩn SGK</span>
+                      <span class="flip-hint-back">🔄 Nhấp để lật lại câu hỏi</span>
+                    </div>
+                  </div>
+
                 </div>
-                <div style="font-weight:600; font-size:14px; color:#0f172a; margin-bottom:10px; line-height:1.5;">
-                  ${escapeHtml(c.front)}
-                </div>
               </div>
-              <div class="mini-back-pane" style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 12px; margin-top:8px;">
-                <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#166534; margin-bottom:4px;">👉 Đáp án / Cốt lõi:</div>
-                ${c.back}
-              </div>
-              <div style="font-size:11.5px; color:#64748b; margin-top:8px; text-align:right;">
-                <em>Nhấp để ẩn/hiện đáp án</em>
-              </div>
-            </div>
-          `).join("")}
+            `;
+          }).join("")}
         </div>
       </div>
     `;
   }
 
-  // Single card 3D flip runner
+  // Chế độ 'single': Luyện từng thẻ 3D tập trung
+  let idx = portalState.mod1FlashcardIdx;
+  if (idx < 0) idx = 0;
+  if (idx >= total) idx = total - 1;
+  portalState.mod1FlashcardIdx = idx;
+  const curCard = cards[idx];
+  const isFlipped = portalState.mod1FlashcardFlipped;
+  const knownCount = Object.values(portalState.mod1FlashcardKnown || {}).filter(v => v === 'known').length;
+  const reviewCount = Object.values(portalState.mod1FlashcardKnown || {}).filter(v => v === 'review').length;
+  const progressPercent = Math.round(((idx + 1) / total) * 100);
+
   return `
     <div class="flashcard-container">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
         <div>
-          <span style="font-weight:700; color:var(--primary-dark); font-size:15px;">🗂️ Thẻ ghi nhớ Học nhanh (Flashcards)</span>
-          <span style="font-size:13px; color:var(--text-muted); margin-left:6px;">— ${escapeHtml(curLesson.title)}</span>
+          <span style="font-weight:700; color:var(--primary-dark); font-size:15px;">🗂️ Chế độ Luyện từng thẻ 3D</span>
+          <span style="font-size:13px; color:var(--text-muted); margin-left:6px;">— ${escapeHtml(curLesson.title)} (${idx + 1}/${total})</span>
         </div>
         <div style="display:flex; gap:6px; align-items:center;">
           <span style="font-size:12px; font-weight:600; color:#15803d; background:#dcfce7; padding:3px 8px; border-radius:10px;">✅ Đã thuộc: ${knownCount}</span>
           <span style="font-size:12px; font-weight:600; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:10px;">🔄 Cần ôn: ${reviewCount}</span>
-          <button class="btn btn-outline btn-sm" onclick="setFlashcardMode('grid')" title="Xem danh sách tất cả thẻ">▦ Xem tất cả</button>
+          <button class="btn btn-primary btn-sm" onclick="setFlashcardMode('grid')" title="Mở Bảng Thẻ Lật hiển thị toàn bộ thẻ">▦ Xem Bảng Thẻ Lật</button>
         </div>
       </div>
 
@@ -951,120 +1324,658 @@ function renderFlashcardsHtml(curLesson, qBundle) {
         <div class="flashcard-progress-bar-fill" style="width: ${progressPercent}%;"></div>
       </div>
 
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:13px; color:var(--text-muted);">
-        <span>Tiến độ: <strong>${idx + 1}</strong> / ${total} thẻ</span>
-        <span>Phím tắt: <strong>Phím Cách (Space)</strong> = Lật thẻ | <strong>← / →</strong> = Chuyển thẻ</span>
-      </div>
-
-      <!-- 3D Flip Card -->
-      <div class="flashcard-card-3d-wrap" onclick="flipCurrentFlashcard()">
-        <div class="flashcard-card-inner ${isFlipped ? 'flipped' : ''}">
-          <!-- MẶT TRƯỚC (HỎI / KHÁI NIỆM) -->
+      <!-- Khung Thẻ 3D lớn -->
+      <div class="flashcard-card-3d-wrap" onclick="flipCurrentFlashcard()" title="Nhấp hoặc bấm Phím Cách (Space) để lật thẻ">
+        <div id="mainFlashcardInner" class="flashcard-card-inner ${isFlipped ? 'flipped' : ''}">
+          <!-- Mặt trước: Câu hỏi -->
           <div class="flashcard-face flashcard-front">
             <div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="flashcard-badge flashcard-badge-front">
-                  ${curCard.icon || '❓'} ${escapeHtml(curCard.category || 'CÂU HỎI TRỌNG TÂM')}
-                </span>
-                <span style="font-size:13px; font-weight:700; color:#15803d;">Thẻ ${idx + 1} / ${total}</span>
+                <span class="flashcard-badge flashcard-badge-front">${curCard.icon || '📌'} ${escapeHtml(curCard.category)}</span>
+                <span style="font-size:13px; font-weight:700; color:var(--text-muted);">Thẻ ${idx + 1}/${total}</span>
+              </div>
+              <div class="flashcard-body-text" style="margin-top:28px;">
+                ${escapeHtml(curCard.front)}
               </div>
             </div>
-            
-            <div class="flashcard-body-text">
-              ${escapeHtml(curCard.front)}
-            </div>
-
             <div class="flashcard-hint-text">
-              <span>🔄 Nhấp chuột hoặc bấm phím Cách để lật xem đáp án</span>
+              👆 Nhấp chuột hoặc bấm <strong>Phím Cách (Space)</strong> để lật xem đáp án
             </div>
           </div>
-
-          <!-- MẶT SAU (ĐÁP ÁN & GIẢI THÍCH) -->
+          <!-- Mặt sau: Đáp án -->
           <div class="flashcard-face flashcard-back">
             <div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="flashcard-badge flashcard-badge-back">
-                  💡 ĐÁP ÁN & NỘI DUNG CỐT LÕI
-                </span>
-                <span style="font-size:12.5px; font-weight:600; color:#1e40af;">${curCard.note ? escapeHtml(curCard.note) : ''}</span>
+                <span class="flashcard-badge flashcard-badge-back">✅ ĐÁP ÁN ĐỦ Ý</span>
+                <span style="font-size:13px; font-weight:700; color:var(--text-muted);">Thẻ ${idx + 1}/${total}</span>
+              </div>
+              <div style="margin-top:20px; font-size:14.5px; line-height:1.65; color:#1e293b;">
+                ${curCard.back}
               </div>
             </div>
-
-            <div class="flashcard-body-text" style="font-size:14.5px; font-weight:500;">
-              ${curCard.back}
-            </div>
-
-            <div class="flashcard-hint-text" style="color:#2563eb;">
-              <span>🔄 Nhấp chuột để quay lại mặt trước</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#166534; padding-top:10px; border-top:1px dashed #bbf7d0;">
+              <span>💡 ${escapeHtml(curCard.note || 'Trọng tâm SGK')}</span>
+              <span>🔄 Nhấp để lật lại câu hỏi</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Nút điều khiển -->
+      <!-- Thanh điều khiển thẻ -->
       <div class="flashcard-controls">
+        <button class="btn btn-outline" onclick="prevFlashcard()" ${idx === 0 ? 'disabled' : ''}>
+          ◀ Thẻ trước
+        </button>
         <div style="display:flex; gap:8px;">
-          <button class="btn btn-outline" onclick="prevFlashcard()" ${idx === 0 ? 'disabled' : ''}>
-            ◀ Thẻ trước
-          </button>
-          <button class="btn btn-secondary" onclick="flipCurrentFlashcard()">
-            🔄 Lật thẻ
-          </button>
-          <button class="btn btn-outline" onclick="nextFlashcard()" ${idx === total - 1 ? 'disabled' : ''}>
-            Thẻ sau ▶
-          </button>
-        </div>
-
-        <div style="display:flex; gap:8px;">
-          <button class="btn btn-sm ${portalState.mod1FlashcardKnown && portalState.mod1FlashcardKnown[idx] === 'known' ? 'btn-primary' : 'btn-outline'}" onclick="markCurrentFlashcard('known')" style="border-color:#16a34a; color:${portalState.mod1FlashcardKnown && portalState.mod1FlashcardKnown[idx] === 'known' ? '#fff' : '#16a34a'};">
-            ✅ Đã thuộc
-          </button>
-          <button class="btn btn-sm ${portalState.mod1FlashcardKnown && portalState.mod1FlashcardKnown[idx] === 'review' ? 'btn-danger' : 'btn-outline'}" onclick="markCurrentFlashcard('review')" style="border-color:#dc2626; color:${portalState.mod1FlashcardKnown && portalState.mod1FlashcardKnown[idx] === 'review' ? '#fff' : '#dc2626'};">
+          <button class="btn btn-danger btn-sm" onclick="markCurrentFlashcard('review')" title="Cần ôn tập lại">
             🔄 Cần ôn lại
           </button>
-          <button class="btn btn-outline btn-sm" onclick="shuffleFlashcards()" title="Xáo trộn thứ tự thẻ">
-            🔀 Xáo trộn
+          <button class="btn btn-success btn-sm" onclick="markCurrentFlashcard('known')" title="Đã thuộc kiến thức này">
+            ✅ Đã thuộc
           </button>
         </div>
+        <button class="btn btn-primary" onclick="nextFlashcard()" ${idx === total - 1 ? 'disabled' : ''}>
+          Thẻ kế tiếp ▶
+        </button>
       </div>
     </div>
   `;
 }
 
-// Bắt sự kiện bàn phím cho Flashcard
-if (typeof window !== "undefined") {
-  window.addEventListener("keydown", function(e) {
-    if (portalState.activeModule === 1 && portalState.mod1SubTab === 'flashcard') {
-      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
-      if (e.code === 'Space' || e.key === ' ') {
-        e.preventDefault();
-        flipCurrentFlashcard();
-      } else if (e.code === 'ArrowRight' || e.key === 'ArrowRight') {
-        nextFlashcard();
-      } else if (e.code === 'ArrowLeft' || e.key === 'ArrowLeft') {
-        prevFlashcard();
+
+// ============================================================================
+// ĐỀ CỦNG CỐ KIẾN THỨC BÀI HỌC 3 DẠNG CHUẨN CV 7991 (TÙY CHỈNH 10P - 20P)
+// ============================================================================
+window.LESSON_QUIZ_BUNDLES = {"cn10_b1": {"mcqs": [{"id": "b1_m1", "stem": "Trồng trọt giữ vai trò quyết định nào sau đây đối với sự sinh tồn và phát triển của xã hội loài người?", "options": ["Cung cấp lương thực, thực phẩm thiết yếu đảm bảo an ninh lương thực.", "Cung cấp năng lượng điện hạt nhân.", "Khai thác tài nguyên khoáng sản kim loại.", "Sản xuất linh kiện điện tử viễn thông."], "answer": 0, "explanation": "Trồng trọt là ngành duy nhất cung cấp các sản phẩm lương thực (gạo, ngô, lúa mì) và thực phẩm thiết yếu nuôi sống nhân loại, quyết định vững chắc an ninh lương thực quốc gia."}, {"id": "b1_m2", "stem": "Khoảng bao nhiêu phần trăm (%) nguồn nguyên liệu sản xuất thức ăn chăn nuôi công nghiệp được cung cấp từ ngành trồng trọt?", "options": ["Khoảng 30%.", "Khoảng 50%.", "Hơn 70%.", "Khoảng 95%."], "answer": 2, "explanation": "Hơn 70% nguồn nguyên liệu sản xuất thức ăn chăn nuôi công nghiệp (ngô, đậu tương, cám gạo, sắn) có nguồn gốc trực tiếp từ ngành trồng trọt."}, {"id": "b1_m3", "stem": "Ngành công nghiệp chế biến nào sau đây sử dụng nguồn nguyên liệu đầu vào chủ yếu từ ngành trồng trọt?", "options": ["Công nghiệp luyện kim và cơ khí.", "Công nghiệp dệt may, mía đường, cà phê, chè và dược liệu.", "Công nghiệp sản xuất xi măng.", "Công nghiệp khai khoáng dầu khí."], "answer": 1, "explanation": "Cây bông, đay cung cấp sợi dệt; mía cung cấp đường; cà phê, chè, cao su, dược liệu là đầu vào của công nghiệp thực phẩm, đồ uống và y dược."}, {"id": "b1_m4", "stem": "Mặt hàng nông sản nào của Việt Nam luôn nằm trong nhóm quốc gia xuất khẩu hàng đầu thế giới?", "options": ["Gạo, cà phê, hạt điều, hạt tiêu.", "Lúa mì và đại mạch.", "Dâu tây và táo ôn đới.", "Củ cải đường và hoa tulip."], "answer": 0, "explanation": "Việt Nam là một trong những cường quốc xuất khẩu gạo, cà phê Robusta, hạt tiêu và hạt điều hàng đầu thế giới."}, {"id": "b1_m5", "stem": "Ý nghĩa sinh thái quan trọng nhất của việc phát triển trồng trọt là gì?", "options": ["Khai thác cạn kiệt tầng nước ngầm.", "Phủ xanh đất trống, bảo vệ đất, chống xói mòn và điều hòa khí hậu.", "Tăng cường bê tông hóa bề mặt đất.", "Tạo ra chất thải rắn công nghiệp."], "answer": 1, "explanation": "Cây xanh quang hợp hấp thụ CO2, nhả O2, tán lá và rễ giữ đất, chống xói mòn rửa trôi, cải tạo cảnh quan sinh thái."}, {"id": "b1_m6", "stem": "Đâu KHÔNG phải là hướng phát triển triển vọng của trồng trọt Việt Nam trong thời đại cách mạng 4.0?", "options": ["Phát triển nông nghiệp ứng dụng công nghệ cao, tự động hóa.", "Phát triển nông nghiệp sinh thái, hữu cơ bền vững.", "Gia tăng tối đa việc lạm dụng phân bón hóa học và thuốc trừ sâu độc hại.", "Hiện đại hóa chuỗi giá trị và liên kết xuất khẩu nông sản sạch."], "answer": 2, "explanation": "Nông nghiệp hiện đại hướng tới giảm thiểu hóa chất, tăng cường phân hữu cơ vi sinh và bảo vệ môi trường, không lạm dụng hóa chất độc hại."}, {"id": "b1_m7", "stem": "Giống lúa thuần nông nghiệp nào của Việt Nam do nhóm kỹ sư Hồ Quang Cua lai tạo đã vinh dự đạt giải 'Gạo ngon nhất thế giới'?", "options": ["Giống lúa ST24 và ST25.", "Giống lúa Khang Dân 18.", "Giống lúa Bắc Thơm 7.", "Giống lúa IR50404."], "answer": 0, "explanation": "Giống lúa ST25 (Sóc Trăng 25) được vinh danh là Gạo ngon nhất thế giới tại Hội nghị Thương mại Gạo Thế giới."}, {"id": "b1_m8", "stem": "Tỉnh nào ở nước ta hiện nay đi đầu cả nước về diện tích và hiệu quả của mô hình nhà màng, nhà kính ứng dụng công nghệ cao?", "options": ["Tỉnh Thái Bình.", "Tỉnh Lâm Đồng (thành phố Đà Lạt).", "Tỉnh Cà Mau.", "Tỉnh Bắc Ninh."], "answer": 1, "explanation": "Lâm Đồng, đặc biệt là Đà Lạt và các huyện phụ cận, là thủ phủ nông nghiệp công nghệ cao với hàng nghìn hecta nhà màng, nhà kính thông minh."}, {"id": "b1_m9", "stem": "Kĩ thuật công nghệ sinh học nào cho phép nhân nhanh hàng triệu cây giống sạch bệnh, đồng nhất về mặt di truyền trong phòng thí nghiệm?", "options": ["Nuôi cấy mô tế bào (In vitro).", "Chiết cành truyền thống.", "Gieo hạt ngoài luống đất.", "Ghép cành mắt nhỏ."], "answer": 0, "explanation": "Nuôi cấy mô tế bào thực vật (In vitro) nhân giống vô tính ở quy mô công nghiệp, tạo ra cây giống sạch virus và hoàn toàn đồng nhất."}, {"id": "b1_m10", "stem": "Ứng dụng thiết bị bay không người lái (Drone) trong canh tác lúa mang lại lợi ích nổi bật nào?", "options": ["Tăng lượng nước tưới gấp 10 lần.", "Gieo sạ, rải phân, phun thuốc chính xác theo định vị GPS, tiết kiệm thuốc và bảo vệ sức khỏe nông dân.", "Chỉ dùng để quay phim quảng bá du lịch.", "Thay thế hoàn toàn cây lúa trên đồng ruộng."], "answer": 1, "explanation": "Drone nông nghiệp bay phun dập dịch nhanh, hạt sương siêu mịn bám đều 2 mặt lá, giảm 30% thuốc BVTV và người vận hành không tiếp xúc hóa chất độc hại."}, {"id": "b1_m11", "stem": "Mô hình nông nghiệp nhà máy thực vật (Plant Factory) nổi tiếng tại Miyagi (Nhật Bản) ứng dụng công nghệ chiếu sáng gì?", "options": ["Đèn dầu hỏa truyền thống.", "Hệ thống đèn LED chuyên dụng điều khiển quang phổ và thời gian chiếu sáng.", "Đèn sợi đốt dây tóc công suất lớn.", "Kính hội tụ ánh nắng mặt trời."], "answer": 1, "explanation": "Nhà máy thực vật sử dụng hệ thống đèn LED chuyên dụng mô phỏng quang phổ thích hợp nhất cho quang hợp, canh tác nhiều tầng thẳng đứng trong nhà kín."}, {"id": "b1_m12", "stem": "Yêu cầu cơ bản về phẩm chất và năng lực đối với người lao động trong ngành trồng trọt hiện đại là gì?", "options": ["Chỉ cần sức lao động cơ bắp, không cần học tập kiến thức mới.", "Có sức khỏe, yêu thích cây trồng, có kiến thức nông học và kỹ năng làm chủ công nghệ cao 4.0.", "Tuyệt đối không sử dụng máy móc điện tử.", "Không cần ý thức bảo vệ môi trường."], "answer": 1, "explanation": "Người lao động thời đại 4.0 cần kết hợp giữa phẩm chất yêu nghề, sức khỏe với năng lực ứng dụng công nghệ tự động hóa, cảm biến và bảo đảm an toàn sinh thái."}], "tfs": [{"id": "b1_tf1", "context": "Về vai trò và triển vọng phát triển của ngành trồng trọt ở nước ta:", "statements": [{"text": "Trồng trọt là ngành kinh tế cơ bản, giữ vai trò nền tảng đảm bảo vững chắc an ninh lương thực quốc gia.", "answer": true, "explanation": "Đúng. Cung cấp lương thực thực phẩm nuôi sống hơn 100 triệu dân và dự trữ quốc gia."}, {"text": "Ngành trồng trọt không có mối liên hệ nào với ngành chăn nuôi gia súc, gia cầm.", "answer": false, "explanation": "Sai. Hơn 70% nguyên liệu thức ăn chăn nuôi đến từ sản phẩm trồng trọt."}, {"text": "Phát triển nông nghiệp hữu cơ và nông nghiệp sinh thái giúp giảm thiểu phát thải khí nhà kính và bảo vệ nguồn nước.", "answer": true, "explanation": "Đúng. Đây là xu thế phát triển xanh bền vững của Việt Nam."}, {"text": "Nước ta hoàn toàn không xuất khẩu nông sản ra thị trường thế giới.", "answer": false, "explanation": "Sai. Nông sản xuất khẩu mang lại trên 50 tỷ USD cho toàn ngành nông nghiệp mỗi năm."}]}, {"id": "b1_tf2", "context": "Về các thành tựu ứng dụng khoa học công nghệ cao trong trồng trọt ở Việt Nam:", "statements": [{"text": "Giống lúa ST25 do kỹ sư Hồ Quang Cua và cộng sự nghiên cứu đã đạt danh hiệu Gạo ngon nhất thế giới.", "answer": true, "explanation": "Đúng. Thành tựu chọn tạo giống lúa đỉnh cao của Việt Nam."}, {"text": "Mô hình nhà kính tại Đà Lạt ứng dụng công nghệ IoT giúp kiểm soát tự động nhiệt độ, ẩm độ và dinh dưỡng tưới.", "answer": true, "explanation": "Đúng. Kiểm soát môi trường vi khí hậu tối ưu."}, {"text": "Công nghệ nuôi cấy mô tế bào chỉ nhân giống được cây dại, không áp dụng được cho hoa lan và chuối.", "answer": false, "explanation": "Sai. Nuôi cấy mô là công nghệ chủ lực nhân giống hoa lan, chuối cấy mô, khoai tây sạch bệnh."}, {"text": "Ứng dụng thiết bị bay không người lái (Drone) giúp phun thuốc bảo vệ thực vật chính xác, giảm thiểu phơi nhiễm hóa chất cho người nông dân.", "answer": true, "explanation": "Đúng. Người điều khiển đứng từ xa vận hành qua bản đồ số."}]}, {"id": "b1_tf3", "context": "Về các mô hình ứng dụng công nghệ cao trong trồng trọt trên thế giới:", "statements": [{"text": "Hệ thống nhà máy thực vật (Plant Factory) tại Nhật Bản sản xuất rau sạch nhiều tầng hoàn toàn trong phòng kín.", "answer": true, "explanation": "Đúng. Hoàn toàn cách ly sâu bệnh và thời tiết bên ngoài."}, {"text": "Ngành trồng trọt Hà Lan chỉ canh tác trên đồng ruộng tự nhiên ngoài trời mà không dùng nhà kính.", "answer": false, "explanation": "Sai. Hà Lan là quốc gia đi đầu thế giới về diện tích và công nghệ nhà kính siêu hiện đại."}, {"text": "Công nghệ tưới nhỏ giọt ngầm tiết kiệm nước của Israel biến các vùng sa mạc cằn cỗi thành trang trại trù phú.", "answer": true, "explanation": "Đúng. Israel là hình mẫu thế giới về tưới tiết kiệm vùng khô hạn."}, {"text": "Nông nghiệp chính xác tại Mỹ ứng dụng hệ thống định vị vệ tinh GPS để điều khiển máy kéo và máy thu hoạch tự động.", "answer": true, "explanation": "Đúng. Cơ giới hóa và tự động hóa cao độ."}]}], "shorts": [{"id": "b1_s1", "stem": "Tên giống lúa thuần của Việt Nam do nhóm kỹ sư Hồ Quang Cua lai tạo từng đạt giải 'Gạo ngon nhất thế giới' là ST mấy? (Nhập số)", "answer": "25", "explanation": "Giống lúa ST25 (Sóc Trăng 25)."}, {"id": "b1_s2", "stem": "Ngành trồng trọt cung ứng hơn bao nhiêu phần trăm (%) nguồn nguyên liệu cho ngành sản xuất thức ăn chăn nuôi công nghiệp? (Nhập số)", "answer": "70", "explanation": "Cung cấp hơn 70% nguồn nguyên liệu cho chăn nuôi."}, {"id": "b1_s3", "stem": "Thiết bị bay không người lái trong nông nghiệp thường được gọi tắt bằng từ tiếng Anh gồm 5 chữ cái là gì?", "answer": "drone", "explanation": "Drone (hoặc UAV)."}, {"id": "b1_s4", "stem": "Tỉnh nào ở vùng Tây Nguyên của nước ta được mệnh danh là 'thủ phủ' của mô hình nhà màng, nhà kính trồng rau hoa công nghệ cao? (Ghi tên tỉnh)", "answer": "Lâm Đồng", "explanation": "Tỉnh Lâm Đồng (trung tâm là TP Đà Lạt)."}]}, "cn10_b2": {"mcqs": [{"id": "b2_m1", "stem": "Yếu tố môi trường nào sau đây trực tiếp cung cấp nguồn năng lượng cho quá trình quang hợp của cây xanh?", "options": ["Ánh sáng mặt trời.", "Độ ẩm không khí.", "Gió và đối lưu khí quyển.", "Chất khoáng trong đất."], "answer": 0, "explanation": "Nhờ có năng lượng của ánh sáng mặt trời, lục lạp trong lá cây mới thực hiện được quá trình quang hợp tổng hợp nên chất hữu cơ nuôi cây."}, {"id": "b2_m2", "stem": "Cây trồng hấp thụ nước và các ion khoáng hòa tan chủ yếu qua bộ phận nào của cây?", "options": ["Lớp vỏ bần thân gỗ.", "Tế bào lông hút ở miền hút của rễ.", "Lớp cutin mặt trên của lá.", "Chóp rễ."], "answer": 1, "explanation": "Miền hút của rễ có hàng triệu tế bào lông hút, là cơ quan chuyên trách hấp thụ nước và muối khoáng hòa tan từ dung dịch đất."}, {"id": "b2_m3", "stem": "Nhóm cây trồng nào sau đây sinh trưởng phát triển thuận lợi ở nhiệt độ cao (25°C – 35°C) và rất mẫn cảm với rét lạnh?", "options": ["Cây ôn đới.", "Cây nhiệt đới.", "Cây cận nhiệt đới.", "Cây hàn đới."], "answer": 1, "explanation": "Cây nhiệt đới có nguồn gốc từ vùng khí hậu nhiệt đới, sinh trưởng tối ưu ở 25°C – 35°C, mẫn cảm với rét buốt (như lúa nước, ngô, mía, chuối, xoài)."}, {"id": "b2_m4", "stem": "Cây trồng nào sau đây là ví dụ điển hình của nhóm cây trồng cận nhiệt đới (á nhiệt đới)?", "options": ["Cây lúa nước.", "Cây cao su.", "Cây chè.", "Cây bắp cải."], "answer": 2, "explanation": "Cây chè (trà), cam, quýt, hồng, vải, nhãn là các cây trồng á nhiệt đới, có khả năng chịu lạnh nhất định và thích hợp nhiệt độ 15°C – 25°C."}, {"id": "b2_m5", "stem": "Đặc điểm sinh lý quan trọng nào sau đây là bắt buộc đối với hầu hết các loại cây ăn quả ôn đới (táo, lê, mận) để phân hóa mầm hoa?", "options": ["Cần nhiệt độ cao trên 40°C.", "Cần nhiệt độ thấp qua mùa đông.", "Cần độ ẩm không khí bão hòa.", "Cần chiếu sáng liên tục 24/24 giờ."], "answer": 1, "explanation": "Cây ôn đới cần trải qua một thời kì nhiệt độ thấp (rét qua đông) để phá ngủ nghỉ và kích thích phân hóa mầm hoa tạo quả."}, {"id": "b2_m6", "stem": "Căn cứ vào thời gian sinh trưởng (chu kì sống), cây lúa, cây ngô và cây dưa hấu được xếp vào nhóm cây nào?", "options": ["Cây lâu năm.", "Cây hằng năm.", "Cây đa niên.", "Cây thân gỗ."], "answer": 1, "explanation": "Cây hằng năm hoàn thành một chu kì sống (từ hạt đến ra hoa kết hạt mới) trong vòng 1 năm hoặc dưới 1 năm."}, {"id": "b2_m7", "stem": "Đặc điểm hình thái nào sau đây là của nhóm cây một lá mầm (lúa, ngô, mía, tre)?", "options": ["Rễ cọc, gân lá hình mạng.", "Rễ chùm, gân lá song song hoặc hình cung.", "Hạt có 2 lá mầm đối xứng.", "Thân gỗ to lớn có vòng năm."], "answer": 1, "explanation": "Cây một lá mầm có phôi mang 1 lá mầm, hệ rễ chùm và gân lá song song hoặc hình cung."}, {"id": "b2_m8", "stem": "Việc phân loại cây trồng theo mục đích sử dụng chỉ mang tính tương đối vì lý do nào sau đây?", "options": ["Cây trồng tự biến đổi giống qua các vụ.", "Một loại cây trồng có thể được sử dụng cho nhiều mục đích khác nhau.", "Chưa có danh mục phân loại chuẩn.", "Phụ thuộc hoàn toàn vào điều kiện khí hậu."], "answer": 1, "explanation": "Nhiều loại cây trồng có thể sử dụng đa mục đích (ví dụ: ngô vừa làm lương thực cho người vừa làm thức ăn chăn nuôi; sen vừa làm thực phẩm, làm thuốc và làm cảnh)."}, {"id": "b2_m9", "stem": "Yếu tố nào sau đây quy định tiềm năng năng suất tối đa, phẩm chất nông sản và tính chống chịu sâu bệnh hại của cây trồng?", "options": ["Kĩ thuật bón phân.", "Độ phì nhiêu của đất.", "Giống cây trồng.", "Chế độ tưới nước."], "answer": 2, "explanation": "Giống cây trồng là yếu tố di truyền nội tại, quy định tiềm năng năng suất trần, chất lượng sản phẩm và khả năng chống chịu điều kiện bất lợi."}, {"id": "b2_m10", "stem": "Hiện tượng quang chu kì ở cây trồng là phản ứng sinh lý của cây đối với yếu tố nào?", "options": ["Cường độ ánh sáng mạnh hay yếu.", "Tương quan độ dài ngày và đêm trong chu kì 24 giờ.", "Thành phần quang phổ của tia sáng.", "Góc chiếu của mặt trời."], "answer": 1, "explanation": "Quang chu kì là tương quan độ dài giữa thời gian chiếu sáng (ngày) và thời gian tối (đêm), ảnh hưởng quyết định đến sự ra hoa, tạo củ của cây."}, {"id": "b2_m11", "stem": "Khoảng trị số pH của đất thích hợp nhất cho sự sinh trưởng và phát triển của đại đa số cây trồng nông nghiệp là:", "options": ["pH từ 3,0 đến 4,0.", "pH từ 5,5 đến 6,5.", "pH từ 8,5 đến 9,5.", "pH từ 10,0 đến 12,0."], "answer": 1, "explanation": "Khoảng pH từ 5,5 đến 6,5 (hơi chua đến gần trung tính) là môi trường tối ưu cho rễ hấp thu các chất dinh dưỡng khoáng đa lượng và vi lượng."}, {"id": "b2_m12", "stem": "Kĩ thuật tưới tiêu nào sau đây đưa nước và phân bón trực tiếp đến từng vùng rễ cây, giúp tiết kiệm từ 50% đến 70% lượng nước tưới?", "options": ["Tưới tràn rãnh truyền thống.", "Tưới ngập tháo khô xen kẽ.", "Tưới nhỏ giọt công nghệ cao.", "Tưới xả ngập trên mặt ruộng."], "answer": 2, "explanation": "Tưới nhỏ giọt đưa từng giọt nước và dưỡng chất chính xác vào vùng rễ tích cực, chống bốc hơi và rửa trôi, tiết kiệm 50% – 70% nước."}], "tfs": [{"id": "b2_tf1", "context": "Một nhóm học sinh tìm hiểu về phân loại các nhóm cây trồng phổ biến theo nguồn gốc và đặc tính sinh vật học:", "statements": [{"text": "Cây lúa nước, ngô, mía, xoài đều là cây nhiệt đới, sinh trưởng thuận lợi ở nhiệt độ từ 25°C đến 35°C.", "answer": true, "explanation": "Đúng. Đây là các cây nhiệt đới điển hình của Việt Nam."}, {"text": "Cây chè, cam, quýt thuộc nhóm cây ôn đới, có khả năng chịu băng tuyết kéo dài.", "answer": false, "explanation": "Sai. Chè, cam, quýt thuộc nhóm cây á nhiệt đới (cận nhiệt đới), chỉ chịu được rét lạnh nhẹ."}, {"text": "Cây một lá mầm thường có hệ rễ chùm và gân lá song song hoặc hình cung (ví dụ lúa, ngô, dừa).", "answer": true, "explanation": "Đúng. Đây là đặc điểm giải phẫu và hình thái chuẩn của cây 1 lá mầm."}, {"text": "Phân loại cây trồng chỉ mang tính tương đối vì cây ngô vừa làm lương thực cho người vừa làm thức ăn chăn nuôi.", "answer": true, "explanation": "Đúng. Nhiều cây trồng có tính đa mục đích sử dụng."}]}, {"id": "b2_tf2", "context": "Trong nghiên cứu về các yếu tố ngoại cảnh tác động đến cây trồng tại các mô hình nông nghiệp công nghệ cao:", "statements": [{"text": "Khoảng nhiệt độ thích hợp cho sinh trưởng và phát triển của phần lớn cây trồng là từ 15°C đến 40°C.", "answer": true, "explanation": "Đúng. Nhiệt độ tối ưu dao động từ 25°C đến 30°C."}, {"text": "Biện pháp thắp đèn ban đêm cho thanh long ở Bình Thuận ứng dụng nguyên lý điều khiển quang chu kì để kích thích cây ra hoa trái vụ.", "answer": true, "explanation": "Đúng. Thanh long là cây ngày dài, thắp đèn đêm phá vỡ đêm dài kích thích phân hóa mầm hoa."}, {"text": "Khi nhiệt độ môi trường vượt quá 42°C, cường độ quang hợp của cây tăng mạnh giúp tăng năng suất nông sản.", "answer": false, "explanation": "Sai. Trên 40°C, khí khổng đóng, protein và enzym bị biến tính, quang hợp ngừng trệ, cây có thể chết héo."}, {"text": "Cây ưa bóng như gừng, phong lan, lá lốt cần được trồng dưới tán che hoặc xen canh dưới tán cây khác để sinh trưởng tốt.", "answer": true, "explanation": "Đúng. Cây ưa bóng có bản lá mỏng, diệp lục b phát triển, thích hợp ánh sáng tán xạ."}]}, {"id": "b2_tf3", "context": "Về mối quan hệ giữa đất, nước, dinh dưỡng và kĩ thuật canh tác trong sản xuất nông nghiệp:", "statements": [{"text": "Nước chiếm từ 70% đến 90% sinh khối tươi của cây trồng, tham gia trực tiếp vào phản ứng quang hợp.", "answer": true, "explanation": "Đúng. Nước vừa là dung môi, vừa là nguyên liệu quang hợp tạo chất hữu cơ."}, {"text": "Đất có độ pH < 4,5 (đất chua nhiều) không cần bón vôi vì cây trồng nông nghiệp ưa môi trường axit mạnh.", "answer": false, "explanation": "Sai. Đất chua làm cố định lân, nghẹt rễ, cần bón vôi để nâng độ pH lên mức thích hợp 5,5 – 6,5."}, {"text": "Nguyên tắc '4 đúng' trong bón phân gồm: Đúng loại phân, Đúng liều lượng, Đúng thời điểm và Đúng phương pháp.", "answer": true, "explanation": "Đúng. Đây là nguyên tắc vàng trong dinh dưỡng cây trồng."}, {"text": "Kĩ thuật canh tác là cầu nối chủ động của con người giúp môi trường tối ưu hóa để giống cây trồng phát huy tối đa tiềm năng di truyền.", "answer": true, "explanation": "Đúng. Canh tác kết nối tiềm năng giống với điều kiện đất, nước, khí hậu."}]}], "shorts": [{"id": "b2_s1", "stem": "Khoảng nhiệt độ tối ưu (°C) cho sinh trưởng và phát triển của đại đa số cây trồng nhiệt đới là từ 25°C đến bao nhiêu °C? (Nhập số nguyên)", "answer": "30", "explanation": "Nhiệt độ tối ưu cho sinh trưởng phần lớn cây trồng là từ 25 °C đến 30 °C."}, {"id": "b2_s2", "stem": "Trong kĩ thuật sử dụng phân bón hóa học và hữu cơ, nguyên tắc cốt lõi được đúc kết thành nguyên tắc 'Mấy đúng'? (Ghi bằng chữ số)", "answer": "4", "explanation": "Nguyên tắc 4 đúng: Đúng loại, Đúng lượng, Đúng lúc, Đúng cách."}, {"id": "b2_s3", "stem": "Nước chiếm khoảng bao nhiêu phần trăm (%) khối lượng sinh khối tươi của cây trồng? (Nhập số nguyên nhỏ nhất trong khoảng 70% – 90%)", "answer": "70", "explanation": "Nước chiếm từ 70% đến 90% sinh khối tươi của cây trồng."}, {"id": "b2_s4", "stem": "Độ pH tối ưu của đất thích hợp cho đại đa số cây trồng nông nghiệp nằm trong khoảng từ 5,5 đến bao nhiêu? (Nhập số thập phân)", "answer": "6.5", "explanation": "Khoảng pH thích hợp cho đa số cây trồng là từ 5,5 đến 6,5."}]}};
+
+function getLessonQuizBundle(curLesson) {
+  if (window.LESSON_QUIZ_BUNDLES && window.LESSON_QUIZ_BUNDLES[curLesson.id]) {
+    return window.LESSON_QUIZ_BUNDLES[curLesson.id];
+  }
+  const qb = getQuestionsForLesson(curLesson.grade, curLesson.lesson);
+  const mcqs = (qb.mcqs || []).map((q, idx) => ({
+    id: q.id || ("mcq_" + idx),
+    stem: q.stem || "",
+    options: q.options || [],
+    answer: typeof q.answer === "number" ? q.answer : 0,
+    explanation: q.explanation || "Nội dung kiến thức chuẩn sách giáo khoa."
+  }));
+  const tfs = (qb.tfs || []).map((q, idx) => ({
+    id: q.id || ("tf_" + idx),
+    context: q.context || q.stem || ("Nhận định kiến thức bài học: " + curLesson.title),
+    statements: (q.statements || []).map(s => ({
+      text: s.text || s.statement || "",
+      answer: s.answer === true,
+      explanation: s.explanation || (s.answer ? "Nhận định này đúng với nội dung SGK." : "Nhận định này sai so với kiến thức SGK.")
+    }))
+  }));
+  const shorts = (qb.shorts || []).map((q, idx) => ({
+    id: q.id || ("short_" + idx),
+    stem: q.stem || "",
+    answer: String(q.answer || "").trim(),
+    explanation: q.explanation || ("Đáp án chuẩn: " + q.answer)
+  }));
+  return { mcqs, tfs, shorts };
+}
+
+function startMod1Quiz(durationMin) {
+  const curLesson = (PORTAL_DATA.lessons || []).find(l => l.id === portalState.mod1LessonId) || PORTAL_DATA.lessons[0];
+  const bundle = getLessonQuizBundle(curLesson);
+  
+  let mcqCount = 6;
+  let tfCount = 2;
+  let shortCount = 2;
+  
+  if (durationMin === 20) {
+    mcqCount = 12;
+    tfCount = 3;
+    shortCount = 4;
+  } else if (durationMin === 0) {
+    // Tự do: lấy toàn bộ câu có sẵn
+    mcqCount = Math.max(bundle.mcqs.length, 6);
+    tfCount = Math.max(bundle.tfs.length, 2);
+    shortCount = Math.max(bundle.shorts.length, 2);
+  }
+
+  portalState.mod1QuizDuration = durationMin;
+  portalState.mod1QuizPaper = {
+    mcqs: bundle.mcqs.slice(0, mcqCount),
+    tfs: bundle.tfs.slice(0, tfCount),
+    shorts: bundle.shorts.slice(0, shortCount)
+  };
+  portalState.mod1QuizState = "running";
+  portalState.mod1QuizUserAnswers = { mcq: {}, tf: {}, short: {} };
+  portalState.mod1QuizResult = null;
+  portalState.mod1QuizRemainingSec = durationMin > 0 ? durationMin * 60 : 0;
+
+  if (window.mod1QuizInterval) clearInterval(window.mod1QuizInterval);
+  if (durationMin > 0) {
+    window.mod1QuizInterval = setInterval(tickMod1QuizTimer, 1000);
+  }
+
+  renderModule1Theory();
+}
+
+function tickMod1QuizTimer() {
+  if (portalState.mod1QuizState !== "running") {
+    if (window.mod1QuizInterval) clearInterval(window.mod1QuizInterval);
+    return;
+  }
+  if (portalState.mod1QuizRemainingSec > 0) {
+    portalState.mod1QuizRemainingSec--;
+    const el = document.getElementById("quizTimerDisplay");
+    if (el) {
+      const m = Math.floor(portalState.mod1QuizRemainingSec / 60);
+      const s = portalState.mod1QuizRemainingSec % 60;
+      el.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+      if (portalState.mod1QuizRemainingSec <= 120) {
+        el.parentElement.classList.add("urgent");
       }
     }
-  });
+  } else {
+    if (window.mod1QuizInterval) clearInterval(window.mod1QuizInterval);
+    alert("⏱️ Đã hết thời gian làm bài! Hệ thống đang tự động nộp bài và chấm điểm.");
+    submitMod1Quiz();
+  }
 }
+
+function selectQuizMcq(qIdx, optIdx) {
+  if (portalState.mod1QuizState !== "running") return;
+  if (!portalState.mod1QuizUserAnswers) portalState.mod1QuizUserAnswers = { mcq: {}, tf: {}, short: {} };
+  portalState.mod1QuizUserAnswers.mcq[qIdx] = optIdx;
+  
+  // Update class in DOM immediately
+  const card = document.getElementById("quizMcqCard_" + qIdx);
+  if (card) {
+    card.querySelectorAll(".quiz-opt-btn").forEach((btn, idx) => {
+      if (idx === optIdx) btn.classList.add("selected");
+      else btn.classList.remove("selected");
+    });
+  }
+  updateQuizProgress();
+}
+
+function selectQuizTf(qIdx, stmtIdx, val) {
+  if (portalState.mod1QuizState !== "running") return;
+  if (!portalState.mod1QuizUserAnswers) portalState.mod1QuizUserAnswers = { mcq: {}, tf: {}, short: {} };
+  portalState.mod1QuizUserAnswers.tf[qIdx + "_" + stmtIdx] = val;
+
+  const btnTrue = document.getElementById("tfBtn_" + qIdx + "_" + stmtIdx + "_true");
+  const btnFalse = document.getElementById("tfBtn_" + qIdx + "_" + stmtIdx + "_false");
+  if (btnTrue && btnFalse) {
+    if (val === true) {
+      btnTrue.classList.add("selected-true");
+      btnFalse.classList.remove("selected-false");
+    } else {
+      btnFalse.classList.add("selected-false");
+      btnTrue.classList.remove("selected-true");
+    }
+  }
+  updateQuizProgress();
+}
+
+function inputQuizShort(qIdx, val) {
+  if (portalState.mod1QuizState !== "running") return;
+  if (!portalState.mod1QuizUserAnswers) portalState.mod1QuizUserAnswers = { mcq: {}, tf: {}, short: {} };
+  portalState.mod1QuizUserAnswers.short[qIdx] = String(val || "").trim();
+  updateQuizProgress();
+}
+
+function updateQuizProgress() {
+  const paper = portalState.mod1QuizPaper;
+  if (!paper) return;
+  const ans = portalState.mod1QuizUserAnswers || { mcq: {}, tf: {}, short: {} };
+  
+  let doneCount = Object.keys(ans.mcq || {}).length;
+  doneCount += Object.keys(ans.tf || {}).length;
+  doneCount += Object.values(ans.short || {}).filter(v => v.length > 0).length;
+
+  let totalItems = (paper.mcqs || []).length;
+  (paper.tfs || []).forEach(t => { totalItems += (t.statements || []).length; });
+  totalItems += (paper.shorts || []).length;
+
+  const progEl = document.getElementById("quizProgressDisplay");
+  if (progEl) {
+    progEl.textContent = doneCount + " / " + totalItems + " ý";
+  }
+}
+
+function submitMod1Quiz() {
+  if (window.mod1QuizInterval) clearInterval(window.mod1QuizInterval);
+  const paper = portalState.mod1QuizPaper;
+  if (!paper) return;
+  const ans = portalState.mod1QuizUserAnswers || { mcq: {}, tf: {}, short: {} };
+
+  // 1. Chấm Phần I (MCQ) - Chuẩn CV 7991: Thang 3.0 điểm
+  let mcqCorrect = 0;
+  const mcqs = paper.mcqs || [];
+  mcqs.forEach((q, idx) => {
+    if (ans.mcq[idx] === q.answer) {
+      mcqCorrect++;
+    }
+  });
+  const p1Score = mcqs.length > 0 ? (mcqCorrect / mcqs.length) * 3.0 : 0;
+
+  // 2. Chấm Phần II (Đúng/Sai) - Chuẩn CV 7991: Thang 4.0 điểm
+  // Điểm theo quy tắc lũy tiến từng câu 4 lệnh hỏi: 1 ý đúng=0.1đ, 2 ý=0.25đ, 3 ý=0.5đ, 4 ý=1.0đ
+  let p2RawScore = 0;
+  let totalTfStmtsCorrect = 0;
+  let totalTfStmts = 0;
+  const tfs = paper.tfs || [];
+  tfs.forEach((q, qIdx) => {
+    let stmtCorrectInThisQ = 0;
+    (q.statements || []).forEach((stmt, sIdx) => {
+      totalTfStmts++;
+      const userVal = ans.tf[qIdx + "_" + sIdx];
+      if (userVal === stmt.answer) {
+        stmtCorrectInThisQ++;
+        totalTfStmtsCorrect++;
+      }
+    });
+    if (stmtCorrectInThisQ === 1) p2RawScore += 0.1;
+    else if (stmtCorrectInThisQ === 2) p2RawScore += 0.25;
+    else if (stmtCorrectInThisQ === 3) p2RawScore += 0.50;
+    else if (stmtCorrectInThisQ === 4) p2RawScore += 1.00;
+  });
+  // Quy đổi p2 theo thang 4.0 nếu số lượng câu khác 4
+  const p2Score = tfs.length > 0 ? (p2RawScore / tfs.length) * 4.0 : 0;
+
+  // 3. Chấm Phần III (Trả lời ngắn) - Chuẩn CV 7991: Thang 3.0 điểm
+  let shortCorrect = 0;
+  const shorts = paper.shorts || [];
+  shorts.forEach((q, idx) => {
+    const userVal = String(ans.short[idx] || "").trim().toLowerCase().replace(",", ".");
+    const stdVal = String(q.answer || "").trim().toLowerCase().replace(",", ".");
+    if (userVal && (userVal === stdVal || stdVal.includes(userVal))) {
+      shortCorrect++;
+    }
+  });
+  const p3Score = shorts.length > 0 ? (shortCorrect / shorts.length) * 3.0 : 0;
+
+  // Tổng điểm trên thang 10.0
+  const totalScore = Math.min(10.0, Math.round((p1Score + p2Score + p3Score) * 100) / 100);
+
+  let rank = "CẦN CỐ GẮNG ÔN TẬP";
+  let rankColor = "#dc2626";
+  if (totalScore >= 9.0) { rank = "XUẤT SẮC 🌟"; rankColor = "#15803d"; }
+  else if (totalScore >= 8.0) { rank = "GIỎI 🏆"; rankColor = "#047857"; }
+  else if (totalScore >= 6.5) { rank = "KHÁ 👍"; rankColor = "#2563eb"; }
+  else if (totalScore >= 5.0) { rank = "ĐẠT YÊU CẦU 📖"; rankColor = "#d97706"; }
+
+  portalState.mod1QuizResult = {
+    totalScore,
+    rank,
+    rankColor,
+    p1Score: Math.round(p1Score * 100) / 100,
+    mcqCorrect,
+    totalMcq: mcqs.length,
+    p2Score: Math.round(p2Score * 100) / 100,
+    totalTfStmtsCorrect,
+    totalTfStmts,
+    p3Score: Math.round(p3Score * 100) / 100,
+    shortCorrect,
+    totalShort: shorts.length
+  };
+  portalState.mod1QuizState = "submitted";
+
+  renderModule1Theory();
+}
+
+function resetMod1Quiz() {
+  if (window.mod1QuizInterval) clearInterval(window.mod1QuizInterval);
+  portalState.mod1QuizState = "setup";
+  portalState.mod1QuizResult = null;
+  portalState.mod1QuizUserAnswers = { mcq: {}, tf: {}, short: {} };
+  renderModule1Theory();
+}
+
+function renderMod1QuizHtml(curLesson) {
+  const quizState = portalState.mod1QuizState || "setup";
+  const bundle = getLessonQuizBundle(curLesson);
+
+  // MÀN HÌNH 1: SETUP CHỌN THỜI LƯỢNG LÀM BÀI (10P - 20P)
+  if (quizState === "setup") {
+    return `
+      <div class="quiz-wrapper">
+        <div class="quiz-setup-card">
+          <div style="display:inline-block; background:#ecfdf5; color:#047857; font-size:12px; font-weight:800; padding:4px 14px; border-radius:20px; border:1px solid #a7f3d0; margin-bottom:12px;">
+            CHUẨN BỘ GIÁO DỤC & ĐÀO TẠO • CV 7991
+          </div>
+          <h3 style="color:var(--primary-dark); font-size:20px; margin:0 0 6px;">
+            📝 Đề Củng Cố Kiến Thức 3 Dạng — ${escapeHtml(curLesson.title)}
+          </h3>
+          <p style="color:#64748b; font-size:13.5px; margin:0 0 20px;">
+            Đầy đủ 3 dạng thức câu hỏi chuẩn mới: <strong>Trắc nghiệm 4 lựa chọn</strong>, <strong>Trắc nghiệm Đúng/Sai</strong> và <strong>Trả lời ngắn</strong>. Giúp củng cố và khắc sâu toàn bộ kiến thức bài học.
+          </p>
+
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin-bottom:20px; text-align:left;">
+            <div style="font-weight:700; color:#0f172a; font-size:14px; margin-bottom:8px;">📊 Cấu trúc đề củng cố bài học:</div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px; font-size:13px; color:#334155;">
+              <div>• <strong>Phần I:</strong> Nhiều lựa chọn (4 phương án A, B, C, D)</div>
+              <div>• <strong>Phần II:</strong> Đúng / Sai (Mỗi câu gồm 4 lệnh hỏi)</div>
+              <div>• <strong>Phần III:</strong> Trả lời ngắn (Nhập số / từ khóa)</div>
+            </div>
+          </div>
+
+          <div style="font-weight:700; color:#0f172a; font-size:14.5px; margin-bottom:10px;">
+            ⏱️ Chọn thời lượng & chế độ củng cố:
+          </div>
+
+          <div class="quiz-mode-grid">
+            <div class="quiz-mode-btn" onclick="startMod1Quiz(10)">
+              <div style="font-size:28px; margin-bottom:6px;">⚡</div>
+              <div style="font-weight:800; color:var(--primary); font-size:15px;">Củng cố nhanh (10 Phút)</div>
+              <div style="font-size:12px; color:#64748b; margin-top:4px;">
+                6 câu Phần I • 2 câu Đúng/Sai • 2 câu Điền ngắn
+              </div>
+              <div style="margin-top:10px; font-weight:700; color:#047857; font-size:12.5px;">Bắt đầu 10p ➔</div>
+            </div>
+
+            <div class="quiz-mode-btn" onclick="startMod1Quiz(20)" style="border-color:#2563eb; background:#eff6ff;">
+              <div style="font-size:28px; margin-bottom:6px;">🎯</div>
+              <div style="font-weight:800; color:#1d4ed8; font-size:15px;">Củng cố toàn diện (20 Phút)</div>
+              <div style="font-size:12px; color:#64748b; margin-top:4px;">
+                12 câu Phần I • 3 câu Đúng/Sai • 4 câu Điền ngắn
+              </div>
+              <div style="margin-top:10px; font-weight:700; color:#1d4ed8; font-size:12.5px;">Bắt đầu 20p ➔</div>
+            </div>
+
+            <div class="quiz-mode-btn" onclick="startMod1Quiz(0)">
+              <div style="font-size:28px; margin-bottom:6px;">🌱</div>
+              <div style="font-weight:800; color:#475569; font-size:15px;">Luyện tự do (Không giới hạn)</div>
+              <div style="font-size:12px; color:#64748b; margin-top:4px;">
+                Làm toàn bộ ngân hàng câu hỏi • Tự kiểm tra tiến độ
+              </div>
+              <div style="margin-top:10px; font-weight:700; color:#475569; font-size:12.5px;">Bắt đầu tự do ➔</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  const paper = portalState.mod1QuizPaper || bundle;
+  const userAns = portalState.mod1QuizUserAnswers || { mcq: {}, tf: {}, short: {} };
+  const res = portalState.mod1QuizResult;
+
+  const remSec = portalState.mod1QuizRemainingSec || 0;
+  const timerM = Math.floor(remSec / 60);
+  const timerS = remSec % 60;
+  const timerText = (timerM < 10 ? "0" + timerM : timerM) + ":" + (timerS < 10 ? "0" + timerS : timerS);
+
+  return `
+    <div class="quiz-wrapper">
+      
+      <!-- THANH TRẠNG THÁI / ĐỒNG HỒ CỐ ĐỊNH -->
+      <div class="quiz-sticky-bar">
+        <div>
+          <span style="font-weight:800; color:var(--primary-dark); font-size:15px;">
+            📝 Đề củng cố: ${escapeHtml(curLesson.title)}
+          </span>
+          <span style="font-size:12.5px; color:#64748b; margin-left:8px;">
+            (Chế độ ${portalState.mod1QuizDuration ? portalState.mod1QuizDuration + ' phút' : 'Tự do'})
+          </span>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          ${portalState.mod1QuizDuration > 0 && quizState === "running" ? `
+            <div class="quiz-timer-pill ${remSec <= 120 ? 'urgent' : ''}">
+              <span>⏱️</span>
+              <span id="quizTimerDisplay">${timerText}</span>
+            </div>
+          ` : ''}
+
+          ${quizState === "running" ? `
+            <span id="quizProgressDisplay" style="font-size:13px; font-weight:700; color:#334155;">Đang làm bài</span>
+            <button class="btn btn-primary btn-sm" onclick="submitMod1Quiz()" style="padding:6px 16px; font-weight:800;">
+              🏁 NỘP BÀI CHẤM ĐIỂM
+            </button>
+          ` : `
+            <button class="btn btn-outline btn-sm" onclick="resetMod1Quiz()">
+              🔄 Làm lại đề mới
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="window.print()">
+              🖨️ In bài thi
+            </button>
+          `}
+        </div>
+      </div>
+
+      <!-- BẢNG BÁO CÁO KẾT QUẢ ĐIỂM SỐ (KHI ĐÃ NỘP BÀI) -->
+      ${quizState === "submitted" && res ? `
+        <div style="background:#f8fafc; border:2px solid ${res.rankColor}; border-radius:12px; padding:20px; margin-bottom:24px; text-align:center;">
+          <div style="font-size:13px; font-weight:800; color:${res.rankColor}; letter-spacing:0.8px;">KẾT QUẢ ĐÁNH GIÁ CHUẨN CV 7991</div>
+          <div style="font-size:36px; font-weight:900; color:${res.rankColor}; margin:6px 0;">
+            ${res.totalScore.toFixed(2)} <span style="font-size:20px; font-weight:700; color:#64748b;">/ 10.0 Điểm</span>
+          </div>
+          <div style="font-size:16px; font-weight:800; color:${res.rankColor}; margin-bottom:14px;">
+            ${res.rank}
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; max-width:750px; margin:0 auto; font-size:13.5px; text-align:left;">
+            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px;">
+              <div style="color:#64748b; font-size:12px; font-weight:700;">PHẦN I: NHIỀU LỰA CHỌN</div>
+              <div style="font-weight:800; color:#0f172a; font-size:15px; margin-top:2px;">
+                ${res.mcqCorrect} / ${res.totalMcq} câu đúng • <span style="color:#15803d;">${res.p1Score.toFixed(2)} đ</span>
+              </div>
+            </div>
+            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px;">
+              <div style="color:#64748b; font-size:12px; font-weight:700;">PHẦN II: ĐÚNG / SAI</div>
+              <div style="font-weight:800; color:#0f172a; font-size:15px; margin-top:2px;">
+                ${res.totalTfStmtsCorrect} / ${res.totalTfStmts} ý đúng • <span style="color:#15803d;">${res.p2Score.toFixed(2)} đ</span>
+              </div>
+            </div>
+            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px;">
+              <div style="color:#64748b; font-size:12px; font-weight:700;">PHẦN III: TRẢ LỜI NGẮN</div>
+              <div style="font-weight:800; color:#0f172a; font-size:15px; margin-top:2px;">
+                ${res.shortCorrect} / ${res.totalShort} câu đúng • <span style="color:#15803d;">${res.p3Score.toFixed(2)} đ</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN -->
+      <div>
+        <div class="quiz-part-header">
+          <span>PHẦN I. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN</span>
+          <span style="font-size:12px; font-weight:700; opacity:0.9;">${(paper.mcqs || []).length} Câu • Thang điểm 3.0</span>
+        </div>
+        <p style="font-size:13px; color:#64748b; margin:-8px 0 16px;">
+          <em>Thí sinh trả lời từ câu 1 đến câu ${(paper.mcqs || []).length}. Trong mỗi câu hỏi, thí sinh chỉ chọn một phương án chính xác nhất.</em>
+        </p>
+
+        ${(paper.mcqs || []).map((q, idx) => {
+          const userChosen = userAns.mcq ? userAns.mcq[idx] : undefined;
+          const isSubmitted = quizState === "submitted";
+          const isCorrect = userChosen === q.answer;
+
+          return `
+            <div id="quizMcqCard_${idx}" class="quiz-q-card ${isSubmitted ? (isCorrect ? 'correct' : 'incorrect') : ''}">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                <div style="font-weight:800; color:#0f172a; font-size:14.5px; line-height:1.5;">
+                  <span style="color:var(--primary); margin-right:4px;">Câu ${idx + 1}:</span>
+                  ${escapeHtml(q.stem)}
+                </div>
+                ${isSubmitted ? `
+                  <span style="font-weight:800; font-size:13px; color:${isCorrect ? '#15803d' : '#dc2626'}; white-space:nowrap; margin-left:8px;">
+                    ${isCorrect ? '✅ Đúng (+0.25đ)' : '❌ Sai'}
+                  </span>
+                ` : ''}
+              </div>
+
+              <div>
+                ${(q.options || []).map((opt, optIdx) => {
+                  const letters = ["A", "B", "C", "D"];
+                  const isSelected = userChosen === optIdx;
+                  const isRightAnswer = isSubmitted && optIdx === q.answer;
+
+                  let optClass = isSelected ? "selected" : "";
+                  if (isSubmitted) {
+                    if (isRightAnswer) optClass = "selected" + " border-green";
+                  }
+
+                  return `
+                    <div class="quiz-opt-btn ${optClass}" onclick="selectQuizMcq(${idx}, ${optIdx})">
+                      <span style="font-weight:800; color:${isSelected ? '#2563eb' : '#475569'}; min-width:22px;">
+                        ${letters[optIdx]}.
+                      </span>
+                      <span>${escapeHtml(opt)}</span>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+
+              ${isSubmitted ? `
+                <div style="background:#ffffff; border-left:4px solid var(--primary); padding:10px 14px; border-radius:6px; margin-top:12px; font-size:13px; line-height:1.6; color:#334155;">
+                  <div style="font-weight:700; color:var(--primary-dark); margin-bottom:2px;">💡 Hướng dẫn giải chi tiết:</div>
+                  ${escapeHtml(q.explanation)}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join("")}
+      </div>
+
+      <!-- PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI -->
+      <div>
+        <div class="quiz-part-header" style="background:linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);">
+          <span>PHẦN II. CÂU TRẮC NGHIỆM ĐÚNG / SAI (CV 7991)</span>
+          <span style="font-size:12px; font-weight:700; opacity:0.9;">${(paper.tfs || []).length} Câu • Thang điểm 4.0</span>
+        </div>
+        <p style="font-size:13px; color:#64748b; margin:-8px 0 16px;">
+          <em>Thí sinh trả lời từ câu 1 đến câu ${(paper.tfs || []).length}. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn Đúng hoặc Sai.</em>
+        </p>
+
+        ${(paper.tfs || []).map((q, qIdx) => {
+          return `
+            <div class="quiz-q-card">
+              <div style="font-weight:800; color:#0f172a; font-size:14.5px; line-height:1.5; margin-bottom:10px;">
+                <span style="color:#2563eb; margin-right:4px;">Câu ${qIdx + 1}:</span>
+                ${escapeHtml(q.context || q.stem)}
+              </div>
+
+              <table class="quiz-tf-table">
+                <thead>
+                  <tr>
+                    <th style="width:40px; text-align:center;">Ý</th>
+                    <th>Nội dung nhận định kiến thức</th>
+                    <th style="width:140px; text-align:center;">Lựa chọn</th>
+                    ${quizState === "submitted" ? `<th style="width:160px;">Đáp án chuẩn</th>` : ''}
+                  </tr>
+                </thead>
+                <tbody>
+                  ${(q.statements || []).map((stmt, sIdx) => {
+                    const letters = ["a", "b", "c", "d"];
+                    const userVal = userAns.tf ? userAns.tf[qIdx + "_" + sIdx] : undefined;
+                    const isSubmitted = quizState === "submitted";
+                    const isCorrect = userVal === stmt.answer;
+
+                    return `
+                      <tr style="${isSubmitted ? (isCorrect ? 'background:#f0fdf4;' : 'background:#fff1f2;') : ''}">
+                        <td style="font-weight:800; text-align:center; color:#475569;">${letters[sIdx]})</td>
+                        <td style="color:#1e293b; line-height:1.5;">${escapeHtml(stmt.text)}</td>
+                        <td style="text-align:center;">
+                          <div style="display:inline-flex; gap:6px;">
+                            <button id="tfBtn_${qIdx}_${sIdx}_true" class="quiz-tf-btn ${userVal === true ? 'selected-true' : ''}" onclick="selectQuizTf(${qIdx}, ${sIdx}, true)" ${isSubmitted ? 'disabled' : ''}>
+                              Đúng
+                            </button>
+                            <button id="tfBtn_${qIdx}_${sIdx}_false" class="quiz-tf-btn ${userVal === false ? 'selected-false' : ''}" onclick="selectQuizTf(${qIdx}, ${sIdx}, false)" ${isSubmitted ? 'disabled' : ''}>
+                              Sai
+                            </button>
+                          </div>
+                        </td>
+                        ${isSubmitted ? `
+                          <td>
+                            <strong style="color:${stmt.answer ? '#15803d' : '#dc2626'};">${stmt.answer ? 'ĐÚNG' : 'SAI'}</strong>
+                            <div style="font-size:11.5px; color:#64748b; margin-top:2px;">${escapeHtml(stmt.explanation || '')}</div>
+                          </td>
+                        ` : ''}
+                      </tr>
+                    `;
+                  }).join("")}
+                </tbody>
+              </table>
+            </div>
+          `;
+        }).join("")}
+      </div>
+
+      <!-- PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN -->
+      <div>
+        <div class="quiz-part-header" style="background:linear-gradient(135deg, #b45309 0%, #d97706 100%);">
+          <span>PHẦN III. CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN</span>
+          <span style="font-size:12px; font-weight:700; opacity:0.9;">${(paper.shorts || []).length} Câu • Thang điểm 3.0</span>
+        </div>
+        <p style="font-size:13px; color:#64748b; margin:-8px 0 16px;">
+          <em>Thí sinh trả lời từ câu 1 đến câu ${(paper.shorts || []).length}. Điền từ khóa, số liệu hoặc thuật ngữ vào ô trống.</em>
+        </p>
+
+        ${(paper.shorts || []).map((q, idx) => {
+          const userVal = userAns.short ? (userAns.short[idx] || '') : '';
+          const isSubmitted = quizState === "submitted";
+          const stdVal = String(q.answer || "").trim().toLowerCase().replace(",", ".");
+          const isCorrect = userVal && (userVal.toLowerCase().replace(",", ".") === stdVal || stdVal.includes(userVal.toLowerCase()));
+
+          return `
+            <div class="quiz-q-card ${isSubmitted ? (isCorrect ? 'correct' : 'incorrect') : ''}">
+              <div style="font-weight:800; color:#0f172a; font-size:14.5px; line-height:1.5; margin-bottom:10px;">
+                <span style="color:#d97706; margin-right:4px;">Câu ${idx + 1}:</span>
+                ${escapeHtml(q.stem)}
+              </div>
+
+              <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                <input type="text" class="quiz-short-input" placeholder="Nhập câu trả lời ngắn..." value="${escapeHtml(userVal)}" onchange="inputQuizShort(${idx}, this.value)" oninput="inputQuizShort(${idx}, this.value)" ${isSubmitted ? 'disabled' : ''} />
+                ${isSubmitted ? `
+                  <div style="font-weight:700; font-size:13.5px; color:${isCorrect ? '#15803d' : '#dc2626'};">
+                    ${isCorrect ? '✅ Chính xác' : `❌ Đáp án đúng: <strong>${escapeHtml(q.answer)}</strong>`}
+                  </div>
+                ` : ''}
+              </div>
+
+              ${isSubmitted ? `
+                <div style="background:#ffffff; border-left:4px solid #d97706; padding:10px 14px; border-radius:6px; margin-top:12px; font-size:13px; line-height:1.6; color:#334155;">
+                  <div style="font-weight:700; color:#92400e; margin-bottom:2px;">💡 Hướng dẫn giải chi tiết:</div>
+                  ${escapeHtml(q.explanation)}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join("")}
+      </div>
+
+      <!-- NÚT NỘP BÀI DƯỚI CÙNG -->
+      <div style="text-align:center; margin:32px 0 16px;">
+        ${quizState === "running" ? `
+          <button class="btn btn-primary" onclick="submitMod1Quiz()" style="padding:14px 36px; font-size:16px; font-weight:800; box-shadow:0 4px 14px rgba(5, 150, 105, 0.3);">
+            🏁 NỘP BÀI VÀ XEM ĐÁNH GIÁ (CV 7991)
+          </button>
+        ` : `
+          <button class="btn btn-primary" onclick="resetMod1Quiz()" style="padding:12px 28px; font-size:15px; font-weight:800;">
+            🔄 LÀM LẠI ĐỀ NÀY HOẶC CHỌN ĐỀ KHÁC
+          </button>
+        `}
+      </div>
+
+    </div>
+  `;
+}
+
 
 function renderModule1Theory() {
   const sidebarList = document.getElementById("mod1LessonList");
   const mainContent = document.getElementById("mod1MainContent");
   if (!sidebarList || !mainContent || typeof PORTAL_DATA === "undefined") return;
-
   // Cập nhật nút chọn khối
   ["cn10", "cn11", "cn12"].forEach(g => {
     const btn = document.getElementById("mod1GradeBtn_" + g);
     if (btn) btn.className = `btn btn-sm ${portalState.mod1Grade === g ? 'btn-primary' : 'btn-outline'}`;
   });
-
   const qSearch = (portalState.mod1Search || "").toLowerCase().trim();
   const filteredLessons = PORTAL_DATA.lessons.filter(l =>
     l.grade === portalState.mod1Grade &&
     (!qSearch || l.title.toLowerCase().includes(qSearch) || (l.chapter || "").toLowerCase().includes(qSearch))
   );
-
   // Nhóm theo Chương để danh mục bên trái gọn gàng như Mục lục SGK
   let lastChapter = "";
   sidebarList.innerHTML = filteredLessons.map(l => {
@@ -1077,17 +1988,14 @@ function renderModule1Theory() {
       </div>
     `;
   }).join("");
-
   const curLesson = PORTAL_DATA.lessons.find(l => l.id === portalState.mod1LessonId) || filteredLessons[0] || PORTAL_DATA.lessons[0];
   if (!curLesson) return;
-
   const qBundle = getQuestionsForLesson(curLesson.grade, curLesson.lesson);
   const advMcqs = qBundle.mcqs.filter(q => q.level === "hieu" || q.level === "vandung" || q.isVdc);
   const displayMcqs = advMcqs.length >= 4 ? advMcqs : qBundle.mcqs;
   const sgkSections = Array.isArray(curLesson.sgkSections) && curLesson.sgkSections.length > 0
     ? curLesson.sgkSections
     : [{ heading: "I. TÓM TẮT KIẾN THỨC TRỌNG TÂM SGK", items: curLesson.summaryPoints || [] }];
-
   let subHtml = "";
   if (portalState.mod1SubTab === "summary") {
     // 1. TÓM TẮT KIẾN THỨC CHUẨN SÁCH GIÁO KHOA (ĐƠN GIẢN, RÕ RÀNG)
@@ -1101,15 +2009,14 @@ function renderModule1Theory() {
           ).map(o => `<li>${escapeHtml(o)}</li>`).join("")}
         </ul>
       </div>
-
       <div style="display:grid; gap:14px;">
-        ${sgkSections.map(sec => `
+        ${sgkSections.map((sec, secIdx) => `
           <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 18px; box-shadow:0 1px 2px rgba(0,0,0,0.02);">
             <h4 style="color:var(--primary-dark); font-size:15.5px; margin:0 0 8px; padding-bottom:6px; border-bottom:1.5px solid #f1f5f9;">
               📘 ${escapeHtml(sec.heading)}
             </h4>
             <div>
-              ${(sec.items || []).map(item => formatSgkSectionItem(item)).join("")}
+              ${(sec.items || []).map(item => formatSgkSectionItem(item, secIdx + 1, sec.heading)).join("")}
             </div>
           </div>
         `).join("")}
@@ -1121,231 +2028,57 @@ function renderModule1Theory() {
   } else if (portalState.mod1SubTab === "flashcard") {
     // 3. THẺ NHỚ GHI NHỚ NHANH (FLASHCARDS)
     subHtml = renderFlashcardsHtml(curLesson, qBundle);
-  } else if (portalState.mod1SubTab === "analyzer") {
-    // 2. PHÂN TÍCH TRỌNG TÂM BÀI HỌC (BÁM SÁT MẠCH KIẾN THỨC SGK CỦA CHÍNH BÀI ĐANG CHỌN)
-    const explainedMcqs = qBundle.mcqs.filter(q => q.explanation && q.explanation.trim().length > 10).slice(0, 4);
-    const analysisNotes = Array.isArray(curLesson.analysisNotes) ? curLesson.analysisNotes : [];
-
-    subHtml = `
-      <!-- Sơ đồ mạch kiến thức của bài -->
-      <div style="margin-bottom:18px;">
-        <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:10px;">🗺️ 1. Sơ đồ Mạch Kiến thức Chuẩn SGK của ${escapeHtml(curLesson.title)}</h4>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
-          ${sgkSections.map((sec, idx) => {
-            const subHeadings = (sec.items || []).filter(it => /^\d+\.\s+/.test(String(it).trim()));
-            return `
-              <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:3px solid var(--primary); border-radius:8px; padding:12px;">
-                <div style="font-size:11.5px; font-weight:700; color:var(--primary);">MỤC ${idx + 1}</div>
-                <div style="font-weight:700; font-size:13.5px; color:#0f172a; margin:3px 0 6px;">${escapeHtml(sec.heading)}</div>
-                ${subHeadings.length > 0 ? `
-                  <div style="font-size:12.5px; color:#475569; line-height:1.5;">
-                    ${subHeadings.map(sh => `<div>▸ ${escapeHtml(sh)}</div>`).join("")}
-                  </div>
-                ` : `<div style="font-size:12.5px; color:#64748b;">Gồm ${(sec.items || []).length} ý trọng tâm SGK</div>`}
-              </div>
-            `;
-          }).join("")}
-        </div>
-      </div>
-
-      <!-- Bảng tóm lược cốt lõi từng mục SGK -->
-      <div style="margin-bottom:18px;">
-        <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:10px;">📊 2. Bảng Phân tích Nội dung Cốt lõi theo từng Mục SGK</h4>
-        <div class="table-wrap">
-          <table class="std-table">
-            <thead>
-              <tr>
-                <th style="width:28%;">Mục kiến thức trong SGK</th>
-                <th>Nội dung cốt lõi cần nắm vững</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${sgkSections.map(sec => {
-                const keyBullets = (sec.items || []).filter(it => !/^\d+\.\s+/.test(String(it).trim())).slice(0, 4);
-                return `
-                  <tr>
-                    <td style="font-weight:700; color:var(--primary-dark); background:#f8fafc;">${escapeHtml(sec.heading)}</td>
-                    <td>
-                      ${keyBullets.map(b => `<div style="margin-bottom:4px; font-size:13.5px;">• ${escapeHtml(String(b).replace(/^[-+•]\s*/, ""))}</div>`).join("")}
-                    </td>
-                  </tr>
-                `;
-              }).join("")}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      ${analysisNotes.length > 0 ? `
-        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px 16px; margin-bottom:18px;">
-          <h4 style="color:#92400e; font-size:14.5px; margin-bottom:6px;">💡 Lưu ý Sư phạm & Trọng tâm Phân tích của Bài</h4>
-          <ul style="margin:0 0 0 18px; padding:0; font-size:13.5px; line-height:1.6; color:#78350f;">
-            ${analysisNotes.map(n => `<li>${escapeHtml(n)}</li>`).join("")}
-          </ul>
-        </div>
-      ` : ''}
-
-      <!-- Giải thích câu hỏi vận dụng / bản chất của bài -->
-      <div style="margin-bottom:18px;">
-        <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:10px;">❓ 3. Phân tích Câu hỏi Giải thích & Vận dụng Thực tiễn của Bài</h4>
-        <div class="analyzer-grid">
-          ${qBundle.shorts.slice(0, 4).map(sq => `
-            <div class="analyzer-card" style="background:#f0fdf4; border-color:#bbf7d0;">
-              <div style="font-weight:700; color:#166534; font-size:13.5px; margin-bottom:4px;">❓ ${escapeHtml(sq.stem)}</div>
-              <div style="font-size:13px; color:#1e293b; line-height:1.55;">👉 <strong>Giải thích chuẩn SGK:</strong> ${escapeHtml(sq.answer)}</div>
-            </div>
-          `).join("")}
-          ${explainedMcqs.map(mq => `
-            <div class="analyzer-card" style="background:#eff6ff; border-color:#bfdbfe;">
-              <div style="font-weight:700; color:#1e40af; font-size:13.5px; margin-bottom:4px;">💡 ${escapeHtml(mq.stem)}</div>
-              <div style="font-size:13px; color:#1e293b; line-height:1.55;">
-                <strong>Đáp án đúng:</strong> ${escapeHtml(mq.options[mq.answer] || '')}<br/>
-                <em>Giải thích: ${escapeHtml(mq.explanation)}</em>
-              </div>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-
-      <!-- Khung tra cứu / hỏi nhanh lý thuyết trong bài -->
-      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px 16px;">
-        <div style="font-weight:700; color:var(--primary-dark); font-size:14px; margin-bottom:8px;">🔎 Tra cứu / Phân tích nhanh khái niệm trong ${escapeHtml(curLesson.title)}</div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <input type="text" id="theoryQueryInput" placeholder="Nhập từ khóa hoặc câu hỏi trong bài để trích xuất nhanh kiến thức SGK..." value="${escapeHtml(portalState.analyzerCustomQuery)}" style="flex:1; min-width:240px;" />
-          <button class="btn btn-primary btn-sm" onclick="runInteractiveTheoryAnalyzer()">Phân tích theo SGK</button>
-        </div>
-        <div id="interactiveAnalyzerResult" style="display:none; margin-top:12px; background:#fff; padding:14px; border-radius:8px; border:1px solid #e2e8f0;"></div>
-      </div>
-    `;
-  } else {
-    // 3. CÂU HỎI ÔN TẬP & NÂNG CAO THEO BÀI
-    subHtml = `
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
-        <div>
-          <h4 style="color:var(--primary-dark); font-size:15px; margin:0;">📝 Hệ thống Câu hỏi Ôn tập & Vận dụng — ${escapeHtml(curLesson.title)}</h4>
-          <p style="font-size:12.5px; color:var(--text-muted); margin:2px 0 0;">Gồm ${displayMcqs.length} câu Trắc nghiệm 4 lựa chọn, ${qBundle.tfs.length} câu Đúng/Sai, ${qBundle.shorts.length} câu Trả lời ngắn bám sát SGK</p>
-        </div>
-        <button class="btn btn-outline btn-sm" onclick="document.querySelectorAll('.mod1-ans-reveal').forEach(el => el.style.display = el.style.display === 'none' ? 'block' : 'none')">👁️ Ẩn/Hiện Tất cả Đáp án</button>
-      </div>
-
-      ${displayMcqs.slice(0, 10).map((q, idx) => `
-        <div class="q-card">
-          <div class="q-card-header">
-            <div>
-              <strong>Câu ${idx + 1}:</strong>
-              <span class="badge badge-${q.level || 'hieu'}">${q.isVdc ? 'Vận dụng cao' : q.level === 'vandung' ? 'Vận dụng' : q.level === 'hieu' ? 'Thông hiểu' : 'Nhận biết'}</span>
-            </div>
-            <button class="btn btn-outline btn-sm" onclick="const el=this.parentElement.parentElement.querySelector('.mod1-ans-reveal'); el.style.display=el.style.display==='none'?'block':'none';">Đáp án</button>
-          </div>
-          <div style="font-weight:600; margin-bottom:8px;">${escapeHtml(q.stem)}</div>
-          <div class="options-grid">
-            ${(q.options || []).map((opt, oIdx) => `
-              <div class="opt-item">
-                <strong>${String.fromCharCode(65 + oIdx)}.</strong> <span>${escapeHtml(opt)}</span>
-              </div>
-            `).join("")}
-          </div>
-          <div class="mod1-ans-reveal" style="display:none; margin-top:8px; padding:8px 12px; background:#dcfce7; border-radius:6px; color:#166534; font-size:13px;">
-            <strong>✅ Đáp án đúng: ${String.fromCharCode(65 + (Number(q.answer) || 0))}</strong> — ${escapeHtml(q.options[q.answer] || '')}
-            ${q.explanation ? `<br/><em>💡 Giải thích: ${escapeHtml(q.explanation)}</em>` : ''}
-          </div>
-        </div>
-      `).join("")}
-
-      ${qBundle.tfs.length > 0 ? `<h4 style="color:var(--primary-dark); margin:18px 0 10px; font-size:14.5px;">📋 Câu hỏi Trắc nghiệm Đúng – Sai (${qBundle.tfs.length} câu)</h4>` : ''}
-      ${qBundle.tfs.slice(0, 4).map((tfQ, idx) => `
-        <div class="q-card" style="border-left:4px solid var(--accent);">
-          <div style="font-weight:700; margin-bottom:8px;">Câu Đúng/Sai ${idx + 1}: <span style="font-weight:500;">${escapeHtml(tfQ.stem || tfQ.context)}</span></div>
-          <table class="std-table">
-            <thead>
-              <tr><th style="width:45px;">Ý</th><th>Phát biểu nhận định</th><th style="width:90px;">Mức độ</th><th style="width:95px;">Đáp án</th></tr>
-            </thead>
-            <tbody>
-              ${(tfQ.statements || []).map((st, sIdx) => {
-                const isT = st.isTrue !== undefined ? st.isTrue : st.answer;
-                return `
-                  <tr>
-                    <td class="text-center"><strong>${st.label || st.key || ['a','b','c','d'][sIdx]})</strong></td>
-                    <td>${escapeHtml(st.text)}</td>
-                    <td class="text-center"><span class="badge badge-${st.level || 'hieu'}">${st.level || 'hiểu'}</span></td>
-                    <td class="text-center"><strong style="color:${isT ? '#15803d' : '#dc2626'};">${isT ? 'ĐÚNG' : 'SAI'}</strong></td>
-                  </tr>
-                `;
-              }).join("")}
-            </tbody>
-          </table>
-        </div>
-      `).join("")}
-
-      ${qBundle.shorts.length > 0 ? `<h4 style="color:var(--primary-dark); margin:18px 0 10px; font-size:14.5px;">✍️ Câu hỏi Trả lời ngắn & Vận dụng (${qBundle.shorts.length} câu)</h4>` : ''}
-      <div class="analyzer-grid">
-        ${qBundle.shorts.slice(0, 8).map((sq, idx) => `
-          <div class="analyzer-card">
-            <div style="font-weight:700; color:var(--text); margin-bottom:6px;">Câu ${idx + 1}: ${escapeHtml(sq.stem)}</div>
-            <div style="font-size:13px; color:#15803d; background:#f0fdf4; padding:8px 10px; border-radius:6px; border:1px dashed #86efac;">
-              <strong>👉 Đáp án:</strong> ${escapeHtml(sq.answer)}
-            </div>
-          </div>
-        `).join("")}
-      </div>
-    `;
+  } else if (portalState.mod1SubTab === "quiz" || portalState.mod1SubTab === "advanced_q") {
+    // 4. ĐỀ CỦNG CỐ 3 DẠNG CHUẨN BGD&ĐT CV 7991 (10P - 20P)
+    subHtml = renderMod1QuizHtml(curLesson);
   }
 
   mainContent.innerHTML = `
     <div class="card">
-      <div class="card-header" style="padding-bottom:12px; margin-bottom:12px;">
+      <div class="card-header" style="padding-bottom:12px; margin-bottom:14px; border-bottom:1.5px solid #e2e8f0; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
         <div>
-          <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
-            <span class="badge badge-nl">${escapeHtml(curLesson.chapter)}</span>
-            <span class="badge badge-biet">${escapeHtml(curLesson.sgkInfo)}</span>
+          <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:6px;">
+            <span class="badge badge-nl" style="font-size:11.5px; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; font-weight:700;">${escapeHtml(curLesson.chapter || '')}</span>
+            <span class="badge badge-biet" style="font-size:11.5px; background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; font-weight:700;">${escapeHtml(curLesson.sgkInfo || 'SGK KNTT')}</span>
           </div>
-          <h2 style="font-size:18.5px; color:var(--primary-dark); margin:0;">${escapeHtml(curLesson.title)}</h2>
+          <h2 style="font-size:19px; color:var(--primary-dark); margin:0; font-weight:800; letter-spacing:-0.2px;">${escapeHtml(curLesson.title)}</h2>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn btn-secondary btn-sm" onclick="openLessonInPptModule('${curLesson.id}')">🖥️ Slide Bài giảng</button>
+          <button class="btn btn-secondary btn-sm" onclick="openLessonInPptModule('${curLesson.id}')" style="box-shadow:0 1px 2px rgba(0,0,0,0.05); font-weight:600;">🖥️ Xem Slide Bài giảng</button>
         </div>
       </div>
 
-      <!-- 5 Sub-tabs tinh gọn của Phần 1 -->
+      <!-- 4 Sub-tabs chuẩn hóa của Phần 1 -->
       <div class="clean-tab-bar">
         <button class="clean-tab-btn ${portalState.mod1SubTab === 'summary' ? 'active' : ''}" onclick="selectMod1SubTab('summary')">
-          📘 Tóm tắt SGK
+          📘 Tóm tắt chuẩn SGK
         </button>
         <button class="clean-tab-btn ${portalState.mod1SubTab === 'mindmap' ? 'active' : ''}" onclick="selectMod1SubTab('mindmap')">
           🌿 Sơ đồ tư duy
         </button>
         <button class="clean-tab-btn ${portalState.mod1SubTab === 'flashcard' ? 'active' : ''}" onclick="selectMod1SubTab('flashcard')">
-          🗂️ Thẻ ghi nhớ
+          🗂️ Thẻ ghi nhớ (Flashcards)
         </button>
-        <button class="clean-tab-btn ${portalState.mod1SubTab === 'analyzer' ? 'active' : ''}" onclick="selectMod1SubTab('analyzer')">
-          🔍 Phân tích bài
-        </button>
-        <button class="clean-tab-btn ${portalState.mod1SubTab === 'advanced_q' ? 'active' : ''}" onclick="selectMod1SubTab('advanced_q')">
-          📝 Câu hỏi (${displayMcqs.length + qBundle.tfs.length + qBundle.shorts.length})
+        <button class="clean-tab-btn ${(portalState.mod1SubTab === 'quiz' || portalState.mod1SubTab === 'advanced_q') ? 'active' : ''}" onclick="selectMod1SubTab('quiz')">
+          📝 Đề củng cố 3 dạng (10p - 20p)
         </button>
       </div>
-
       ${subHtml}
     </div>
   `;
 }
-
 async function runInteractiveTheoryAnalyzer() {
   const inputEl = document.getElementById("theoryQueryInput");
   const outBox = document.getElementById("interactiveAnalyzerResult");
   if (!inputEl || !outBox) return;
-
   const query = inputEl.value.trim();
   portalState.analyzerCustomQuery = query;
   const curLesson = (PORTAL_DATA.lessons || []).find(l => l.id === portalState.mod1LessonId) || PORTAL_DATA.lessons[0];
   const topicText = query || curLesson.title;
-
   outBox.style.display = "block";
   outBox.innerHTML = `<div style="color:var(--primary-dark); font-weight:600;">⏳ Đang trích xuất & phân tích kiến thức SGK cho: "${escapeHtml(topicText)}"...</div>`;
-
   const sgkSections = Array.isArray(curLesson.sgkSections) ? curLesson.sgkSections : [];
   const qLower = query.toLowerCase();
-
   // Lọc các ý trong SGK khớp từ khóa
   const matchedItems = [];
   sgkSections.forEach(sec => {
@@ -1355,12 +2088,10 @@ async function runInteractiveTheoryAnalyzer() {
       }
     });
   });
-
   const displayItems = matchedItems.length > 0 ? matchedItems.slice(0, 6) : (curLesson.summaryPoints || []).slice(0, 5);
   const qBundle = getQuestionsForLesson(curLesson.grade, curLesson.lesson);
   const relatedShorts = qBundle.shorts.filter(s => !qLower || s.stem.toLowerCase().includes(qLower) || s.answer.toLowerCase().includes(qLower)).slice(0, 3);
   const displayShorts = relatedShorts.length > 0 ? relatedShorts : qBundle.shorts.slice(0, 3);
-
   outBox.innerHTML = `
     <div style="font-weight:700; color:var(--primary-dark); font-size:14.5px; margin-bottom:8px;">
       📘 KẾT QUẢ ĐỐI CHIẾU KIẾN THỨC SGK: ${escapeHtml(topicText)}
@@ -1384,7 +2115,6 @@ async function runInteractiveTheoryAnalyzer() {
     </div>
   `;
 }
-
 function openLessonInPptModule(lessonId) {
   if (portalState.isStandalone) {
     window.open(`/phan2.html?lesson=${encodeURIComponent(lessonId)}`, "_blank");
@@ -1398,7 +2128,6 @@ function openLessonInPptModule(lessonId) {
   }
   switchMainModule(2);
 }
-
 // ============================================================================
 // PHẦN 2: TỔNG HỢP BÀI GIẢNG PPT ĐỂ TRÌNH CHIẾU VÀ DẠY NHANH (77 BÀI GVG)
 // ============================================================================
@@ -1411,14 +2140,12 @@ function selectMod2Grade(grade) {
   }
   renderModule2PptPresenter();
 }
-
 function selectMod2Lesson(lessonId) {
   portalState.mod2LessonId = lessonId;
   portalState.mod2SlideIndex = 0;
   portalState.mod2RevealQuizAnswer = false;
   renderModule2PptPresenter();
 }
-
 function changePptSlide(delta) {
   const curLesson = (PORTAL_DATA.lessons || []).find(l => l.id === portalState.mod2LessonId) || PORTAL_DATA.lessons[0];
   if (!curLesson || !curLesson.slides) return;
@@ -1427,13 +2154,11 @@ function changePptSlide(delta) {
   portalState.mod2RevealQuizAnswer = false;
   renderModule2PptPresenter();
 }
-
 function jumpToPptSlide(idx) {
   portalState.mod2SlideIndex = idx;
   portalState.mod2RevealQuizAnswer = false;
   renderModule2PptPresenter();
 }
-
 function toggleSlideFullscreen() {
   const stage = document.getElementById("pptSlideStageWrapper");
   if (!stage) return;
@@ -1443,7 +2168,6 @@ function toggleSlideFullscreen() {
     document.exitFullscreen?.();
   }
 }
-
 function startClassTimer(seconds) {
   clearInterval(portalState.timerInterval);
   portalState.timerSeconds = seconds;
@@ -1456,13 +2180,11 @@ function startClassTimer(seconds) {
     }
   }, 1000);
 }
-
 function stopClassTimer() {
   clearInterval(portalState.timerInterval);
   portalState.timerSeconds = 0;
   updateTimerDisplay();
 }
-
 function updateTimerDisplay() {
   const el = document.getElementById("classTimerBadge");
   if (!el) return;
@@ -1476,7 +2198,6 @@ function updateTimerDisplay() {
   el.innerHTML = `⏱️ Đang thảo luận: <strong>${m}:${s}</strong>`;
   el.style.background = "#dc2626";
 }
-
 function renderModule2PptPresenter() {
   if (typeof init5512Module === "function") {
     init5512Module();
@@ -1485,18 +2206,15 @@ function renderModule2PptPresenter() {
   const sidebarList = document.getElementById("mod2LessonList");
   const mainArea = document.getElementById("mod2PresenterArea");
   if (!sidebarList || !mainArea || typeof PORTAL_DATA === "undefined") return;
-
   ["cn10", "cn11", "cn12"].forEach(g => {
     const btn = document.getElementById("mod2GradeBtn_" + g);
     if (btn) btn.className = `btn btn-sm ${portalState.mod2Grade === g ? 'btn-primary' : 'btn-outline'}`;
   });
-
   const qSearch = (portalState.mod2Search || "").toLowerCase().trim();
   const filteredLessons = PORTAL_DATA.lessons.filter(l =>
     l.grade === portalState.mod2Grade &&
     (!qSearch || l.title.toLowerCase().includes(qSearch))
   );
-
   sidebarList.innerHTML = filteredLessons.map(l => `
     <div class="lesson-nav-item ${l.id === portalState.mod2LessonId ? 'active' : ''}" onclick="selectMod2Lesson('${l.id}')">
       <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted);">
@@ -1506,14 +2224,11 @@ function renderModule2PptPresenter() {
       <div style="font-size:13.5px; font-weight:600; margin-top:2px;">${escapeHtml(l.title)}</div>
     </div>
   `).join("");
-
   const curLesson = PORTAL_DATA.lessons.find(l => l.id === portalState.mod2LessonId) || filteredLessons[0] || PORTAL_DATA.lessons[0];
   if (!curLesson) return;
-
   const slides = curLesson.slides || [];
   const sIdx = Math.min(portalState.mod2SlideIndex, Math.max(0, slides.length - 1));
   const curSlide = slides[sIdx] || { num: 1, type: "cover", title: curLesson.title, subtitle: curLesson.chapter, bullets: [] };
-
   const typeLabelMap = {
     cover: "🎯 BÌA BÀI GIẢNG GVG",
     objective: "🎯 MỤC TIÊU & NĂNG LỰC SỐ - AI",
@@ -1523,12 +2238,10 @@ function renderModule2PptPresenter() {
     summary: "📌 TỔNG KẾT & GHI NHỚ",
     content: "📖 NỘI DUNG BÀI GIẢNG"
   };
-
   // Kiểm tra xem slide có dòng Đáp án ẩn không (để GV bấm hiện đáp án khi dạy nhanh)
   const rawBullets = curSlide.bullets || [];
   const answerLines = rawBullets.filter(b => b.startsWith("Đáp án:") || b.startsWith("✓") || b.startsWith("💡"));
   const normalBullets = rawBullets.filter(b => !answerLines.includes(b) && b !== "✗" && b !== "⟵");
-
   mainArea.innerHTML = `
     <!-- Thanh Công cụ Tải nhanh File PPTX Gốc & Chuyển đổi Nhanh -->
     <div class="card" style="padding:14px 20px; margin-bottom:14px;">
@@ -1547,7 +2260,6 @@ function renderModule2PptPresenter() {
         </div>
       </div>
     </div>
-
     <!-- Sân khấu Trình chiếu Dạy nhanh 16:9 (Hỗ trợ Fullscreen) -->
     <div class="slide-stage-wrapper" id="pptSlideStageWrapper">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
@@ -1563,7 +2275,6 @@ function renderModule2PptPresenter() {
           <button class="btn btn-primary btn-sm" onclick="toggleSlideFullscreen()">⛶ Toàn màn hình (Fullscreen)</button>
         </div>
       </div>
-
       <div class="slide-canvas">
         <div>
           <div style="font-size:13px; color:#86efac; font-weight:700; letter-spacing:0.5px;">
@@ -1571,13 +2282,11 @@ function renderModule2PptPresenter() {
           </div>
           <div class="slide-main-title">${escapeHtml(curSlide.title)}</div>
           ${curSlide.subtitle ? `<div class="slide-subtitle">${escapeHtml(curSlide.subtitle)}</div>` : ''}
-
           <div class="slide-bullets">
             ${normalBullets.map(b => `
               <div class="slide-bullet-item">${escapeHtml(b)}</div>
             `).join("")}
           </div>
-
           ${answerLines.length > 0 ? `
             <div style="margin-top:14px;">
               <button class="btn btn-accent btn-sm" onclick="portalState.mod2RevealQuizAnswer = !portalState.mod2RevealQuizAnswer; renderModule2PptPresenter();">
@@ -1591,13 +2300,11 @@ function renderModule2PptPresenter() {
             </div>
           ` : ''}
         </div>
-
         <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.12); padding-top:12px; font-size:12.5px; color:#94a3b8;">
           <span>💡 Dùng phím mũi tên <strong>←</strong> / <strong>→</strong> để chuyển slide nhanh khi đang giảng bài</span>
           <span>Bộ bài giảng Giáo viên giỏi (GVG) tích hợp Năng lực số & AI</span>
         </div>
       </div>
-
       <div class="slide-controls-bar">
         <button class="btn btn-outline" style="background:#1e293b; color:#fff; border-color:#475569;" onclick="changePptSlide(-1)" ${sIdx === 0 ? 'disabled' : ''}>
           ← Slide Trước
@@ -1609,7 +2316,6 @@ function renderModule2PptPresenter() {
           Slide Tiếp theo →
         </button>
       </div>
-
       <div class="slide-thumbs-strip">
         ${slides.map((s, idx) => `
           <div class="slide-thumb-pill ${idx === sIdx ? 'active' : ''}" onclick="jumpToPptSlide(${idx})">
@@ -1620,18 +2326,15 @@ function renderModule2PptPresenter() {
     </div>
   `;
 }
-
 // ============================================================================
 // PHẦN 3: BỔ SUNG KHO 97 ĐỀ THI HỌC KÌ MẪU (.DOCX) VÀO QUY TRÌNH SOẠN ĐỀ CV 7991
 // ============================================================================
 function renderModule3ArchiveBanner() {
   const container = document.getElementById("mod3SemesterExamArchiveBox");
   if (!container || typeof PORTAL_DATA === "undefined") return;
-
   const exams = (PORTAL_DATA.semesterExams || []).filter(e =>
     portalState.mod3ExamGradeFilter === "all" || e.grade === portalState.mod3ExamGradeFilter
   );
-
   container.innerHTML = `
     <div class="card" style="padding:12px 16px; margin-bottom:14px; background:#f8fafc; border:1px solid #cbd5e1;">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
@@ -1643,7 +2346,6 @@ function renderModule3ArchiveBanner() {
           ${portalState.mod3ShowArchive ? '▲ Thu gọn kho đề' : '📂 Xem 97 Đề mẫu (.docx)'}
         </button>
       </div>
-
       ${portalState.mod3ShowArchive ? `
         <div style="margin-top:12px; padding-top:12px; border-top:1px solid #e2e8f0;">
           <div class="clean-tab-bar" style="margin-bottom:10px;">
@@ -1674,7 +2376,6 @@ function renderModule3ArchiveBanner() {
     </div>
   `;
 }
-
 // ============================================================================
 // PHẦN 4: ÔN TẬP HỌC SINH GIỎI (HSG), MÁY TÍNH KĨ THUẬT & 48 MÃ ĐỀ BỘ GD&ĐT
 // ============================================================================
@@ -1697,7 +2398,6 @@ const DONGNAI_HSG_EXAM = {
     { id: 6, grade: "cn10", topic: "Trồng trọt CNC", stem: "Trong hệ thống trồng cây thủy canh kỹ thuật màng dinh dưỡng hồi lưu (NFT), dung dịch dinh dưỡng được tuần hoàn với đặc điểm", options: ["rễ cây ngập sâu hoàn toàn trong bể nước tĩnh không cần sục khí.", "một lớp màng dung dịch dinh dưỡng rất mỏng liên tục chảy qua bộ rễ giúp rễ vừa hút nước vừa hô hấp lấy oxy tối ưu.", "dung dịch dinh dưỡng được bơm phun thành dạng sương mù lơ lửng trong không khí bao quanh rễ cây.", "rễ cây được cố định hoàn toàn trong giá thể đất sét nung và chỉ tưới nước định kỳ một lần mỗi tuần."], answer: 1, explanation: "Kỹ thuật màng dinh dưỡng hồi lưu (NFT - Nutrient Film Technique) cho một dòng chất lỏng rất nông (mỏng như màng) chảy liên tục qua rễ, mặt trên của rễ tiếp xúc không khí để hô hấp oxy tối ưu." },
     { id: 7, grade: "cn10", topic: "Trồng trọt CNC", stem: "Việc che phủ luống cây bằng màng phủ nông nghiệp (nilon đen/bạc) trong trồng rau màu công nghệ cao KHÔNG mang lại tác dụng nào sau đây?", options: ["Hạn chế tối đa sự bốc thoát hơi nước của đất và giữ ẩm ổn định.", "Ngăn cản sự phát triển của cỏ dại do che khuất ánh sáng mặt trời.", "Làm tăng độ chua của đất do tích tụ quá nhiều khí cacbonic.", "Ngăn ngừa xói mòn, rửa trôi dinh dưỡng phân bón khi mưa lớn."], answer: 2, explanation: "Màng phủ nông nghiệp giúp điều hòa nhiệt ẩm, chống cỏ dại, chống rửa trôi chứ không làm tăng độ chua của đất." },
     { id: 8, grade: "cn10", topic: "Trồng trọt CNC", stem: "Cảm biến đo EC (Electrical Conductivity) trong nhà màng tự động được sử dụng nhằm mục đích trực tiếp là", options: ["đo cường độ ánh sáng quang hợp trong tán cây.", "đo tổng nồng độ các ion khoáng hòa tan trong dung dịch dinh dưỡng tưới.", "đo tỷ lệ phần trăm khí CO2 phát thải từ đất.", "phát hiện sự hiện diện của các loại nấm khuẩn gây bệnh rễ."], answer: 1, explanation: "Độ dẫn điện EC (Electrical Conductivity) tỉ lệ thuận với tổng lượng ion muối khoáng hòa tan trong dung dịch dinh dưỡng (ppm/TDS)." },
-
     // Lớp 11 (8 câu: Giống vật nuôi, Thức ăn chăn nuôi, Môi trường chăn nuôi)
     { id: 9, grade: "cn11", topic: "Giống vật nuôi", stem: "Phương pháp chọn lọc cá thể trong công nghệ giống vật nuôi có ưu điểm nổi bật so với chọn lọc hàng loạt là", options: ["thực hiện nhanh chóng, ít tốn kém thời gian và chi phí theo dõi.", "đánh giá chính xác được giá trị giống và tiềm năng di truyền của từng cá thể thông qua kiểm tra năng suất và đời con.", "chỉ áp dụng cho đàn vật nuôi thương phẩm có quy mô hàng triệu con.", "không cần thiết lập sổ sách ghi chép giống của gia phả thế hệ trước."], answer: 1, explanation: "Chọn lọc cá thể theo dõi chặt chẽ từng cá thể kết hợp kiểm tra đời sau nên đánh giá chính xác giá trị kiểu gen, độ di truyền tính trạng." },
     { id: 10, grade: "cn11", topic: "Giống vật nuôi", stem: "Trong chăn nuôi lợn thịt thương phẩm, công thức lai nào sau đây tạo ra con lai 3 máu có ưu thế lai cao nhất về tốc độ tăng khối lượng và tỷ lệ nạc cao?", options: ["Đực Móng Cái × Cái Ỉ.", "Đực Landrace × Cái Yorkshire → F1 (LY); Đực Duroc × Cái F1 (LY) → Lợn thương phẩm D(LY).", "Đực Móng Cái × Cái Landrace → Nuôi thịt trực tiếp.", "Đực Ba Xuyên × Cái Thuần Ỉ → Chọn lọc làm giống thuần."], answer: 1, explanation: "Công thức lai 3 máu ngoại Duroc × (Landrace × Yorkshire) tận dụng ưu thế lai của nái F1 (mắn đẻ, nuôi con khéo) và đực Duroc (tăng trọng cực nhanh, tỷ lệ nạc > 60%)." },
@@ -1707,7 +2407,6 @@ const DONGNAI_HSG_EXAM = {
     { id: 14, grade: "cn11", topic: "Thức ăn chăn nuôi", stem: "Việc ủ chua thức ăn thô xanh (cỏ voi, thân cây ngô) cho trâu, bò nhằm mục đích chính là", options: ["biến protein thực vật thành đạm khoáng vô cơ để trâu bò tiêu hóa nhanh.", "tạo điều kiện cho vi khuẩn Lactic lên men kỵ khí sinh axit lactic làm giảm pH (< 4,2), ức chế vi khuẩn thối rữa và bảo quản lâu dài.", "làm khô hoàn toàn lượng nước trong thân cỏ để giảm chi phí vận chuyển.", "tiêu diệt toàn bộ hệ vi sinh vật dạ cỏ của động vật nhai lại."], answer: 1, explanation: "Lên men lactic yếm khí tạo môi trường axit (pH 3,8 - 4,2) ức chế vi khuẩn lên men thối và nấm mốc, giữ nguyên giá trị dinh dưỡng của cỏ xanh." },
     { id: 15, grade: "cn11", topic: "Môi trường chăn nuôi", stem: "Trong chuồng nuôi kín có kiểm soát vi khí hậu, nồng độ khí amoniac (NH3) tăng cao vượt ngưỡng cho phép chủ yếu bắt nguồn từ", options: ["quá trình hô hấp thải khí của vật nuôi trong điều kiện nhiệt độ thấp.", "sự phân hủy hiếu khí nhanh chóng của chất độn chuồng khô ráo.", "sự phân giải kỵ khí các hợp chất chứa nitơ (axit uric, urê trong phân và nước tiểu) bởi vi sinh vật khi chuồng ẩm ướt, thông gió kém.", "việc sử dụng quạt hút làm mát cưỡng bức hoạt động liên tục."], answer: 2, explanation: "Urê và axit uric trong chất thải bị enzyme urease của vi khuẩn phân giải giải phóng NH3 khi nền chuồng ẩm ướt, đọng phân lâu ngày." },
     { id: 16, grade: "cn11", topic: "Môi trường chăn nuôi", stem: "Biện pháp xử lý chất thải chăn nuôi lợn nào sau đây vừa giúp giảm thiểu ô nhiễm môi trường, diệt mầm bệnh ký sinh trùng, vừa tạo ra nguồn năng lượng tái tạo phục vụ sinh hoạt và phát điện?", options: ["Xả trực tiếp phân tươi vào mương thoát nước thủy lợi công cộng.", "Thu gom phân tươi đem phơi nắng lộ thiên gần khu dân cư.", "Xây dựng công trình hầm khí sinh học Biogas yếm khí kín kết hợp máy phát điện sinh học.", "Chôn lấp chất thải sống chưa qua xử lý trực tiếp xuống tầng nước ngầm."], answer: 2, explanation: "Công nghệ hầm Biogas phân hủy kỵ khí chất thải tiêu diệt trứng giun sán mầm bệnh, đồng thời thu hồi khí mêtan sinh học (CH4) làm năng lượng sạch." },
-
     // Lớp 12 (8 câu: Lâm nghiệp & Thủy sản)
     { id: 17, grade: "cn12", topic: "Lâm nghiệp", stem: "Căn cứ theo Luật Lâm nghiệp 2017, rừng ngập mặn Cần Giờ và rừng phòng hộ đầu nguồn sông Đồng Nai thuộc nhóm rừng nào sau đây?", options: ["Rừng sản xuất gỗ lớn.", "Rừng phòng hộ.", "Rừng công viên giải trí đô thị.", "Rừng cây nông nghiệp chuyên dụng."], answer: 1, explanation: "Rừng ngập mặn chắn sóng ven biển và rừng đầu nguồn giữ nước điều tiết thủy văn đều thuộc nhóm Rừng phòng hộ theo Luật Lâm nghiệp." },
     { id: 18, grade: "cn12", topic: "Lâm nghiệp", stem: "Tiêu chuẩn nào sau đây là quan trọng hàng đầu đối với cây giống lâm nghiệp (như keo lai, bạch đàn) nhân giống bằng nuôi cấy mô hoặc giâm hom khi xuất vườn đem đi trồng rừng?", options: ["Cây cao trên 2 mét, thân phân nhiều cành nhánh xum xuê.", "Cây có bộ rễ cọc đâm thủng đáy bầu đất sâu trên 1 mét vào nền đất vườn ươm.", "Cây sinh trưởng tốt, thân thẳng, đã hóa gỗ phần gốc, đỉnh sinh trưởng lành lặn, bộ rễ nguyên vẹn trong bầu không bị biến dạng, sâu bệnh.", "Cây đang trong giai đoạn ra hoa rộ và kết hạt sai quả."], answer: 2, explanation: "Tiêu chuẩn xuất vườn cây con lâm nghiệp đòi hỏi thân thẳng hóa gỗ ở gốc, không sâu bệnh, bộ rễ đan chặt giữ nguyên bầu đất." },
@@ -1805,20 +2504,16 @@ const DONGNAI_HSG_EXAM = {
     }
   ]
 };
-
-
 function selectDongNaiTable(tbl) {
   portalState.hsgDongNaiTable = tbl;
   renderModule4Hsg();
 }
-
 function chooseDongNaiMcq(qIdx, oIdx) {
   if (portalState.hsgDongNaiSubmitted) return;
   if (!portalState.hsgDongNaiUserMcq) portalState.hsgDongNaiUserMcq = {};
   portalState.hsgDongNaiUserMcq[qIdx] = oIdx;
   renderModule4Hsg();
 }
-
 function chooseDongNaiTf(qIdx, label, val) {
   if (portalState.hsgDongNaiSubmitted) return;
   if (!portalState.hsgDongNaiUserTf) portalState.hsgDongNaiUserTf = {};
@@ -1826,19 +2521,16 @@ function chooseDongNaiTf(qIdx, label, val) {
   portalState.hsgDongNaiUserTf[qIdx][label] = val;
   renderModule4Hsg();
 }
-
 function inputDongNaiExplain(qIdx, label, val) {
   if (!portalState.hsgDongNaiUserExplain) portalState.hsgDongNaiUserExplain = {};
   if (!portalState.hsgDongNaiUserExplain[qIdx]) portalState.hsgDongNaiUserExplain[qIdx] = {};
   portalState.hsgDongNaiUserExplain[qIdx][label] = val;
 }
-
 function submitDongNaiExam() {
   portalState.hsgDongNaiSubmitted = true;
   renderModule4Hsg();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
 function exportDongNaiHsgWord() {
   const exam = DONGNAI_HSG_EXAM;
   const tbl = portalState.hsgDongNaiTable || 'A';
@@ -1861,7 +2553,6 @@ function exportDongNaiHsgWord() {
         ${(q.options || []).map((opt, oIdx) => `&nbsp;&nbsp;<strong>${String.fromCharCode(65 + oIdx)}.</strong> ${escapeHtml(opt)}`).join("<br/>")}
         </p>
       `).join("")}
-
       <h4>PHẦN II. CÂU HỎI ĐÚNG / SAI CÓ GIẢI THÍCH (6,0 điểm)</h4>
       <p><em>Thí sinh trả lời từ câu 1 đến câu 4. Xác định Đúng/Sai và ghi lời giải thích cơ sở khoa học vào phiếu làm bài.</em><br/>
       <strong>Cấu hình chấm đang áp dụng: BẢNG ${tbl}</strong> (${tbl === 'A' ? 'Đúng ý: 0,125đ; Giải thích đúng: +0,25đ' : 'Đúng ý: 0,25đ; Giải thích đúng: +0,125đ'}).</p>
@@ -1870,12 +2561,10 @@ function exportDongNaiHsgWord() {
         ${q.statements.map(st => `&nbsp;&nbsp;<strong>${st.label})</strong> ${escapeHtml(st.text)}`).join("<br/>")}
         </p>
       `).join("")}
-
       <h4>PHẦN III. TỰ LUẬN CHUYÊN SÂU & NÂNG CAO (8,0 điểm)</h4>
       ${exam.essays.map(p => `
         <p><strong>${escapeHtml(p.title)}:</strong><br/>${escapeHtml(p.problem).replace(/\n/g, "<br/>")}</p>
       `).join("")}
-
       <hr/>
       <h3 style="page-break-before:always;">ĐÁP ÁN VÀ HƯỚNG DẪN CHẤM CHI TIẾT</h3>
       <h4>I. Đáp án Phần I (24 câu MCQ - 6,0 điểm)</h4>
@@ -1885,7 +2574,6 @@ function exportDongNaiHsgWord() {
         <tr>${exam.mcqs.slice(12, 24).map((_, i) => `<th style="text-align:center;">Câu ${13 + i}</th>`).join("")}</tr>
         <tr>${exam.mcqs.slice(12, 24).map(q => `<td style="text-align:center;"><strong>${String.fromCharCode(65 + q.answer)}</strong></td>`).join("")}</tr>
       </table>
-
       <h4>II. Hướng dẫn chấm Phần II (Đúng/Sai có giải thích - 6,0 điểm)</h4>
       <table>
         <thead><tr><th>Câu & Ý</th><th>Kết luận</th><th>Căn cứ giải thích khoa học chuẩn</th><th>Điểm Bảng A</th><th>Điểm Bảng B</th></tr></thead>
@@ -1901,7 +2589,6 @@ function exportDongNaiHsgWord() {
           `)).join("")}
         </tbody>
       </table>
-
       <h4>III. Hướng dẫn chấm Phần III (Tự luận - 8,0 điểm)</h4>
       ${exam.essays.map(p => `
         <p><strong>${escapeHtml(p.title)}:</strong></p>
@@ -1915,7 +2602,6 @@ function exportDongNaiHsgWord() {
   a.download = `De-Thi-HSG-Cong-Nghe-Dong-Nai-Bang-${tbl}.doc`;
   a.click();
 }
-
 function exportDongNaiAnswerSheetWord() {
   const exam = DONGNAI_HSG_EXAM;
   const tbl = portalState.hsgDongNaiTable || 'A';
@@ -1940,7 +2626,6 @@ function exportDongNaiAnswerSheetWord() {
           <td>Mã phách: ........................................</td>
         </tr>
       </table>
-
       <table style="width:100%;margin-bottom:15px;text-align:center;">
         <thead>
           <tr><th colspan="3">ĐIỂM TỪNG PHẦN THI (Thang 20 điểm)</th><th rowspan="2">TỔNG ĐIỂM (Bằng số & chữ)</th><th rowspan="2">CHỮ KÝ GIÁM KHẢO</th></tr>
@@ -1953,7 +2638,6 @@ function exportDongNaiAnswerSheetWord() {
           </tr>
         </tbody>
       </table>
-
       <h4>PHẦN I: BẢNG TRẢ LỜI CÂU HỎI TRẮC NGHIỆM (24 câu - 6,0 điểm)</h4>
       <p><em>(Thí sinh khoanh tròn hoặc tô đen một phương án đúng A, B, C hoặc D)</em></p>
       <table>
@@ -1969,7 +2653,6 @@ function exportDongNaiAnswerSheetWord() {
           `).join("")}
         </tbody>
       </table>
-
       <h4 style="margin-top:20px;">PHẦN II: BẢNG TRẢ LỜI ĐÚNG / SAI CÓ GIẢI THÍCH (16 ý - 6,0 điểm)</h4>
       <p><em>(Thí sinh đánh dấu Đ hoặc S vào cột Kết luận VÀ viết lời giải thích ngắn gọn cơ sở khoa học vào dòng bên cạnh)</em></p>
       <table>
@@ -1992,7 +2675,6 @@ function exportDongNaiAnswerSheetWord() {
           `)).join("")}
         </tbody>
       </table>
-
       <h4 style="page-break-before:always;margin-top:20px;">PHẦN III: PHẦN LÀM BÀI TỰ LUẬN (8,0 điểm)</h4>
       <p><em>(Thí sinh viết lời giải chi tiết cho Câu 1, Câu 2 và Câu 3 vào các trang giấy thi tự luận tiếp theo)</em></p>
       <div style="min-height:750px;border:1px dashed #999;padding:15px;line-height:2.2;">
@@ -2013,8 +2695,6 @@ function exportDongNaiAnswerSheetWord() {
   a.download = `Phieu-Lam-Bai-Thi-HSG-Dong-Nai-Bang-${tbl}.doc`;
   a.click();
 }
-
-
 function initHsgQuizPool() {
   if (typeof QUESTION_BANK === "undefined") return;
   const vdcMcqs = QUESTION_BANK.mcq.filter(q =>
@@ -2027,39 +2707,32 @@ function initHsgQuizPool() {
   portalState.hsgUserAnswers = {};
   portalState.hsgSubmitted = false;
 }
-
 function switchMod4MainSection(section) {
   portalState.mod4MainSection = section;
   renderModule4Hsg();
 }
-
 function selectMod4HsgSubTab(tab) {
   portalState.mod4HsgSubTab = tab;
   renderModule4Hsg();
 }
-
 function selectMod4Tab(tab) {
   portalState.mod4HsgSubTab = tab;
   renderModule4Hsg();
 }
-
 function selectMod4Grade(grade) {
   portalState.mod4Grade = grade;
   initHsgQuizPool();
   renderModule4Hsg();
 }
-
 function chooseHsgAnswer(qIdx, oIdx) {
   if (portalState.hsgSubmitted) return;
   portalState.hsgUserAnswers[qIdx] = oIdx;
   renderModule4Hsg();
 }
-
 function submitHsgQuiz() {
   portalState.hsgSubmitted = true;
   renderModule4Hsg();
 }
-
 function exportHsgExamWord() {
   const items = portalState.hsgQuizItems;
   const problems = HSG_SPECIAL_PROBLEMS;
@@ -2095,7 +2768,6 @@ function exportHsgExamWord() {
   a.download = "De-Boi-Duong-HSG-Cong-Nghe-Nong-Nghiep.doc";
   a.click();
 }
-
 // ============================================================================
 // PHÂN HỆ II: LUYỆN THI TỐT NGHIỆP THPT (CHUẨN MẪU BỘ GD&ĐT)
 // Cấu trúc chuẩn Bộ: 24 MCQ (6,0đ) + 4 Đúng/Sai (4,0đ, thang 0.1 - 0.25 - 0.5 - 1.0đ) = 28 câu, 50 phút
@@ -2109,15 +2781,12 @@ function initGradExam(examId) {
   portalState.gradUserTfAnswers = {};
   portalState.gradTimerSeconds = 50 * 60;
   pauseGradTimer();
-
   let cn12Mcqs = (QUESTION_BANK.mcq || []).filter(q => q.grade === "cn12" || (q.unitId && q.unitId.startsWith("cn12")));
   let cn12Tfs = (QUESTION_BANK.tf || []).filter(q => q.grade === "cn12" || (q.unitId && q.unitId.startsWith("cn12")));
   if (cn12Mcqs.length < 24) cn12Mcqs = QUESTION_BANK.mcq || [];
   if (cn12Tfs.length < 4) cn12Tfs = QUESTION_BANK.tf || [];
-
   let selectedMcq = [];
   let selectedTf = [];
-
   if (portalState.gradExamId === "bo_2025_sample") {
     portalState.gradExamTitle = "Đề Tham Khảo Tốt Nghiệp THPT 2025 — Bộ GD&ĐT (Mẫu chuẩn công bố)";
     selectedMcq = cn12Mcqs.slice(0, 24);
@@ -2151,24 +2820,20 @@ function initGradExam(examId) {
     const shuffledTf = [...cn12Tfs].sort(() => Math.random() - 0.5);
     selectedTf = shuffledTf.slice(0, 4);
   }
-
   portalState.gradExamItems = {
     mcq: selectedMcq,
     tf: selectedTf
   };
 }
-
 function selectGradExam(examId) {
   initGradExam(examId);
   portalState.gradExamSubTab = "mock_test";
-  renderModule4Hsg();
+  renderGraduationExamView();
 }
-
 function selectGradSubTab(subTab) {
   portalState.gradExamSubTab = subTab;
-  renderModule4Hsg();
+  renderGraduationExamView();
 }
-
 function toggleGradTimer() {
   if (portalState.gradSubmitted) return;
   if (portalState.gradTimerRunning) {
@@ -2176,9 +2841,8 @@ function toggleGradTimer() {
   } else {
     startGradTimer();
   }
-  renderModule4Hsg();
+  renderGraduationExamView();
 }
-
 function startGradTimer() {
   if (portalState.gradTimerRunning) return;
   portalState.gradTimerRunning = true;
@@ -2193,7 +2857,6 @@ function startGradTimer() {
     }
   }, 1000);
 }
-
 function pauseGradTimer() {
   portalState.gradTimerRunning = false;
   if (portalState.gradTimerInterval) {
@@ -2201,27 +2864,24 @@ function pauseGradTimer() {
     portalState.gradTimerInterval = null;
   }
 }
-
 function updateGradTimerDisplay() {
   const display = document.getElementById("gradTimerText");
   if (!display) return;
   const m = Math.floor(portalState.gradTimerSeconds / 60);
   const s = portalState.gradTimerSeconds % 60;
   display.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  const wrap = display.closest(".mock-timer-display");
+  const wrap = display.closest(".grad-timer-display") || display.closest(".mock-timer-display");
   if (wrap) {
     if (portalState.gradTimerSeconds <= 300) wrap.classList.add("urgent");
     else wrap.classList.remove("urgent");
   }
 }
-
 function chooseGradMcqAnswer(qIdx, oIdx) {
   if (portalState.gradSubmitted) return;
   if (!portalState.gradTimerRunning) startGradTimer();
   portalState.gradUserMcqAnswers[qIdx] = oIdx;
-  renderModule4Hsg();
+  renderGraduationExamView();
 }
-
 function chooseGradTfAnswer(qIdx, label, val) {
   if (portalState.gradSubmitted) return;
   if (!portalState.gradTimerRunning) startGradTimer();
@@ -2229,9 +2889,8 @@ function chooseGradTfAnswer(qIdx, label, val) {
     portalState.gradUserTfAnswers[qIdx] = {};
   }
   portalState.gradUserTfAnswers[qIdx][label] = val;
-  renderModule4Hsg();
+  renderGraduationExamView();
 }
-
 function scrollToGradQuestion(qNum) {
   const el = document.getElementById("grad_q_card_" + qNum);
   if (el) {
@@ -2240,7 +2899,6 @@ function scrollToGradQuestion(qNum) {
     setTimeout(() => { if (el) el.style.outline = ""; }, 1800);
   }
 }
-
 function submitGradExam(force) {
   if (portalState.gradSubmitted) return;
   
@@ -2259,15 +2917,12 @@ function submitGradExam(force) {
       if (typeof userTf[k] === "undefined") unansweredTf++;
     });
   });
-
   if (!force && (unansweredMcq > 0 || unansweredTf > 0)) {
     const confirmMsg = `Bạn còn ${unansweredMcq} câu trắc nghiệm Phần I và ${unansweredTf} lệnh ý Phần II chưa trả lời.\nBạn có chắc chắn muốn nộp bài thi ngay bây giờ không?`;
     if (!confirm(confirmMsg)) return;
   }
-
   pauseGradTimer();
   portalState.gradSubmitted = true;
-
   // 1. Chấm Phần I (24 câu MCQ - 0.25đ/câu = 6.0đ)
   let mcqCorrect = 0;
   let mcqPoints = 0;
@@ -2276,29 +2931,24 @@ function submitGradExam(force) {
   let vdCorrect = 0, vdTotal = 0;
   let lamCorrect = 0, lamTotal = 0;
   let thuyCorrect = 0, thuyTotal = 0;
-
   mcqs.forEach((q, idx) => {
     const userAns = portalState.gradUserMcqAnswers[idx];
     const correctAns = Number(q.answer) || 0;
     const isCorrect = userAns === correctAns;
     if (isCorrect) mcqCorrect++;
-
     const lvl = q.level || "biet";
     if (lvl === "biet") { bietTotal++; if (isCorrect) bietCorrect++; }
     else if (lvl === "hieu") { hieuTotal++; if (isCorrect) hieuCorrect++; }
     else { vdTotal++; if (isCorrect) vdCorrect++; }
-
     const isLam = (q.lesson && q.lesson <= 15) || (q.stem && /rừng|lâm nghiệp|cây gỗ|viên nén/i.test(q.stem));
     if (isLam) { lamTotal++; if (isCorrect) lamCorrect++; }
     else { thuyTotal++; if (isCorrect) thuyCorrect++; }
   });
   mcqPoints = mcqCorrect * 0.25;
-
   // 2. Chấm Phần II (4 câu Đúng/Sai - chuẩn barem Bộ GD&ĐT)
   let tfPoints = 0;
   const tfDetails = [];
   const traps = [];
-
   tfs.forEach((q, idx) => {
     const userTf = portalState.gradUserTfAnswers[idx] || {};
     let stmtCorrectCount = 0;
@@ -2312,7 +2962,6 @@ function submitGradExam(force) {
         stmtCorrectCount++;
       }
     });
-
     // Thang điểm Bộ GD&ĐT: 1 ý = 0.1đ; 2 ý = 0.25đ; 3 ý = 0.5đ; 4 ý = 1.0đ
     let qPoint = 0;
     if (stmtCorrectCount === 1) qPoint = 0.1;
@@ -2322,7 +2971,6 @@ function submitGradExam(force) {
     
     tfPoints += qPoint;
     tfDetails.push({ qIndex: idx, correctStmts: stmtCorrectCount, points: qPoint });
-
     if (stmtCorrectCount === 3) {
       traps.push({
         qNum: 25 + idx,
@@ -2335,7 +2983,6 @@ function submitGradExam(force) {
       });
     }
   });
-
   const totalScore = Number((mcqPoints + tfPoints).toFixed(2));
   
   let rank = "Trung bình";
@@ -2344,7 +2991,6 @@ function submitGradExam(force) {
   else if (totalScore >= 6.5) rank = "Khá (Nắm vững kiến thức nền tảng)";
   else if (totalScore >= 5.0) rank = "Trung bình (Đủ điểm tốt nghiệp)";
   else rank = "Cần cố gắng (Cần ôn tập lại các bài trọng tâm SGK 12)";
-
   portalState.gradScore = {
     totalScore,
     mcqPoints: Number(mcqPoints.toFixed(2)),
@@ -2364,23 +3010,143 @@ function submitGradExam(force) {
     tfDetails,
     timeSpentSeconds: (50 * 60) - portalState.gradTimerSeconds
   };
-
-  renderModule4Hsg();
+  renderGraduationExamView();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+// ============================================================================
+// MODAL XEM TRá»°C TIáº¾P FILE PDF 48 Äá»€ THI CHÃNH THá»¨C Bá»˜ GD&ÄT
+// ============================================================================
+window.openMinistryPdfModal = function(code, serverUrl, fileUrl) {
+  let modal = document.getElementById("ministryPdfModal");
+  if (!modal) {
+    const modalDiv = document.createElement("div");
+    modalDiv.id = "ministryPdfModal";
+    modalDiv.className = "modal-backdrop";
+    modalDiv.style.display = "none";
+    modalDiv.innerHTML = `
+      <div class="modal-box" style="max-width:1100px; width:95%; height:92vh; display:flex; flex-direction:column; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+          <div>
+            <h3 id="ministryPdfModalTitle" style="color:var(--primary-dark); font-size:16.5px; margin:0 0 2px;">ðŸ›ï¸ Äá» Thi ChÃ­nh Thá»©c Bá»™ GD&amp;ÄT</h3>
+            <span id="ministryPdfModalSub" style="font-size:12px; color:var(--text-muted);">28 cÃ¢u chuáº©n Bá»™ â€¢ Thá»i gian lÃ m bÃ i 50 phÃºt</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <a id="ministryPdfModalOpenTab" href="#" target="_blank" class="btn btn-sm btn-outline">ðŸŒ Má»Ÿ tab má»›i</a>
+            <a id="ministryPdfModalDownloadLink" href="#" class="btn btn-sm btn-primary">ðŸ“¥ Táº£i PDF</a>
+            <button class="btn btn-sm btn-outline" onclick="closeMinistryPdfModal()" style="font-weight:700;">âœ• ÄÃ³ng</button>
+          </div>
+        </div>
+        <div style="flex:1; background:#f8fafc; border-radius:8px; overflow:hidden; border:1px solid #cbd5e1; position:relative;">
+          <iframe id="ministryPdfIframe" style="width:100%; height:100%; border:none; background:#fff;" src="about:blank"></iframe>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalDiv);
+    modal = modalDiv;
+  }
+
+  const encodedUrl = encodeURI(serverUrl);
+  const titleEl = document.getElementById("ministryPdfModalTitle");
+  if (titleEl) titleEl.textContent = `ðŸ›ï¸ Äá» Thi ChÃ­nh Thá»©c Bá»™ GD&ÄT 2026 â€” MÃ£ Äá» ${code}`;
+  const subEl = document.getElementById("ministryPdfModalSub");
+  if (subEl) subEl.textContent = `MÃ£ Ä‘á» ${code} â€¢ File PDF Ä‘á» thi gá»‘c Bá»™ GD&ÄT â€¢ Khá»‘i 12 LÃ¢m nghiá»‡p & Thá»§y sáº£n`;
+
+  const iframe = document.getElementById("ministryPdfIframe");
+  if (iframe) iframe.src = encodedUrl;
+
+  const openTab = document.getElementById("ministryPdfModalOpenTab");
+  if (openTab) openTab.href = encodedUrl;
+
+  const downloadLink = document.getElementById("ministryPdfModalDownloadLink");
+  if (downloadLink) {
+    downloadLink.href = encodedUrl;
+    downloadLink.setAttribute("download", `De_Bo_GDDT_${code}.pdf`);
+  }
+
+  modal.style.display = "flex";
+};
+
+window.closeMinistryPdfModal = function() {
+  const modal = document.getElementById("ministryPdfModal");
+  if (modal) modal.style.display = "none";
+  const iframe = document.getElementById("ministryPdfIframe");
+  if (iframe) iframe.src = "about:blank";
+};
+
+// ============================================================================
+// STATE & HÃ€M ÄIá»€U KHIá»‚N Ã”N Táº¬P THEO BÃ€I (KHá»I 12: 27 BÃ€I)
+// ============================================================================
+portalState.selectedGradLessonId = portalState.selectedGradLessonId || "cn12_b1";
+portalState.gradLessonFilter = portalState.gradLessonFilter || "all";
+portalState.gradLessonSearch = portalState.gradLessonSearch || "";
+portalState.gradLessonPracticeAnswers = portalState.gradLessonPracticeAnswers || {};
+portalState.gradLessonShowExplains = portalState.gradLessonShowExplains || {};
+
+window.selectGradLessonItem = function(lessonId) {
+  portalState.selectedGradLessonId = lessonId;
+  portalState.gradLessonPracticeAnswers = {};
+  portalState.gradLessonShowExplains = {};
+  renderGraduationExamView();
+};
+
+window.selectGradLessonFilter = function(filter) {
+  portalState.gradLessonFilter = filter;
+  renderGraduationExamView();
+};
+
+window.filterGradLessons = function(val) {
+  portalState.gradLessonSearch = val;
+  renderGraduationExamView();
+};
+
+window.toggleLessonPracticeAnswer = function(qIdx, optIdx) {
+  portalState.gradLessonPracticeAnswers[qIdx] = optIdx;
+  renderGraduationExamView();
+};
+
+window.toggleLessonPracticeExplain = function(qIdx) {
+  portalState.gradLessonShowExplains[qIdx] = !portalState.gradLessonShowExplains[qIdx];
+  renderGraduationExamView();
+};
+
+window.generateExamFromCurrentLesson = function(lessonNum) {
+  if (typeof QUESTION_BANK === "undefined") return;
+  let cn12Mcqs = (QUESTION_BANK.mcq || []).filter(q => q.grade === "cn12" || (q.unitId && q.unitId.startsWith("cn12")));
+  let cn12Tfs = (QUESTION_BANK.tf || []).filter(q => q.grade === "cn12" || (q.unitId && q.unitId.startsWith("cn12")));
+
+  portalState.gradExamId = "simulated_lesson_" + lessonNum;
+  portalState.gradExamTitle = `Äá» Luyá»‡n Thi 28 CÃ¢u Trá»ng TÃ¢m BÃ i ${lessonNum} (Khá»‘i 12) & Chuáº©n Ma Tráº­n Bá»™ GD&ÄT`;
+  portalState.gradSubmitted = false;
+  portalState.gradScore = null;
+  portalState.gradUserMcqAnswers = {};
+  portalState.gradUserTfAnswers = {};
+  portalState.gradTimerSeconds = 50 * 60;
+
+  const shuffledMcq = [...cn12Mcqs].sort(() => Math.random() - 0.5);
+  const shuffledTf = [...cn12Tfs].sort(() => Math.random() - 0.5);
+
+  portalState.gradExamItems = {
+    mcq: shuffledMcq.slice(0, 24),
+    tf: shuffledTf.slice(0, 4)
+  };
+
+  portalState.gradExamSubTab = "mock_test";
+  startGradTimer();
+  renderGraduationExamView();
+  alert(`ðŸŽ² ÄÃ£ táº¡o thÃ nh cÃ´ng Ä‘á» thi thá»­ 28 cÃ¢u trá»ng tÃ¢m theo BÃ i ${lessonNum}! Báº¡n Ä‘ang á»Ÿ PhÃ²ng Thi Thá»­.`);
+};
+
 
 function generateSimilarGradExam() {
   initGradExam("simulated_auto");
   startGradTimer();
   portalState.gradExamSubTab = "mock_test";
-  renderModule4Hsg();
+  renderGraduationExamView();
 }
-
 function exportGradExamWord() {
   const mcqs = portalState.gradExamItems.mcq || [];
   const tfs = portalState.gradExamItems.tf || [];
   const title = portalState.gradExamTitle || "ĐỀ THI TỐT NGHIỆP THPT MÔN CÔNG NGHỆ NÔNG NGHIỆP";
-
   let html = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
     <head><meta charset="utf-8"><title>${escapeHtml(title)}</title>
@@ -2397,7 +3163,6 @@ function exportGradExamWord() {
         ${(q.options || []).map((opt, oIdx) => `&nbsp;&nbsp;<strong>${String.fromCharCode(65 + oIdx)}.</strong> ${escapeHtml(opt)}`).join("<br/>")}
         </p>
       `).join("")}
-
       <h4>PHẦN II. Câu trắc nghiệm đúng sai (4,0 điểm).</h4>
       <p><em>Thí sinh trả lời từ câu 25 đến câu 28. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.</em></p>
       ${tfs.map((q, i) => `
@@ -2405,7 +3170,6 @@ function exportGradExamWord() {
         ${(q.statements || []).map(st => `&nbsp;&nbsp;<strong>${st.label || st.key})</strong> ${escapeHtml(st.text)}`).join("<br/>")}
         </p>
       `).join("")}
-
       <hr/>
       <h3>HƯỚNG DẪN CHẤM VÀ ĐÁP ÁN CHI TIẾT</h3>
       <h4>I. Bảng Đáp án Phần I (24 câu MCQ - 0,25đ/câu)</h4>
@@ -2415,7 +3179,6 @@ function exportGradExamWord() {
         <tr>${mcqs.slice(12, 24).map((_, i) => `<th>Câu ${13 + i}</th>`).join("")}</tr>
         <tr>${mcqs.slice(12, 24).map(q => `<td><strong>${String.fromCharCode(65 + (Number(q.answer) || 0))}</strong></td>`).join("")}</tr>
       </table>
-
       <h4>II. Bảng Đáp án Phần II (4 câu Đúng/Sai - 4,0 điểm)</h4>
       <p><em>Quy tắc tính điểm Bộ GD&ĐT: Đúng 1 ý = 0,1đ; Đúng 2 ý = 0,25đ; Đúng 3 ý = 0,5đ; Đúng cả 4 ý = 1,0đ.</em></p>
       <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; text-align:center; width:100%;">
@@ -2444,484 +3207,826 @@ function exportGradExamWord() {
   a.download = `${portalState.gradExamId || 'De-Thi-Tot-Nghiep-THPT-CNNN'}.doc`;
   a.click();
 }
+function renderGraduationExamView() {
+  if (portalState.activeModule === 5 || document.getElementById("mod5MainContainer")) {
+    renderModule5Graduation();
+  } else {
+    renderModule4Hsg();
+  }
+}
 
 // ============================================================================
-// HÀM RENDER CHÍNH PHẦN 4: HỆ THỐNG KHẢO THÍ KÉP (HSG & THI TỐT NGHIỆP THPT)
+// HÀM RENDER CHÍNH PHẦN 4: BỒI DƯỠNG HỌC SINH GIỎI (CHUYÊN ĐỀ BẢNG B THPT)
 // ============================================================================
 function renderModule4Hsg() {
   const container = document.getElementById("mod4MainContainer");
   if (!container) return;
+  container.innerHTML = `<div id="hsgMasterRootContainer"></div>`;
+  setTimeout(() => {
+    if (typeof renderDongNaiHsgMaster === "function") {
+      renderDongNaiHsgMaster();
+    }
+  }, 10);
+}
 
-  // Header 2 Phân hệ lớn tinh gọn
-  const navSectionHtml = `
-    <div class="exam-hub-nav">
-      <button class="exam-hub-btn ${portalState.mod4MainSection === 'graduation' ? 'active' : ''}" onclick="switchMod4MainSection('graduation')">
-        <div class="exam-hub-icon">🏛️</div>
-        <div>
-          <div class="exam-hub-title">I. THI TỐT NGHIỆP THPT (CHUẨN MẪU BỘ GD&ĐT)</div>
-          <div class="exam-hub-desc">28 câu (24 Trắc nghiệm + 4 Đúng/Sai) • 50 phút • Chẩn đoán lỗi & 48 Đề Bộ</div>
-        </div>
-      </button>
-      <button class="exam-hub-btn ${portalState.mod4MainSection === 'hsg' ? 'active' : ''}" onclick="switchMod4MainSection('hsg')">
-        <div class="exam-hub-icon">🏆</div>
-        <div>
-          <div class="exam-hub-title">II. BỒI DƯỠNG & ÔN THI HỌC SINH GIỎI (HSG)</div>
-          <div class="exam-hub-desc">Đề HSG Tỉnh (thang 20đ) • Trắc nghiệm VDC • Tự luận Kỹ thuật & Máy tính Nông học</div>
-        </div>
-      </button>
-    </div>
-  `;
-
+// ============================================================================
+// HÀM RENDER CHÍNH PHẦN 5: LUYỆN THI TỐT NGHIỆP THPT (CHUẨN MẪU BỘ GD&ĐT)
+// ============================================================================
+function renderModule5Graduation() {
+  const container = document.getElementById("mod5MainContainer") || document.getElementById("mod4MainContainer");
+  if (!container) return;
   let contentHtml = "";
+  const mcqs = portalState.gradExamItems.mcq || [];
+  const tfs = portalState.gradExamItems.tf || [];
 
-  if (portalState.mod4MainSection === "hsg") {
-    // GIAO DIEN PHAN HE HOC SINH GIOI (HSG) - LIEN KET PORTAL_HSG_MASTER
-    contentHtml = `<div id="hsgMasterRootContainer"></div>`;
-    setTimeout(() => {
-      if (typeof renderDongNaiHsgMaster === "function") {
-        renderDongNaiHsgMaster();
-      }
-    }, 10);
-  } else {
-    // -------------------------------------------------------------
-    // GIAO DIỆN PHÂN HỆ LUYỆN THI TỐT NGHIỆP THPT (CHUẨN BỘ GD&ĐT)
-    // -------------------------------------------------------------
-    const mcqs = portalState.gradExamItems.mcq || [];
-    const tfs = portalState.gradExamItems.tf || [];
+  // Đếm câu đã làm
+  let doneMcq = 0;
+  mcqs.forEach((_, idx) => {
+    if (typeof portalState.gradUserMcqAnswers[idx] !== "undefined") doneMcq++;
+  });
+  let doneTf = 0;
+  tfs.forEach((q, idx) => {
+    const userTf = portalState.gradUserTfAnswers[idx] || {};
+    const stmts = q.statements || [];
+    const hasAny = stmts.some(st => typeof userTf[st.label || st.key] !== "undefined");
+    if (hasAny) doneTf++;
+  });
+  const totalDone = doneMcq + doneTf;
 
-    // Đếm câu đã làm
-    let doneMcq = 0;
-    mcqs.forEach((_, idx) => {
-      if (typeof portalState.gradUserMcqAnswers[idx] !== "undefined") doneMcq++;
-    });
-    let doneTf = 0;
-    tfs.forEach((q, idx) => {
-      const userTf = portalState.gradUserTfAnswers[idx] || {};
-      const stmts = q.statements || [];
-      const hasAny = stmts.some(st => typeof userTf[st.label || st.key] !== "undefined");
-      if (hasAny) doneTf++;
-    });
-    const totalDone = doneMcq + doneTf;
+  const timerSec = typeof portalState.gradTimerSeconds === "number" ? portalState.gradTimerSeconds : 3000;
+  const m = Math.floor(timerSec / 60);
+  const s = timerSec % 60;
+  const timeFormatted = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
-    let gradBody = "";
+  let gradBody = "";
 
-    if (portalState.gradExamSubTab === "mock_test") {
-      // 1. PHÒNG THI THỬ TRỰC TUYẾN
-      gradBody = `
-        <!-- Thẻ chọn đề thi gọn gàng -->
-        <div class="exam-pill-grid">
-          <button class="exam-select-card ${portalState.gradExamId === 'bo_2025_sample' ? 'active' : ''}" onclick="selectGradExam('bo_2025_sample')">
-            <span class="exam-select-badge">MẪU BỘ 2025</span>
-            <strong>Đề Tham Khảo Bộ GD&ĐT</strong>
-          </button>
-          <button class="exam-select-card ${portalState.gradExamId === 'bo_2026_0701' ? 'active' : ''}" onclick="selectGradExam('bo_2026_0701')">
-            <span class="exam-select-badge">MÃ ĐỀ 0701</span>
-            <strong>Đề Chính Thức Bộ GD&ĐT</strong>
-          </button>
-          <button class="exam-select-card ${portalState.gradExamId === 'bo_2026_0702' ? 'active' : ''}" onclick="selectGradExam('bo_2026_0702')">
-            <span class="exam-select-badge">MÃ ĐỀ 0702</span>
-            <strong>Đề Chính Thức Bộ GD&ĐT</strong>
-          </button>
-          <button class="exam-select-card ${portalState.gradExamId === 'simulated_03' ? 'active' : ''}" onclick="selectGradExam('simulated_03')">
-            <span class="exam-select-badge">MÔ PHỎNG 03</span>
-            <strong>Đề Chuẩn Ma Trận 2026</strong>
-          </button>
-          <button class="exam-select-card ${portalState.gradExamId === 'simulated_auto' ? 'active' : ''}" onclick="selectGradExam('simulated_auto')">
-            <span class="exam-select-badge">SINH ĐỀ MỚI</span>
-            <strong>🎲 Đề Ngẫu Nhiên Mới</strong>
-          </button>
-        </div>
+  if (portalState.gradExamSubTab === "mock_test") {
+    // =========================================================================
+    // 1. PHÒNG THI THỬ TRỰC TUYẾN (BỐ CỤC 2 CỘT 70% - 30%)
+    // =========================================================================
+    gradBody = `
+      <!-- Thanh 5 Thẻ Chọn Đề Thi Tinh Gọn Trên 1 Hàng -->
+      <div class="grad-exam-selector-strip">
+        <button class="grad-exam-card ${portalState.gradExamId === 'bo_2025_sample' ? 'active' : ''}" onclick="selectGradExam('bo_2025_sample')">
+          <span class="grad-exam-tag">MẪU BỘ 2025</span>
+          <span class="grad-exam-name">Đề Tham Khảo Bộ GD&amp;ĐT</span>
+        </button>
+        <button class="grad-exam-card ${portalState.gradExamId === 'bo_2026_0701' ? 'active' : ''}" onclick="selectGradExam('bo_2026_0701')">
+          <span class="grad-exam-tag">MÃ ĐỀ 0701</span>
+          <span class="grad-exam-name">Đề Chính Thức 0701</span>
+        </button>
+        <button class="grad-exam-card ${portalState.gradExamId === 'bo_2026_0702' ? 'active' : ''}" onclick="selectGradExam('bo_2026_0702')">
+          <span class="grad-exam-tag">MÃ ĐỀ 0702</span>
+          <span class="grad-exam-name">Đề Chính Thức 0702</span>
+        </button>
+        <button class="grad-exam-card ${portalState.gradExamId === 'simulated_03' ? 'active' : ''}" onclick="selectGradExam('simulated_03')">
+          <span class="grad-exam-tag">MÔ PHỎNG 03</span>
+          <span class="grad-exam-name">Đề Chuẩn Ma Trận 2026</span>
+        </button>
+        <button class="grad-exam-card ${portalState.gradExamId === 'simulated_auto' ? 'active' : ''}" onclick="selectGradExam('simulated_auto')">
+          <span class="grad-exam-tag special">SINH TỰ ĐỘNG</span>
+          <span class="grad-exam-name">🎲 Sinh Đề Ngẫu Nhiên Mới</span>
+        </button>
+      </div>
 
-        <!-- Sticky Control Bar -->
-        <div class="mock-control-sticky">
-          <div>
-            <div style="font-weight:800; font-size:14.5px; color:var(--primary-dark);">${escapeHtml(portalState.gradExamTitle)}</div>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
-              Thời gian: <strong>50 phút</strong> • Tổng số câu: <strong>28 câu (24 MCQ + 4 Đúng/Sai)</strong> • Thang điểm: <strong>10,0 điểm</strong>
+      <!-- BỐ CỤC 2 CỘT (Cột trái 70% - Cột phải Sticky 30%) -->
+      <div class="grad-layout-2col">
+        
+        <!-- CỘT TRÁI (70%): TIÊU ĐỀ & DANH SÁCH CÂU HỎI -->
+        <div class="grad-left-col">
+          <div class="grad-exam-headline">
+            <div>
+              <h3>${escapeHtml(portalState.gradExamTitle)}</h3>
+              <span class="grad-exam-subtext">50 phút • 28 câu (24 MCQ + 4 Đúng/Sai) • Thang điểm 10,0</span>
             </div>
           </div>
-          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-            <div class="mock-timer-display" title="Đồng hồ đếm ngược 50 phút">
-              <span>⏱️</span>
-              <span id="gradTimerText">50:00</span>
-              <button class="btn btn-sm" style="padding:2px 8px; font-size:11px; background:#334155; color:#fff;" onclick="toggleGradTimer()">
-                ${portalState.gradTimerRunning ? '⏸️ Tạm dừng' : '▶️ Bắt đầu'}
-              </button>
+
+          <!-- Banner kết quả nếu đã nộp -->
+          ${portalState.gradSubmitted && portalState.gradScore ? `
+            <div class="audit-score-banner" style="margin-bottom:16px;">
+              <div>
+                <span class="badge badge-ok" style="font-size:12px;">ĐÃ HOÀN THÀNH BÀI THI</span>
+                <div style="font-size:22px; font-weight:800; color:var(--primary-dark); margin:4px 0 2px;">
+                  Tổng điểm: ${portalState.gradScore.totalScore} / 10,00 điểm — ${escapeHtml(portalState.gradScore.rank)}
+                </div>
+                <div style="font-size:13px; color:var(--text-muted); line-height:1.5;">
+                  • Điểm Phần I: <strong>${portalState.gradScore.mcqPoints}/6,0đ</strong> (${portalState.gradScore.mcqCorrect}/24 câu đúng)<br/>
+                  • Điểm Phần II: <strong>${portalState.gradScore.tfPoints}/4,0đ</strong> (Barem chuẩn Bộ: 0.1 - 0.25 - 0.5 - 1.0đ)
+                </div>
+                ${Number(portalState.gradScore.totalScore) < 8.0 ? `
+                  <div style="margin-top:8px; padding:8px 12px; background:#fff1f2; border:1px solid #fecdd3; border-radius:6px; font-size:12.5px; color:#be123c;">
+                    ⚠️ <strong>Điểm chưa đạt mục tiêu (${portalState.gradScore.totalScore}/10,0đ)?</strong> Đừng nản lòng! Bấm nút <strong>"Tạo Đề Mới (Khi Chưa Đạt)"</strong> bên cạnh để hệ thống bốc ngay một đề 28 câu mới rèn luyện lại!
+                  </div>
+                ` : `
+                  <div style="margin-top:8px; padding:8px 12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; font-size:12.5px; color:#15803d;">
+                    🎉 <strong>Xuất sắc!</strong> Bạn đã nắm vững cấu trúc ma trận. Hãy thử sức thêm với các đề mô phỏng hoặc đề tự sinh mới.
+                  </div>
+                `}
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px; min-width:210px;">
+                <button class="btn btn-primary btn-sm" style="background:#2563eb; font-weight:700;" onclick="generateSimilarGradExam(); alert('🎲 Đã tạo ngẫu nhiên đề thi 28 câu mới chuẩn ma trận Bộ GD&amp;ĐT!');">
+                  🎲 Tạo Đề Mới (Khi Chưa Đạt)
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="selectGradSubTab('analysis')">
+                  📊 Xem Báo Cáo Ma Trận &amp; Lỗi Sai
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="selectGradSubTab('lesson_review')">
+                  📖 Ôn Lại Lý Thuyết Theo Bài
+                </button>
+              </div>
             </div>
-            <span class="badge ${totalDone === 28 ? 'badge-ok' : 'badge-nl'}" style="font-size:13px; padding:6px 12px;">
-              Đã làm: <strong>${totalDone}/28 câu</strong>
-            </span>
+          ` : ''}
+
+          <!-- PHẦN I. CÂU HỎI TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN -->
+          <div class="grad-section-banner">
+            <h4>PHẦN I. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (6,0 điểm)</h4>
+            <p>Thí sinh trả lời từ câu 1 đến câu 24 • Mỗi câu hỏi chỉ chọn một phương án • Mỗi câu đúng được 0,25 điểm</p>
+          </div>
+
+          ${mcqs.map((q, idx) => {
+            const userAns = portalState.gradUserMcqAnswers[idx];
+            const correctAns = Number(q.answer) || 0;
+            const isCorrect = userAns === correctAns;
+            return `
+              <div class="q-card" id="grad_q_card_${idx + 1}" style="margin-bottom:14px;">
+                <div class="q-card-header" style="padding-bottom:8px; margin-bottom:10px;">
+                  <div>
+                    <strong>Câu ${idx + 1}:</strong>
+                    <span class="badge ${q.level === 'vandung' ? 'badge-vandung' : (q.level === 'hieu' ? 'badge-hieu' : 'badge-biet')}">
+                      ${q.level === 'vandung' ? 'Vận dụng' : (q.level === 'hieu' ? 'Thông hiểu' : 'Nhận biết')}
+                    </span>
+                    <span class="badge badge-nl">${(q.lesson && q.lesson <= 15) ? 'Lâm nghiệp' : 'Thủy sản'}</span>
+                  </div>
+                  ${portalState.gradSubmitted ? (
+                    isCorrect
+                      ? `<span class="badge badge-ok">✓ Đúng (+0,25đ)</span>`
+                      : `<span class="badge badge-err">✗ Sai (Đáp án: ${String.fromCharCode(65 + correctAns)})</span>`
+                  ) : ''}
+                </div>
+                <div style="font-weight:600; margin-bottom:8px; font-size:14.5px;">${escapeHtml(q.stem)}</div>
+                <div class="options-grid">
+                  ${(q.options || []).map((opt, oIdx) => {
+                    let cls = "opt-item";
+                    if (portalState.gradSubmitted && oIdx === correctAns) cls += " correct";
+                    else if (userAns === oIdx) cls += " correct";
+                    return `
+                      <div class="${cls}" style="cursor:pointer; ${portalState.gradSubmitted && userAns === oIdx && !isCorrect ? 'background:#fee2e2; border-color:#ef4444;' : ''}" onclick="chooseGradMcqAnswer(${idx}, ${oIdx})">
+                        <input type="radio" name="grad_mcq_${idx}" ${userAns === oIdx ? 'checked' : ''} />
+                        <strong>${String.fromCharCode(65 + oIdx)}.</strong>
+                        <span>${escapeHtml(opt)}</span>
+                      </div>
+                    `;
+                  }).join("")}
+                </div>
+                ${portalState.gradSubmitted ? `
+                  <div style="margin-top:8px; padding:8px 12px; background:#f0fdf4; border-radius:6px; font-size:13px; color:#166534;">
+                    <strong>💡 Lời giải chi tiết:</strong> Phương án <strong>${String.fromCharCode(65 + correctAns)}</strong> đúng. ${escapeHtml(q.explanation || 'Đối chiếu chuẩn kiến thức SGK Công nghệ 12 Kết nối tri thức.')}
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join("")}
+
+          <!-- PHẦN II. CÂU HỎI TRẮC NGHIỆM ĐÚNG SAI -->
+          <div class="grad-section-banner grad-section-banner-tf">
+            <h4>PHẦN II. CÂU TRẮC NGHIỆM ĐÚNG SAI (4,0 điểm)</h4>
+            <p>Từ câu 25 đến câu 28 • Thí sinh chọn đúng hoặc sai trong mỗi ý a, b, c, d • Đúng 1 ý: 0,1đ • Đúng 2 ý: 0,25đ • Đúng 3 ý: 0,5đ • Đúng 4 ý: 1,0đ</p>
+          </div>
+
+          ${tfs.map((q, idx) => {
+            const qNum = 25 + idx;
+            const userTf = portalState.gradUserTfAnswers[idx] || {};
+            const stmts = q.statements || [];
+            let correctCount = 0;
+            stmts.forEach(st => {
+              const k = st.label || st.key;
+              const corr = Boolean(st.isTrue || st.answer);
+              if (userTf[k] === corr) correctCount++;
+            });
+            let earnedPt = 0;
+            if (correctCount === 1) earnedPt = 0.1;
+            else if (correctCount === 2) earnedPt = 0.25;
+            else if (correctCount === 3) earnedPt = 0.5;
+            else if (correctCount === 4) earnedPt = 1.0;
+            return `
+              <div class="q-card" id="grad_q_card_${qNum}" style="margin-bottom:14px;">
+                <div class="q-card-header" style="padding-bottom:8px; margin-bottom:10px;">
+                  <div>
+                    <strong>Câu ${qNum}:</strong>
+                    <span class="badge badge-nl">Trắc nghiệm Đúng/Sai (4 ý)</span>
+                    <span class="badge badge-vandung">Phân hóa cao</span>
+                  </div>
+                  ${portalState.gradSubmitted ? `
+                    <span class="badge ${earnedPt >= 0.5 ? 'badge-ok' : 'badge-err'}">
+                      Đúng ${correctCount}/4 ý (+${earnedPt.toFixed(2)}đ)
+                    </span>
+                  ` : ''}
+                </div>
+                <div style="font-weight:600; margin-bottom:10px; font-size:14px; background:#f8fafc; padding:10px 12px; border-radius:6px; border:1px solid #e2e8f0;">
+                  ${escapeHtml(q.context || q.stem || '')}
+                </div>
+                <table class="tf-exam-table">
+                  <thead>
+                    <tr>
+                      <th style="width:40px; text-align:center;">Lệnh</th>
+                      <th>Nội dung nhận định</th>
+                      <th style="width:170px; text-align:center;">Lựa chọn của bạn</th>
+                      ${portalState.gradSubmitted ? `<th style="width:140px; text-align:center;">Đáp án &amp; Giải thích</th>` : ''}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${stmts.map(st => {
+                      const k = st.label || st.key;
+                      const corr = Boolean(st.isTrue || st.answer);
+                      const userVal = userTf[k];
+                      return `
+                        <tr>
+                          <td style="text-align:center; font-weight:800;">${escapeHtml(k)})</td>
+                          <td>${escapeHtml(st.text)}</td>
+                          <td>
+                            <div class="tf-btn-group">
+                              <button type="button" class="tf-choice-btn btn-true ${userVal === true ? 'selected' : ''}" onclick="chooseGradTfAnswer(${idx}, '${k}', true)">
+                                ĐÚNG
+                              </button>
+                              <button type="button" class="tf-choice-btn btn-false ${userVal === false ? 'selected' : ''}" onclick="chooseGradTfAnswer(${idx}, '${k}', false)">
+                                SAI
+                              </button>
+                            </div>
+                          </td>
+                          ${portalState.gradSubmitted ? `
+                            <td style="font-size:12px;">
+                              <strong>Đáp án: ${corr ? '<span style="color:#16a34a;">ĐÚNG</span>' : '<span style="color:#dc2626;">SAI</span>'}</strong>
+                              <div style="color:var(--text-muted); margin-top:3px;">${escapeHtml(st.explanation || '')}</div>
+                            </td>
+                          ` : ''}
+                        </tr>
+                      `;
+                    }).join("")}
+                  </tbody>
+                </table>
+              </div>
+            `;
+          }).join("")}
+        </div>
+
+        <!-- CỘT PHẢI (30%): BẢNG ĐIỀU KHIỂN CỐ ĐỊNH (STICKY SIDEBAR) -->
+        <div class="grad-sticky-sidebar">
+          <div class="grad-sidebar-timer-box">
+            <div class="grad-timer-display" title="Thời gian còn lại">
+              <span>⏱️</span>
+              <span id="gradTimerText">${timeFormatted}</span>
+            </div>
+            <button class="btn btn-sm btn-outline-minimal" style="padding:4px 8px; font-size:12px;" onclick="toggleGradTimer()">
+              ${portalState.gradTimerRunning ? '⏸️ Tạm dừng' : '▶️ Bắt đầu'}
+            </button>
+          </div>
+
+          <div class="grad-progress-section">
+            <div class="grad-progress-label">
+              <span>Tiến độ làm bài</span>
+              <strong>${totalDone}/28 câu</strong>
+            </div>
+            <div class="grad-progress-track">
+              <div class="grad-progress-fill" style="width: ${Math.round((totalDone / 28) * 100)}%;"></div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:14px;">
             ${!portalState.gradSubmitted ? `
-              <button class="btn btn-primary btn-sm" onclick="submitGradExam(false)" style="font-weight:700;">
+              <button class="grad-btn-submit-main" onclick="submitGradExam(false)">
                 ✅ Nộp Bài Thi
               </button>
+              <button class="btn btn-outline-minimal" style="margin-top:6px; width:100%; justify-content:center; color:#2563eb; border-color:#93c5fd; font-weight:700;" onclick="generateSimilarGradExam(); alert('🎲 Đã tạo ngẫu nhiên đề thi 28 câu mới chuẩn ma trận Bộ GD&amp;ĐT!');">
+                🎲 Tạo Đề Mới (Khi Chưa Đạt)
+              </button>
             ` : `
-              <button class="btn btn-primary btn-sm" onclick="selectGradSubTab('analysis')">
+              <button class="grad-btn-submit-main" onclick="selectGradSubTab('analysis')">
                 📊 Xem Phân Tích Đề
               </button>
-              <button class="btn btn-outline btn-sm" onclick="initGradExam(portalState.gradExamId); renderModule4Hsg();">
-                🔄 Làm lại từ đầu
+              <button class="btn btn-primary" style="margin-top:6px; width:100%; justify-content:center; background:#2563eb; font-weight:700;" onclick="generateSimilarGradExam(); alert('🎲 Đã tạo đề thi thử mới! Chúc bạn đạt điểm cao hơn!');">
+                🎲 Tạo Đề Mới Thử Sức Lại
+              </button>
+              <button class="btn btn-outline-minimal" style="margin-top:6px; width:100%; justify-content:center;" onclick="initGradExam(portalState.gradExamId); renderGraduationExamView();">
+                🔄 Làm lại đề này
               </button>
             `}
-            <button class="btn btn-accent btn-sm" onclick="exportGradExamWord()">📥 Xuất Đề (.doc)</button>
           </div>
-        </div>
 
-        <!-- Palette điều hướng nhanh 28 câu hỏi -->
-        <div class="mock-palette">
-          <span style="font-size:12px; font-weight:700; color:var(--text-muted); align-self:center; margin-right:6px;">Nhảy nhanh:</span>
-          <span style="font-size:11px; color:#475569; align-self:center; margin-right:4px;">Phần I:</span>
-          ${mcqs.map((_, i) => {
-            const isDone = typeof portalState.gradUserMcqAnswers[i] !== "undefined";
-            return `<button class="mock-palette-btn ${isDone ? 'done' : ''}" onclick="scrollToGradQuestion(${i + 1})">${i + 1}</button>`;
-          }).join("")}
-          <span style="font-size:11px; color:#475569; align-self:center; margin:0 4px 0 10px;">Phần II:</span>
-          ${tfs.map((q, i) => {
-            const userTf = portalState.gradUserTfAnswers[i] || {};
-            const isDone = (q.statements || []).every(st => typeof userTf[st.label || st.key] !== "undefined");
-            return `<button class="mock-palette-btn ${isDone ? 'done' : ''}" style="background:${isDone ? '#0f766e' : '#fff'};" onclick="scrollToGradQuestion(${25 + i})">${25 + i}</button>`;
-          }).join("")}
-        </div>
-
-        <!-- Banner kết quả nếu đã nộp -->
-        ${portalState.gradSubmitted && portalState.gradScore ? `
-          <div class="audit-score-banner" style="margin-bottom:20px;">
-            <div>
-              <span class="badge badge-ok" style="font-size:13px;">ĐÃ HOÀN THÀNH BÀI THI CHUẨN BỘ GD&ĐT</span>
-              <div style="font-size:24px; font-weight:800; color:var(--primary-dark); margin:6px 0 2px;">
-                Tổng điểm: ${portalState.gradScore.totalScore} / 10,00 điểm
-              </div>
-              <div style="font-size:13.5px; color:var(--text-muted);">
-                • Điểm Phần I (Trắc nghiệm): <strong>${portalState.gradScore.mcqPoints} / 6,00đ</strong> (${portalState.gradScore.mcqCorrect}/24 câu đúng)<br/>
-                • Điểm Phần II (Đúng/Sai): <strong>${portalState.gradScore.tfPoints} / 4,00đ</strong> (Tính chuẩn barem: 0.1 - 0.25 - 0.5 - 1.0đ)<br/>
-                • Xếp loại: <strong>${escapeHtml(portalState.gradScore.rank)}</strong>
-              </div>
+          <div>
+            <div class="grad-palette-title">
+              <span>Bảng nhảy nhanh</span>
+              <span style="font-size:11px; font-weight:600; color:#94a3b8;">4 cột x 7 hàng</span>
             </div>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <button class="btn btn-primary" onclick="selectGradSubTab('analysis')">
-                📊 Bấm Xem Phân Tích Ma Trận & Lỗi Sai
-              </button>
-              <button class="btn btn-accent" onclick="generateSimilarGradExam()">
-                ⚡ Tạo & Làm Đề Tương Tự Ngay
-              </button>
+            <div class="grad-palette-grid-4x7">
+              ${mcqs.map((_, i) => {
+                const isDone = typeof portalState.gradUserMcqAnswers[i] !== "undefined";
+                return `<button class="grad-palette-btn ${isDone ? 'done' : ''}" onclick="scrollToGradQuestion(${i + 1})" title="Câu ${i + 1} (Phần I)">${i + 1}</button>`;
+              }).join("")}
+              ${tfs.map((q, i) => {
+                const userTf = portalState.gradUserTfAnswers[i] || {};
+                const isDone = (q.statements || []).every(st => typeof userTf[st.label || st.key] !== "undefined");
+                return `<button class="grad-palette-btn tf ${isDone ? 'done-tf' : ''}" onclick="scrollToGradQuestion(${25 + i})" title="Câu ${25 + i} (Phần II - Đúng/Sai)">${25 + i}</button>`;
+              }).join("")}
             </div>
           </div>
-        ` : ''}
-
-        <!-- PHẦN I. CÂU HỎI TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN -->
-        <div style="margin:20px 0 14px; padding:10px 14px; background:#eff6ff; border-left:4px solid var(--info); border-radius:6px;">
-          <h3 style="font-size:15px; color:#1e3a8a; margin-bottom:2px;">PHẦN I. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (6,0 điểm)</h3>
-          <p style="font-size:12.5px; color:#475569;">Thí sinh trả lời từ câu 1 đến câu 24. Mỗi câu hỏi chỉ chọn một phương án. Mỗi câu đúng được 0,25 điểm.</p>
         </div>
+      </div>
+    `;
+  } else if (portalState.gradExamSubTab === "lesson_review") {
+    // =========================================================================
+    // 2. TỔNG HỢP KIẾN THỨC LIÊN QUAN ĐỂ ÔN THEO BÀI (KHỐI 12: 27 BÀI)
+    // =========================================================================
+    const allCn12Lessons = (PORTAL_DATA.lessons || []).filter(l => l.grade === "cn12" || (l.id && l.id.startsWith("cn12_")));
+    
+    // Áp dụng bộ lọc
+    const filter = portalState.gradLessonFilter || "all";
+    const search = (portalState.gradLessonSearch || "").trim().toLowerCase();
 
-        ${mcqs.map((q, idx) => {
-          const userAns = portalState.gradUserMcqAnswers[idx];
-          const correctAns = Number(q.answer) || 0;
-          const isCorrect = userAns === correctAns;
-          return `
-            <div class="q-card" id="grad_q_card_${idx + 1}">
-              <div class="q-card-header">
-                <div>
-                  <strong>Câu ${idx + 1}:</strong>
-                  <span class="badge ${q.level === 'vandung' ? 'badge-vandung' : (q.level === 'hieu' ? 'badge-hieu' : 'badge-biet')}">
-                    ${q.level === 'vandung' ? 'Vận dụng' : (q.level === 'hieu' ? 'Thông hiểu' : 'Nhận biết')}
-                  </span>
-                  <span class="badge badge-nl">${(q.lesson && q.lesson <= 15) ? 'Lâm nghiệp' : 'Thủy sản'}</span>
+    const filteredLessons = allCn12Lessons.filter(l => {
+      const isLam = (l.lesson <= 15) || (l.chapter && l.chapter.toLowerCase().includes("lâm"));
+      if (filter === "lam" && !isLam) return false;
+      if (filter === "thuy" && isLam) return false;
+      if (search) {
+        const text = (l.title + " " + (l.chapter || "") + " " + (l.summaryPoints || []).join(" ")).toLowerCase();
+        if (!text.includes(search)) return false;
+      }
+      return true;
+    });
+
+    // Lấy bài học đang chọn
+    let curLesson = allCn12Lessons.find(l => l.id === portalState.selectedGradLessonId);
+    if (!curLesson && allCn12Lessons.length > 0) curLesson = allCn12Lessons[0];
+    const curIsLam = curLesson ? (curLesson.lesson <= 15) : true;
+
+    // Lấy 5 câu hỏi trắc nghiệm thực hành theo bài
+    let lessonPracticeQuestions = [];
+    if (typeof QUESTION_BANK !== "undefined" && QUESTION_BANK.mcq && curLesson) {
+      const allQ = QUESTION_BANK.mcq.filter(q => q.grade === "cn12" || (q.unitId && q.unitId.startsWith("cn12")));
+      // Tìm câu khớp bài hoặc khớp topic
+      const topicNum = Math.min(10, Math.ceil(curLesson.lesson / 2.7));
+      const targetUnit = `cn12_${topicNum}`;
+      lessonPracticeQuestions = allQ.filter(q => q.lesson === curLesson.lesson || q.unitId === targetUnit);
+      if (lessonPracticeQuestions.length < 5) {
+        lessonPracticeQuestions = [...lessonPracticeQuestions, ...allQ.filter(q => !lessonPracticeQuestions.includes(q))].slice(0, 5);
+      } else {
+        lessonPracticeQuestions = lessonPracticeQuestions.slice(0, 5);
+      }
+    }
+
+    // Tra cứu bẫy đề thi theo chuyên đề
+    const pitfalls = curIsLam ? [
+      {
+        title: "Bẫy phân biệt Rừng phòng hộ, Rừng đặc dụng và Rừng sản xuất",
+        desc: "Đề thi hay gài các câu Đúng/Sai như: 'Rừng phòng hộ ven biển được thành lập nhằm mục đích chính là khai thác gỗ lớn xuất khẩu' (SAI - mục đích chính là chắn gió, chắn sóng, cố định cồn cát) hoặc 'Vườn quốc gia là rừng phòng hộ' (SAI - là rừng đặc dụng)."
+      },
+      {
+        title: "Bẫy thời vụ và kỹ thuật chăm sóc cây con trong vườn ươm",
+        desc: "Cần lưu ý: Giai đoạn mới gieo ươm cây con cần che bóng 50-70%, nhưng trước khi xuất vườn 2-4 tuần BẮT BUỘC phải dỡ bỏ dần giàn che và đảo bầu để cây thích nghi với điều kiện nắng gió tự nhiên ngoài hiện trường."
+      },
+      {
+        title: "Bẫy phương thức khai thác trắng và phục hồi rừng",
+        desc: "Khai thác trắng chỉ được phép áp dụng ở rừng trồng sản xuất thuần loài và BẮT BUỘC chủ rừng phải trồng lại rừng ngay trong mùa vụ kế tiếp (không quá 12 tháng), không được để đất trống đồi trọc gây rửa trôi xói mòn."
+      }
+    ] : [
+      {
+        title: "Bẫy ngưỡng các chỉ số môi trường ao nuôi thủy sản",
+        desc: "Hàm lượng Oxy hòa tan (DO) tối ưu phải ≥ 4,0 mg/L (nếu < 2,0 mg/L cá tôm nổi đầu ngạt thở). pH tối ưu từ 7,5 - 8,5 (nếu pH < 6,5 gây độc phèn, pH > 9,0 gây độc khí NH3). Đề thi hay bẫy số liệu để kiểm tra kiến thức kỹ thuật."
+      },
+      {
+        title: "Bẫy phân loại thức ăn công nghiệp vs thức ăn tự nhiên",
+        desc: "Thức ăn tự nhiên (sinh vật phù du, động vật đáy, rong tảo) đóng vai trò quyết định ở giai đoạn cá bột, cá hương, ấu trùng tôm. Thức ăn hỗn hợp dạng viên nổi/chìm KHÔNG THỂ thay thế hoàn toàn thức ăn tươi sống ở giai đoạn đầu đời."
+      },
+      {
+        title: "Bẫy phòng trị bệnh: Kháng sinh KHÔNG diệt được Virus",
+        desc: "Nguyên tắc vàng: 'Phòng bệnh là chính'. Khi tôm cá mắc bệnh do Virus (như bệnh đốm trắng WSSV, đầu vàng YHV, hội chứng Taura), TUYỆT ĐỐI KHÔNG dùng kháng sinh vì kháng sinh chỉ tác dụng với vi khuẩn; dùng bừa bãi gây kháng thuốc và tồn dư cấm xuất khẩu."
+      }
+    ];
+
+    gradBody = `
+      <div class="grad-lesson-layout">
+        <!-- CỘT TRÁI: DANH SÁCH 27 BÀI HỌC VÀ BỘ LỌC -->
+        <div class="grad-lesson-sidebar">
+          <div style="font-weight:700; color:var(--primary-dark); font-size:14.5px; margin-bottom:8px;">
+            📚 27 Bài Học Khối 12 (KNTT)
+          </div>
+          
+          <!-- Bộ lọc 3 Pill -->
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px; margin-bottom:10px;">
+            <button class="btn btn-sm ${filter === 'all' ? 'btn-primary' : 'btn-outline'}" style="font-size:11px; padding:4px 6px;" onclick="selectGradLessonFilter('all')">
+              Tất cả (27)
+            </button>
+            <button class="btn btn-sm ${filter === 'lam' ? 'btn-primary' : 'btn-outline'}" style="font-size:11px; padding:4px 6px;" onclick="selectGradLessonFilter('lam')">
+              🌲 Lâm (15)
+            </button>
+            <button class="btn btn-sm ${filter === 'thuy' ? 'btn-primary' : 'btn-outline'}" style="font-size:11px; padding:4px 6px;" onclick="selectGradLessonFilter('thuy')">
+              🐟 Thủy (12)
+            </button>
+          </div>
+
+          <!-- Tìm kiếm bài học -->
+          <input type="text" placeholder="🔍 Tìm tên bài, khái niệm..." value="${escapeHtml(portalState.gradLessonSearch || '')}" oninput="filterGradLessons(this.value)" style="width:100%; padding:7px 10px; font-size:12.5px; border-radius:6px; border:1px solid #cbd5e1; margin-bottom:8px;" />
+
+          <!-- Danh sách bài cuộn -->
+          <div class="grad-lesson-list-scroll">
+            ${filteredLessons.map(l => {
+              const isActive = (curLesson && curLesson.id === l.id);
+              const isLamItem = (l.lesson <= 15);
+              return `
+                <div class="grad-lesson-item ${isActive ? 'active' : ''}" onclick="selectGradLessonItem('${l.id}')">
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:11px; font-weight:800; color:${isLamItem ? '#15803d' : '#0284c7'};">
+                      ${isLamItem ? '🌲 LÂM NGHIỆP' : '🐟 THỦY SẢN'}
+                    </span>
+                    <span class="badge ${isLamItem ? 'badge-nl' : 'badge-biet'}" style="font-size:10px; padding:1px 6px;">
+                      Bài ${l.lesson}
+                    </span>
+                  </div>
+                  <div class="lesson-title" style="font-size:13px; margin-top:2px; line-height:1.35;">
+                    ${escapeHtml(l.title)}
+                  </div>
                 </div>
-                ${portalState.gradSubmitted ? (
-                  isCorrect
-                    ? `<span class="badge badge-ok">✓ Đúng (+0,25đ)</span>`
-                    : `<span class="badge badge-err">✗ Sai (Đáp án: ${String.fromCharCode(65 + correctAns)})</span>`
-                ) : ''}
+              `;
+            }).join("")}
+          </div>
+        </div>
+
+        <!-- CỘT PHẢI: NỘI DUNG TỔNG HỢP KIẾN THỨC VÀ BÀI TẬP BÀI ĐANG CHỌN -->
+        <div class="grad-lesson-main">
+          ${curLesson ? `
+            <!-- Tiêu đề bài học & Nút tạo đề trọng tâm -->
+            <div style="background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 20px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <span class="badge ${curIsLam ? 'badge-nl' : 'badge-biet'}" style="font-size:11.5px; font-weight:700;">
+                    ${curIsLam ? '🌲 LÂM NGHIỆP' : '🐟 THỦY SẢN'} • BÀI ${curLesson.lesson}
+                  </span>
+                  <span style="font-size:12px; color:var(--text-muted);">${escapeHtml(curLesson.chapter || '')}</span>
+                </div>
+                <h3 style="color:var(--primary-dark); font-size:18px; margin:0 0 3px;">
+                  ${escapeHtml(curLesson.title)}
+                </h3>
+                <span style="font-size:12.5px; color:var(--text-muted);">
+                  SGK Công nghệ 12 Kết nối tri thức với cuộc sống • Chuẩn Ma trận Ôn thi Tốt nghiệp THPT 2026
+                </span>
               </div>
-              <div style="font-weight:600; margin-bottom:8px; font-size:14.5px;">${escapeHtml(q.stem)}</div>
-              <div class="options-grid">
-                ${(q.options || []).map((opt, oIdx) => {
-                  let cls = "opt-item";
-                  if (portalState.gradSubmitted && oIdx === correctAns) cls += " correct";
-                  else if (userAns === oIdx) cls += " correct";
+              <button class="btn btn-primary" style="font-weight:700; padding:9px 16px; background:#2563eb;" onclick="generateExamFromCurrentLesson(${curLesson.lesson})">
+                🎲 Tạo Đề Thi 28 Câu Về Bài Này
+              </button>
+            </div>
+
+            <!-- Thẻ 1: Yêu cầu cần đạt chuẩn SGK & Bộ GD&ĐT -->
+            <div class="grad-lesson-card">
+              <div class="grad-lesson-card-header">
+                <h4>🎯 1. Yêu Cầu Cần Đạt (Mục Tiêu Kiến Thức &amp; Kỹ Năng)</h4>
+                <span class="badge badge-ok">Chuẩn CV 7991</span>
+              </div>
+              <div style="font-size:13.5px; color:#334155; line-height:1.65;">
+                ${(curLesson.summaryPoints && curLesson.summaryPoints.length > 0) ? `
+                  <ul style="margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px;">
+                    <li><strong>Nhận biết:</strong> Trình bày và phân biệt được các định nghĩa, quy trình kĩ thuật cốt lõi của bài học theo ngữ liệu chuẩn SGK.</li>
+                    <li><strong>Thông hiểu:</strong> Giải thích được bản chất nguyên nhân, vai trò sinh thái và mối quan hệ giữa công nghệ ứng dụng với năng suất, chất lượng sản phẩm.</li>
+                    <li><strong>Vận dụng:</strong> Phân tích các tình huống thực tiễn sản xuất tại địa phương và phát hiện các nhận định Đúng/Sai trong các bài thi tốt nghiệp.</li>
+                  </ul>
+                ` : `
+                  <p style="margin:0;">Nắm vững khái niệm, vai trò, quy trình kĩ thuật và liên hệ thực tế sản xuất theo sách giáo khoa Công nghệ 12.</p>
+                `}
+              </div>
+            </div>
+
+            <!-- Thẻ 2: Tóm tắt lý thuyết trọng tâm SGK -->
+            <div class="grad-lesson-card">
+              <div class="grad-lesson-card-header">
+                <h4>📚 2. Tóm Tắt Lý Thuyết Cốt Lõi (Kiến Thức Trọng Tâm Thi Tốt Nghiệp)</h4>
+                <span class="badge badge-biet">Trọng tâm SGK</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                ${(curLesson.summaryPoints || []).map((pt, pIdx) => {
+                  const isHeading = pt.startsWith("1.") || pt.startsWith("2.") || pt.startsWith("3.") || pt.startsWith("4.") || !pt.startsWith("-");
+                  if (isHeading && !pt.startsWith("-")) {
+                    return `
+                      <div style="font-weight:700; color:var(--primary-dark); font-size:14px; margin-top:${pIdx > 0 ? '8px' : '0'}; border-left:3px solid #2563eb; padding-left:8px;">
+                        ${escapeHtml(pt)}
+                      </div>
+                    `;
+                  }
                   return `
-                    <div class="${cls}" style="cursor:pointer; ${portalState.gradSubmitted && userAns === oIdx && !isCorrect ? 'background:#fee2e2; border-color:#ef4444;' : ''}" onclick="chooseGradMcqAnswer(${idx}, ${oIdx})">
-                      <input type="radio" name="grad_mcq_${idx}" ${userAns === oIdx ? 'checked' : ''} />
-                      <strong>${String.fromCharCode(65 + oIdx)}.</strong>
-                      <span>${escapeHtml(opt)}</span>
+                    <div style="background:#f8fafc; border:1px solid #f1f5f9; border-radius:6px; padding:8px 12px; font-size:13.5px; color:#334155; line-height:1.55;">
+                      ${escapeHtml(pt)}
                     </div>
                   `;
                 }).join("")}
               </div>
-              ${portalState.gradSubmitted ? `
-                <div style="margin-top:8px; padding:8px 12px; background:#f0fdf4; border-radius:6px; font-size:13px; color:#166534;">
-                  <strong>💡 Lời giải chi tiết:</strong> Phương án <strong>${String.fromCharCode(65 + correctAns)}</strong> đúng. ${escapeHtml(q.explanation || 'Đối chiếu chuẩn kiến thức SGK Công nghệ 12 Kết nối tri thức.')}
-                </div>
-              ` : ''}
-            </div>
-          `;
-        }).join("")}
-
-        <!-- PHẦN II. CÂU HỎI TRẮC NGHIỆM ĐÚNG SAI -->
-        <div style="margin:26px 0 14px; padding:10px 14px; background:#fef3c7; border-left:4px solid var(--accent); border-radius:6px;">
-          <h3 style="font-size:15px; color:#92400e; margin-bottom:2px;">PHẦN II. CÂU TRẮC NGHIỆM ĐÚNG SAI (4,0 điểm)</h3>
-          <p style="font-size:12.5px; color:#78350f;">
-            Thí sinh trả lời từ câu 25 đến câu 28. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.<br/>
-            <strong>Quy chế tính điểm chuẩn Bộ GD&ĐT:</strong> Đúng 1 ý: 0,1đ • Đúng 2 ý: 0,25đ • Đúng 3 ý: 0,5đ • Đúng 4 ý: 1,0đ.
-          </p>
-        </div>
-
-        ${tfs.map((q, idx) => {
-          const qNum = 25 + idx;
-          const userTf = portalState.gradUserTfAnswers[idx] || {};
-          const stmts = q.statements || [];
-          let correctCount = 0;
-          stmts.forEach(st => {
-            const k = st.label || st.key;
-            const corr = Boolean(st.isTrue || st.answer);
-            if (userTf[k] === corr) correctCount++;
-          });
-          let earnedPt = 0;
-          if (correctCount === 1) earnedPt = 0.1;
-          else if (correctCount === 2) earnedPt = 0.25;
-          else if (correctCount === 3) earnedPt = 0.5;
-          else if (correctCount === 4) earnedPt = 1.0;
-
-          return `
-            <div class="q-card" id="grad_q_card_${qNum}">
-              <div class="q-card-header">
-                <div>
-                  <strong>Câu ${qNum}:</strong>
-                  <span class="badge badge-nl">Trắc nghiệm Đúng/Sai (4 ý)</span>
-                  <span class="badge badge-vandung">Phân hóa cao</span>
-                </div>
-                ${portalState.gradSubmitted ? `
-                  <span class="badge ${earnedPt >= 0.5 ? 'badge-ok' : 'badge-err'}">
-                    Đúng ${correctCount}/4 ý (+${earnedPt.toFixed(2)}đ)
-                  </span>
-                ` : ''}
-              </div>
-              <div style="font-weight:600; margin-bottom:10px; font-size:14px; background:#f8fafc; padding:10px 12px; border-radius:6px; border:1px solid #e2e8f0;">
-                ${escapeHtml(q.context || q.stem || '')}
-              </div>
-
-              <table class="tf-exam-table">
-                <thead>
-                  <tr>
-                    <th style="width:40px; text-align:center;">Lệnh</th>
-                    <th>Nội dung nhận định</th>
-                    <th style="width:170px; text-align:center;">Lựa chọn của bạn</th>
-                    ${portalState.gradSubmitted ? `<th style="width:140px; text-align:center;">Đáp án & Giải thích</th>` : ''}
-                  </tr>
-                </thead>
-                <tbody>
-                  ${stmts.map(st => {
-                    const k = st.label || st.key;
-                    const corr = Boolean(st.isTrue || st.answer);
-                    const userVal = userTf[k];
-                    const isRight = userVal === corr;
-                    return `
-                      <tr>
-                        <td style="text-align:center; font-weight:800;">${escapeHtml(k)})</td>
-                        <td>${escapeHtml(st.text)}</td>
-                        <td>
-                          <div class="tf-btn-group">
-                            <button type="button" class="tf-choice-btn btn-true ${userVal === true ? 'selected' : ''}" onclick="chooseGradTfAnswer(${idx}, '${k}', true)">
-                              ĐÚNG
-                            </button>
-                            <button type="button" class="tf-choice-btn btn-false ${userVal === false ? 'selected' : ''}" onclick="chooseGradTfAnswer(${idx}, '${k}', false)">
-                              SAI
-                            </button>
-                          </div>
-                        </td>
-                        ${portalState.gradSubmitted ? `
-                          <td style="font-size:12px;">
-                            <strong>Đáp án: ${corr ? '<span style="color:#16a34a;">ĐÚNG</span>' : '<span style="color:#dc2626;">SAI</span>'}</strong>
-                            <div style="color:var(--text-muted); margin-top:3px;">${escapeHtml(st.explanation || '')}</div>
-                          </td>
-                        ` : ''}
-                      </tr>
-                    `;
-                  }).join("")}
-                </tbody>
-              </table>
-            </div>
-          `;
-        }).join("")}
-      `;
-    } else if (portalState.gradExamSubTab === "analysis") {
-      // 2. PHÂN TÍCH ĐỀ & CHẨN ĐOÁN
-      const sc = portalState.gradScore;
-      if (!sc) {
-        gradBody = `
-          <div style="text-align:center; padding:40px 20px; background:#fff; border-radius:10px; border:1px solid var(--border);">
-            <div style="font-size:42px; margin-bottom:10px;">📊</div>
-            <h3 style="color:var(--primary-dark); margin-bottom:6px;">Chưa có dữ liệu phân tích bài làm</h3>
-            <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:14px;">
-              Vui lòng làm bài thi và nhấn nút <strong>"Nộp Bài Thi"</strong> ở Tab 1 để hệ thống AI tính toán ma trận và chẩn đoán năng lực.
-            </p>
-            <button class="btn btn-primary" onclick="selectGradSubTab('mock_test')">👉 Quay lại Phòng Thi Thử</button>
-          </div>
-        `;
-      } else {
-        gradBody = `
-          <div class="audit-score-banner" style="margin-bottom:18px;">
-            <div>
-              <span class="badge badge-ok">BÁO CÁO PHÂN TÍCH MA TRẬN & KẾT QUẢ THI TỐT NGHIỆP THPT</span>
-              <div style="font-size:24px; font-weight:800; color:var(--primary-dark); margin:6px 0 2px;">
-                Tổng Điểm: ${sc.totalScore} / 10,00 điểm — ${escapeHtml(sc.rank)}
-              </div>
-              <div style="font-size:13px; color:var(--text-muted);">
-                Thời gian làm bài: <strong>${Math.floor(sc.timeSpentSeconds / 60)} phút ${sc.timeSpentSeconds % 60} giây</strong> • Đề: <strong>${escapeHtml(portalState.gradExamTitle)}</strong>
-              </div>
-            </div>
-            <div style="display:flex; gap:8px;">
-              <button class="btn btn-primary" onclick="generateSimilarGradExam()">⚡ Tạo Đề Tương Tự Để Luyện Tiếp</button>
-            </div>
-          </div>
-
-          <div class="exam-analysis-grid">
-            <!-- Thẻ 1: Cấp độ nhận thức -->
-            <div class="analysis-card">
-              <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:10px;">🎯 1. Phân bố Cấp độ Nhận thức</h4>
-              <div style="margin-bottom:10px;">
-                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
-                  <span>Nhận biết:</span>
-                  <span>${sc.cognitive.biet.correct}/${sc.cognitive.biet.total} câu (${sc.cognitive.biet.pct}%)</span>
-                </div>
-                <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
-                  <div style="background:#22c55e; height:100%; width:${sc.cognitive.biet.pct}%;"></div>
-                </div>
-              </div>
-              <div style="margin-bottom:10px;">
-                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
-                  <span>Thông hiểu:</span>
-                  <span>${sc.cognitive.hieu.correct}/${sc.cognitive.hieu.total} câu (${sc.cognitive.hieu.pct}%)</span>
-                </div>
-                <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
-                  <div style="background:#3b82f6; height:100%; width:${sc.cognitive.hieu.pct}%;"></div>
-                </div>
-              </div>
-              <div>
-                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
-                  <span>Vận dụng / VDC:</span>
-                  <span>${sc.cognitive.vd.correct}/${sc.cognitive.vd.total} câu (${sc.cognitive.vd.pct}%)</span>
-                </div>
-                <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
-                  <div style="background:#f59e0b; height:100%; width:${sc.cognitive.vd.pct}%;"></div>
-                </div>
-              </div>
             </div>
 
-            <!-- Thẻ 2: Phân môn -->
-            <div class="analysis-card">
-              <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:10px;">🌲 2. Phân môn Kiến thức Khối 12</h4>
-              <div style="margin-bottom:12px;">
-                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
-                  <span>Phần Lâm nghiệp:</span>
-                  <span>${sc.subject.lam.correct}/${sc.subject.lam.total} câu (${sc.subject.lam.pct}%)</span>
-                </div>
-                <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
-                  <div style="background:#15803d; height:100%; width:${sc.subject.lam.pct}%;"></div>
-                </div>
+            <!-- Thẻ 3: Bẫy đề thi & Lỗi sai thường gặp -->
+            <div class="grad-lesson-card" style="border-left:4px solid #ea580c;">
+              <div class="grad-lesson-card-header">
+                <h4 style="color:#9a3412;">⚠️ 3. Cảnh Báo "Bẫy Đề Thi" &amp; Lỗi Dễ Mất Điểm Ở Bài Này</h4>
+                <span class="badge badge-err">Tránh mất điểm</span>
               </div>
-              <div>
-                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
-                  <span>Phần Thủy sản:</span>
-                  <span>${sc.subject.thuy.correct}/${sc.subject.thuy.total} câu (${sc.subject.thuy.pct}%)</span>
-                </div>
-                <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
-                  <div style="background:#0284c7; height:100%; width:${sc.subject.thuy.pct}%;"></div>
-                </div>
-              </div>
-              <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
-                ${sc.subject.lam.pct >= sc.subject.thuy.pct
-                  ? '💡 Bạn đang làm tốt hơn ở phần Lâm nghiệp. Hãy tăng cường luyện tập thêm kỹ thuật ao nuôi thủy sản!'
-                  : '💡 Bạn đang làm tốt hơn ở phần Thủy sản. Hãy xem lại các bài bảo vệ rừng và khai thác gỗ bền vững!'}
-              </p>
-            </div>
-
-            <!-- Thẻ 3: Bẫy đề thi Phần II -->
-            <div class="analysis-card" style="border-left:4px solid #ea580c;">
-              <h4 style="color:#9a3412; font-size:15px; margin-bottom:8px;">⚠️ 3. Cảnh báo "Bẫy Đề Thi" Phần Đúng/Sai</h4>
-              <p style="font-size:12.5px; color:#475569; margin-bottom:8px;">
-                Do quy chế tính điểm Bộ GD&ĐT (đúng 3 ý = 0.5đ, đúng 4 ý = 1.0đ), việc sai sót dù chỉ 1 lệnh hỏi sẽ làm mất tới 50% số điểm của câu:
-              </p>
-              ${sc.traps.length > 0 ? `
-                <div style="display:grid; gap:6px;">
-                  ${sc.traps.map(tr => `
-                    <div style="background:#fff7ed; padding:8px 10px; border-radius:6px; font-size:12px; border:1px solid #fed7aa; color:#9a3412;">
-                      <strong>${escapeHtml(tr.desc)}</strong>
+              <div style="display:grid; gap:10px;">
+                ${pitfalls.map((pf, pfIdx) => `
+                  <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:8px; padding:10px 14px;">
+                    <div style="font-weight:700; color:#9a3412; font-size:13.5px; margin-bottom:4px;">
+                      ⚡ Bẫy ${pfIdx + 1}: ${escapeHtml(pf.title)}
                     </div>
-                  `).join("")}
-                </div>
-              ` : `
-                <div style="background:#f0fdf4; padding:8px 10px; border-radius:6px; font-size:12px; color:#166534;">
-                  ✓ Rất tốt! Bạn xử lý các câu trắc nghiệm Đúng/Sai rất chắc chắn, không bị sập bẫy từ ngữ.
-                </div>
-              `}
+                    <div style="font-size:13px; color:#7c2d12; line-height:1.5;">
+                      ${escapeHtml(pf.desc)}
+                    </div>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+
+            <!-- Thẻ 4: 5 Câu hỏi trắc nghiệm ôn tập nhanh có kiểm tra tức thì -->
+            <div class="grad-lesson-card">
+              <div class="grad-lesson-card-header">
+                <h4>📝 4. 5 Câu Trắc Nghiệm Ôn Tập Nhanh (Thử Sức Tức Thì)</h4>
+                <span style="font-size:12px; color:var(--text-muted);">Nhấp vào đáp án để kiểm tra Đúng/Sai ngay lập tức</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                ${lessonPracticeQuestions.map((q, qIdx) => {
+                  const userChoice = portalState.gradLessonPracticeAnswers[qIdx];
+                  const correctIdx = Number(q.answer) || 0;
+                  const showExp = portalState.gradLessonShowExplains[qIdx];
+                  return `
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px 14px;">
+                      <div style="font-weight:700; font-size:14px; margin-bottom:8px; color:#0f172a;">
+                        Câu ${qIdx + 1}: ${escapeHtml(q.stem)}
+                      </div>
+                      <div class="options-grid" style="margin-bottom:8px;">
+                        ${(q.options || []).map((opt, oIdx) => {
+                          let optStyle = "cursor:pointer; padding:8px 12px; border-radius:6px; border:1px solid #cbd5e1; background:#fff; font-size:13px;";
+                          if (typeof userChoice !== "undefined") {
+                            if (oIdx === correctIdx) {
+                              optStyle = "cursor:pointer; padding:8px 12px; border-radius:6px; border:1.5px solid #16a34a; background:#dcfce7; color:#15803d; font-weight:700; font-size:13px;";
+                            } else if (userChoice === oIdx && oIdx !== correctIdx) {
+                              optStyle = "cursor:pointer; padding:8px 12px; border-radius:6px; border:1.5px solid #dc2626; background:#fee2e2; color:#b91c1c; font-size:13px;";
+                            }
+                          }
+                          return `
+                            <div style="${optStyle}" onclick="toggleLessonPracticeAnswer(${qIdx}, ${oIdx})">
+                              <strong>${String.fromCharCode(65 + oIdx)}.</strong> ${escapeHtml(opt)}
+                            </div>
+                          `;
+                        }).join("")}
+                      </div>
+                      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                        <div>
+                          ${typeof userChoice !== "undefined" ? (
+                            userChoice === correctIdx
+                              ? `<span style="font-size:12.5px; font-weight:700; color:#16a34a;">✓ Rất chính xác! Đáp án ${String.fromCharCode(65 + correctIdx)}.</span>`
+                              : `<span style="font-size:12.5px; font-weight:700; color:#dc2626;">✗ Chưa đúng! Đáp án chính xác là ${String.fromCharCode(65 + correctIdx)}.</span>`
+                          ) : `<span style="font-size:12px; color:var(--text-muted);">Hãy chọn 1 phương án ở trên</span>`}
+                        </div>
+                        <button class="btn btn-outline btn-sm" style="font-size:11.5px; padding:3px 8px;" onclick="toggleLessonPracticeExplain(${qIdx})">
+                          💡 ${showExp ? 'Ẩn Lời Giải' : 'Xem Lời Giải Chi Tiết'}
+                        </button>
+                      </div>
+                      ${showExp ? `
+                        <div style="margin-top:8px; padding:8px 12px; background:#eff6ff; border-radius:6px; font-size:12.5px; color:#1e40af; border:1px solid #bfdbfe;">
+                          <strong>Giải thích:</strong> ${escapeHtml(q.explanation || 'Đối chiếu chuẩn kiến thức SGK Công nghệ 12 Kết nối tri thức.')}
+                        </div>
+                      ` : ''}
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          ` : `
+            <div style="text-align:center; padding:50px; background:#fff; border-radius:10px;">
+              <p>Vui lòng chọn một bài học ở cột bên trái để ôn tập kiến thức.</p>
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+  } else if (portalState.gradExamSubTab === "analysis") {
+    // =========================================================================
+    // 3. PHÂN TÍCH ĐỀ & CHẨN ĐOÁN LỖI SAI
+    // =========================================================================
+    const sc = portalState.gradScore;
+    if (!sc) {
+      gradBody = `
+        <div style="text-align:center; padding:40px 20px; background:#fff; border-radius:10px; border:1px solid var(--border);">
+          <div style="font-size:42px; margin-bottom:10px;">📊</div>
+          <h3 style="color:var(--primary-dark); margin-bottom:6px;">Chưa có dữ liệu phân tích bài làm</h3>
+          <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:14px;">
+            Vui lòng làm bài thi và nhấn nút <strong>"Nộp Bài Thi"</strong> ở Tab Phòng Thi Thử để hệ thống AI tính toán ma trận và chẩn đoán năng lực.
+          </p>
+          <button class="btn btn-primary" onclick="selectGradSubTab('mock_test')">👉 Quay lại Phòng Thi Thử</button>
+        </div>
+      `;
+    } else {
+      gradBody = `
+        <div class="audit-score-banner" style="margin-bottom:18px;">
+          <div>
+            <span class="badge badge-ok">BÁO CÁO PHÂN TÍCH MA TRẬN & KẾT QUẢ THI TỐT NGHIỆP THPT</span>
+            <div style="font-size:24px; font-weight:800; color:var(--primary-dark); margin:6px 0 2px;">
+              Tổng Điểm: ${sc.totalScore} / 10,00 điểm — ${escapeHtml(sc.rank)}
+            </div>
+            <div style="font-size:13px; color:var(--text-muted);">
+              Thời gian làm bài: <strong>${Math.floor(sc.timeSpentSeconds / 60)} phút ${sc.timeSpentSeconds % 60} giây</strong> • Đề: <strong>${escapeHtml(portalState.gradExamTitle)}</strong>
             </div>
           </div>
-        `;
-      }
-    } else {
-      // 3. GỢI Ý ĐỀ TƯƠNG TỰ & KHO 48 ĐỀ PDF BỘ GD&ĐT
-      const minExams = PORTAL_DATA.ministryExams || [];
-      gradBody = `
-        <div style="background:linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); border:1.5px solid #86efac; border-radius:10px; padding:16px 20px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-          <div>
-            <span class="badge badge-ok">HỆ THỐNG GỢI Ý ĐỀ THI TƯƠNG TỰ</span>
-            <h3 style="color:var(--primary-dark); font-size:17px; margin:4px 0 3px;">Bạn muốn rèn luyện đề thi có cùng cấu trúc ma trận?</h3>
-            <p style="font-size:13px; color:var(--text-muted);">
-              Dựa trên đề thi bạn vừa chọn (${escapeHtml(portalState.gradExamTitle)}), hệ thống tự động bốc các câu hỏi từ ngân hàng 464 câu trắc nghiệm & 20 bài Đúng/Sai Khối 12 để tạo đề mới ngay tức thì:
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-primary" onclick="generateSimilarGradExam(); alert('🎲 Đã tạo đề thi thử 28 câu mới!');">
+              🎲 Tạo Đề Mới (Khi Chưa Đạt)
+            </button>
+          </div>
+        </div>
+        <div class="exam-analysis-grid">
+          <!-- Thẻ 1: Cấp độ nhận thức -->
+          <div class="analysis-card">
+            <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:10px;">🎯 1. Phân bố Cấp độ Nhận thức</h4>
+            <div style="margin-bottom:10px;">
+              <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                <span>Nhận biết:</span>
+                <span>${sc.cognitive.biet.correct}/${sc.cognitive.biet.total} câu (${sc.cognitive.biet.pct}%)</span>
+              </div>
+              <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
+                <div style="background:#22c55e; height:100%; width:${sc.cognitive.biet.pct}%;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom:10px;">
+              <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                <span>Thông hiểu:</span>
+                <span>${sc.cognitive.hieu.correct}/${sc.cognitive.hieu.total} câu (${sc.cognitive.hieu.pct}%)</span>
+              </div>
+              <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
+                <div style="background:#3b82f6; height:100%; width:${sc.cognitive.hieu.pct}%;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                <span>Vận dụng / VDC:</span>
+                <span>${sc.cognitive.vd.correct}/${sc.cognitive.vd.total} câu (${sc.cognitive.vd.pct}%)</span>
+              </div>
+              <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
+                <div style="background:#f59e0b; height:100%; width:${sc.cognitive.vd.pct}%;"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Thẻ 2: Phân môn -->
+          <div class="analysis-card">
+            <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:10px;">🌲 2. Phân môn Kiến thức Khối 12</h4>
+            <div style="margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                <span>Phần Lâm nghiệp:</span>
+                <span>${sc.subject.lam.correct}/${sc.subject.lam.total} câu (${sc.subject.lam.pct}%)</span>
+              </div>
+              <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
+                <div style="background:#15803d; height:100%; width:${sc.subject.lam.pct}%;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+                <span>Phần Thủy sản:</span>
+                <span>${sc.subject.thuy.correct}/${sc.subject.thuy.total} câu (${sc.subject.thuy.pct}%)</span>
+              </div>
+              <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
+                <div style="background:#0284c7; height:100%; width:${sc.subject.thuy.pct}%;"></div>
+              </div>
+            </div>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
+              ${sc.subject.lam.pct >= sc.subject.thuy.pct
+                ? '💡 Bạn đang làm tốt hơn ở phần Lâm nghiệp. Hãy tăng cường luyện tập thêm kỹ thuật ao nuôi thủy sản!'
+                : '💡 Bạn đang làm tốt hơn ở phần Thủy sản. Hãy xem lại các bài bảo vệ rừng và khai thác gỗ bền vững!'}
             </p>
           </div>
-          <button class="btn btn-primary" onclick="generateSimilarGradExam()" style="padding:10px 18px; font-size:14px; font-weight:700;">
-            ⚡ Bấm Vào Đây Để Tạo & Làm Đề Tương Tự Ngay
-          </button>
-        </div>
-
-        <div style="margin-bottom:12px;">
-          <h4 style="color:var(--primary-dark); font-size:15.5px;">🏛️ Bộ 48 Mã Đề Thi Chính Thức Bộ GD&ĐT (Mã đề 0701 → 0748) — File PDF Gốc</h4>
-          <p style="font-size:12.5px; color:var(--text-muted);">Nhấp vào thẻ đề bất kỳ để mở hoặc tải trực tiếp file PDF đề thi chính thức:</p>
-        </div>
-        <div class="exam-card-grid">
-          ${minExams.map(me => `
-            <a href="${me.serverUrl}" target="_blank" class="exam-card-clean" style="text-decoration:none; color:var(--text);">
-              <div>
-                <span class="badge badge-biet" style="font-size:10.5px;">MÃ ĐỀ ${escapeHtml(me.code)}</span>
-                <div class="exam-card-title" style="margin-top:3px;">Đề Chính thức #${escapeHtml(me.code)}</div>
+          <!-- Thẻ 3: Bẫy đề thi Phần II -->
+          <div class="analysis-card" style="border-left:4px solid #ea580c;">
+            <h4 style="color:#9a3412; font-size:15px; margin-bottom:8px;">⚠️ 3. Cảnh báo "Bẫy Đề Thi" Phần Đúng/Sai</h4>
+            <p style="font-size:12.5px; color:#475569; margin-bottom:8px;">
+              Do quy chế tính điểm Bộ GD&amp;ĐT (đúng 3 ý = 0.5đ, đúng 4 ý = 1.0đ), việc sai sót dù chỉ 1 lệnh hỏi sẽ làm mất tới 50% số điểm của câu:
+            </p>
+            ${sc.traps.length > 0 ? `
+              <div style="display:grid; gap:6px;">
+                ${sc.traps.map(tr => `
+                  <div style="background:#fff7ed; padding:8px 10px; border-radius:6px; font-size:12px; border:1px solid #fed7aa; color:#9a3412;">
+                    <strong>${escapeHtml(tr.desc)}</strong>
+                  </div>
+                `).join("")}
               </div>
-              <span class="btn btn-outline btn-sm">📄 PDF</span>
-            </a>
-          `).join("")}
+            ` : `
+              <div style="background:#f0fdf4; padding:8px 10px; border-radius:6px; font-size:12px; color:#166534;">
+                ✓ Rất tốt! Bạn xử lý các câu trắc nghiệm Đúng/Sai rất chắc chắn, không bị sập bẫy từ ngữ.
+              </div>
+            `}
+          </div>
         </div>
       `;
     }
-
-    contentHtml = `
-      <div class="card">
-        <!-- Sub-navigation tinh gọn của Phân hệ Tốt nghiệp -->
-        <div class="clean-tab-bar">
-          <button class="clean-tab-btn ${portalState.gradExamSubTab === 'mock_test' ? 'active' : ''}" onclick="selectGradSubTab('mock_test')">
-            📝 Phòng Thi Thử (28 câu • 50 phút)
-          </button>
-          <button class="clean-tab-btn ${portalState.gradExamSubTab === 'analysis' ? 'active' : ''}" onclick="selectGradSubTab('analysis')">
-            📊 Phân Tích Kết Quả & Lỗi Sai
-          </button>
-          <button class="clean-tab-btn ${portalState.gradExamSubTab === 'ministry_48' ? 'active' : ''}" onclick="selectGradSubTab('ministry_48')">
-            🏛️ Kho 48 Mã Đề Bộ GD&ĐT (PDF)
-          </button>
+  } else {
+    // =========================================================================
+    // 4. KHO 48 ĐỀ THI CHÍNH THỨC BỘ GD&ĐT (MÃ ĐỀ 0701 → 0748) — XEM TRỰC TIẾP PDF
+    // =========================================================================
+    const minExams = PORTAL_DATA.ministryExams || [];
+    gradBody = `
+      <div style="background:linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); border:1.5px solid #86efac; border-radius:10px; padding:16px 20px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <span class="badge badge-ok">HỆ THỐNG KHO ĐỀ THI CHÍNH THỨC BỘ GD&amp;ĐT</span>
+          <h3 style="color:var(--primary-dark); font-size:17px; margin:4px 0 3px;">
+            Toàn bộ 48 Mã Đề Thi Tốt Nghiệp THPT Môn Công Nghệ Nông Nghiệp
+          </h3>
+          <p style="font-size:13px; color:var(--text-muted); margin:0;">
+            Hệ thống đã kết nối trực tiếp với toàn bộ 48 file PDF đề thi chính thức của Bộ GD&amp;ĐT (Mã 0701 đến 0748). Nhấp vào <strong>"👁️ Xem PDF"</strong> để xem trực tiếp không cần rời trang hoặc <strong>"📥 Tải Về"</strong> để lưu trữ.
+          </p>
         </div>
-        ${gradBody}
+        <button class="btn btn-primary" onclick="generateSimilarGradExam(); alert('🎲 Đã tạo đề thi 28 câu mới chuẩn ma trận Bộ GD&amp;ĐT!');" style="padding:9px 18px; font-size:13.5px; font-weight:700; background:#2563eb;">
+          🎲 Tạo Đề Mới (Khi Chưa Đạt)
+        </button>
+      </div>
+
+      <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h4 style="color:var(--primary-dark); font-size:15.5px; margin:0 0 2px;">
+            🏛️ Danh Sách 48 Mã Đề Thi Chính Thức Bộ GD&amp;ĐT (Đầy Đủ 100% File PDF)
+          </h4>
+          <span style="font-size:12.5px; color:var(--text-muted);">
+            Tất cả 48 file PDF đã sẵn sàng đọc trực tuyến trong khung tương tác hoặc tải về máy tính.
+          </span>
+        </div>
+        <span class="badge badge-biet" style="font-size:12px; font-weight:700;">Đủ 48/48 đề</span>
+      </div>
+
+      <div class="ministry-card-grid">
+        ${minExams.map(me => {
+          const encodedUrl = encodeURI(me.serverUrl);
+          const isOnline = (me.code === '0701' || me.code === '0702');
+          return `
+            <div class="ministry-exam-card">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <span class="badge badge-biet" style="font-size:11px; font-weight:700;">MÃ ĐỀ ${escapeHtml(me.code)}</span>
+                  <span style="font-size:11px; color:var(--text-muted);">Bộ GD&amp;ĐT</span>
+                </div>
+                <div style="font-weight:700; font-size:14px; color:#0f172a; margin-bottom:4px;">
+                  Đề Thi Chính Thức #${escapeHtml(me.code)}
+                </div>
+                <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+                  28 câu • Thời gian 50 phút • Chuẩn Bộ 2026
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                  <button class="btn btn-outline btn-sm" onclick="openMinistryPdfModal('${escapeHtml(me.code)}', '${encodedUrl}')" style="justify-content:center; font-weight:700; color:#2563eb; border-color:#93c5fd;">
+                    👁️ Xem PDF
+                  </button>
+                  <a href="${encodedUrl}" download="De_Bo_GDDT_${escapeHtml(me.code)}.pdf" class="btn btn-outline btn-sm" style="justify-content:center; text-decoration:none;">
+                    📥 Tải Về
+                  </a>
+                </div>
+                ${isOnline ? `
+                  <button class="btn btn-primary btn-sm" onclick="selectGradExam('bo_2026_${escapeHtml(me.code)}')" style="justify-content:center; font-size:12px; font-weight:700; background:#0d9488; border-color:#0d9488;">
+                    🎯 Làm Đề Trực Tuyến (28 câu)
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join("")}
       </div>
     `;
   }
 
-  container.innerHTML = `
-    ${navSectionHtml}
-    ${contentHtml}
+  // THANH CÔNG CỤ TỔNG HỢP: 4 TABS BÊN TRÁI + CÔNG CỤ GIÁO VIÊN BÊN PHẢI (TRÊN CÙNG 1 HÀNG)
+  contentHtml = `
+    <div class="grad-toolbar-row">
+      <div class="grad-tabs-group">
+        <button class="grad-tab-pill ${portalState.gradExamSubTab === 'mock_test' ? 'active' : ''}" onclick="selectGradSubTab('mock_test')">
+          📝 Phòng Thi Thử (28 câu)
+        </button>
+        <button class="grad-tab-pill ${portalState.gradExamSubTab === 'lesson_review' ? 'active' : ''}" onclick="selectGradSubTab('lesson_review')">
+          📖 Ôn Tập Theo Bài (K12)
+        </button>
+        <button class="grad-tab-pill ${portalState.gradExamSubTab === 'analysis' ? 'active' : ''}" onclick="selectGradSubTab('analysis')">
+          📊 Phân Tích &amp; Lỗi Sai
+        </button>
+        <button class="grad-tab-pill ${portalState.gradExamSubTab === 'ministry_48' ? 'active' : ''}" onclick="selectGradSubTab('ministry_48')">
+          🏛️ Kho 48 Đề Bộ (PDF)
+        </button>
+      </div>
+      <div class="grad-actions-group">
+        <button class="btn btn-outline-minimal" style="color:#2563eb; font-weight:700; border-color:#93c5fd;" onclick="generateSimilarGradExam(); alert('🎲 Đã tạo ngẫu nhiên đề thi 28 câu mới chuẩn ma trận Bộ GD&amp;ĐT!');">
+          🎲 Tạo Đề Mới (Khi Chưa Đạt)
+        </button>
+        <button class="btn btn-outline-minimal" onclick="window.createClassroomRoom ? window.createClassroomRoom(portalState.gradExamId, 'graduation') : alert('Tạo phòng thi trực tuyến cho lớp')">
+          🏫 Tạo Phòng Cho Lớp
+        </button>
+        <button class="btn btn-outline-minimal" onclick="window.openTeacherExamPreview ? window.openTeacherExamPreview(portalState.gradExamId) : alert('Xem trước đề thi')">
+          👁️ Xem Trước Đề (GV)
+        </button>
+        <button class="btn btn-outline-minimal" onclick="exportGradExamWord()">
+          📥 Xuất Đề (.doc)
+        </button>
+      </div>
+    </div>
+
+    ${gradBody}
   `;
 
-  if (portalState.mod4MainSection === "hsg" && portalState.mod4HsgSubTab === "ag_calc") {
-    runAgTechCalculators();
-  }
+  container.innerHTML = contentHtml;
 }
 
 
@@ -2943,7 +4048,6 @@ function runAgTechCalculators() {
       • Kali Clorua (60% K2O): <strong>${kclKg.toFixed(1)} kg</strong>
     `;
   }
-
   // 2. Hình vuông Pearson
   const targetP = Number(document.getElementById("calcTargetPro")?.value) || 16;
   const lowP = Number(document.getElementById("calcLowPro")?.value) || 9;
@@ -2965,7 +4069,6 @@ function runAgTechCalculators() {
       pBox.innerHTML = `<span style="color:var(--danger);">⚠️ % Protein mục tiêu phải nằm giữa ${lowP}% và ${highP}%!</span>`;
     }
   }
-
   // 3. Thủy sản
   const pondM2 = Number(document.getElementById("calcPondM2")?.value) || 2000;
   const dens = Number(document.getElementById("calcDensity")?.value) || 150;

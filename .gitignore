@@ -6,3 +6,9 @@ corpus/extracted_lessons/
 *.log
 .DS_Store
 Thumbs.db
+*.py
+*.bak
+*.tmp
+apply_quiz_engine.js
+minimize_ui.ps1
+update_app_variants.ps1

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // HỆ THỐNG QUẢN LÝ HỒ SƠ CV 5512, SOẠN GIÁO ÁN & KHO BÀI GIẢNG PPT GẮN DRIVE
 // Dành cho môn Công nghệ Nông nghiệp 10, 11, 12 (Bộ sách Kết nối tri thức)
 // Trường THPT Lộc Ninh - Sở GD&ĐT Đồng Nai
@@ -255,15 +255,15 @@ function render5512MainContainer() {
     <div class="sub-nav-bar">
       <button class="sub-nav-btn ${state5512.currentSubTab === 1 ? 'active' : ''}" onclick="switchMod2SubTab(1)">
         <span style="font-size:16px;">📑</span>
-        <span>2.1. Hồ sơ Phụ lục 1, 2, 3 (CV 5512) Nộp Tổ Trưởng & Đồng Bộ Năng Lực</span>
+        <span>2.1. Hồ sơ Phụ lục 1, 2, 3 (CV 5512)</span>
       </button>
       <button class="sub-nav-btn ${state5512.currentSubTab === 2 ? 'active' : ''}" onclick="switchMod2SubTab(2)">
         <span style="font-size:16px;">📝</span>
-        <span>2.2. Công cụ Soạn Giáo Án 5512 (Kế hoạch bài dạy) & Mẫu / Trò chơi / Công nghệ</span>
+        <span>2.2. Công cụ Soạn Giáo Án (KHBD)</span>
       </button>
       <button class="sub-nav-btn ${state5512.currentSubTab === 3 ? 'active' : ''}" onclick="switchMod2SubTab(3)">
         <span style="font-size:16px;">🖥️</span>
-        <span>2.3. Học liệu cho GV (77 Bài Gắn Link Drive & Trình Chiếu)</span>
+        <span>2.3. Kho Học Liệu & PPT (77 Bài)</span>
       </button>
     </div>
 
@@ -292,6 +292,7 @@ function renderCurrentSubTab() {
   else if (state5512.currentSubTab === 2) render5512SubModule2();
   else if (state5512.currentSubTab === 3) render5512SubModule3();
 }
+
 // ============================================================================
 // TIỂU MỤC 2.1: HỒ SƠ 3 PHỤ LỤC CV 5512 NỘP TỔ TRƯỞNG & ĐỒNG BỘ NĂNG LỰC
 // ============================================================================
@@ -302,89 +303,86 @@ function render5512SubModule1() {
 
   const g = state5512.currentGrade;
   const pl = state5512.currentPl;
-  const gradeLabel = g === "cn10" ? "Khối 10 (Công nghệ Trồng trọt - 70 tiết)" :
-                     g === "cn11" ? "Khối 11 (Công nghệ Chăn nuôi - 70 tiết)" :
-                     "Khối 12 (Lâm nghiệp & Thủy sản - 70 tiết + 35 tiết Chuyên đề)";
 
   container.innerHTML = `
-    <!-- BANNER ĐỒNG BỘ & THÔNG TIN HỒ SƠ TRƯỜNG -->
-    <div class="card" style="margin-bottom:16px; border-left:4px solid var(--primary); background:#f0fdf4;">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-        <div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:18px;">🏛️</span>
-            <strong style="color:var(--primary-dark); font-size:15px;">${escapeHtml(state5512.metaConfig.school)} — ${escapeHtml(state5512.metaConfig.department)}</strong>
-            <span class="badge" style="background:#22c55e; color:#fff; font-size:11px; padding:2px 8px; border-radius:12px;">ĐÃ ĐỒNG BỘ 3 PHỤ LỤC</span>
-          </div>
-          <div style="font-size:13px; color:var(--text); margin-top:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-            <span>Năm học: <strong>${escapeHtml(state5512.metaConfig.schoolYear)}</strong></span>
-            
-            <span style="display:inline-flex; align-items:center; gap:4px; background:#fff; padding:2px 8px; border-radius:6px; border:1px solid #cbd5e1;">
-              <span style="font-weight:700; color:var(--primary-dark);">👤 Giáo viên:</span>
-              <select id="selTeacherBanner" onchange="onTeacherSelectChange(this.value)" style="border:none; background:transparent; font-weight:700; color:#0f766e; outline:none; cursor:pointer; font-size:13px;">
-                ${getTeacherSelectOptionsHtml()}
-              </select>
-            </span>
+    <!-- KHUNG ĐIỀU KHIỂN ĐỒNG BỘ 3 PHỤ LỤC (TOOLBAR 3 HÀNG GỌN GÀNG) -->
+    <div class="card" style="margin-bottom:14px; padding:10px 16px; border:1px solid var(--border); box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+      
+      <!-- HÀNG 1: THÔNG TIN & XUẤT FILE -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-bottom:8px; border-bottom:1px solid #f1f5f9;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; color:var(--text);">
+          <span style="white-space:nowrap;">Năm học: <strong>${escapeHtml(state5512.metaConfig.schoolYear)}</strong></span>
+          <span style="color:#cbd5e1;">|</span>
+          
+          <!-- Dropdown chọn Giáo viên -->
+          <span style="display:inline-flex; align-items:center; gap:4px; background:#fff; padding:2px 8px; border-radius:6px; border:1px solid #cbd5e1; white-space:nowrap;">
+            <span style="font-weight:700; color:var(--primary-dark); white-space:nowrap;">👤 GV:</span>
+            <select id="selTeacherBanner" onchange="onTeacherSelectChange(this.value)" style="border:none; background:transparent; font-weight:700; color:#0f766e; outline:none; cursor:pointer; font-size:13px; white-space:nowrap;">
+              ${getTeacherSelectOptionsHtml()}
+            </select>
+          </span>
 
-            <span style="display:inline-flex; align-items:center; gap:4px; background:#fff; padding:2px 8px; border-radius:6px; border:1px solid #cbd5e1;">
-              <span style="font-weight:700; color:var(--primary-dark);">⭐ Tổ trưởng:</span>
-              <select id="selHeadBanner" onchange="onHeadSelectChange(this.value)" style="border:none; background:transparent; font-weight:700; color:#b45309; outline:none; cursor:pointer; font-size:13px;">
-                ${getHeadSelectOptionsHtml()}
-              </select>
-            </span>
-          </div>
+          <!-- Dropdown chọn Tổ trưởng -->
+          <span style="display:inline-flex; align-items:center; gap:4px; background:#fff; padding:2px 8px; border-radius:6px; border:1px solid #cbd5e1; white-space:nowrap;">
+            <span style="font-weight:700; color:var(--primary-dark); white-space:nowrap;">⭐ TTCM:</span>
+            <select id="selHeadBanner" onchange="onHeadSelectChange(this.value)" style="border:none; background:transparent; font-weight:700; color:#b45309; outline:none; cursor:pointer; font-size:13px; white-space:nowrap;">
+              ${getHeadSelectOptionsHtml()}
+            </select>
+          </span>
+
+          <span class="badge" style="background:#22c55e; color:#fff; font-size:11px; padding:3px 8px; border-radius:12px; font-weight:700; white-space:nowrap;">✓ Đã đồng bộ 3 PL</span>
         </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn btn-primary btn-sm" onclick="sync3PhuLuc()">
-            ⚡ Đồng bộ 3 Phụ lục (Sync 3 PL)
+
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <button class="btn btn-outline btn-sm" style="padding:4px 9px; font-size:12.5px; white-space:nowrap;" onclick="openIntegrationsModal()">
+            ⚙️ Cấu hình nộp
           </button>
-          <button class="btn btn-outline btn-sm" onclick="openIntegrationsModal()">
-            ⚙️ Cấu hình Tích hợp & Thông tin nộp
+          <button class="btn btn-primary btn-sm" style="padding:4px 9px; font-size:12.5px; white-space:nowrap;" onclick="sync3PhuLuc()">
+            ⚡ Đồng bộ 3 PL
           </button>
-          <button class="btn btn-outline btn-sm" onclick="exportPhuLucWord(${pl})">
-            📥 Xuất Word PL${pl} (.doc)
+          <button class="btn btn-outline btn-sm" style="padding:4px 9px; font-size:12.5px; white-space:nowrap;" onclick="exportPhuLucWord(${pl})">
+            📄 Xuất PL${pl} (.doc)
           </button>
-          <button class="btn btn-accent btn-sm" onclick="exportFull3PhuLucWord()">
-            📦 Xuất TRỌN BỘ 3 Phụ lục (.doc) Nộp Tổ Trưởng
+          <button class="btn btn-accent btn-sm" style="padding:4px 9px; font-size:12.5px; font-weight:700; white-space:nowrap;" onclick="exportFull3PhuLucWord()">
+            📦 Xuất Trọn Bộ 3 PL (.doc)
           </button>
         </div>
       </div>
-    </div>
 
-    <!-- THANH CHỌN KHỐI & CHỌN PHỤ LỤC -->
-    <div class="card" style="margin-bottom:16px; padding:14px 18px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+      <!-- HÀNG 2: CHỌN KHỐI & TÌM KIẾM -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding:8px 0; border-bottom:1px solid #f1f5f9;">
         <!-- Chọn Khối -->
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <span style="font-weight:700; color:var(--primary-dark); font-size:13px;">📚 Chọn Khối lớp:</span>
-          <button class="btn btn-sm ${g === 'cn10' ? 'btn-primary' : 'btn-outline'}" onclick="select5512Grade('cn10')">Khối 10 (Trồng trọt)</button>
-          <button class="btn btn-sm ${g === 'cn11' ? 'btn-primary' : 'btn-outline'}" onclick="select5512Grade('cn11')">Khối 11 (Chăn nuôi)</button>
-          <button class="btn btn-sm ${g === 'cn12' ? 'btn-primary' : 'btn-outline'}" onclick="select5512Grade('cn12')">Khối 12 (Lâm - Thủy sản)</button>
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span style="font-weight:700; color:var(--primary-dark); font-size:13px; white-space:nowrap;">📚 Chọn Khối:</span>
+          <button class="btn btn-sm ${g === 'cn10' ? 'btn-primary' : 'btn-outline'}" style="padding:3px 10px; font-size:12.5px; white-space:nowrap;" onclick="select5512Grade('cn10')">Khối 10 (Trồng trọt)</button>
+          <button class="btn btn-sm ${g === 'cn11' ? 'btn-primary' : 'btn-outline'}" style="padding:3px 10px; font-size:12.5px; white-space:nowrap;" onclick="select5512Grade('cn11')">Khối 11 (Chăn nuôi)</button>
+          <button class="btn btn-sm ${g === 'cn12' ? 'btn-primary' : 'btn-outline'}" style="padding:3px 10px; font-size:12.5px; white-space:nowrap;" onclick="select5512Grade('cn12')">Khối 12 (Lâm - Thủy sản)</button>
         </div>
 
         <!-- Tìm kiếm & Lọc học kì -->
-        <div style="display:flex; align-items:center; gap:8px;">
-          <select style="padding:6px 10px; border-radius:6px; border:1px solid var(--border); font-size:13px;" onchange="state5512.termFilter=this.value; render5512PlTable();">
-            <option value="all">Toàn bộ Năm học (Cả năm)</option>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <select style="padding:4px 8px; border-radius:6px; border:1px solid var(--border); font-size:12.5px;" onchange="state5512.termFilter=this.value; render5512PlTable();">
+            <option value="all">Cả năm</option>
             <option value="hk1">Học kì I</option>
             <option value="hk2">Học kì II</option>
           </select>
-          <input type="text" placeholder="🔍 Tìm kiếm bài học..." style="padding:6px 10px; border-radius:6px; border:1px solid var(--border); font-size:13px; width:180px;" oninput="state5512.searchQuery=this.value; render5512PlTable();" />
+          <input type="text" placeholder="🔍 Tìm kiếm bài học..." style="padding:4px 10px; border-radius:6px; border:1px solid var(--border); font-size:12.5px; width:180px;" oninput="state5512.searchQuery=this.value; render5512PlTable();" />
         </div>
       </div>
 
-      <!-- Tab 3 Phụ lục -->
-      <div style="display:flex; gap:8px; margin-top:14px; border-top:1px solid var(--border); padding-top:12px; flex-wrap:wrap;">
-        <button class="btn btn-sm ${pl === 1 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700;" onclick="select5512Pl(1)">
-          📋 PHỤ LỤC 1: Kế hoạch dạy học của Tổ chuyên môn
+      <!-- HÀNG 3: CHUYỂN ĐỔI 3 PHỤ LỤC -->
+      <div style="display:flex; gap:6px; padding-top:8px; flex-wrap:wrap;">
+        <button class="btn btn-sm ${pl === 1 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700; font-size:12.5px; padding:4px 12px; white-space:nowrap;" onclick="select5512Pl(1)">
+          📋 Phụ lục 1: Kế hoạch Tổ chuyên môn
         </button>
-        <button class="btn btn-sm ${pl === 2 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700;" onclick="select5512Pl(2)">
-          🎯 PHỤ LỤC 2: Kế hoạch các hoạt động giáo dục (STEAM / Chuyên đề / Ngoại khóa / HSG)
+        <button class="btn btn-sm ${pl === 2 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700; font-size:12.5px; padding:4px 12px; white-space:nowrap;" onclick="select5512Pl(2)">
+          🎯 Phụ lục 2: Hoạt động giáo dục
         </button>
-        <button class="btn btn-sm ${pl === 3 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700;" onclick="select5512Pl(3)">
-          👤 PHỤ LỤC 3: Kế hoạch giáo dục của giáo viên (Cá nhân theo tuần/tiết)
+        <button class="btn btn-sm ${pl === 3 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700; font-size:12.5px; padding:4px 12px; white-space:nowrap;" onclick="select5512Pl(3)">
+          👤 Phụ lục 3: Kế hoạch cá nhân GV
         </button>
       </div>
+
     </div>
 
     <!-- KHU VỰC HIỂN THỊ NỘI DUNG BẢNG PHỤ LỤC ĐANG CHỌN -->
@@ -393,6 +391,7 @@ function render5512SubModule1() {
 
   render5512PlTable();
 }
+
 
 function select5512Grade(grade) {
   state5512.currentGrade = grade;
