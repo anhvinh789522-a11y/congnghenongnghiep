@@ -479,8 +479,9 @@
     };
 
     function toggleSlimMenu() {
-      const tabs = document.getElementById("slimNavTabs");
-      if (tabs) tabs.classList.toggle("open");
+      if (typeof window.toggleSlimMenu === "function") {
+        window.toggleSlimMenu();
+      }
     }
 
     function switchUserRole(role) {

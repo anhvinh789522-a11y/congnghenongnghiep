@@ -1,4 +1,4 @@
-﻿const DATA_5512 = {
+const DATA_5512 = {
     "meta":  {
                  "headName":  "Phạm Thanh Xuân",
                  "school":  "TRƯỜNG THPT LỘC NINH",

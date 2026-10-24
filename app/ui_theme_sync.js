@@ -1,8 +1,107 @@
 // Bộ đồng bộ Giao diện Thời gian thực & Kiến trúc Mobile EdTech (Khan Academy • VietJack • OLM)
+window.openSlimMenu = function() {
+  const tabs = document.getElementById("slimNavTabs") || document.querySelector(".slim-nav-tabs");
+  const backdrop = document.querySelector(".slim-nav-backdrop");
+  const menuBtn = document.querySelector(".slim-menu-btn");
+  if (tabs) {
+    tabs.classList.add("open");
+    tabs.classList.add("mobile-open");
+  }
+  if (backdrop) backdrop.classList.add("active");
+  if (menuBtn) menuBtn.innerHTML = "✕";
+  document.body.classList.add("drawer-open");
+};
+
+window.closeSlimMenu = function() {
+  const tabs = document.getElementById("slimNavTabs") || document.querySelector(".slim-nav-tabs");
+  const backdrop = document.querySelector(".slim-nav-backdrop");
+  const menuBtn = document.querySelector(".slim-menu-btn");
+  if (tabs) {
+    tabs.classList.remove("open");
+    tabs.classList.remove("mobile-open");
+  }
+  if (backdrop) backdrop.classList.remove("active");
+  if (menuBtn) menuBtn.innerHTML = "☰";
+  document.body.classList.remove("drawer-open");
+};
+
 window.toggleSlimMenu = function() {
   const tabs = document.getElementById("slimNavTabs") || document.querySelector(".slim-nav-tabs");
-  if (tabs) tabs.classList.toggle("open");
+  if (tabs && (tabs.classList.contains("open") || tabs.classList.contains("mobile-open"))) {
+    window.closeSlimMenu();
+  } else {
+    window.openSlimMenu();
+  }
 };
+
+function initMobileNavigationDrawer() {
+  const tabs = document.getElementById("slimNavTabs") || document.querySelector(".slim-nav-tabs");
+  if (!tabs) return;
+
+  // 1. Tạo Backdrop nếu chưa có trong DOM
+  let backdrop = document.querySelector(".slim-nav-backdrop");
+  if (!backdrop) {
+    backdrop = document.createElement("div");
+    backdrop.className = "slim-nav-backdrop";
+    document.body.appendChild(backdrop);
+  }
+  backdrop.onclick = function() {
+    window.closeSlimMenu();
+  };
+
+  // 2. Thêm Header Drawer với nút Đóng nếu chưa có
+  let drawerHeader = tabs.querySelector(".slim-drawer-header");
+  if (!drawerHeader) {
+    drawerHeader = document.createElement("div");
+    drawerHeader.className = "slim-drawer-header";
+    drawerHeader.innerHTML = `
+      <div class="slim-drawer-title">
+        <span>🌱</span>
+        <span>Công nghệ Nông nghiệp</span>
+      </div>
+      <button type="button" class="slim-drawer-close-btn" aria-label="Đóng menu">✕</button>
+    `;
+    tabs.prepend(drawerHeader);
+
+    const closeBtn = drawerHeader.querySelector(".slim-drawer-close-btn");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.closeSlimMenu();
+      });
+    }
+  }
+
+  // 3. Thêm Footer Drawer nếu chưa có
+  let drawerFooter = tabs.querySelector(".slim-drawer-footer");
+  if (!drawerFooter) {
+    drawerFooter = document.createElement("div");
+    drawerFooter.className = "slim-drawer-footer";
+    drawerFooter.innerHTML = `
+      <div style="font-weight:700; color:#1e293b; margin-bottom:4px;">THPT Lộc Ninh</div>
+      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; color:#0284c7; text-decoration:none; font-weight:600;">
+        <span>💬</span> Zalo Thầy Nam: 0978.405.879
+      </a>
+    `;
+    tabs.appendChild(drawerFooter);
+  }
+
+  // 4. Click link trong Drawer thì tự động đóng menu
+  const links = tabs.querySelectorAll(".slim-tab-link");
+  links.forEach(function(link) {
+    link.addEventListener("click", function() {
+      window.closeSlimMenu();
+    });
+  });
+
+  // 5. Bấm ESC để đóng
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      window.closeSlimMenu();
+    }
+  });
+}
 
 (function () {
   const STORAGE_KEY = "cnnn_ui_theme_v1";
@@ -300,6 +399,7 @@ window.toggleSlimMenu = function() {
     }
     enhanceMobileBottomBarLabels();
     initEdTechMobileLessonDrawer();
+    initMobileNavigationDrawer();
   }
 
   loadAndApplySavedTheme();
