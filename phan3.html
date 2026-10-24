@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>📝 Soạn Đề Kiểm Tra CV 7991 (6 Bước Tối Giản) — CNNN 10•11•12</title>
-  <link rel="stylesheet" href="styles.css?v=4" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=6" />
   <style>
     /* Tối giản hóa quy trình 6 bước CV 7991 — Gọn, thoáng, tập trung vào con số & thao tác */
     .cv-toolbar {
@@ -126,66 +130,30 @@
 </head>
 <body>
 
-  <!-- HEADER MOBILE-FIRST THPT LỘC NINH -->
-  <header class="app-header">
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand-badge">🌱 THPT LỘC NINH • CNNN 10•11•12</div>
-        <div class="brand-title">
-          <h1>CỔNG HỌC LIỆU &amp; HỖ TRỢ SOẠN GIẢNG ĐIỆN TỬ (CV 5512)</h1>
-          <p class="brand-slogan">Đồng hành cùng giáo viên &amp; học sinh THPT Lộc Ninh trên hành trình chuyển đổi số nông nghiệp</p>
-          <div class="header-contact-bar">
-            <div class="author-badge">👨‍🏫 <span>Tác giả: Thầy Trương Khắc Nam – GV CNNN</span></div>
-            <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="zalo-cta-btn">
-              💬 <span>Nhắn Zalo: 0978.405.879</span>
-            </a>
-          </div>
-        </div>
+    <!-- SLIM UNIFIED NAVBAR -->
+  <header class="slim-navbar">
+    <div class="slim-brand">
+      <span class="slim-logo">🌱</span>
+      <div>
+        <div class="slim-title">PHẦN 3: SOẠN ĐỀ THEO HỌC KÌ (CV 7991)</div>
+        <div class="slim-sub">THPT Lộc Ninh • Công nghệ Nông nghiệp 10 - 11 - 12</div>
       </div>
-      <div class="header-actions">
-        <button class="btn btn-outline btn-sm" onclick="openHistoryModal()">🕒 Lịch sử (<span id="historyCountBadge">0</span>)</button>
-        <button class="btn btn-outline btn-sm" onclick="openSimilarExamModal()">🔄 Đề Tương Tự</button>
-        <button class="btn btn-secondary btn-sm" onclick="openVariantsModal()">⚡ 3 Đề Biến Thể</button>
-        <button class="btn btn-primary btn-sm" onclick="openStudyGuideModal()">📖 Đề Cương</button>
-        <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Xuất Word (.doc)</button>
-        <button class="btn btn-outline btn-sm" onclick="openAiConfigModal()" title="Cấu hình API AI">⚙️ AI</button>
-      </div>
+    </div>
+    <div class="slim-nav-tabs">
+      <a href="index.html" class="slim-tab-link" style="color:#38bdf8;">🏠 Trang chủ</a>
+      <a href="phan1.html" class="slim-tab-link">📖 Phần 1: Lý thuyết</a>
+      <a href="phan2.html" class="slim-tab-link">📑 Phần 2: Hồ sơ 5512</a>
+      <a href="phan3.html" class="slim-tab-link active">📝 Phần 3: Soạn đề 7991</a>
+      <a href="phan4.html" class="slim-tab-link">🏆 Phần 4: Ôn thi HSG</a>
+      <a href="thietke.html" class="slim-tab-link">🎨 Studio</a>
+    </div>
+    <div class="slim-actions">
+      <button class="btn btn-outline btn-sm" onclick="openHistoryModal()">🕒 Lịch sử (<span id="historyCountBadge">0</span>)</button>
+      <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Xuất Word (.doc)</button>
+      <button class="btn btn-sm btn-outline" style="color:#f8fafc; border-color:#475569;" onclick="window.print()">🖨️ In PDF</button>
+      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" style="color:#38bdf8; border-color:#0284c7;">💬 Zalo</a>
     </div>
   </header>
-
-  <!-- 4 MAIN MODULES NAVIGATION BAR -->
-  <nav class="module-nav-bar">
-    <div class="module-nav-inner">
-      <button class="module-tab-btn" onclick="switchMainModule(1)">
-        <div class="module-tab-icon">📖</div>
-        <div class="module-tab-text">
-          <strong>PHẦN 1: KIẾN THỨC & PHÂN TÍCH</strong>
-          <span>77 bài SGK • Sơ đồ • Flashcard</span>
-        </div>
-      </button>
-      <button class="module-tab-btn" onclick="switchMainModule(2)">
-        <div class="module-tab-icon">📑</div>
-        <div class="module-tab-text">
-          <strong>PHẦN 2: HỒ SƠ 5512 & PPT</strong>
-          <span>Giáo án 5512 • 77 PPT</span>
-        </div>
-      </button>
-      <button class="module-tab-btn active" onclick="switchMainModule(3)">
-        <div class="module-tab-icon">📝</div>
-        <div class="module-tab-text">
-          <strong>PHẦN 3: SOẠN ĐỀ HỌC KÌ</strong>
-          <span>6 bước CV 7991 • 97 Đề mẫu</span>
-        </div>
-      </button>
-      <button class="module-tab-btn" onclick="switchMainModule(4)">
-        <div class="module-tab-icon">🏆</div>
-        <div class="module-tab-text">
-          <strong>PHẦN 4: HSG & TỐT NGHIỆP</strong>
-          <span>Luyện đề VDC • 48 Đề Bộ</span>
-        </div>
-      </button>
-    </div>
-  </nav>
 
   <!-- 6-STEP WIZARD NAVIGATION (TỐI GIẢN 1 DÒNG GỌN GÀNG) -->
   <nav class="stepper-bar" id="cv7991StepperBar" style="display:block;">
