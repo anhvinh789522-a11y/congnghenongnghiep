@@ -1,4 +1,4 @@
-﻿// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
+// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
 // Phần 1: Kiến thức tóm tắt từng bài, câu hỏi nâng cao & Công cụ phân tích lý thuyết
 // Phần 2: Tổng hợp 77 bài giảng PPT trình chiếu & dạy nhanh (+ 42 Chuyên đề)
 // Phần 3: Soạn đề theo học kì (Chuẩn Công văn 7991 - 6 bước + Kho 97 Đề học kì)
@@ -2772,6 +2772,40 @@ function exportHsgExamWord() {
 // PHÂN HỆ II: LUYỆN THI TỐT NGHIỆP THPT (CHUẨN MẪU BỘ GD&ĐT)
 // Cấu trúc chuẩn Bộ: 24 MCQ (6,0đ) + 4 Đúng/Sai (4,0đ, thang 0.1 - 0.25 - 0.5 - 1.0đ) = 28 câu, 50 phút
 // ============================================================================
+// ============================================================================
+// XÃC Äá»ŠNH CHÃNH XÃC PHÃ‚N MÃ”N: LÃ‚M NGHIá»†P (BÃ€I 1-7) VS THá»¦Y Sáº¢N (BÃ€I 8-27)
+// Chuáº©n hÃ³a metadata cÃ¢u há»i vÃ  bÃ i há»c theo SGK CÃ´ng nghá»‡ 12 Káº¿t ná»‘i tri thá»©c
+// ============================================================================
+function getQuestionSubject(q) {
+  if (!q) return "LÃ¢m nghiá»‡p";
+  if (q.topic) {
+    if (/lÃ¢m|rá»«ng|cÃ¢y gá»—|thá»±c bÃ¬/i.test(q.topic)) return "LÃ¢m nghiá»‡p";
+    if (/thá»§y sáº£n|cÃ¡|tÃ´m|ao nuÃ´i|biofloc|ras/i.test(q.topic)) return "Thá»§y sáº£n";
+  }
+  if (q.unitId) {
+    if (["cn12_1", "cn12_2", "cn12_3"].includes(q.unitId)) return "LÃ¢m nghiá»‡p";
+    if (["cn12_4", "cn12_5", "cn12_6", "cn12_7", "cn12_8", "cn12_8b", "cn12_9", "cn12_10"].includes(q.unitId)) return "Thá»§y sáº£n";
+  }
+  if (typeof q.lesson === "number") {
+    return q.lesson <= 7 ? "LÃ¢m nghiá»‡p" : "Thá»§y sáº£n";
+  }
+  const text = (q.stem || "") + " " + (q.context || "") + " " + (q.title || "");
+  if (/rá»«ng|lÃ¢m nghiá»‡p|cÃ¢y giá»‘ng lÃ¢m nghiá»‡p|chá»©ng chá»‰ fsc|Ä‘Æ°á»ng bÄƒng cáº£n lá»­a|khai thÃ¡c chá»n|khai thÃ¡c tráº¯ng|khai thÃ¡c dáº§n|gá»— lá»›n|tá»‰a thÆ°a/i.test(text)) {
+    return "LÃ¢m nghiá»‡p";
+  }
+  return "Thá»§y sáº£n";
+}
+window.getQuestionSubject = getQuestionSubject;
+
+function isLessonLam(l) {
+  if (!l) return true;
+  if (typeof l.lesson === "number") {
+    return l.lesson <= 7;
+  }
+  const text = (l.title || "") + " " + (l.chapter || "");
+  return /lÃ¢m nghiá»‡p|rá»«ng|cÃ¢y rá»«ng|gá»—/i.test(text);
+}
+window.isLessonLam = isLessonLam;
 function initGradExam(examId) {
   if (typeof QUESTION_BANK === "undefined") return;
   portalState.gradExamId = examId || "bo_2025_sample";
@@ -2940,7 +2974,7 @@ function submitGradExam(force) {
     if (lvl === "biet") { bietTotal++; if (isCorrect) bietCorrect++; }
     else if (lvl === "hieu") { hieuTotal++; if (isCorrect) hieuCorrect++; }
     else { vdTotal++; if (isCorrect) vdCorrect++; }
-    const isLam = (q.lesson && q.lesson <= 15) || (q.stem && /rừng|lâm nghiệp|cây gỗ|viên nén/i.test(q.stem));
+    const isLam = (getQuestionSubject(q) === 'Lâm nghiệp');
     if (isLam) { lamTotal++; if (isCorrect) lamCorrect++; }
     else { thuyTotal++; if (isCorrect) thuyCorrect++; }
   });
@@ -3294,11 +3328,16 @@ function renderModule5Graduation() {
         
         <!-- CỘT TRÁI (70%): TIÊU ĐỀ & DANH SÁCH CÂU HỎI -->
         <div class="grad-left-col">
-          <div class="grad-exam-headline">
+          <div class="grad-exam-headline" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
             <div>
-              <h3>${escapeHtml(portalState.gradExamTitle)}</h3>
+              <h3 style="margin:0 0 4px;">${escapeHtml(portalState.gradExamTitle)}</h3>
               <span class="grad-exam-subtext">50 phút • 28 câu (24 MCQ + 4 Đúng/Sai) • Thang điểm 10,0</span>
             </div>
+            ${(!portalState.gradTimerRunning && totalDone === 0 && !portalState.gradSubmitted) ? `
+              <button class="btn btn-primary" onclick="startGradTimer(); scrollToGradQuestion(1);" style="font-weight:700; padding:9px 18px; font-size:14.5px; background:var(--primary); box-shadow:0 2px 8px rgba(23,97,62,0.25);">
+                ▶️ Bắt đầu làm bài
+              </button>
+            ` : ''}
           </div>
 
           <!-- Banner kết quả nếu đã nộp -->
@@ -3355,7 +3394,7 @@ function renderModule5Graduation() {
                     <span class="badge ${q.level === 'vandung' ? 'badge-vandung' : (q.level === 'hieu' ? 'badge-hieu' : 'badge-biet')}">
                       ${q.level === 'vandung' ? 'Vận dụng' : (q.level === 'hieu' ? 'Thông hiểu' : 'Nhận biết')}
                     </span>
-                    <span class="badge badge-nl">${(q.lesson && q.lesson <= 15) ? 'Lâm nghiệp' : 'Thủy sản'}</span>
+                    <span class="badge badge-nl">${getQuestionSubject(q)}</span>
                   </div>
                   ${portalState.gradSubmitted ? (
                     isCorrect
@@ -3556,7 +3595,7 @@ function renderModule5Graduation() {
     // Lấy bài học đang chọn
     let curLesson = allCn12Lessons.find(l => l.id === portalState.selectedGradLessonId);
     if (!curLesson && allCn12Lessons.length > 0) curLesson = allCn12Lessons[0];
-    const curIsLam = curLesson ? (curLesson.lesson <= 15) : true;
+    const curIsLam = isLessonLam(curLesson);
 
     // Lấy 5 câu hỏi trắc nghiệm thực hành theo bài
     let lessonPracticeQuestions = [];
@@ -3630,7 +3669,7 @@ function renderModule5Graduation() {
           <div class="grad-lesson-list-scroll">
             ${filteredLessons.map(l => {
               const isActive = (curLesson && curLesson.id === l.id);
-              const isLamItem = (l.lesson <= 15);
+              const isLamItem = isLessonLam(l);
               return `
                 <div class="grad-lesson-item ${isActive ? 'active' : ''}" onclick="selectGradLessonItem('${l.id}')">
                   <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -3995,16 +4034,16 @@ function renderModule5Graduation() {
     <div class="grad-toolbar-row">
       <div class="grad-tabs-group">
         <button class="grad-tab-pill ${portalState.gradExamSubTab === 'mock_test' ? 'active' : ''}" onclick="selectGradSubTab('mock_test')">
-          📝 Phòng Thi Thử (28 câu)
+          📝 Thi thử
         </button>
         <button class="grad-tab-pill ${portalState.gradExamSubTab === 'lesson_review' ? 'active' : ''}" onclick="selectGradSubTab('lesson_review')">
-          📖 Ôn Tập Theo Bài (K12)
+          📖 Ôn theo bài
         </button>
         <button class="grad-tab-pill ${portalState.gradExamSubTab === 'analysis' ? 'active' : ''}" onclick="selectGradSubTab('analysis')">
-          📊 Phân Tích &amp; Lỗi Sai
+          📊 Lỗi sai
         </button>
         <button class="grad-tab-pill ${portalState.gradExamSubTab === 'ministry_48' ? 'active' : ''}" onclick="selectGradSubTab('ministry_48')">
-          🏛️ Kho 48 Đề Bộ (PDF)
+          🏛️ Kho đề
         </button>
       </div>
       <div class="grad-actions-group">

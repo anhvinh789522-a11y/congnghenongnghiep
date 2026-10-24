@@ -1,38 +1,38 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hệ thống Thiết kế & Kiểm định Đề thi Công nghệ Nông nghiệp - Chuẩn Công văn 7991/BGDĐT-GDTrH</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Hồ sơ 5512 & Giáo án • Công nghệ Nông nghiệp • THPT Lộc Ninh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
 
-      <!-- SLIM UNIFIED NAVBAR -->
+  <!-- UNIFIED SLIM NAVBAR CHUẨN THIẾT KẾ -->
   <header class="slim-navbar">
     <div class="slim-brand">
-      <span class="slim-logo">🌱</span>
-      <div>
-        <div class="slim-title">PHẦN 2: HỒ SƠ 5512 & BÀI GIẢNG PPT</div>
-        <div class="slim-sub">THPT Lộc Ninh • Công nghệ Nông nghiệp 10 - 11 - 12</div>
-      </div>
+      <a href="index.html" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit;">
+        <span class="slim-logo">🌱</span>
+        <div>
+          <div class="slim-title">Công nghệ Nông nghiệp</div>
+          <div class="slim-sub">THPT Lộc Ninh</div>
+        </div>
+      </a>
     </div>
-    <div class="slim-nav-tabs">
+
+    <button class="slim-menu-btn" onclick="toggleSlimMenu()" aria-label="Menu chuyển trang">☰</button>
+
+    <nav class="slim-nav-tabs" id="slimNavTabs">
       <a href="index.html" class="slim-tab-link">Trang chủ</a>
-      <a href="phan1.html" class="slim-tab-link">Lý thuyết</a>
+      <a href="phan1.html" class="slim-tab-link">Bài học</a>
       <a href="phan2.html" class="slim-tab-link active">Hồ sơ 5512</a>
       <a href="phan3.html" class="slim-tab-link">Soạn đề 7991</a>
       <a href="phan4.html" class="slim-tab-link">Bồi dưỡng HSG</a>
       <a href="phan5.html" class="slim-tab-link">Ôn thi THPT</a>
-      <a href="thietke.html" class="slim-tab-link">Studio</a>
-    </div>
-    <div class="slim-actions">
-      <button class="btn btn-sm" style="background:#1e293b; color:#f8fafc; border:1px solid #475569; font-weight:600; cursor:pointer;" onclick="window.print()">In PDF</button>
-      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-sm" style="background:#0284c7; color:#ffffff; border:1px solid #0284c7; font-weight:600; text-decoration:none;">Zalo</a>
-    </div>
+    </nav>
   </header>
 
   <!-- 6-STEP WIZARD NAVIGATION (DÀNH CHO PHẦN 3: SOẠN ĐỀ THEO HỌC KÌ) -->

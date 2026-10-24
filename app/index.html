@@ -3,132 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cổng Dạy &amp; Học Công Nghệ Nông Nghiệp 10 - 11 - 12 • THPT Lộc Ninh</title>
+  <title>Công nghệ Nông nghiệp • THPT Lộc Ninh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=8" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=10" />
   <style>
-    /* BỐ CỤC 5 THẺ TINH GIẢN HIỆN ĐẠI */
-    .vcb-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr) !important;
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-    @media (max-width: 1200px) {
-      .vcb-cards-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 14px;
-      }
-    }
-    @media (max-width: 768px) {
-      .vcb-cards-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px;
-      }
-    }
-    @media (max-width: 520px) {
-      .vcb-cards-grid {
-        grid-template-columns: 1fr !important;
-        gap: 12px;
-      }
-    }
-
-    .vcb-portal-card {
-      background: #ffffff;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 18px 16px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-      position: relative;
-      overflow: hidden;
-    }
-    .vcb-portal-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #0f3d24, #15803d, #22c55e);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-    .vcb-portal-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 24px rgba(15, 61, 36, 0.12);
-    }
-    .vcb-portal-card:hover::before {
-      opacity: 1;
-    }
-    .vcb-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .vcb-card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-    .vcb-portal-card:hover .vcb-card-icon {
-      transform: scale(1.1);
-    }
-    .vcb-card-tag {
-      font-size: 10.5px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      display: inline-block;
-    }
-    .vcb-card-title {
-      font-size: 15px;
-      font-weight: 800;
-      line-height: 1.35;
-      margin-bottom: 6px;
-      letter-spacing: -0.2px;
-    }
-    .vcb-card-desc {
-      font-size: 12.5px;
-      color: #64748b;
-      line-height: 1.45;
-      margin-bottom: 16px;
-      min-height: 36px;
-    }
-    .vcb-card-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      width: 100%;
-      padding: 9px 12px;
-      color: #ffffff !important;
-      font-size: 13px;
-      font-weight: 700;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      box-sizing: border-box;
-    }
-    .vcb-portal-card:hover .vcb-card-btn {
-      filter: brightness(1.1);
-    }
-
     /* MODAL CẤU HÌNH TRỰC QUAN CHO TRANG CHỦ */
     .cfg-modal-backdrop {
       display: none;
@@ -162,7 +42,7 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .cfg-modal-header {
-      background: linear-gradient(135deg, #0f3d24 0%, #15803d 100%);
+      background: linear-gradient(135deg, #17613E 0%, #124C30 100%);
       color: #ffffff;
       padding: 14px 20px;
       display: flex;
@@ -172,7 +52,7 @@
     }
     .cfg-modal-header h3 {
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 700;
       margin: 0;
       display: flex;
       align-items: center;
@@ -183,7 +63,7 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: #ffffff;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 700;
       padding: 5px 12px;
       border-radius: 8px;
       cursor: pointer;
@@ -202,7 +82,7 @@
     .cfg-tab-btn {
       padding: 9px 14px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       color: #475569;
       background: transparent;
       border: 1px solid transparent;
@@ -213,9 +93,9 @@
     }
     .cfg-tab-btn.active {
       background: #ffffff;
-      color: #0f3d24;
+      color: #17613E;
       border-color: #cbd5e1;
-      border-top: 3px solid #15803d;
+      border-top: 3px solid #17613E;
     }
     .cfg-modal-body {
       padding: 20px;
@@ -234,7 +114,7 @@
     .cfg-form-group label {
       display: block;
       font-size: 12.5px;
-      font-weight: 700;
+      font-weight: 600;
       color: #1e293b;
       margin-bottom: 5px;
     }
@@ -254,9 +134,9 @@
     .cfg-form-group input[type="text"]:focus,
     .cfg-form-group textarea:focus {
       outline: none;
-      border-color: #15803d;
+      border-color: #17613E;
       background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.12);
+      box-shadow: 0 0 0 3px rgba(23, 97, 62, 0.12);
     }
     .cfg-grid-2 {
       display: grid;
@@ -275,8 +155,8 @@
     }
     .cfg-card-box h4 {
       font-size: 13.5px;
-      font-weight: 800;
-      color: #0f3d24;
+      font-weight: 700;
+      color: #17613E;
       margin: 0 0 10px 0;
       display: flex;
       align-items: center;
@@ -302,7 +182,7 @@
       padding: 9px 16px;
       border-radius: 8px;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 600;
       cursor: pointer;
       border: 1px solid transparent;
       display: inline-flex;
@@ -312,12 +192,12 @@
       transition: all 0.15s ease;
     }
     .cfg-btn-primary {
-      background: #15803d;
+      background: #17613E;
       color: #ffffff;
-      border-color: #16a34a;
+      border-color: #17613E;
     }
     .cfg-btn-primary:hover {
-      background: #0f3d24;
+      background: #124C30;
     }
     .cfg-btn-outline {
       background: #ffffff;
@@ -340,317 +220,291 @@
     }
   </style>
 </head>
-<body style="background:#f8fafc; min-height:100vh; display:flex; flex-direction:column; margin:0; font-family:'Plus Jakarta Sans','Be Vietnam Pro',sans-serif;">
+<body style="background:var(--bg); min-height:100vh; display:flex; flex-direction:column; margin:0; font-family:var(--font-main);">
 
-  <!-- SLIM TOPBAR TRANG CHỦ -->
+  <!-- UNIFIED SLIM NAVBAR CHUẨN THIẾT KẾ -->
   <header class="slim-navbar">
     <div class="slim-brand">
-      <span class="slim-logo">🌱</span>
-      <div>
-        <div class="slim-title" id="homeTopTitle">DẠY &amp; HỌC CÔNG NGHỆ NÔNG NGHIỆP</div>
-        <div class="slim-sub" id="homeTopSub">Trường THPT Lộc Ninh • Bộ sách Kết nối tri thức với cuộc sống</div>
-      </div>
-    </div>
-    <div class="slim-actions">
-      <div class="author-badge" id="homeTopAuthor" style="font-size:12px; color:#cbd5e1;">👨‍🏫 Thầy Trương Khắc Nam – GV CNNN (Bí thư Đoàn trường)</div>
-      <a href="https://zalo.me/0978405879" id="homeTopZaloBtn" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" style="color:#38bdf8; border-color:#0284c7; text-decoration:none;">
-        💬 <span id="homeTopZaloText">0978.405.879</span>
+      <a href="index.html" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit;">
+        <span class="slim-logo">🌱</span>
+        <div>
+          <div class="slim-title" id="homeTopTitle">Công nghệ Nông nghiệp</div>
+          <div class="slim-sub" id="homeTopSub">THPT Lộc Ninh</div>
+        </div>
       </a>
-      <button type="button" class="btn btn-sm btn-primary" onclick="openHomeConfigModal()" style="background:#15803d; border-color:#22c55e; color:#ffffff; font-weight:700;">
-        ⚙️ Cấu hình Trang chủ
-      </button>
-      <a href="thietke.html" class="btn btn-sm btn-outline" style="color:#f8fafc; border-color:#475569; text-decoration:none;">🎨 Studio UI</a>
+    </div>
+
+    <button class="slim-menu-btn" onclick="toggleSlimMenu()" aria-label="Menu chuyển trang">☰</button>
+
+    <nav class="slim-nav-tabs" id="slimNavTabs">
+      <a href="index.html" class="slim-tab-link active">Trang chủ</a>
+      <a href="phan1.html" class="slim-tab-link">Bài học</a>
+      <a href="phan2.html" class="slim-tab-link">Hồ sơ 5512</a>
+      <a href="phan3.html" class="slim-tab-link">Soạn đề 7991</a>
+      <a href="phan4.html" class="slim-tab-link">Bồi dưỡng HSG</a>
+      <a href="phan5.html" class="slim-tab-link">Ôn thi THPT</a>
+    </nav>
+
+    <div class="slim-actions">
+      <a href="thietke.html" class="clean-admin-btn" title="Phòng thiết kế giao diện Studio UI">🎨 Studio UI</a>
     </div>
   </header>
 
-  <!-- NOI DUNG TRANG CHU: CONG DIEU HUONG CHINH -->
-  <main style="flex:1; max-width:1340px; width:100%; margin:0 auto; padding:32px 18px; box-sizing:border-box;">
+  <!-- MAIN CONTAINER TRANG CHỦ -->
+  <main style="flex:1; max-width:1100px; width:100%; margin:0 auto; padding:44px 20px 32px; box-sizing:border-box;">
     
-    <!-- HERO WELCOME BANNER -->
-    <div class="vcb-hero-welcome" style="margin-bottom:32px; text-align:center;">
-      <div class="vcb-hero-badge" id="homeHeroBadge" style="display:inline-flex; align-items:center; gap:6px; background:#dcfce7; color:#15803d; font-weight:700; font-size:12px; padding:6px 14px; border-radius:20px; margin-bottom:12px;">
-        🌱 HỆ THỐNG DẠY &amp; HỌC ĐIỆN TỬ • THPT LỘC NINH
-      </div>
-      <h1 id="homeHeroTitle" style="color:#0f2e1e; font-size:26px; font-weight:800; margin-bottom:8px; letter-spacing:-0.4px;">
-        DẠY &amp; HỌC CÔNG NGHỆ NÔNG NGHIỆP 10 – 11 – 12
+    <!-- TIÊU ĐỀ & KHẨU HIỆU TRỌNG TÂM -->
+    <div style="text-align:center; margin-bottom:28px;">
+      <h1 id="homeHeroTitle" style="font-size:32px; font-weight:700; color:var(--text); margin:0 0 10px; letter-spacing:-0.4px;">
+        Học và dạy Công nghệ
       </h1>
-      <p id="homeHeroDesc" style="color:#64748b; font-size:15px; max-width:680px; margin:0 auto; line-height:1.6;">
-        Chào mừng quý thầy cô và các em học sinh.
+      <p id="homeHeroDesc" style="font-size:16px; color:var(--text-muted); margin:0 auto; max-width:680px; line-height:1.6; font-weight:400;">
+        Học liệu lớp 10–12 · Kết nối tri thức với cuộc sống
       </p>
     </div>
 
-    <!-- 5 THẺ CHUYÊN MỤC TINH GIẢN (ICON TO RÕ • ÍT CHỮ • KHÔNG RỐI MẮT) -->
-    <div class="vcb-cards-grid">
-
-      <!-- MỤC 1 -->
-      <a href="phan1.html" class="vcb-portal-card" id="cardPhan1" style="border-color:#bbf7d0;">
-        <div>
-          <div class="vcb-card-header">
-            <div class="vcb-card-icon" style="background:#f0fdf4; border:1.5px solid #86efac; color:#15803d;">📖</div>
-            <span class="vcb-card-tag" style="background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0;">01</span>
-          </div>
-          <h2 class="vcb-card-title" id="cardTitle1" style="color:#0f3d24;">KIẾN THỨC &amp; LÝ THUYẾT</h2>
-          <p class="vcb-card-desc" id="cardDesc1">Tóm tắt chuẩn 77 bài học SGK &amp; Sơ đồ tư duy trực quan.</p>
-        </div>
-        <div class="vcb-card-btn" style="background:#0f3d24;">Khám Phá ➔</div>
-      </a>
-
-      <!-- MỤC 2 -->
-      <a href="phan2.html" class="vcb-portal-card" id="cardPhan2" style="border-color:#bbf7d0;">
-        <div>
-          <div class="vcb-card-header">
-            <div class="vcb-card-icon" style="background:#f0fdf4; border:1.5px solid #86efac; color:#15803d;">📑</div>
-            <span class="vcb-card-tag" style="background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0;">02</span>
-          </div>
-          <h2 class="vcb-card-title" id="cardTitle2" style="color:#0f3d24;">HỒ SƠ &amp; GIÁO ÁN</h2>
-          <p class="vcb-card-desc" id="cardDesc2">Hồ sơ nộp Tổ chuyên môn CV 5512 &amp; Kho 77 bài giảng PPT.</p>
-        </div>
-        <div class="vcb-card-btn" style="background:#0f3d24;">Soạn Bài ➔</div>
-      </a>
-
-      <!-- MỤC 3 -->
-      <a href="phan3.html" class="vcb-portal-card" id="cardPhan3" style="border-color:#bbf7d0;">
-        <div>
-          <div class="vcb-card-header">
-            <div class="vcb-card-icon" style="background:#f0fdf4; border:1.5px solid #86efac; color:#15803d;">📝</div>
-            <span class="vcb-card-tag" style="background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0;">03</span>
-          </div>
-          <h2 class="vcb-card-title" id="cardTitle3" style="color:#0f3d24;">BIÊN SOẠN ĐỀ</h2>
-          <p class="vcb-card-desc" id="cardDesc3">Quy trình 6 bước CV 7991, Ma trận, đặc tả &amp; Kho 97 đề thi.</p>
-        </div>
-        <div class="vcb-card-btn" style="background:#0f3d24;">Ra Đề ➔</div>
-      </a>
-
-      <!-- MỤC 4: BỒI DƯỠNG HỌC SINH GIỎI -->
-      <a href="phan4.html" class="vcb-portal-card" id="cardPhan4" style="border-color:#fde68a;">
-        <div>
-          <div class="vcb-card-header">
-            <div class="vcb-card-icon" style="background:#fef3c7; border:1.5px solid #fcd34d; color:#b45309;">🏆</div>
-            <span class="vcb-card-tag" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">04</span>
-          </div>
-          <h2 class="vcb-card-title" id="cardTitle4" style="color:#b45309;">BỒI DƯỠNG HSG</h2>
-          <p class="vcb-card-desc" id="cardDesc4">Luyện đề 180 phút Bảng B, 9 chuyên đề VDC &amp; Máy tính 6-in-1.</p>
-        </div>
-        <div class="vcb-card-btn" style="background:#b45309;">Luyện Thi ➔</div>
-      </a>
-
-      <!-- MỤC 5: ÔN THI TỐT NGHIỆP THPT -->
-      <a href="phan5.html" class="vcb-portal-card" id="cardPhan5" style="border-color:#bfdbfe;">
-        <div>
-          <div class="vcb-card-header">
-            <div class="vcb-card-icon" style="background:#eff6ff; border:1.5px solid #93c5fd; color:#1d4ed8;">🏛️</div>
-            <span class="vcb-card-tag" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">05</span>
-          </div>
-          <h2 class="vcb-card-title" id="cardTitle5" style="color:#1d4ed8;">ÔN THI TỐT NGHIỆP THPT</h2>
-          <p class="vcb-card-desc" id="cardDesc5">Khảo thí trắc nghiệm 28 câu chuẩn Bộ &amp; Kho 48 đề gốc.</p>
-        </div>
-        <div class="vcb-card-btn" style="background:#1d4ed8;">Ôn Thi ➔</div>
-      </a>
-
+    <!-- NÚT PHÂN LOẠI NGƯỜI DÙNG: [Học sinh] | [Giáo viên] -->
+    <div style="text-align:center;">
+      <div class="user-group-toggle" role="tablist" aria-label="Chọn đối tượng người dùng">
+        <button type="button" class="user-group-btn active" id="btnRoleHocSinh" onclick="switchUserRole('hocsinh')" role="tab" aria-selected="true">
+          👨‍🎓 Học sinh
+        </button>
+        <button type="button" class="user-group-btn" id="btnRoleGiaoVien" onclick="switchUserRole('giaovien')" role="tab" aria-selected="false">
+          👩‍🏫 Giáo viên
+        </button>
+      </div>
     </div>
 
-    <!-- KHỐI TIỆN ÍCH NHANH CỔNG TRUNG TÂM -->
-    <div class="vcb-quick-strip" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
-      <div style="display:flex; align-items:center; gap:10px;">
-        <span style="font-size:22px;">⚡</span>
+    <!-- KHỐI 3 THẺ DÀNH CHO HỌC SINH (MẶC ĐỊNH) -->
+    <div id="gridHocSinh" class="clean-cards-grid">
+      <!-- 1. Bài học -->
+      <a href="phan1.html" class="clean-card" id="cardHsPhan1">
         <div>
-          <strong style="color:#1e293b; font-size:14px;">Cổng điều hướng trung tâm thông minh</strong>
-          <div style="font-size:12px; color:#64748b;">Mỗi chuyên mục mở ra không gian chuyên sâu riêng biệt, giúp thầy cô và học sinh không bị quá tải thông tin.</div>
+          <div class="clean-card-top">
+            <div class="clean-card-icon">📖</div>
+            <div>
+              <h2 class="clean-card-title">Bài học</h2>
+              <span style="font-size:12px; color:var(--primary); font-weight:600; background:var(--primary-light); padding:2px 8px; border-radius:4px;">Lý thuyết & Bài tập</span>
+            </div>
+          </div>
+          <p class="clean-card-desc">Tóm tắt lý thuyết 77 bài SGK, sơ đồ tư duy và bài tập củng cố.</p>
         </div>
-      </div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button type="button" class="btn btn-outline btn-sm" onclick="openHomeConfigModal()" style="font-weight:700; color:#0f3d24; border-color:#86efac; background:#f0fdf4;">
-          ⚙️ Cấu hình Trang chủ
-        </button>
-        <a href="thietke.html" class="btn btn-outline btn-sm" style="text-decoration:none; color:#0f766e; border-color:#0f766e; font-weight:600;">🎨 Studio UI (Tab 5)</a>
-        <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="text-decoration:none; font-weight:600;">💬 Nhắn Zalo Hỗ Trợ</a>
-      </div>
+        <div class="clean-card-action">Vào học ➔</div>
+      </a>
+
+      <!-- 2. Ôn tốt nghiệp -->
+      <a href="phan5.html" class="clean-card" id="cardHsPhan5">
+        <div>
+          <div class="clean-card-top">
+            <div class="clean-card-icon" style="background:#EBF8FF; color:#0284c7;">🏛️</div>
+            <div>
+              <h2 class="clean-card-title">Ôn tốt nghiệp</h2>
+              <span style="font-size:12px; color:#0284c7; font-weight:600; background:#EBF8FF; padding:2px 8px; border-radius:4px;">Chuẩn Bộ GD&ĐT</span>
+            </div>
+          </div>
+          <p class="clean-card-desc">Luyện thi tốt nghiệp THPT theo định dạng đề mới Bộ GD&ĐT.</p>
+        </div>
+        <div class="clean-card-action" style="color:#0284c7;">Luyện đề ➔</div>
+      </a>
+
+      <!-- 3. Bồi dưỡng HSG -->
+      <a href="phan4.html" class="clean-card" id="cardHsPhan4">
+        <div>
+          <div class="clean-card-top">
+            <div class="clean-card-icon" style="background:#FEF3C7; color:#B45309;">🏆</div>
+            <div>
+              <h2 class="clean-card-title">Bồi dưỡng HSG</h2>
+              <span style="font-size:12px; color:#B45309; font-weight:600; background:#FEF3C7; padding:2px 8px; border-radius:4px;">Nâng cao & VDC</span>
+            </div>
+          </div>
+          <p class="clean-card-desc">Luyện đề chuyên đề phân hóa cao, câu hỏi VDC và phòng thi lớp.</p>
+        </div>
+        <div class="clean-card-action" style="color:#B45309;">Bồi dưỡng ➔</div>
+      </a>
+    </div>
+
+    <!-- KHỐI 3 THẺ DÀNH CHO GIÁO VIÊN -->
+    <div id="gridGiaoVien" class="clean-cards-grid" style="display:none;">
+      <!-- 1. Hồ sơ & giáo án -->
+      <a href="phan2.html" class="clean-card" id="cardGvPhan2">
+        <div>
+          <div class="clean-card-top">
+            <div class="clean-card-icon">📑</div>
+            <div>
+              <h2 class="clean-card-title">Hồ sơ & giáo án</h2>
+              <span style="font-size:12px; color:var(--primary); font-weight:600; background:var(--primary-light); padding:2px 8px; border-radius:4px;">Công văn 5512</span>
+            </div>
+          </div>
+          <p class="clean-card-desc">Kế hoạch dạy học CV 5512, trọn bộ bài giảng và xuất hồ sơ chuyên môn.</p>
+        </div>
+        <div class="clean-card-action">Quản lý hồ sơ ➔</div>
+      </a>
+
+      <!-- 2. Soạn đề -->
+      <a href="phan3.html" class="clean-card" id="cardGvPhan3">
+        <div>
+          <div class="clean-card-top">
+            <div class="clean-card-icon" style="background:#EBF8FF; color:#0284c7;">📝</div>
+            <div>
+              <h2 class="clean-card-title">Soạn đề</h2>
+              <span style="font-size:12px; color:#0284c7; font-weight:600; background:#EBF8FF; padding:2px 8px; border-radius:4px;">Công văn 7991</span>
+            </div>
+          </div>
+          <p class="clean-card-desc">Lập ma trận, bản đặc tả và sinh đề kiểm tra định kỳ chuẩn CV 7991.</p>
+        </div>
+        <div class="clean-card-action" style="color:#0284c7;">Soạn đề ngay ➔</div>
+      </a>
+
+      <!-- 3. Học liệu -->
+      <a href="phan1.html" class="clean-card" id="cardGvPhan1">
+        <div>
+          <div class="clean-card-top">
+            <div class="clean-card-icon" style="background:#FEF3C7; color:#B45309;">📚</div>
+            <div>
+              <h2 class="clean-card-title">Học liệu</h2>
+              <span style="font-size:12px; color:#B45309; font-weight:600; background:#FEF3C7; padding:2px 8px; border-radius:4px;">Ngân hàng dữ liệu</span>
+            </div>
+          </div>
+          <p class="clean-card-desc">Ngân hàng bài học, câu hỏi gốc và ngữ liệu SGK đồng bộ 3 khối.</p>
+        </div>
+        <div class="clean-card-action" style="color:#B45309;">Xem học liệu ➔</div>
+      </a>
     </div>
 
   </main>
 
-  <!-- FOOTER -->
-  <footer style="text-align:center; padding:18px; color:#94a3b8; font-size:12.5px; border-top:1px solid #e2e8f0; background:#ffffff;">
-    © 2026 Cổng Học Liệu Điện Tử Công Nghệ Nông Nghiệp • Trường THPT Lộc Ninh • Tác giả: Thầy Trương Khắc Nam
+  <!-- CHÂN TRANG TINH GỌN CHUẨN MỰC -->
+  <footer class="clean-footer">
+    <div class="clean-footer-inner">
+      <div id="footerAuthorText">Thầy Trương Khắc Nam – GV CNNN, THPT Lộc Ninh</div>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <a href="https://zalo.me/0978405879" id="footerZaloBtn" target="_blank" rel="noopener noreferrer" class="clean-zalo-btn">
+          💬 <span id="footerZaloText">Nhắn Zalo: 0978.405.879</span>
+        </a>
+        <button type="button" class="clean-admin-btn" onclick="openHomeConfigModal()">
+          ⚙️ Quản trị giao diện
+        </button>
+      </div>
+    </div>
   </footer>
 
   <!-- ========================================================================= -->
-  <!-- MODAL CẤU HÌNH GIAO DIỆN TRANG CHỦ & CỔNG TRUNG TÂM                        -->
+  <!-- MODAL CẤU HÌNH GIAO DIỆN TRANG CHỦ                                        -->
   <!-- ========================================================================= -->
   <div class="cfg-modal-backdrop" id="modalHomeConfig" onclick="handleBackdropClick(event)">
     <div class="cfg-modal-box">
-      <!-- HEADER MODAL -->
       <div class="cfg-modal-header">
-        <h3>⚙️ CẤU HÌNH THÔNG TIN GIAO DIỆN TRANG CHỦ</h3>
+        <h3>⚙️ CẤU HÌNH THÔNG TIN TRANG CHỦ</h3>
         <button type="button" class="cfg-close-btn" onclick="closeHomeConfigModal()">✕ Đóng</button>
       </div>
 
-      <!-- TABS ĐIỀU HƯỚNG TRONG MODAL -->
       <div class="cfg-nav-tabs">
-        <button class="cfg-tab-btn active" onclick="switchCfgTab('topbar', this)">🏫 1. Header &amp; Tác giả</button>
-        <button class="cfg-tab-btn" onclick="switchCfgTab('welcome', this)">🌿 2. Lời Chào &amp; Khẩu hiệu</button>
-        <button class="cfg-tab-btn" onclick="switchCfgTab('cards', this)">🗂️ 3. Tên &amp; Mô tả 5 Chuyên Mục</button>
+        <button class="cfg-tab-btn active" onclick="switchCfgTab('topbar', this)">🏫 Header & Chân trang</button>
+        <button class="cfg-tab-btn" onclick="switchCfgTab('welcome', this)">🌿 Tiêu đề & Giới thiệu</button>
       </div>
 
-      <!-- BODY MODAL -->
       <div class="cfg-modal-body">
         <!-- TAB 1: TOPBAR & AUTHOR -->
         <div class="cfg-tab-pane active" id="pane_topbar">
           <div class="cfg-form-group">
-            <label>Tiêu đề chính trên thanh Topbar (Đầu trang)</label>
-            <input type="text" id="cfgTopTitle" value="DẠY &amp; HỌC CÔNG NGHỆ NÔNG NGHIỆP" />
+            <label>Tên hệ thống trên thanh Header</label>
+            <input type="text" id="cfgTopTitle" value="Công nghệ Nông nghiệp" />
           </div>
           <div class="cfg-form-group">
-            <label>Dòng phụ / Tên Trường học</label>
-            <input type="text" id="cfgTopSub" value="Trường THPT Lộc Ninh • Bộ sách Kết nối tri thức với cuộc sống" />
+            <label>Đơn vị trường học</label>
+            <input type="text" id="cfgTopSub" value="THPT Lộc Ninh" />
           </div>
           <div class="cfg-grid-2">
             <div class="cfg-form-group">
               <label>Tác giả / Giáo viên phụ trách</label>
-              <input type="text" id="cfgAuthor" value="Thầy Trương Khắc Nam – GV CNNN (Bí thư Đoàn trường)" />
+              <input type="text" id="cfgAuthor" value="Thầy Trương Khắc Nam – GV CNNN, THPT Lộc Ninh" />
             </div>
             <div class="cfg-form-group">
-              <label>Số Zalo hiển thị trên nút</label>
+              <label>Số điện thoại Zalo</label>
               <input type="text" id="cfgZaloText" value="0978.405.879" />
             </div>
           </div>
           <div class="cfg-form-group">
-            <label>Đường dẫn liên kết Zalo trực tiếp</label>
+            <label>Đường dẫn Zalo trực tiếp</label>
             <input type="text" id="cfgZaloUrl" value="https://zalo.me/0978405879" />
           </div>
         </div>
 
-        <!-- TAB 2: HERO WELCOME BANNER -->
+        <!-- TAB 2: HERO BANNER -->
         <div class="cfg-tab-pane" id="pane_welcome">
           <div class="cfg-form-group">
-            <label>Huy hiệu nhỏ phía trên tiêu đề (Badge)</label>
-            <input type="text" id="cfgHeroBadge" value="🌱 HỆ THỐNG DẠY &amp; HỌC ĐIỆN TỬ • THPT LỘC NINH" />
+            <label>Tiêu đề trang chủ</label>
+            <input type="text" id="cfgHeroTitle" value="Học và dạy Công nghệ" />
           </div>
           <div class="cfg-form-group">
-            <label>Tiêu đề lớn giữa trang chủ (Hero Title)</label>
-            <input type="text" id="cfgHeroTitle" value="DẠY &amp; HỌC CÔNG NGHỆ NÔNG NGHIỆP 10 – 11 – 12" />
-          </div>
-          <div class="cfg-form-group">
-            <label>Đoạn mô tả / Lời chào học sinh &amp; giáo viên</label>
-            <textarea id="cfgHeroDesc" rows="2">Chào mừng quý thầy cô và các em học sinh.</textarea>
-          </div>
-        </div>
-
-        <!-- TAB 3: 5 THẺ CHUYÊN MỤC TINH GIẢN -->
-        <div class="cfg-tab-pane" id="pane_cards">
-          <!-- Mục 1 -->
-          <div class="cfg-card-box">
-            <h4>📖 Mục 1: Kiến thức SGK</h4>
-            <div class="cfg-form-group">
-              <label>Tiêu đề thẻ</label>
-              <input type="text" id="cfgCardTitle1" value="KIẾN THỨC &amp; LÝ THUYẾT" />
-            </div>
-            <div class="cfg-form-group" style="margin-bottom:0;">
-              <label>Đoạn tóm tắt ngắn (Ít chữ, tinh giản)</label>
-              <input type="text" id="cfgCardDesc1" value="Tóm tắt chuẩn 77 bài học SGK &amp; Sơ đồ tư duy trực quan." />
-            </div>
-          </div>
-
-          <!-- Mục 2 -->
-          <div class="cfg-card-box">
-            <h4>📑 Mục 2: Hồ sơ &amp; Giáo án 5512</h4>
-            <div class="cfg-form-group">
-              <label>Tiêu đề thẻ</label>
-              <input type="text" id="cfgCardTitle2" value="HỒ SƠ &amp; GIÁO ÁN" />
-            </div>
-            <div class="cfg-form-group" style="margin-bottom:0;">
-              <label>Đoạn tóm tắt ngắn (Ít chữ, tinh giản)</label>
-              <input type="text" id="cfgCardDesc2" value="Hồ sơ nộp Tổ chuyên môn CV 5512 &amp; Kho 77 bài giảng PPT." />
-            </div>
-          </div>
-
-          <!-- Mục 3 -->
-          <div class="cfg-card-box">
-            <h4>📝 Mục 3: Biên soạn đề CV 7991</h4>
-            <div class="cfg-form-group">
-              <label>Tiêu đề thẻ</label>
-              <input type="text" id="cfgCardTitle3" value="BIÊN SOẠN ĐỀ" />
-            </div>
-            <div class="cfg-form-group" style="margin-bottom:0;">
-              <label>Đoạn tóm tắt ngắn (Ít chữ, tinh giản)</label>
-              <input type="text" id="cfgCardDesc3" value="Quy trình 6 bước CV 7991, Ma trận, đặc tả &amp; Kho 97 đề thi." />
-            </div>
-          </div>
-
-          <!-- Mục 4 -->
-          <div class="cfg-card-box">
-            <h4>🏆 Mục 4: Bồi dưỡng HSG Bảng B</h4>
-            <div class="cfg-form-group">
-              <label>Tiêu đề thẻ</label>
-              <input type="text" id="cfgCardTitle4" value="BỒI DƯỠNG HSG" />
-            </div>
-            <div class="cfg-form-group" style="margin-bottom:0;">
-              <label>Đoạn tóm tắt ngắn (Ít chữ, tinh giản)</label>
-              <input type="text" id="cfgCardDesc4" value="Luyện đề 180 phút Bảng B, 9 chuyên đề VDC &amp; Máy tính 6-in-1." />
-            </div>
-          </div>
-
-          <!-- Mục 5 -->
-          <div class="cfg-card-box">
-            <h4>🏛️ Mục 5: Ôn thi Tốt nghiệp THPT</h4>
-            <div class="cfg-form-group">
-              <label>Tiêu đề thẻ</label>
-              <input type="text" id="cfgCardTitle5" value="ÔN THI TỐT NGHIỆP THPT" />
-            </div>
-            <div class="cfg-form-group" style="margin-bottom:0;">
-              <label>Đoạn tóm tắt ngắn (Ít chữ, tinh giản)</label>
-              <input type="text" id="cfgCardDesc5" value="Khảo thí trắc nghiệm 28 câu chuẩn Bộ &amp; Kho 48 đề gốc." />
-            </div>
+            <label>Khẩu hiệu / Giới thiệu học liệu</label>
+            <textarea id="cfgHeroDesc" rows="3">Học liệu lớp 10–12 · Kết nối tri thức với cuộc sống</textarea>
           </div>
         </div>
       </div>
 
-      <!-- FOOTER MODAL -->
       <div class="cfg-modal-footer">
         <button type="button" class="cfg-btn cfg-btn-danger" onclick="resetHomeConfigDefault()">
-          🔄 Khôi Phục Mặc Định Tinh Giản
+          🔄 Khôi phục mặc định
         </button>
         <div class="cfg-footer-actions">
           <a href="thietke.html" target="_blank" class="cfg-btn cfg-btn-studio">
-            🎨 Studio UI (Tab 5)
+            🎨 Studio UI
           </a>
           <button type="button" class="cfg-btn cfg-btn-primary" onclick="saveHomeConfig()">
-            💾 Lưu Cấu Hình Tinh Giản
+            💾 Lưu cấu hình
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="cfgToast" style="display:none; position:fixed; bottom:24px; right:24px; background:#0f3d24; color:#ffffff; border:1px solid #4ade80; padding:12px 20px; border-radius:10px; font-weight:700; font-size:13.5px; box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:10000;">
-    ✅ Đã lưu cấu hình tinh giản và cập nhật trang chủ thành công!
+  <div id="cfgToast" style="display:none; position:fixed; bottom:24px; right:24px; background:#17613E; color:#ffffff; border:1px solid #4ade80; padding:12px 20px; border-radius:10px; font-weight:600; font-size:14px; box-shadow:0 8px 24px rgba(0,0,0,0.25); z-index:10000;">
+    ✅ Đã lưu cấu hình trang chủ thành công!
   </div>
 
-  <!-- SCRIPT ĐIỀU KHIỂN & ĐỒNG BỘ CẤU HÌNH TRANG CHỦ -->
+  <!-- SCRIPT ĐIỀU KHIỂN & ĐỒNG BỘ TRANG CHỦ -->
   <script src="ui_theme_sync.js"></script>
   <script>
-    const HOME_STORAGE_KEY = "cnnn_ui_theme_v1";
+    const HOME_STORAGE_KEY = "cnnn_ui_clean_v1";
 
     const DEFAULT_HOME_CONFIG = {
-      homeTopTitle: "DẠY & HỌC CÔNG NGHỆ NÔNG NGHIỆP",
-      homeTopSub: "Trường THPT Lộc Ninh • Bộ sách Kết nối tri thức với cuộc sống",
-      customAuthor: "Thầy Trương Khắc Nam – GV CNNN (Bí thư Đoàn trường)",
+      homeTopTitle: "Công nghệ Nông nghiệp",
+      homeTopSub: "THPT Lộc Ninh",
+      customAuthor: "Thầy Trương Khắc Nam – GV CNNN, THPT Lộc Ninh",
       customZaloText: "0978.405.879",
       customZaloUrl: "https://zalo.me/0978405879",
-      hubWelcomeBadge: "🌱 HỆ THỐNG DẠY & HỌC ĐIỆN TỬ • THPT LỘC NINH",
-      hubWelcomeTitle: "DẠY & HỌC CÔNG NGHỆ NÔNG NGHIỆP 10 – 11 – 12",
-      hubWelcomeSub: "Chào mừng quý thầy cô và các em học sinh.",
-      card1Title: "KIẾN THỨC & LÝ THUYẾT",
-      card1Desc: "Tóm tắt chuẩn 77 bài học SGK & Sơ đồ tư duy trực quan.",
-      card2Title: "HỒ SƠ & GIÁO ÁN",
-      card2Desc: "Hồ sơ nộp Tổ chuyên môn CV 5512 & Kho 77 bài giảng PPT.",
-      card3Title: "BIÊN SOẠN ĐỀ",
-      card3Desc: "Quy trình 6 bước CV 7991, Ma trận, đặc tả & Kho 97 đề thi.",
-      card4Title: "BỒI DƯỠNG HSG",
-      card4Desc: "Luyện đề 180 phút Bảng B, 9 chuyên đề VDC & Máy tính 6-in-1.",
-      card5Title: "ÔN THI TỐT NGHIỆP THPT",
-      card5Desc: "Khảo thí trắc nghiệm 28 câu chuẩn Bộ & Kho 48 đề gốc."
+      hubWelcomeTitle: "Học và dạy Công nghệ",
+      hubWelcomeSub: "Học liệu lớp 10–12 · Kết nối tri thức với cuộc sống"
     };
+
+    function toggleSlimMenu() {
+      const tabs = document.getElementById("slimNavTabs");
+      if (tabs) tabs.classList.toggle("open");
+    }
+
+    function switchUserRole(role) {
+      const btnHs = document.getElementById("btnRoleHocSinh");
+      const btnGv = document.getElementById("btnRoleGiaoVien");
+      const gridHs = document.getElementById("gridHocSinh");
+      const gridGv = document.getElementById("gridGiaoVien");
+
+      if (role === "giaovien") {
+        btnGv.classList.add("active");
+        btnGv.setAttribute("aria-selected", "true");
+        btnHs.classList.remove("active");
+        btnHs.setAttribute("aria-selected", "false");
+        gridGv.style.display = "grid";
+        gridHs.style.display = "none";
+      } else {
+        btnHs.classList.add("active");
+        btnHs.setAttribute("aria-selected", "true");
+        btnGv.classList.remove("active");
+        btnGv.setAttribute("aria-selected", "false");
+        gridHs.style.display = "grid";
+        gridGv.style.display = "none";
+      }
+    }
 
     function openHomeConfigModal() {
       loadConfigIntoForm();
@@ -678,28 +532,11 @@
       if (!cfg) return;
       if (cfg.homeTopTitle) document.getElementById("homeTopTitle").textContent = cfg.homeTopTitle;
       if (cfg.homeTopSub) document.getElementById("homeTopSub").textContent = cfg.homeTopSub;
-      if (cfg.customAuthor) document.getElementById("homeTopAuthor").textContent = "👨‍🏫 " + cfg.customAuthor;
-      if (cfg.customZaloText) document.getElementById("homeTopZaloText").textContent = cfg.customZaloText;
-      if (cfg.customZaloUrl) document.getElementById("homeTopZaloBtn").href = cfg.customZaloUrl;
-
-      if (cfg.hubWelcomeBadge) document.getElementById("homeHeroBadge").textContent = cfg.hubWelcomeBadge;
+      if (cfg.customAuthor) document.getElementById("footerAuthorText").textContent = cfg.customAuthor;
+      if (cfg.customZaloText) document.getElementById("footerZaloText").textContent = "Nhắn Zalo: " + cfg.customZaloText;
+      if (cfg.customZaloUrl) document.getElementById("footerZaloBtn").href = cfg.customZaloUrl;
       if (cfg.hubWelcomeTitle) document.getElementById("homeHeroTitle").textContent = cfg.hubWelcomeTitle;
       if (cfg.hubWelcomeSub) document.getElementById("homeHeroDesc").textContent = cfg.hubWelcomeSub;
-
-      if (cfg.card1Title) document.getElementById("cardTitle1").textContent = cfg.card1Title;
-      if (cfg.card1Desc) document.getElementById("cardDesc1").textContent = cfg.card1Desc;
-
-      if (cfg.card2Title) document.getElementById("cardTitle2").textContent = cfg.card2Title;
-      if (cfg.card2Desc) document.getElementById("cardDesc2").textContent = cfg.card2Desc;
-
-      if (cfg.card3Title) document.getElementById("cardTitle3").textContent = cfg.card3Title;
-      if (cfg.card3Desc) document.getElementById("cardDesc3").textContent = cfg.card3Desc;
-
-      if (cfg.card4Title) document.getElementById("cardTitle4").textContent = cfg.card4Title;
-      if (cfg.card4Desc) document.getElementById("cardDesc4").textContent = cfg.card4Desc;
-
-      if (cfg.card5Title) document.getElementById("cardTitle5").textContent = cfg.card5Title;
-      if (cfg.card5Desc) document.getElementById("cardDesc5").textContent = cfg.card5Desc;
     }
 
     function loadConfigIntoForm() {
@@ -710,79 +547,30 @@
       } catch (_) {}
 
       const cfg = Object.assign({}, DEFAULT_HOME_CONFIG, saved);
-
       document.getElementById("cfgTopTitle").value = cfg.homeTopTitle || DEFAULT_HOME_CONFIG.homeTopTitle;
       document.getElementById("cfgTopSub").value = cfg.homeTopSub || DEFAULT_HOME_CONFIG.homeTopSub;
       document.getElementById("cfgAuthor").value = cfg.customAuthor || DEFAULT_HOME_CONFIG.customAuthor;
       document.getElementById("cfgZaloText").value = cfg.customZaloText || DEFAULT_HOME_CONFIG.customZaloText;
       document.getElementById("cfgZaloUrl").value = cfg.customZaloUrl || DEFAULT_HOME_CONFIG.customZaloUrl;
-
-      document.getElementById("cfgHeroBadge").value = cfg.hubWelcomeBadge || DEFAULT_HOME_CONFIG.hubWelcomeBadge;
       document.getElementById("cfgHeroTitle").value = cfg.hubWelcomeTitle || DEFAULT_HOME_CONFIG.hubWelcomeTitle;
       document.getElementById("cfgHeroDesc").value = cfg.hubWelcomeSub || DEFAULT_HOME_CONFIG.hubWelcomeSub;
-
-      document.getElementById("cfgCardTitle1").value = cfg.card1Title || DEFAULT_HOME_CONFIG.card1Title;
-      document.getElementById("cfgCardDesc1").value = cfg.card1Desc || DEFAULT_HOME_CONFIG.card1Desc;
-
-      document.getElementById("cfgCardTitle2").value = cfg.card2Title || DEFAULT_HOME_CONFIG.card2Title;
-      document.getElementById("cfgCardDesc2").value = cfg.card2Desc || DEFAULT_HOME_CONFIG.card2Desc;
-
-      document.getElementById("cfgCardTitle3").value = cfg.card3Title || DEFAULT_HOME_CONFIG.card3Title;
-      document.getElementById("cfgCardDesc3").value = cfg.card3Desc || DEFAULT_HOME_CONFIG.card3Desc;
-
-      document.getElementById("cfgCardTitle4").value = cfg.card4Title || DEFAULT_HOME_CONFIG.card4Title;
-      document.getElementById("cfgCardDesc4").value = cfg.card4Desc || DEFAULT_HOME_CONFIG.card4Desc;
-
-      document.getElementById("cfgCardTitle5").value = cfg.card5Title || DEFAULT_HOME_CONFIG.card5Title;
-      document.getElementById("cfgCardDesc5").value = cfg.card5Desc || DEFAULT_HOME_CONFIG.card5Desc;
     }
 
     function saveHomeConfig() {
-      let current = {};
-      try {
-        const raw = localStorage.getItem(HOME_STORAGE_KEY);
-        if (raw) current = JSON.parse(raw);
-      } catch (_) {}
-
-      const updated = Object.assign(current, {
+      const updated = {
         homeTopTitle: document.getElementById("cfgTopTitle").value.trim(),
         homeTopSub: document.getElementById("cfgTopSub").value.trim(),
         customAuthor: document.getElementById("cfgAuthor").value.trim(),
         customZaloText: document.getElementById("cfgZaloText").value.trim(),
         customZaloUrl: document.getElementById("cfgZaloUrl").value.trim(),
-
-        hubWelcomeBadge: document.getElementById("cfgHeroBadge").value.trim(),
         hubWelcomeTitle: document.getElementById("cfgHeroTitle").value.trim(),
-        hubWelcomeSub: document.getElementById("cfgHeroDesc").value.trim(),
-
-        card1Title: document.getElementById("cfgCardTitle1").value.trim(),
-        card1Desc: document.getElementById("cfgCardDesc1").value.trim(),
-
-        card2Title: document.getElementById("cfgCardTitle2").value.trim(),
-        card2Desc: document.getElementById("cfgCardDesc2").value.trim(),
-
-        card3Title: document.getElementById("cfgCardTitle3").value.trim(),
-        card3Desc: document.getElementById("cfgCardDesc3").value.trim(),
-
-        card4Title: document.getElementById("cfgCardTitle4").value.trim(),
-        card4Desc: document.getElementById("cfgCardDesc4").value.trim(),
-
-        card5Title: document.getElementById("cfgCardTitle5").value.trim(),
-        card5Desc: document.getElementById("cfgCardDesc5").value.trim()
-      });
+        hubWelcomeSub: document.getElementById("cfgHeroDesc").value.trim()
+      };
 
       localStorage.setItem(HOME_STORAGE_KEY, JSON.stringify(updated));
       applyConfigToDom(updated);
-
-      if (typeof BroadcastChannel !== "undefined") {
-        try {
-          const bc = new BroadcastChannel("cnnn_ui_channel");
-          bc.postMessage({ type: "CNNN_UI_THEME_UPDATE", config: updated });
-        } catch (_) {}
-      }
-
       closeHomeConfigModal();
-      showToast("✅ Đã lưu cấu hình tinh giản và cập nhật trang chủ thành công!");
+      showToast("✅ Đã lưu cấu hình trang chủ thành công!");
     }
 
     function resetHomeConfigDefault() {
@@ -790,14 +578,8 @@
       localStorage.removeItem(HOME_STORAGE_KEY);
       applyConfigToDom(DEFAULT_HOME_CONFIG);
       loadConfigIntoForm();
-      if (typeof BroadcastChannel !== "undefined") {
-        try {
-          const bc = new BroadcastChannel("cnnn_ui_channel");
-          bc.postMessage({ type: "CNNN_UI_THEME_RESET" });
-        } catch (_) {}
-      }
       closeHomeConfigModal();
-      showToast("🔄 Đã khôi phục thông tin Trang chủ về mặc định tinh giản!");
+      showToast("🔄 Đã khôi phục trang chủ về mặc định tinh giản!");
     }
 
     function showToast(msg) {
@@ -807,36 +589,13 @@
       setTimeout(() => { t.style.display = "none"; }, 2500);
     }
 
-    // Tự động nạp cấu hình tinh giản khi tải trang
     document.addEventListener("DOMContentLoaded", () => {
       let saved = {};
       try {
         const raw = localStorage.getItem(HOME_STORAGE_KEY);
         if (raw) saved = JSON.parse(raw);
       } catch (_) {}
-
-      // Cập nhật các trường tinh giản nếu chưa có hoặc đang chứa văn bản dài cũ
       const activeCfg = Object.assign({}, DEFAULT_HOME_CONFIG, saved);
-      
-      // Nếu dữ liệu cũ trong localStorage chứa đoạn văn dài cũ thì tự động thay thế bằng bản tinh giản
-      if (activeCfg.card1Desc && activeCfg.card1Desc.includes("Kết nối tri thức 10, 11, 12 cùng công cụ")) {
-        activeCfg.card1Desc = DEFAULT_HOME_CONFIG.card1Desc;
-      }
-      if (activeCfg.card2Desc && activeCfg.card2Desc.includes("Hồ sơ nộp Tổ chuyên môn theo Công văn 5512")) {
-        activeCfg.card2Desc = DEFAULT_HOME_CONFIG.card2Desc;
-      }
-      if (activeCfg.card3Desc && activeCfg.card3Desc.includes("Quy trình 6 bước Công văn 7991")) {
-        activeCfg.card3Desc = DEFAULT_HOME_CONFIG.card3Desc;
-      }
-      if (activeCfg.card4Desc && activeCfg.card4Desc.includes("Chuyên đề bồi dưỡng HSG Bảng B THPT, đề 180 phút")) {
-        activeCfg.card4Desc = DEFAULT_HOME_CONFIG.card4Desc;
-      }
-      if (activeCfg.card5Desc && activeCfg.card5Desc.includes("Khảo thí trắc nghiệm chuẩn mẫu mới Bộ GD&ĐT")) {
-        activeCfg.card5Desc = DEFAULT_HOME_CONFIG.card5Desc;
-      }
-
-      // Lưu lại cấu hình tinh giản này vào localStorage
-      localStorage.setItem(HOME_STORAGE_KEY, JSON.stringify(activeCfg));
       applyConfigToDom(activeCfg);
     });
   </script>

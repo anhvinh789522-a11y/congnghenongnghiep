@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📝 Soạn Đề Kiểm Tra CV 7991 (6 Bước Tối Giản) — CNNN 10•11•12</title>
+  <title>Soạn đề 7991 • Công nghệ Nông nghiệp • THPT Lộc Ninh</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=10" />
   <style>
     /* Tối giản hóa quy trình 6 bước CV 7991 — Gọn, thoáng, tập trung vào con số & thao tác */
     .cv-toolbar {
@@ -185,28 +185,31 @@
 </head>
 <body>
 
-    <!-- SLIM UNIFIED NAVBAR -->
+  <!-- UNIFIED SLIM NAVBAR CHUẨN THIẾT KẾ -->
   <header class="slim-navbar">
     <div class="slim-brand">
-      <span class="slim-logo">🌱</span>
-      <div>
-        <div class="slim-title">PHẦN 3: SOẠN ĐỀ THEO HỌC KÌ (CV 7991)</div>
-        <div class="slim-sub">THPT Lộc Ninh • Công nghệ Nông nghiệp 10 - 11 - 12</div>
-      </div>
+      <a href="index.html" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit;">
+        <span class="slim-logo">🌱</span>
+        <div>
+          <div class="slim-title">Công nghệ Nông nghiệp</div>
+          <div class="slim-sub">THPT Lộc Ninh</div>
+        </div>
+      </a>
     </div>
-    <div class="slim-nav-tabs">
+
+    <button class="slim-menu-btn" onclick="toggleSlimMenu()" aria-label="Menu chuyển trang">☰</button>
+
+    <nav class="slim-nav-tabs" id="slimNavTabs">
       <a href="index.html" class="slim-tab-link">Trang chủ</a>
-      <a href="phan1.html" class="slim-tab-link">Lý thuyết</a>
+      <a href="phan1.html" class="slim-tab-link">Bài học</a>
       <a href="phan2.html" class="slim-tab-link">Hồ sơ 5512</a>
       <a href="phan3.html" class="slim-tab-link active">Soạn đề 7991</a>
       <a href="phan4.html" class="slim-tab-link">Bồi dưỡng HSG</a>
       <a href="phan5.html" class="slim-tab-link">Ôn thi THPT</a>
-      <a href="thietke.html" class="slim-tab-link">Studio</a>
-    </div>
+    </nav>
+
     <div class="slim-actions">
-      <button class="btn btn-sm" style="background:#0f766e; color:#ffffff; border:1px solid #14b8a6; font-weight:700; cursor:pointer;" onclick="openSavedExamsModal()">📂 Đề Đã Lưu (<span id="topSavedCountBadge">0</span>)</button>
-      <button class="btn btn-sm" style="background:#1e293b; color:#f8fafc; border:1px solid #475569; font-weight:600; cursor:pointer;" onclick="window.print()">In PDF</button>
-      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-sm" style="background:#0284c7; color:#ffffff; border:1px solid #0284c7; font-weight:600; text-decoration:none;">Zalo</a>
+      <button class="clean-admin-btn" onclick="openSavedExamsModal()">📂 Đề đã lưu (<span id="topSavedCountBadge">0</span>)</button>
     </div>
   </header>
 
@@ -284,17 +287,31 @@
 
       <!-- THANH CÔNG CỤ GỌN 1 DÒNG -->
       <div class="cv-toolbar">
-        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <span class="badge badge-ok" style="padding:4px 8px; font-size:11.5px;">CV 7991</span>
-          <button class="btn btn-outline btn-sm" onclick="openSimilarExamModal()">🔄 Tạo Đề Tương Tự (Từ 97 Đề mẫu)</button>
-          <button class="btn btn-outline btn-sm" onclick="openVariantsModal()">⚡ Sinh 3 Đề Biến Thể (101•102•103)</button>
+          
+          <!-- Nhóm Tạo nhanh Dropdown -->
+          <div style="position:relative; display:inline-block;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('quickCreateMenu').classList.toggle('open');" style="font-weight:600;">
+              ⚡ Tạo nhanh ▾
+            </button>
+            <div id="quickCreateMenu" style="display:none; position:absolute; left:0; top:100%; margin-top:4px; background:#fff; border:1px solid var(--border); border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.15); z-index:100; min-width:240px; padding:6px 0;">
+              <button type="button" onclick="openSimilarExamModal(); document.getElementById('quickCreateMenu').classList.remove('open');" style="display:block; width:100%; text-align:left; padding:8px 14px; background:none; border:none; font-size:13px; cursor:pointer; color:var(--text);" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">
+                🔄 Tạo đề tương tự (Từ 97 đề mẫu)
+              </button>
+              <button type="button" onclick="openVariantsModal(); document.getElementById('quickCreateMenu').classList.remove('open');" style="display:block; width:100%; text-align:left; padding:8px 14px; background:none; border:none; font-size:13px; cursor:pointer; color:var(--text);" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">
+                ⚡ Sinh 3 đề biến thể (101 • 102 • 103)
+              </button>
+              <label style="display:block; width:100%; text-align:left; padding:8px 14px; background:none; border:none; font-size:13px; cursor:pointer; color:var(--text); box-sizing:border-box; margin:0;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">
+                🚀 Nhập ma trận / đề có sẵn
+                <input type="file" accept=".json,.html,.txt,.csv,.doc,.docx" style="display:none;" onchange="handleQuickShortcutUpload(event); document.getElementById('quickCreateMenu').classList.remove('open');" />
+              </label>
+            </div>
+          </div>
+
           <button class="btn btn-outline btn-sm" onclick="openCorpusModal()">📚 Kho Ngữ liệu & 97 Đề</button>
         </div>
         <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-          <label class="btn btn-outline btn-sm" style="cursor:pointer; margin:0;" title="Tải file Ma trận / Đề có sẵn để nhảy thẳng sang Bước 5">
-            🚀 Nhập nhanh Ma trận/Đề
-            <input type="file" accept=".json,.html,.txt,.csv,.doc,.docx" style="display:none;" onchange="handleQuickShortcutUpload(event)" />
-          </label>
           <button class="btn btn-primary btn-sm" onclick="generateExamFromMatrix(false); goToStep(5);">⚡ Sinh Đề Ngay →</button>
         </div>
       </div>
@@ -307,36 +324,39 @@
       <!-- ================================================================== -->
       <section class="step-panel active" id="stepPanel1">
         <div class="card" style="padding:14px;">
-          <!-- Thanh cấu hình Đơn vị ra đề: Trường THPT Lộc Ninh & Tổ Tin - Công nghệ (Có sẵn nút bấm nhanh hoặc tự điền) -->
-          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:8px 12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1;">
-              <span style="font-weight:700; color:#166534; font-size:12px; text-transform:uppercase; display:flex; align-items:center; gap:4px; flex-shrink:0;">
-                🏫 ĐƠN VỊ RA ĐỀ:
-              </span>
-              <div style="display:flex; gap:6px; flex-wrap:wrap; flex:1; min-width:320px;">
-                <input type="text" id="metaDepartment" style="flex:1; min-width:180px; padding:4px 8px; font-size:12px; border:1px solid #cbd5e1; border-radius:4px; background:#fff;" 
-                       value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI" list="deptSuggestions" placeholder="Sở GD&ĐT..." 
-                       onchange="state.meta.department = this.value; localStorage.setItem('cv7991_department', this.value)" title="Sở GD&ĐT (hoặc tự điền)" />
-                <input type="text" id="metaSchool" style="flex:1.2; min-width:190px; padding:4px 8px; font-size:12.5px; font-weight:700; color:#14532d; border:1px solid #86efac; border-radius:4px; background:#fff;" 
-                       value="TRƯỜNG THPT LỘC NINH" list="schoolSuggestions" placeholder="Trường / Đơn vị..." 
-                       onchange="state.meta.school = this.value; localStorage.setItem('cv7991_school', this.value)" title="Trường THPT (hoặc tự điền)" />
-                <input type="text" id="metaGroup" style="flex:1; min-width:160px; padding:4px 8px; font-size:12px; font-weight:700; color:#15803d; border:1px solid #86efac; border-radius:4px; background:#fff;" 
-                       value="TỔ TIN - CÔNG NGHỆ" list="groupSuggestions" placeholder="Tổ chuyên môn..." 
-                       onchange="state.meta.group = this.value; localStorage.setItem('cv7991_group', this.value)" title="Tổ chuyên môn (hoặc tự điền)" />
+          <!-- Thanh cấu hình Đơn vị ra đề: Trường THPT Lộc Ninh & Tổ Tin - Công nghệ (Thu gọn tinh tế) -->
+          <details style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:8px 12px; margin-bottom:12px;">
+            <summary style="font-weight:600; color:#166534; font-size:12.5px; text-transform:uppercase; cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+              <span>🏫 Đơn vị ra đề: TRƯỜNG THPT LỘC NINH • TỔ TIN - CÔNG NGHỆ</span>
+              <span style="font-size:12px; color:#15803d; font-weight:500;">Chỉnh sửa thông tin ▾</span>
+            </summary>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px; padding-top:8px; border-top:1px dashed #bbf7d0;">
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1;">
+                <div style="display:flex; gap:6px; flex-wrap:wrap; flex:1; min-width:320px;">
+                  <input type="text" id="metaDepartment" style="flex:1; min-width:180px; padding:4px 8px; font-size:12px; border:1px solid #cbd5e1; border-radius:4px; background:#fff;" 
+                         value="SỞ GIÁO DỤC VÀ ĐÀO TẠO TP ĐỒNG NAI" list="deptSuggestions" placeholder="Sở GD&ĐT..." 
+                         onchange="state.meta.department = this.value; localStorage.setItem('cv7991_department', this.value)" title="Sở GD&ĐT (hoặc tự điền)" />
+                  <input type="text" id="metaSchool" style="flex:1.2; min-width:190px; padding:4px 8px; font-size:12.5px; font-weight:700; color:#14532d; border:1px solid #86efac; border-radius:4px; background:#fff;" 
+                         value="TRƯỜNG THPT LỘC NINH" list="schoolSuggestions" placeholder="Trường / Đơn vị..." 
+                         onchange="state.meta.school = this.value; localStorage.setItem('cv7991_school', this.value)" title="Trường THPT (hoặc tự điền)" />
+                  <input type="text" id="metaGroup" style="flex:1; min-width:160px; padding:4px 8px; font-size:12px; font-weight:700; color:#15803d; border:1px solid #86efac; border-radius:4px; background:#fff;" 
+                         value="TỔ TIN - CÔNG NGHỆ" list="groupSuggestions" placeholder="Tổ chuyên môn..." 
+                         onchange="state.meta.group = this.value; localStorage.setItem('cv7991_group', this.value)" title="Tổ chuyên môn (hoặc tự điền)" />
+                </div>
+              </div>
+              <div style="display:flex; gap:5px; flex-shrink:0;">
+                <button type="button" class="btn btn-primary btn-sm" style="padding:4px 10px; font-size:11.5px; font-weight:600;" onclick="applySchoolPreset('loc_ninh')" title="Điền nhanh chuẩn: THPT Lộc Ninh • Tổ Tin - Công nghệ">
+                  🏫 THPT Lộc Ninh
+                </button>
+                <button type="button" class="btn btn-outline btn-sm" style="padding:4px 9px; font-size:11.5px; font-weight:600; color:#15803d; border-color:#86efac; background:#f0fdf4;" onclick="applySchoolPreset('dong_nai')" title="Cập nhật nhanh sang Sở GD&ĐT Đồng Nai (hoặc TP Đồng Nai)">
+                  📍 Sở GD&ĐT Đồng Nai
+                </button>
+                <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px; font-size:11.5px;" onclick="applySchoolPreset('clear')" title="Xóa trắng để tự điền trường và tổ khác">
+                  ✏️ Tự điền
+                </button>
               </div>
             </div>
-            <div style="display:flex; gap:5px; flex-shrink:0;">
-              <button type="button" class="btn btn-primary btn-sm" style="padding:4px 10px; font-size:11.5px; font-weight:600;" onclick="applySchoolPreset('loc_ninh')" title="Điền nhanh chuẩn: THPT Lộc Ninh • Tổ Tin - Công nghệ">
-                🏫 THPT Lộc Ninh
-              </button>
-              <button type="button" class="btn btn-outline btn-sm" style="padding:4px 9px; font-size:11.5px; font-weight:600; color:#15803d; border-color:#86efac; background:#f0fdf4;" onclick="applySchoolPreset('dong_nai')" title="Cập nhật nhanh sang Sở GD&ĐT Đồng Nai (hoặc TP Đồng Nai)">
-                📍 Sở GD&ĐT Đồng Nai
-              </button>
-              <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px; font-size:11.5px;" onclick="applySchoolPreset('clear')" title="Xóa trắng để tự điền trường và tổ khác">
-                ✏️ Tự điền
-              </button>
-            </div>
-          </div>
+          </details>
 
           <datalist id="deptSuggestions">
             <option value="SỞ GIÁO DỤC VÀ ĐÀO TẠO ĐỒNG NAI">
@@ -414,10 +434,10 @@
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
             <div id="ppctSummaryText"></div>
             <div style="display:flex; gap:5px; flex-wrap:wrap;">
-              <button class="btn btn-primary btn-sm" onclick="openLessonPickerModal()">➕ Chọn thêm bài (77 bài SGK)</button>
+              <button class="btn btn-primary btn-sm" onclick="openLessonPickerModal()">➕ Chọn thêm bài từ SGK (77 bài)</button>
               <button class="btn btn-outline btn-sm" onclick="selectAllUnits(true)">✅ Chọn hết</button>
               <button class="btn btn-outline btn-sm" onclick="selectAllUnits(false)">⬜ Bỏ chọn</button>
-              <button class="btn btn-outline btn-sm" onclick="addNewUnit()">+ Thêm bài</button>
+              <button class="btn btn-outline btn-sm" onclick="addNewUnit()">✏️ Tự tạo bài mới (Nhập thủ công)</button>
               <label class="btn btn-outline btn-sm" style="cursor:pointer; margin:0;">
                 📂 Nhập PPCT
                 <input type="file" accept=".json,.csv,.txt,.tsv" style="display:none;" onchange="handlePpctFileUpload(event)" />

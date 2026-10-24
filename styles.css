@@ -1,24 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
 
 :root {
-  --primary: #15803d;
-  --primary-dark: #166534;
-  --primary-light: #dcfce7;
-  --secondary: #0f766e;
-  --accent: #d97706;
-  --danger: #dc2626;
-  --danger-light: #fee2e2;
-  --warning: #ea580c;
-  --warning-light: #ffedd5;
-  --info: #2563eb;
-  --info-light: #dbeafe;
-  --bg: #f8fafc;
-  --surface: #ffffff;
-  --border: #e2e8f0;
-  --text: #0f172a;
-  --text-muted: #475569;
-  --radius: 10px;
-  --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  --primary: #17613E;
+  --primary-dark: #124C30;
+  --primary-light: #E8F2EC;
+  --secondary: #2C523C;
+  --accent: #2E7D52;
+  --danger: #DC2626;
+  --danger-light: #FEE2E2;
+  --warning: #D97706;
+  --warning-light: #FEF3C7;
+  --info: #2563EB;
+  --info-light: #DBEAFE;
+  --bg: #F7F9F7;
+  --surface: #FFFFFF;
+  --border: #DCE5DE;
+  --border-light: #E9EFEA;
+  --text: #192D22;
+  --text-muted: #5F7065;
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(25, 45, 34, 0.05);
+  --shadow: 0 4px 16px rgba(25, 45, 34, 0.06);
+  --shadow-lg: 0 10px 30px rgba(25, 45, 34, 0.08);
+  --font-main: 'Be Vietnam Pro', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -28,11 +34,17 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', 'Segoe UI', Roboto, -apple-system, sans-serif;
+  font-family: var(--font-main);
   background-color: var(--bg);
   color: var(--text);
-  line-height: 1.55;
-  font-size: 14.5px;
+  line-height: 1.65;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, select, textarea {
+  font-family: var(--font-main);
 }
 
 /* Header */
@@ -2772,9 +2784,10 @@ body {
    SLIM UNIFIED NAVBAR (THAY THE HEADER CONG KENH & MODULE-NAV)
    ============================================================================ */
 .slim-navbar {
-  background: #0f172a;
-  border-bottom: 1px solid #1e293b;
-  padding: 8px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2782,13 +2795,14 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-sm);
 }
 
 .slim-brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  text-decoration: none;
 }
 
 .slim-logo {
@@ -2797,55 +2811,106 @@ body {
 }
 
 .slim-title {
-  color: #f8fafc;
-  font-weight: 700;
-  font-size: 14px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 15px;
   letter-spacing: -0.2px;
 }
 
 .slim-sub {
-  color: #94a3b8;
-  font-size: 11px;
-  line-height: 1.2;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.3;
 }
 
 .slim-nav-tabs {
   display: flex;
   align-items: center;
-  background: #1e293b;
+  background: var(--bg);
   padding: 4px;
-  border-radius: 30px;
-  gap: 4px;
+  border-radius: 10px;
+  gap: 2px;
+  border: 1px solid var(--border);
 }
 
 .slim-tab-link {
-  color: #cbd5e1;
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 12.5px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 20px;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 38px;
 }
 
 .slim-tab-link:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--primary);
+  background: var(--primary-light);
 }
 
 .slim-tab-link.active {
-  color: #ffffff;
-  background: #10b981;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+  color: #ffffff !important;
+  background: var(--primary) !important;
+  font-weight: 600;
 }
 
 .slim-actions {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.slim-menu-btn {
+  display: none;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 20px;
+}
+
+@media (max-width: 960px) {
+  .slim-menu-btn {
+    display: inline-flex;
+  }
+  .slim-nav-tabs {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 16px;
+    gap: 6px;
+    box-shadow: var(--shadow-lg);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+  .slim-nav-tabs.mobile-open {
+    display: flex;
+  }
+  .slim-tab-link {
+    padding: 10px 14px;
+    font-size: 15px;
+    border-radius: 8px;
+    min-height: 44px;
+  }
+  .slim-actions .btn-desktop-only {
+    display: none;
+  }
 }
 
 /* ============================================================================
@@ -4126,3 +4191,215 @@ body {
   box-shadow: 0 4px 12px rgba(37,99,235,0.08);
 }
 
+
+
+/* ============================================================================
+   CLEAN DESIGN SYSTEM: HOME USER TOGGLE & CARDS & MOBILE ACCESSIBILITY
+   ============================================================================ */
+
+.user-group-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+  margin: 0 auto 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.user-group-btn {
+  padding: 8px 24px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 40px;
+}
+
+.user-group-btn:hover {
+  color: var(--primary);
+}
+
+.user-group-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(23, 97, 62, 0.25);
+}
+
+/* Tháº» tÃ­nh nÄƒng phong cÃ¡ch tá»‘i giáº£n hiá»‡n Ä‘áº¡i (3 tháº» / hÃ ng desktop) */
+.clean-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto 36px;
+}
+
+@media (max-width: 900px) {
+  .clean-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .clean-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+.clean-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 190px;
+}
+
+.clean-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow);
+}
+
+.clean-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.clean-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.clean-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+.clean-card-desc {
+  font-size: 14.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.clean-card-action {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.15s ease;
+}
+
+.clean-card:hover .clean-card-action {
+  gap: 10px;
+}
+
+/* ChÃ¢n trang trang chá»§ tinh gá»n */
+.clean-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.clean-footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.clean-zalo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #EBF8FF;
+  color: #0284c7;
+  border: 1px solid #BAE6FD;
+  padding: 8px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  min-height: 42px;
+}
+
+.clean-zalo-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.clean-admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.clean-admin-btn:hover {
+  color: var(--text);
+  border-color: #94a3b8;
+}
+
+/* Dropdowns và menu thao tác nhanh */
+#quickCreateMenu.open,
+#exportMenuDropdown.open {
+  display: block !important;
+}
+
+/* Quy chuẩn mobile: inputs min 16px, tap targets min 44px */
+@media (max-width: 640px) {
+  input[type="text"], input[type="search"], input[type="password"], select, textarea {
+    font-size: 16px !important;
+    min-height: 44px;
+  }
+  .btn {
+    min-height: 44px;
+  }
+}

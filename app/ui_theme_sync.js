@@ -1,4 +1,9 @@
 // Bộ đồng bộ Giao diện Thời gian thực & Kiến trúc Mobile EdTech (Khan Academy • VietJack • OLM)
+window.toggleSlimMenu = function() {
+  const tabs = document.getElementById("slimNavTabs") || document.querySelector(".slim-nav-tabs");
+  if (tabs) tabs.classList.toggle("open");
+};
+
 (function () {
   const STORAGE_KEY = "cnnn_ui_theme_v1";
 
@@ -70,6 +75,15 @@
 
     const topAuthor = document.getElementById("homeTopAuthor");
     if (topAuthor && cfg.customAuthor) topAuthor.textContent = "👨‍🏫 " + cfg.customAuthor;
+
+    const footerAuthor = document.getElementById("footerAuthorText");
+    if (footerAuthor && cfg.customAuthor) footerAuthor.textContent = cfg.customAuthor;
+
+    const footerZalo = document.getElementById("footerZaloText");
+    if (footerZalo && cfg.customZaloText) footerZalo.textContent = "Nhắn Zalo: " + cfg.customZaloText;
+
+    const footerBtn = document.getElementById("footerZaloBtn");
+    if (footerBtn && cfg.customZaloUrl) footerBtn.href = cfg.customZaloUrl;
 
     const topZaloText = document.getElementById("homeTopZaloText");
     if (topZaloText && cfg.customZaloText) topZaloText.textContent = cfg.customZaloText;

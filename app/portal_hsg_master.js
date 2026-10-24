@@ -1,4 +1,4 @@
-﻿// ============================================================================
+// ============================================================================
 // HỆ THỐNG BỒI DƯỠNG & KHẢO THÍ HỌC SINH GIỎI (HSG) CẤP TỈNH / THÀNH PHỐ
 // Chuẩn Cấu trúc Sở GD&ĐT Đồng Nai (SKILL.md & Quyết định 1540/QĐ-SGDĐT)
 // Tích hợp Tinh hoa Đề HSG Thực chiến: Đồng Nai, TP. Huế (Mã 7011), TP.HCM, BR-VT, Bắc Giang
@@ -3134,30 +3134,54 @@ document.addEventListener("click", function() {
   window.closeHsgExportMenu();
 });
 
-// Navigation Bar con của Phân hệ HSG (Rút gọn tên để nằm vừa 1 dòng)
+// Navigation Bar chuẩn 3 tab: Chuyên đề | Luyện đề | Công cụ
+  const isLuyenDe = HSG_MASTER_STATE.activeSubTab === 'hsg_dongnai';
+  const isChuyenDe = ['hsg_topics', 'hsg_theory_handbook', 'hsg_quiz'].includes(HSG_MASTER_STATE.activeSubTab);
+  const isCongCu = ['ag_calc', 'hsg_classroom', 'hsg_matrix_validator'].includes(HSG_MASTER_STATE.activeSubTab);
+
   const subNavHtml = `
-    <div style="display:flex; gap:6px; margin-bottom:16px; border-bottom:1.5px solid var(--border); padding-bottom:12px; flex-wrap:nowrap; overflow-x:auto; white-space:nowrap;">
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_dongnai' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_dongnai')" style="white-space:nowrap;">
-        🏆 1. Luyện Đề HSG
-      </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_theory_handbook' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_theory_handbook')" style="white-space:nowrap;">
-        📚 2. Cẩm Nang Lý Thuyết
-      </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_topics' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_topics')" style="white-space:nowrap;">
-        📐 3. 10 Dạng Toán
-      </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'ag_calc' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('ag_calc')" style="white-space:nowrap;">
-        🧮 4. Máy Tính 6-in-1
-      </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_quiz' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_quiz')" style="white-space:nowrap;">
-        🧠 5. Trắc Nghiệm VDC
-      </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_matrix_validator' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_matrix_validator')" style="white-space:nowrap;">
-        ⚖️ 6. Ma Trận 14 Tiêu Chí
-      </button>
-      <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_classroom' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_classroom')" style="background:${HSG_MASTER_STATE.activeSubTab === 'hsg_classroom' ? '#2563eb' : '#eff6ff'}; color:${HSG_MASTER_STATE.activeSubTab === 'hsg_classroom' ? '#fff' : '#1d4ed8'}; border-color:#93c5fd; font-weight:700; white-space:nowrap;">
-        🏫 7. Phòng Thi Lớp
-      </button>
+    <div style="margin-bottom:18px;">
+      <!-- 3 TAB CHÍNH -->
+      <div style="display:flex; gap:8px; margin-bottom:10px; border-bottom:1.5px solid var(--border); padding-bottom:10px; flex-wrap:wrap;">
+        <button class="btn btn-sm ${isLuyenDe ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_dongnai')" style="font-weight:700;">
+          🏆 Luyện Đề
+        </button>
+        <button class="btn btn-sm ${isChuyenDe ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_topics')" style="font-weight:700;">
+          📚 Chuyên Đề
+        </button>
+        <button class="btn btn-sm ${isCongCu ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('ag_calc')" style="font-weight:700;">
+          🛠️ Công Cụ
+        </button>
+      </div>
+
+      <!-- THANH TIỂU MỤC PHỤ KHI Ở CHUYÊN ĐỀ HOẶC CÔNG CỤ -->
+      ${isChuyenDe ? `
+        <div style="display:flex; gap:6px; flex-wrap:wrap; background:#f8fafc; padding:6px 10px; border-radius:8px; border:1px solid var(--border);">
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_topics' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_topics')" style="font-size:12px; padding:3px 10px;">
+            📐 10 Dạng Toán
+          </button>
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_theory_handbook' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_theory_handbook')" style="font-size:12px; padding:3px 10px;">
+            📖 Cẩm Nang Lý Thuyết
+          </button>
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_quiz' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_quiz')" style="font-size:12px; padding:3px 10px;">
+            🧠 Trắc Nghiệm VDC
+          </button>
+        </div>
+      ` : ''}
+
+      ${isCongCu ? `
+        <div style="display:flex; gap:6px; flex-wrap:wrap; background:#f8fafc; padding:6px 10px; border-radius:8px; border:1px solid var(--border);">
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'ag_calc' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('ag_calc')" style="font-size:12px; padding:3px 10px;">
+            🧮 Máy Tính 6-in-1
+          </button>
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_classroom' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_classroom')" style="font-size:12px; padding:3px 10px;">
+            🏫 Phòng Thi Lớp
+          </button>
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_matrix_validator' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_matrix_validator')" style="font-size:12px; padding:3px 10px;">
+            ⚖️ Ma Trận Kiểm Định
+          </button>
+        </div>
+      ` : ''}
     </div>
   `;
 
@@ -3168,26 +3192,26 @@ document.addEventListener("click", function() {
     const availableExams = getExamsForCurrentLevel();
 
     bodyContent = `
-      <!-- THANH CHỌN CẤP ĐỘ TIẾN TRÌNH HSG (1 HÀNG MỎNG TINH GỌN) -->
-      <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:10px; padding:10px 16px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+      <!-- THANH CHỌN CẤP ĐỘ TIẾN TRÌNH HSG -->
+      <div style="background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px 16px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-            <span style="font-size:12px; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">HỆ THỐNG PHÂN CẤP ĐỘ:</span>
+            <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">MỨC ĐỘ:</span>
             <div style="display:flex; gap:6px; flex-wrap:wrap;">
               <button class="btn btn-sm ${HSG_MASTER_STATE.selectedLevel === 'all' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterLevel('all')">
-                🌐 Tất cả cấp độ
+                🌐 Tất cả
               </button>
               <button class="btn btn-sm ${HSG_MASTER_STATE.selectedLevel === 'easy' ? 'btn-primary' : 'btn-outline'}" style="${HSG_MASTER_STATE.selectedLevel === 'easy' ? 'background:#16a34a; border-color:#16a34a;' : 'color:#16a34a; border-color:#86efac;'}" onclick="selectHsgMasterLevel('easy')">
-                🟢 Cấp độ 1: Dễ / Khởi động (SGK)
+                🟢 Cơ bản
               </button>
               <button class="btn btn-sm ${HSG_MASTER_STATE.selectedLevel === 'medium' ? 'btn-primary' : 'btn-outline'}" style="${HSG_MASTER_STATE.selectedLevel === 'medium' ? 'background:#d97706; border-color:#d97706;' : 'color:#d97706; border-color:#fcd34d;'}" onclick="selectHsgMasterLevel('medium')">
-                🟡 Cấp độ 2: Vừa / Tăng tốc (Bảng B)
+                🟡 Vận dụng
               </button>
               <button class="btn btn-sm ${HSG_MASTER_STATE.selectedLevel === 'hard' ? 'btn-primary' : 'btn-outline'}" style="${HSG_MASTER_STATE.selectedLevel === 'hard' ? 'background:#dc2626; border-color:#dc2626;' : 'color:#dc2626; border-color:#fca5a5;'}" onclick="selectHsgMasterLevel('hard')">
-                🔴 Cấp độ 3: Khó / Về đích (VDC)
+                🔴 Nâng cao
               </button>
               <button class="btn btn-sm ${HSG_MASTER_STATE.activeExamId === 'dn_auto' ? 'btn-primary' : 'btn-outline'}" style="background:#7c3aed; color:#fff; border-color:#7c3aed;" onclick="regenerateAutoExamForLevel('${currentLevel}')">
-                🎲 Tạo Đề Mới (Khi Chưa Đạt)
+                🎲 Tạo đề mới
               </button>
             </div>
           </div>

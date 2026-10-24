@@ -1,4 +1,4 @@
-﻿// ============================================================================
+// ============================================================================
 // HỆ THỐNG QUẢN LÝ HỒ SƠ CV 5512, SOẠN GIÁO ÁN & KHO BÀI GIẢNG PPT GẮN DRIVE
 // Dành cho môn Công nghệ Nông nghiệp 10, 11, 12 (Bộ sách Kết nối tri thức)
 // Trường THPT Lộc Ninh - Sở GD&ĐT Đồng Nai
@@ -255,15 +255,15 @@ function render5512MainContainer() {
     <div class="sub-nav-bar">
       <button class="sub-nav-btn ${state5512.currentSubTab === 1 ? 'active' : ''}" onclick="switchMod2SubTab(1)">
         <span style="font-size:16px;">📑</span>
-        <span>2.1. Hồ sơ Phụ lục 1, 2, 3 (CV 5512)</span>
+        <span>Hồ sơ</span>
       </button>
       <button class="sub-nav-btn ${state5512.currentSubTab === 2 ? 'active' : ''}" onclick="switchMod2SubTab(2)">
         <span style="font-size:16px;">📝</span>
-        <span>2.2. Công cụ Soạn Giáo Án (KHBD)</span>
+        <span>Giáo án</span>
       </button>
       <button class="sub-nav-btn ${state5512.currentSubTab === 3 ? 'active' : ''}" onclick="switchMod2SubTab(3)">
         <span style="font-size:16px;">🖥️</span>
-        <span>2.3. Kho Học Liệu & PPT (77 Bài)</span>
+        <span>Bài giảng</span>
       </button>
     </div>
 
