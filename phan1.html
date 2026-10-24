@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -11,64 +11,27 @@
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="app-header">
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand-badge">🌱 THPT LỘC NINH • CNNN 10•11•12</div>
-        <div class="brand-title">
-          <h1>CỔNG HỌC LIỆU &amp; HỖ TRỢ SOẠN GIẢNG ĐIỆN TỬ (CV 5512)</h1>
-          <p class="brand-slogan">Đồng hành cùng giáo viên &amp; học sinh THPT Lộc Ninh trên hành trình chuyển đổi số nông nghiệp</p>
-          <div class="header-contact-bar">
-            <div class="author-badge">👨‍🏫 <span>Tác giả: Thầy Trương Khắc Nam – GV CNNN</span></div>
-            <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="zalo-cta-btn">
-              💬 <span>Nhắn Zalo: 0978.405.879</span>
-            </a>
-          </div>
-        </div>
+    <!-- SLIM UNIFIED NAVBAR -->
+  <header class="slim-navbar">
+    <div class="slim-brand">
+      <span class="slim-logo">ðŸŒ±</span>
+      <div>
+        <div class="slim-title">PHáº¦N 1: KIáº¾N THá»¨C & PHÃ‚N TÃCH LÃ THUYáº¾T</div>
+        <div class="slim-sub">THPT Lá»™c Ninh â€¢ CÃ´ng nghá»‡ NÃ´ng nghiá»‡p 10 - 11 - 12</div>
       </div>
-      <div class="header-actions">
-        <button class="btn btn-outline btn-sm" onclick="openCorpusModal()">📚 Kho Ngữ liệu SGK/SGV & Ngân hàng Câu hỏi</button>
-        <button class="btn btn-outline btn-sm" onclick="openAiConfigModal()">⚙️ Cấu hình API AI</button>
-        <button class="btn btn-accent btn-sm" onclick="exportFullWordDocument()">📥 Xuất Hồ sơ Đề (.doc)</button>
-        <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ In / Xuất PDF</button>
-      </div>
+    </div>
+    <div class="slim-nav-tabs">
+      <a href="phan1.html" class="slim-tab-link active">ðŸ“– Pháº§n 1: LÃ½ thuyáº¿t</a>
+      <a href="phan2.html" class="slim-tab-link">ðŸ“‘ Pháº§n 2: Há»“ sÆ¡ 5512</a>
+      <a href="phan3.html" class="slim-tab-link">ðŸ“ Pháº§n 3: Soáº¡n Ä‘á» 7991</a>
+      <a href="phan4.html" class="slim-tab-link">ðŸ† Pháº§n 4: Ã”n thi HSG</a>
+      <a href="thietke.html" class="slim-tab-link">ðŸŽ¨ Studio</a>
+    </div>
+    <div class="slim-actions">
+      <button class="btn btn-sm btn-outline" style="color:#f8fafc; border-color:#475569;" onclick="window.print()">ðŸ–¨ï¸ In PDF</button>
+      <a href="https://zalo.me/0978405879" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" style="color:#38bdf8; border-color:#0284c7;">ðŸ’¬ Zalo</a>
     </div>
   </header>
-
-  <!-- 4 MAIN MODULES NAVIGATION BAR -->
-  <nav class="module-nav-bar">
-    <div class="module-nav-inner">
-      <button class="module-tab-btn active" onclick="switchMainModule(1)">
-        <div class="module-tab-icon">📖</div>
-        <div class="module-tab-text">
-          <strong>PHẦN 1: KIẾN THỨC & PHÂN TÍCH</strong>
-          <span>Tóm tắt 77 bài • Sơ đồ tư duy • Thẻ nhớ Flashcard</span>
-        </div>
-      </button>
-      <button class="module-tab-btn" onclick="switchMainModule(2)">
-        <div class="module-tab-icon">📑</div>
-        <div class="module-tab-text">
-          <strong>PHẦN 2: HỒ SƠ 5512, SOẠN GIÁO ÁN & PPT DRIVE</strong>
-          <span>Đồng bộ 3 Phụ lục nộp Tổ • Soạn GA 5512 NLS/AI • Kho PPT gắn Drive</span>
-        </div>
-      </button>
-      <button class="module-tab-btn" onclick="switchMainModule(3)">
-        <div class="module-tab-icon">📝</div>
-        <div class="module-tab-text">
-          <strong>PHẦN 3: SOẠN ĐỀ THEO HỌC KÌ</strong>
-          <span>Quy trình 6 bước CV 7991 • Kho 97 Đề mẫu</span>
-        </div>
-      </button>
-      <button class="module-tab-btn" onclick="switchMainModule(4)">
-        <div class="module-tab-icon">🏆</div>
-        <div class="module-tab-text">
-          <strong>PHẦN 4: ÔN HSG & THI TỐT NGHIỆP THPT</strong>
-          <span>Luyện đề VDC • 48 Đề chuẩn Bộ GD&ĐT • Phân tích đề</span>
-        </div>
-      </button>
-    </div>
-  </nav>
 
   <!-- 6-STEP WIZARD NAVIGATION (DÀNH CHO PHẦN 3: SOẠN ĐỀ THEO HỌC KÌ) -->
   <nav class="stepper-bar" id="cv7991StepperBar" style="display:none;">
