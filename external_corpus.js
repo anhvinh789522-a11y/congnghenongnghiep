@@ -148,14 +148,34 @@
     searchQuery: "",
 
     getSelected: function () {
+      let list = [];
       if (window.state && Array.isArray(window.state.externalCorpus)) {
-        return window.state.externalCorpus;
+        list = window.state.externalCorpus;
+      } else {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) list = JSON.parse(raw);
+        } catch (e) {}
       }
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) return JSON.parse(raw);
-      } catch (e) {}
-      return [];
+      if (!Array.isArray(list)) list = [];
+
+      // Tự động làm sạch các mục bị lỗi mã nhị phân PK/zip do phiên bản cũ đọc nhầm file Word docx
+      const cleaned = list.filter(item => {
+        if (!item || !item.content) return false;
+        const s = String(item.content).trim();
+        if (s.startsWith("PK") || s.includes("word/_rels") || s.includes("word/document.xml") || s.includes("[Content_Types].xml")) {
+          return false;
+        }
+        return true;
+      });
+
+      if (cleaned.length !== list.length) {
+        if (window.state) window.state.externalCorpus = cleaned;
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(cleaned));
+        } catch (e) {}
+      }
+      return cleaned;
     },
 
     saveSelected: function (list) {
@@ -347,43 +367,156 @@
   };
 
   window.handleExternalCorpusFileUpload = function (event) {
-    const file = event.target.files[0];
+    const file = event.target.files && event.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const text = e.target.result;
-      if (file.name.endsWith(".json")) {
+    const fileName = file.name || "";
+    const lowerName = fileName.toLowerCase();
+
+    // 1. Nếu là file .doc cũ (Word 97-2003)
+    if (lowerName.endsWith(".doc") && !lowerName.endsWith(".docx")) {
+      alert("⚠️ Định dạng .doc cũ (Word 97-2003) không thể giải mã trực tiếp trên trình duyệt. Quý thầy cô vui lòng mở file trên Microsoft Word và chọn Lưu thành (Save As) dạng .docx hoặc .txt để nạp ngữ liệu hoàn hảo nhất!");
+      event.target.value = "";
+      return;
+    }
+
+    // 2. Nếu là file Word hiện đại .docx
+    if (lowerName.endsWith(".docx")) {
+      const ZipLib = window.JSZip || (typeof JSZip !== "undefined" ? JSZip : null);
+      if (!ZipLib) {
+        alert("⚠️ Đang khởi tạo thư viện đọc Word (.docx). Vui lòng tải lại trang hoặc lưu file dạng .txt / .json để nạp ngay!");
+        event.target.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const arrayBuffer = e.target.result;
+        ZipLib.loadAsync(arrayBuffer).then(function (zip) {
+          const docXml = zip.file("word/document.xml");
+          if (!docXml) {
+            throw new Error("Không tìm thấy tệp cấu trúc word/document.xml bên trong file .docx!");
+          }
+          return docXml.async("text");
+        }).then(function (xmlText) {
+          if (!xmlText) throw new Error("Nội dung tài liệu rỗng!");
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(xmlText, "application/xml") || parser.parseFromString(xmlText, "text/xml");
+          
+          // Trích xuất các đoạn văn bản <w:p>
+          const pNodes = xmlDoc.getElementsByTagName("w:p");
+          const paragraphs = [];
+          for (let i = 0; i < pNodes.length; i++) {
+            const p = pNodes[i];
+            const tNodes = p.getElementsByTagName("w:t");
+            let pText = "";
+            for (let j = 0; j < tNodes.length; j++) {
+              pText += tNodes[j].textContent || "";
+            }
+            pText = pText.trim();
+            if (pText.length > 0) {
+              paragraphs.push(pText);
+            }
+          }
+
+          if (paragraphs.length === 0) {
+            // Fallback regex nếu DOMParser namespace bị lệch
+            const matches = xmlText.match(/<w:t[^>]*>([^<]+)<\/w:t>/g);
+            if (matches && matches.length > 0) {
+              const cleaned = matches.map(m => m.replace(/<[^>]+>/g, "").trim()).filter(Boolean);
+              if (cleaned.length > 0) paragraphs.push(cleaned.join(" "));
+            }
+          }
+
+          if (paragraphs.length === 0) {
+            alert("⚠️ File Word không chứa nội dung văn bản khả dụng (có thể chỉ chứa ảnh quét scan).");
+            event.target.value = "";
+            return;
+          }
+
+          const title = fileName.replace(/\.[^/.]+$/, "");
+          const content = paragraphs.join("\n\n");
+
+          ExternalCorpus.add({
+            id: "file_" + Date.now(),
+            grade: "all",
+            term: "ALL",
+            title: title,
+            source: `Tệp Word tải lên: ${fileName}`,
+            lessonMatch: "Theo đề cương",
+            content: content,
+            targetParts: ["tf", "essay"]
+          });
+
+          alert(`✅ Đã bóc tách văn bản chuẩn xác từ file "${fileName}" (${paragraphs.length} đoạn văn)! Đã đưa vào đề kiểm tra thành công.`);
+          event.target.value = "";
+          renderExternalCorpusModalContent();
+        }).catch(function (err) {
+          console.error("Lỗi giải nén .docx:", err);
+          alert("❌ Không thể giải nén file Word .docx: " + (err.message || err));
+          event.target.value = "";
+        });
+      };
+      reader.onerror = function () {
+        alert("Lỗi khi đọc file Word từ đĩa cứng!");
+        event.target.value = "";
+      };
+      reader.readAsArrayBuffer(file);
+      return;
+    }
+
+    // 3. Nếu là file JSON
+    if (lowerName.endsWith(".json")) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
         try {
-          const parsed = JSON.parse(text);
+          const parsed = JSON.parse(e.target.result);
           if (Array.isArray(parsed)) {
             parsed.forEach(p => ExternalCorpus.add(p));
             alert(`✅ Đã nhập thành công ${parsed.length} ngữ liệu từ file JSON!`);
-          } else if (parsed.content) {
+          } else if (parsed && parsed.content) {
             ExternalCorpus.add(parsed);
             alert("✅ Đã nhập thành công ngữ liệu từ file JSON!");
+          } else {
+            alert("⚠️ File JSON không đúng định dạng ngữ liệu!");
           }
         } catch (err) {
           alert("Lỗi đọc file JSON: " + err.message);
         }
-      } else {
-        // Text / Markdown / TSV
-        const lines = text.split("\n").filter(l => l.trim().length > 0);
-        const title = file.name.replace(/\.[^/.]+$/, "");
-        const content = lines.join("\n\n");
-        ExternalCorpus.add({
-          id: "file_" + Date.now(),
-          title: title,
-          source: `Tệp tải lên: ${file.name}`,
-          lessonMatch: "Theo đề cương",
-          content: content,
-          targetParts: ["tf", "essay"]
-        });
-        alert(`✅ Đã trích xuất thành công ngữ liệu từ file "${file.name}"!`);
+        event.target.value = "";
+        renderExternalCorpusModalContent();
+      };
+      reader.readAsText(file, "UTF-8");
+      return;
+    }
+
+    // 4. File văn bản thuần .txt / .tsv / .csv / .md
+    const textReader = new FileReader();
+    textReader.onload = function (e) {
+      const text = e.target.result || "";
+      // Kiểm tra sơ bộ xem có phải file nhị phân ngụy trang không
+      if (text.startsWith("PK\x03\x04") || text.slice(0, 50).includes("word/")) {
+        alert("⚠️ File này là tài liệu nén nhị phân (.docx) nhưng bị đổi phần mở rộng. Vui lòng đổi lại đuôi .docx để giải mã!");
+        event.target.value = "";
+        return;
       }
+      const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+      const title = fileName.replace(/\.[^/.]+$/, "");
+      const content = lines.join("\n\n");
+      ExternalCorpus.add({
+        id: "file_" + Date.now(),
+        grade: "all",
+        term: "ALL",
+        title: title,
+        source: `Tệp tải lên: ${fileName}`,
+        lessonMatch: "Theo đề cương",
+        content: content,
+        targetParts: ["tf", "essay"]
+      });
+      alert(`✅ Đã trích xuất thành công ${lines.length} dòng ngữ liệu từ file "${fileName}"!`);
+      event.target.value = "";
       renderExternalCorpusModalContent();
     };
-    reader.readAsText(file, "UTF-8");
+    textReader.readAsText(file, "UTF-8");
   };
 
   function renderExternalCorpusModalContent() {

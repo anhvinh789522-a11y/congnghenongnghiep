@@ -1,4 +1,4 @@
-﻿// Kho Ngữ liệu Sách Giáo Khoa (PDF), Sách Giáo Viên (Word) & Ngân hàng 442 Câu hỏi Sách Ôn Tập Huấn CNNN
+// Kho Ngữ liệu Sách Giáo Khoa (PDF), Sách Giáo Viên (Word) & Ngân hàng 442 Câu hỏi Sách Ôn Tập Huấn CNNN
 const CORPUS_BANK = {
   "textbooks": [
     {
@@ -8514,6 +8514,19 @@ const CORPUS_BANK = {
         }
       },
       {
+        id: "u3_4",
+        chapter: "Chương III: Phân bón",
+        lesson: "Bài 10: Thực hành: Nhận biết một số loại phân bón hoá học",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "TKKT"],
+        yccd: {
+          biet: "Nêu được các bước thí nghiệm nhận biết một số loại phân bón hoá học thông thường bằng màu sắc, độ tan và phản ứng nhiệt độ.",
+          hieu: "Phân biệt được phân đạm, phân lân, phân kali dựa trên đặc điểm hình thái và phản ứng thử mẫu.",
+          vandung: "Vận dụng kỹ năng phân biệt phân bón thật - giả và kiểm tra chất lượng phân bón trước khi đưa vào bón ruộng."
+        }
+      },
+      {
         id: "u4_1",
         chapter: "Chương IV: Công nghệ giống cây trồng",
         lesson: "Bài 11: Khái niệm và vai trò của giống cây trồng",
@@ -8530,7 +8543,7 @@ const CORPUS_BANK = {
         id: "u4_2",
         chapter: "Chương IV: Công nghệ giống cây trồng",
         lesson: "Bài 12: Một số phương pháp chọn, tạo giống cây trồng",
-        periods: 4,
+        periods: 2,
         selected: true,
         competencies: ["NCCN", "SDCN", "ĐGCN"],
         yccd: {
@@ -8542,14 +8555,27 @@ const CORPUS_BANK = {
       {
         id: "u4_3",
         chapter: "Chương IV: Công nghệ giống cây trồng",
-        lesson: "Bài 13 & 14: Nhân giống cây trồng (Hữu tính, Vô tính & Nuôi cấy mô)",
-        periods: 4,
+        lesson: "Bài 13: Nhân giống cây trồng",
+        periods: 2,
         selected: true,
         competencies: ["SDCN", "ĐGCN"],
         yccd: {
           biet: "Mô tả được các phương pháp nhân giống hữu tính (bằng hạt) và vô tính (giâm cành, chiết cành, ghép, nuôi cấy mô tế bào).",
           hieu: "Phân tích được ưu, nhược điểm của nhân giống vô tính và ý nghĩa của công nghệ nuôi cấy mô tế bào trong nhân giống cây trồng sạch bệnh.",
           vandung: "Lựa chọn và đề xuất biện pháp nhân giống vô tính phù hợp cho một loại cây ăn quả hoặc cây cảnh phổ biến ở gia đình, địa phương."
+        }
+      },
+      {
+        id: "u4_4",
+        chapter: "Chương IV: Công nghệ giống cây trồng",
+        lesson: "Bài 14: Thực hành: Nhân giống cây ăn quả bằng phương pháp ghép",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "TKKT"],
+        yccd: {
+          biet: "Nêu được các bước trong quy trình ghép đoạn cành hoặc ghép mắt nhỏ có gỗ trên cây ăn quả.",
+          hieu: "Giải thích được vì sao cần áp sát tầng sinh mô giữa cành ghép và gốc ghép, đồng thời quấn chặt dây nilon chống mất nước.",
+          vandung: "Thực hiện thành thạo thao tác ghép mắt hoặc ghép cành cho cây ăn quả đạt tỷ lệ sống trên 85%."
         }
       }
     ]
@@ -8719,10 +8745,10 @@ const CORPUS_BANK = {
     units: [
       ...CURRICULUM_PRESETS["cn11_channuoi_gk1"].units.map(u => ({ ...u, selected: true })),
       {
-        id: "cn11_5",
+        id: "cn11_7",
         chapter: "Chương III: Công nghệ thức ăn chăn nuôi",
         lesson: "Bài 7: Thức ăn và nhu cầu dinh dưỡng của vật nuôi",
-        periods: 3,
+        periods: 2,
         selected: true,
         competencies: ["NCCN", "SDCN"],
         yccd: {
@@ -8732,16 +8758,42 @@ const CORPUS_BANK = {
         }
       },
       {
-        id: "cn11_6",
+        id: "cn11_8",
         chapter: "Chương III: Công nghệ thức ăn chăn nuôi",
-        lesson: "Bài 8, 9, 10: Sản xuất, chế biến và bảo quản thức ăn chăn nuôi",
-        periods: 5,
+        lesson: "Bài 8: Sản xuất và chế biến thức ăn chăn nuôi",
+        periods: 2,
         selected: true,
         competencies: ["SDCN", "ĐGCN"],
         yccd: {
-          biet: "Kể tên được các phương pháp sản xuất, chế biến (ủ chua, ủ men, đường hóa, kiềm hóa) và bảo quản thức ăn chăn nuôi phổ biến.",
-          hieu: "Phân tích ưu, nhược điểm của từng phương pháp chế biến và giải thích cơ sở khoa học của phương pháp ủ chua thức ăn xanh và bảo quản bằng silo.",
-          vandung: "Thực hiện và đề xuất quy trình chế biến (ủ chua/ủ men), bảo quản thức ăn chăn nuôi quy mô hộ gia đình đạt chất lượng cao."
+          biet: "Kể tên được các phương pháp sản xuất và chế biến thức ăn chăn nuôi (cắt ngắn, nghiền nhỏ, ủ chua, ủ men, ép viên công nghiệp).",
+          hieu: "Phân tích ưu, nhược điểm của từng phương pháp chế biến thức ăn và giải thích cơ sở khoa học của phương pháp lên men vi sinh.",
+          vandung: "Thực hiện và đề xuất quy trình ủ men vi sinh hoặc chế biến thức ăn hỗn hợp quy mô gia trại đạt hiệu quả cao."
+        }
+      },
+      {
+        id: "cn11_9",
+        chapter: "Chương III: Công nghệ thức ăn chăn nuôi",
+        lesson: "Bài 9: Bảo quản thức ăn chăn nuôi",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "TKKT"],
+        yccd: {
+          biet: "Trình bày được các phương pháp bảo quản thức ăn chăn nuôi (bảo quản khô bằng kho/silo, bảo quản ướt bằng ủ chua).",
+          hieu: "Giải thích được các yếu tố ảnh hưởng đến chất lượng thức ăn trong quá trình bảo quản (ẩm độ, nhiệt độ, nấm mốc sinh độc tố Aflatoxin).",
+          vandung: "Đề xuất phương án thiết kế kho bảo quản hoặc hầm ủ chua thức ăn thô xanh an toàn trong mùa mưa ẩm."
+        }
+      },
+      {
+        id: "cn11_10",
+        chapter: "Chương III: Công nghệ thức ăn chăn nuôi",
+        lesson: "Bài 10: Thực hành: Chế biến, bảo quản thức ăn cho vật nuôi",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "TKKT"],
+        yccd: {
+          biet: "Nêu được quy trình các bước thực hành chế biến hoặc ủ men thức ăn tinh bột cho lợn/gia cầm.",
+          hieu: "Quan sát và nhận diện được màu sắc, mùi thơm đặc trưng của thức ăn ủ men đạt tiêu chuẩn chất lượng cao.",
+          vandung: "Thực hiện thành thạo thao tác phối trộn nguyên liệu và ủ men vi sinh thức ăn chăn nuôi tại nông hộ."
         }
       }
     ]
@@ -8898,29 +8950,68 @@ const CORPUS_BANK = {
     units: [
       ...CURRICULUM_PRESETS["cn12_lamthuy_gk1"].units.map(u => ({ ...u, selected: true })),
       {
-        id: "cn12_4",
-        chapter: "Chương IV: Giới thiệu chung về thủy sản",
-        lesson: "Bài 8 & Bài 9: Vai trò, triển vọng của thủy sản; Các nhóm thủy sản và phương thức nuôi",
-        periods: 5,
+        id: "cn12_8",
+        chapter: "Chương IV: Giới thiệu chung về thuỷ sản",
+        lesson: "Bài 8: Vai trò và triển vọng của thuỷ sản",
+        periods: 2,
         selected: true,
         competencies: ["NCCN", "ĐGCN"],
         yccd: {
-          biet: "Trình bày được vai trò, triển vọng của thủy sản; phân loại các nhóm thủy sản theo nguồn gốc, tính ăn và nêu các phương thức nuôi (quảng canh, bán thâm canh, thâm canh).",
-          hieu: "Phân tích được xu hướng phát triển thủy sản bền vững và so sánh ưu, nhược điểm của từng phương thức nuôi thủy sản ở Việt Nam.",
-          vandung: "Đề xuất phương thức nuôi và đối tượng thủy sản phù hợp với điều kiện mặt nước tại địa phương."
+          biet: "Trình bày được vai trò và triển vọng của ngành thuỷ sản đối với đời sống, kinh tế quốc dân và xuất khẩu nông sản.",
+          hieu: "Phân tích được các xu hướng phát triển thuỷ sản bền vững, bảo vệ hệ sinh thái mặt nước và an toàn thực phẩm.",
+          vandung: "Đề xuất định hướng phát triển nghề nuôi thuỷ sản nước ngọt hoặc nước lợ phù hợp với tiềm năng mặt nước địa phương."
         }
       },
       {
-        id: "cn12_5",
-        chapter: "Chương V: Môi trường nuôi thủy sản",
-        lesson: "Bài 10, 11, 12: Yêu cầu, Quản lí và Biện pháp xử lí môi trường nuôi thủy sản",
-        periods: 8,
+        id: "cn12_9",
+        chapter: "Chương IV: Giới thiệu chung về thuỷ sản",
+        lesson: "Bài 9: Các nhóm thuỷ sản và một số phương thức nuôi phổ biến",
+        periods: 2,
         selected: true,
         competencies: ["NCCN", "SDCN"],
         yccd: {
-          biet: "Trình bày được các yêu cầu thủy lí, thủy hóa, thủy sinh của nước nuôi thủy sản; mô tả biện pháp quản lí và xử lí môi trường trước và sau nuôi.",
-          hieu: "Phân tích ảnh hưởng của nhiệt độ, pH, DO (oxygen hòa tan), NH3, độ mặn đến thủy sản và giải thích ứng dụng chế phẩm vi sinh xử lí nước ao nuôi.",
-          vandung: "Chẩn đoán sự cố môi trường ao nuôi (tôm nổi đầu do thiếu DO, pH biến động, tảo tàn) và đề xuất quy trình xử lí kịp thời."
+          biet: "Phân loại được các nhóm thuỷ sản theo đặc tính sinh học, môi trường sống và tính ăn; kể tên các phương thức nuôi thuỷ sản phổ biến.",
+          hieu: "So sánh được ưu điểm và nhược điểm của các phương thức nuôi: quảng canh, bán thâm canh, thâm canh và nuôi lồng bè.",
+          vandung: "Lựa chọn phương thức nuôi và đối tượng thuỷ sản thích hợp (cá tra, cá basa, tôm sú, tôm thẻ chân trắng) cho một vùng sinh thái cụ thể."
+        }
+      },
+      {
+        id: "cn12_10",
+        chapter: "Chương V: Môi trường nuôi thuỷ sản",
+        lesson: "Bài 10: Giới thiệu về môi trường nuôi thuỷ sản",
+        periods: 2,
+        selected: true,
+        competencies: ["NCCN", "SDCN"],
+        yccd: {
+          biet: "Nêu được các yếu tố thủy lí (nhiệt độ, độ trong, màu nước), thủy hóa (pH, DO, NH3, độ mặn) và thủy sinh của môi trường nước nuôi.",
+          hieu: "Giải thích được cơ chế biến động nồng độ oxy hòa tan (DO) và pH nước ao trong chu kỳ ngày - đêm do quang hợp và hô hấp của tảo.",
+          vandung: "Khảo sát và đánh giá nguồn nước cấp cho ao nuôi thuỷ sản tại địa phương dựa trên các chỉ tiêu cảm quan và lý hóa."
+        }
+      },
+      {
+        id: "cn12_11",
+        chapter: "Chương V: Môi trường nuôi thuỷ sản",
+        lesson: "Bài 11: Quản lí môi trường nuôi thuỷ sản",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "TKKT"],
+        yccd: {
+          biet: "Trình bày được các biện pháp kiểm soát và quản lý chất lượng nước trong quá trình nuôi (sục khí, xi phông đáy ao, thay nước định kỳ).",
+          hieu: "Giải thích được vì sao cần duy trì độ pH nước từ 7,5 đến 8,5 và nồng độ DO > 4 mg/L để thủy sản không bị stress và giảm ăn.",
+          vandung: "Đề xuất lịch vận hành hệ thống quạt nước và sục khí đáy ao nuôi tôm thâm canh theo thời gian trong ngày và điều kiện thời tiết."
+        }
+      },
+      {
+        id: "cn12_12",
+        chapter: "Chương V: Môi trường nuôi thuỷ sản",
+        lesson: "Bài 12: Biện pháp xử lí môi trường nuôi thuỷ sản",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "ĐGCN"],
+        yccd: {
+          biet: "Trình bày được các biện pháp xử lý nước cấp trước khi nuôi và xử lý nước thải ao nuôi trước khi xả ra môi trường bên ngoài.",
+          hieu: "Phân tích được vai trò của chế phẩm vi sinh (probiotic), men vi sinh xử lý đáy ao và hệ thống ao lắng sinh học trong nuôi thủy sản tuần hoàn.",
+          vandung: "Xây dựng phác đồ cấp cứu sự cố môi trường ao nuôi (tôm nổi đầu vào lúc rạng sáng do thiếu DO hoặc ngộ độc khí H2S/NH3)."
         }
       }
     ]

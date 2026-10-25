@@ -11,14 +11,14 @@ const CURRICULUM_PRESETS = {
       {
         id: "u1_1",
         chapter: "Chủ đề 1: Giới thiệu chung về trồng trọt",
-        lesson: "Bài 1: Vai trò, triển vọng của trồng trọt và phân loại cây trồng",
-        periods: 3,
+        lesson: "Bài 1: Giới thiệu về trồng trọt",
+        periods: 2,
         selected: true,
         competencies: ["NCCN", "ĐGCN"],
         yccd: {
-          biet: "Nêu được vai trò của trồng trọt đối với đời sống và kinh tế; phân loại được các nhóm cây trồng theo nguồn gốc, chu kỳ sống và mục đích sử dụng.",
-          hieu: "Phân tích được triển vọng phát triển ngành trồng trọt Việt Nam; giải thích được cơ sở phân loại cây trồng gắn với kỹ thuật canh tác.",
-          vandung: "Đánh giá được tiềm năng và đề xuất phương án chuyển đổi cơ cấu cây trồng phù hợp với điều kiện sinh thái địa phương."
+          biet: "Nêu được vai trò, triển vọng của trồng trọt đối với đời sống, kinh tế và môi trường sinh thái; phân loại được các nhóm cây trồng theo nguồn gốc, chu kỳ sống và mục đích sử dụng.",
+          hieu: "Phân tích được triển vọng phát triển ngành trồng trọt Việt Nam theo hướng công nghệ cao; giải thích được cơ sở khoa học của các hệ thống phân loại cây trồng.",
+          vandung: "Đánh giá được tiềm năng phát triển và đề xuất phương án chuyển đổi cơ cấu cây trồng phù hợp với điều kiện sinh thái thực tiễn tại địa phương."
         }
       },
       {
@@ -29,35 +29,35 @@ const CURRICULUM_PRESETS = {
         selected: true,
         competencies: ["NCCN", "SDCN"],
         yccd: {
-          biet: "Nêu được các yếu tố chính trong trồng trọt (nhiệt độ, ánh sáng, nước, dinh dưỡng, đất trồng, giống cây trồng, kỹ thuật canh tác).",
-          hieu: "Giải thích được mối quan hệ tác động qua lại giữa cây trồng với các yếu tố ngoại cảnh ảnh hưởng đến quang hợp và năng suất.",
-          vandung: "Vận dụng kiến thức điều chỉnh các yếu tố nhiệt độ, ánh sáng, ẩm độ trong nhà màng/nhà kính để nâng cao năng suất cây trồng."
+          biet: "Nêu được các yếu tố chính tác động đến cây trồng (nhiệt độ, ánh sáng, nước, dinh dưỡng, đất trồng, giống cây trồng, kỹ thuật canh tác).",
+          hieu: "Giải thích được mối quan hệ tác động qua lại giữa các yếu tố ngoại cảnh với quá trình quang hợp, hô hấp và hình thành năng suất cây trồng.",
+          vandung: "Vận dụng kiến thức điều khiển các yếu tố nhiệt độ, ánh sáng, ẩm độ trong mô hình nhà màng, nhà lưới để nâng cao năng suất và phẩm chất cây trồng."
         }
       },
       {
         id: "u2_1",
         chapter: "Chủ đề 2: Đất trồng",
-        lesson: "Bài 3: Giới thiệu về đất trồng (Thành phần, keo đất và tính chất)",
-        periods: 3,
+        lesson: "Bài 3: Giới thiệu về đất trồng",
+        periods: 2,
         selected: true,
         competencies: ["NCCN", "SDCN"],
         yccd: {
-          biet: "Trình bày được khái niệm đất trồng, các thành phần chính của đất (rắn, lỏng, khí, sinh vật); nêu được cấu tạo keo đất và chỉ số phản ứng của đất (pH).",
-          hieu: "Giải thích được cơ chế hấp phụ của keo đất, vai trò của mùn hữu cơ và ảnh hưởng của độ pH đất đến khả năng hấp thụ dinh dưỡng của rễ.",
-          vandung: "Phân tích chỉ số xét nghiệm mẫu đất thực tế để chẩn đoán tình trạng độ phì và độ chua của đất."
+          biet: "Trình bày được khái niệm đất trồng, các thành phần chính của đất (rắn, lỏng, khí, sinh vật); nêu được cấu tạo hạt keo đất và chỉ số phản ứng dung dịch đất (pH).",
+          hieu: "Giải thích được cơ chế hấp phụ của keo đất, vai trò của tầng mùn hữu cơ và ảnh hưởng của độ pH đất đến khả năng hấp thụ các nguyên tố khoáng của rễ cây.",
+          vandung: "Phân tích kết quả xét nghiệm mẫu đất thực tế để chẩn đoán tình trạng độ phì nhiêu và độ chua của tầng đất mặt."
         }
       },
       {
         id: "u2_2",
         chapter: "Chủ đề 2: Đất trồng",
         lesson: "Bài 4: Sử dụng, cải tạo và bảo vệ đất trồng",
-        periods: 3,
+        periods: 2,
         selected: true,
         competencies: ["SDCN", "ĐGCN"],
         yccd: {
-          biet: "Kể tên được các nhóm đất cần cải tạo ở Việt Nam (đất chua, đất mặn, đất phèn, đất xói mòn trơ sỏi đá).",
-          hieu: "Giải thích được nguyên nhân hình thành đất chua, đất mặn, đất phèn và cơ sở khoa học của biện pháp bón vôi, thau chua rửa mặn, làm ruộng bậc thang.",
-          vandung: "Xây dựng quy trình kỹ thuật cải tạo và sử dụng bền vững cho một loại đất bị suy thoái (đất dốc xói mòn hoặc đất nhiễm phèn/mặn) tại địa phương."
+          biet: "Kể tên được các nhóm đất cần cải tạo phổ biến ở Việt Nam (đất chua, đất mặn, đất phèn, đất xói mòn trơ sỏi đá vùng đồi núi).",
+          hieu: "Giải thích được nguyên nhân hình thành và cơ sở khoa học của các biện pháp bón vôi khử chua, thau chua rửa mặn, cày sâu không lật và làm ruộng bậc thang.",
+          vandung: "Xây dựng quy trình kỹ thuật cải tạo và sử dụng bền vững cho một loại đất bị suy thoái (đất dốc xói mòn hoặc đất chua mặn) tại địa phương."
         }
       },
       {
@@ -65,38 +65,51 @@ const CURRICULUM_PRESETS = {
         chapter: "Chủ đề 2: Đất trồng",
         lesson: "Bài 5: Giá thể trồng cây",
         periods: 2,
-        selected: false,
+        selected: true,
         competencies: ["NCCN", "SDCN", "TKKT"],
         yccd: {
-          biet: "Nêu được khái niệm, lợi ích và đặc điểm của một số loại giá thể trồng cây phổ biến (xơ dừa, trấu hun, đá perlite, than bùn).",
-          hieu: "So sánh được ưu, nhược điểm của từng loại giá thể tự nhiên và giá thể trơ trong canh tác không dùng đất.",
-          vandung: "Đề xuất công thức phối trộn giá thể phù hợp để ươm cây giống hoặc trồng rau ăn lá, hoa cây cảnh tại gia đình."
+          biet: "Nêu được khái niệm, lợi ích và đặc điểm của một số loại giá thể trồng cây phổ biến (mụn xơ dừa xả chát, trấu hun, đá perlite, than bùn, bông khoáng).",
+          hieu: "So sánh được ưu điểm và nhược điểm của từng loại giá thể hữu cơ tự nhiên và giá thể trơ nhân tạo trong canh tác không dùng đất.",
+          vandung: "Đề xuất công thức phối trộn giá thể tối ưu (thông thoáng khí, giữ ẩm, giàu khoáng) để ươm cây giống hoặc trồng rau ăn quả trong chậu."
+        }
+      },
+      {
+        id: "u2_4",
+        chapter: "Chủ đề 2: Đất trồng",
+        lesson: "Bài 6: Thực hành: Xác định độ chua và độ mặn của đất",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "TKKT"],
+        yccd: {
+          biet: "Nêu được nguyên tắc, các bước vận hành máy đo pH cầm tay, bút đo độ dẫn điện EC và phương pháp sử dụng giấy chỉ thị màu đo pH đất.",
+          hieu: "Giải thích được vì sao cần pha huyền phù đất với nước cất theo đúng tỉ lệ khối lượng và thời gian lắng trước khi nhúng đầu điện cực.",
+          vandung: "Đọc chính xác chỉ số pH và EC từ mẫu đất thực nghiệm, đối chiếu với ngưỡng sinh trưởng của cây trồng để đề xuất biện pháp xử lý đất."
         }
       },
       {
         id: "u3_1",
         chapter: "Chủ đề 3: Phân bón",
-        lesson: "Bài 6: Giới thiệu về phân bón (Khái niệm, vai trò, phân loại)",
+        lesson: "Bài 7: Giới thiệu về phân bón",
         periods: 2,
         selected: true,
         competencies: ["NCCN", "SDCN"],
         yccd: {
           biet: "Nêu được khái niệm, vai trò của phân bón trong trồng trọt; phân biệt được 3 nhóm phân bón chính (phân hóa học, phân hữu cơ, phân vi sinh).",
-          hieu: "Phân tích được đặc điểm tính chất (độ tan, hàm lượng dinh dưỡng, tác động đến đất) của phân hóa học, phân hữu cơ và phân vi sinh.",
-          vandung: "Nhận diện các triệu chứng thiếu hoặc thừa dinh dưỡng khoáng trên cây trồng để lựa chọn loại phân bón phù hợp."
+          hieu: "Phân tích được đặc điểm tính chất (độ tan, hàm lượng dinh dưỡng, tác động đến kết cấu đất) của phân hóa học, phân hữu cơ truyền thống và phân bón vi sinh.",
+          vandung: "Nhận diện các triệu chứng đặc trưng khi cây trồng thiếu hoặc thừa các nguyên tố dinh dưỡng khoáng đa lượng (N, P, K) để lựa chọn loại phân bón bổ sung kịp thời."
         }
       },
       {
         id: "u3_2",
         chapter: "Chủ đề 3: Phân bón",
-        lesson: "Bài 7: Sử dụng và bảo quản phân bón",
-        periods: 3,
+        lesson: "Bài 8: Sử dụng và bảo quản phân bón",
+        periods: 2,
         selected: true,
         competencies: ["SDCN", "ĐGCN"],
         yccd: {
-          biet: "Trình bày được nguyên tắc sử dụng và bảo quản phân hóa học, phân hữu cơ, phân vi sinh.",
-          hieu: "Giải thích được vì sao phân hữu cơ, phân lân thường dùng bón lót còn phân đạm, kali thường dùng bón thúc; giải thích quy tắc không trộn đạm urê với vôi.",
-          vandung: "Đánh giá hệ lụy của việc lạm dụng phân bón vô cơ và đề xuất quy trình bón phân theo nguyên tắc '4 đúng' hướng tới nông nghiệp xanh, hữu cơ bền vững."
+          biet: "Trình bày được nguyên tắc sử dụng và bảo quản phân hóa học, phân hữu cơ, phân bón vi sinh.",
+          hieu: "Giải thích được cơ sở khoa học của việc bón lót phân hữu cơ/phân lân và bón thúc phân đạm/kali; giải thích quy tắc không trộn đạm urê với vôi bột.",
+          vandung: "Đánh giá hệ lụy của việc lạm dụng phân bón vô cơ và xây dựng quy trình bón phân theo nguyên tắc '4 đúng' hướng tới nông nghiệp tuần hoàn, hữu cơ bền vững."
         }
       }
     ]
@@ -110,53 +123,79 @@ const CURRICULUM_PRESETS = {
       {
         id: "cn11_1",
         chapter: "Chủ đề 1: Giới thiệu chung về chăn nuôi",
-        lesson: "Bài 1: Vai trò, triển vọng của chăn nuôi và xu hướng phát triển",
-        periods: 3,
+        lesson: "Bài 1: Vai trò và triển vọng của chăn nuôi",
+        periods: 2,
         selected: true,
         competencies: ["NCCN", "ĐGCN"],
         yccd: {
-          biet: "Trình bày được vai trò của chăn nuôi đối với đời sống và kinh tế; nêu được các thành tựu và định hướng chăn nuôi công nghệ cao.",
-          hieu: "Phân tích được ưu điểm của mô hình chăn nuôi công nghiệp công nghệ cao và chăn nuôi bền vững so với chăn nuôi nông hộ nhỏ lẻ.",
-          vandung: "Đề xuất mô hình chăn nuôi tuần hoàn phù hợp với điều kiện kinh tế và môi trường tại địa phương."
+          biet: "Trình bày được vai trò của chăn nuôi đối với đời sống con người và nền kinh tế quốc dân; nêu được các thành tựu và xu hướng phát triển chăn nuôi bền vững.",
+          hieu: "Phân tích được ưu điểm của mô hình chăn nuôi trang trại công nghệ cao và chăn nuôi tuần hoàn an toàn sinh học so với chăn nuôi nông hộ truyền thống.",
+          vandung: "Đề xuất định hướng phát triển mô hình kinh tế tuần hoàn trong chăn nuôi phù hợp với điều kiện sinh thái và nguồn phụ phẩm nông nghiệp tại địa phương."
         }
       },
       {
         id: "cn11_2",
         chapter: "Chủ đề 1: Giới thiệu chung về chăn nuôi",
-        lesson: "Bài 2: Phân loại vật nuôi và phương thức chăn nuôi",
+        lesson: "Bài 2: Vật nuôi và phương thức chăn nuôi",
         periods: 2,
         selected: true,
         competencies: ["NCCN", "SDCN"],
         yccd: {
-          biet: "Nhận biết được các nhóm vật nuôi phổ biến theo nguồn gốc, đặc điểm sinh học và mục đích sử dụng; kể tên các phương thức chăn nuôi chính.",
-          hieu: "So sánh được ưu và nhược điểm của phương thức chăn nuôi chăn thả, bán công nghiệp và công nghiệp.",
-          vandung: "Lựa chọn đối tượng vật nuôi và phương thức chăn nuôi tối ưu cho một trang trại quy mô vừa."
+          biet: "Nhận biết được các nhóm vật nuôi phổ biến theo nguồn gốc, đặc điểm sinh học và mục đích sử dụng; nêu được đặc điểm của 3 phương thức chăn nuôi chính.",
+          hieu: "So sánh được ưu điểm và hạn chế của phương thức chăn thả tự do, chăn nuôi bán công nghiệp và chăn nuôi công nghiệp quy mô lớn.",
+          vandung: "Lựa chọn đối tượng vật nuôi và phương thức chăn nuôi tối ưu nhằm nâng cao hiệu quả kinh tế và kiểm soát dịch bệnh cho nông hộ hoặc gia trại."
         }
       },
       {
         id: "cn11_3",
-        chapter: "Chủ đề 2: Giống vật nuôi",
-        lesson: "Bài 3: Khái niệm, vai trò của giống và chọn giống vật nuôi",
-        periods: 3,
+        chapter: "Chủ đề 2: Công nghệ giống vật nuôi",
+        lesson: "Bài 3: Khái niệm, vai trò của giống trong chăn nuôi",
+        periods: 2,
         selected: true,
-        competencies: ["NCCN", "SDCN"],
+        competencies: ["NCCN", "ĐGCN"],
         yccd: {
-          biet: "Nêu được khái niệm giống vật nuôi, vai trò của giống trong chăn nuôi và các chỉ tiêu cơ bản để chọn giống (ngoại hình, thể chất, khả năng sản xuất).",
-          hieu: "Phân biệt được phương pháp chọn lọc hàng loạt và chọn lọc cá thể (kiểm tra năng suất bản thân, đời sau).",
-          vandung: "Vận dụng quy trình chọn lọc để tuyển chọn đàn lợn hoặc gia cầm hậu bị đạt tiêu chuẩn giống tốt."
+          biet: "Nêu được khái niệm giống vật nuôi, điều kiện công nhận giống và vai trò quyết định của giống đối với năng suất, chất lượng sản phẩm chăn nuôi.",
+          hieu: "Phân tích được mối quan hệ giữa yếu tố di truyền của giống với điều kiện dinh dưỡng, chăm sóc và phòng dịch trong việc phát huy tối đa tiềm năng năng suất.",
+          vandung: "Khảo sát và đánh giá ưu thế của một số giống vật nuôi bản địa (lợn Móng Cái, gà Ri) hoặc giống ngoại nhập phẩm chất cao tại địa phương."
         }
       },
       {
         id: "cn11_4",
-        chapter: "Chủ đề 2: Giống vật nuôi",
-        lesson: "Bài 4: Nhân giống vật nuôi và ứng dụng công nghệ sinh học",
-        periods: 3,
+        chapter: "Chủ đề 2: Công nghệ giống vật nuôi",
+        lesson: "Bài 4: Chọn giống vật nuôi",
+        periods: 2,
+        selected: true,
+        competencies: ["NCCN", "SDCN"],
+        yccd: {
+          biet: "Nêu được các chỉ tiêu cơ bản để chọn giống vật nuôi (ngoại hình, thể chất, sinh trưởng, phát dục, khả năng sản xuất); kể tên các phương pháp chọn giống.",
+          hieu: "So sánh được cơ sở khoa học, ưu nhược điểm và phạm vi áp dụng của phương pháp chọn lọc hàng loạt và chọn lọc cá thể (kiểm tra năng suất cá thể và đời con).",
+          vandung: "Vận dụng các chỉ tiêu ngoại hình và sức tăng trọng để đánh giá, tuyển chọn đàn lợn hoặc đàn gia cầm hậu bị đạt tiêu chuẩn giống xuất sắc."
+        }
+      },
+      {
+        id: "cn11_5",
+        chapter: "Chủ đề 2: Công nghệ giống vật nuôi",
+        lesson: "Bài 5: Nhân giống vật nuôi",
+        periods: 2,
         selected: true,
         competencies: ["SDCN", "ĐGCN"],
         yccd: {
-          biet: "Nêu được khái niệm nhân giống thuần chủng, lai giống và các ứng dụng công nghệ sinh học (thụ tinh nhân tạo, cấy truyền phôi).",
-          hieu: "Giải thích được mục đích của lai kinh tế, lai cải tạo và ý nghĩa của công nghệ thụ tinh nhân tạo trong nâng cao chất lượng đàn giống.",
-          vandung: "Thiết kế sơ đồ lai kinh tế hoặc đề xuất quy trình ứng dụng thụ tinh nhân tạo để nâng cao năng suất chăn nuôi tại trang trại."
+          biet: "Nêu được khái niệm, mục đích của nhân giống thuần chủng và lai giống; phân biệt được các phương pháp lai (lai kinh tế, lai cải tiến, lai cải tạo).",
+          hieu: "Giải thích được cơ sở di truyền học của hiện tượng ưu thế lai và mục đích tạo con lai thương phẩm F1 có sức sống cao, tăng trọng nhanh trong lai kinh tế.",
+          vandung: "Thiết kế sơ đồ lai kinh tế 2 giống hoặc 3 giống phù hợp với quy mô chăn nuôi trang trại nhằm tối ưu hóa tỷ lệ nạc và chất lượng thịt."
+        }
+      },
+      {
+        id: "cn11_6",
+        chapter: "Chủ đề 2: Công nghệ giống vật nuôi",
+        lesson: "Bài 6: Ứng dụng công nghệ sinh học trong chọn và nhân giống vật nuôi",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "ĐGCN"],
+        yccd: {
+          biet: "Nêu được các ứng dụng CNSH hiện đại trong chọn và nhân giống (thụ tinh nhân tạo, cấy truyền phôi, phân tách giới tính tinh trùng, chọn giống bằng chỉ thị phân tử).",
+          hieu: "Phân tích được ý nghĩa kinh tế và kỹ thuật của công nghệ thụ tinh nhân tạo và cấy truyền phôi trong việc nhân nhanh đàn giống ưu tú phẩm chất cao.",
+          vandung: "Đề xuất quy trình ứng dụng thụ tinh nhân tạo cho lợn hoặc bò tại hợp tác xã chăn nuôi nhằm nâng cao tỷ lệ thụ thai và hạn chế lây lan dịch bệnh."
         }
       }
     ]
@@ -169,41 +208,93 @@ const CURRICULUM_PRESETS = {
     units: [
       {
         id: "cn12_1",
-        chapter: "Chủ đề 1: Đại cương về Lâm nghiệp",
-        lesson: "Bài 1: Vai trò, triển vọng của lâm nghiệp và phân loại rừng",
-        periods: 3,
+        chapter: "Chương I: Giới thiệu chung về lâm nghiệp",
+        lesson: "Bài 1: Vai trò và triển vọng của lâm nghiệp",
+        periods: 2,
         selected: true,
         competencies: ["NCCN", "ĐGCN"],
         yccd: {
-          biet: "Trình bày được vai trò của lâm nghiệp đối với kinh tế, môi trường; phân biệt được rừng đặc dụng, rừng phòng hộ và rừng sản xuất.",
-          hieu: "Phân tích được nguyên nhân suy thoái tài nguyên rừng và yêu cầu cơ bản của phát triển lâm nghiệp bền vững.",
-          vandung: "Liên hệ thực tiễn công tác bảo vệ và phát triển rừng gắn với thị trường tín chỉ carbon tại Việt Nam."
+          biet: "Nêu được vai trò của lâm nghiệp đối với đời sống con người, kinh tế quốc dân và môi trường sinh thái; phân loại được 3 loại rừng (đặc dụng, phòng hộ, sản xuất).",
+          hieu: "Phân tích được các nhân tố ảnh hưởng đến sự phát triển của lâm nghiệp; giải thích được 4 đặc trưng cơ bản của sản xuất lâm nghiệp.",
+          vandung: "Liên hệ thực tiễn các giải pháp phát triển lâm nghiệp bền vững gắn liền với thị trường tín chỉ carbon rừng và bảo tồn đa dạng sinh học tại Việt Nam."
         }
       },
       {
         id: "cn12_2",
-        chapter: "Chủ đề 2: Trồng và chăm sóc rừng",
-        lesson: "Bài 2: Quy luật sinh trưởng phát triển của cây rừng & Kỹ thuật trồng rừng",
-        periods: 3,
+        chapter: "Chương I: Giới thiệu chung về lâm nghiệp",
+        lesson: "Bài 2: Các hoạt động lâm nghiệp cơ bản và nguyên nhân chủ yếu làm suy thoái tài nguyên rừng",
+        periods: 2,
         selected: true,
-        competencies: ["NCCN", "SDCN"],
+        competencies: ["NCCN", "ĐGCN"],
         yccd: {
-          biet: "Nêu được các giai đoạn sinh trưởng của cây rừng, thời vụ trồng rừng và quy trình trồng rừng bằng cây con.",
-          hieu: "Giải thích được ý nghĩa của việc chuẩn bị cây giống, làm đất và chọn thời vụ trồng rừng phù hợp với từng vùng sinh thái.",
-          vandung: "Đề xuất quy trình kỹ thuật trồng và chăm sóc rừng sản xuất hoặc rừng phòng hộ ven biển đạt tỉ lệ sống cao."
+          biet: "Trình bày được các hoạt động lâm nghiệp cơ bản (quản lý, bảo vệ, phát triển, sử dụng rừng, chế biến và thương mại lâm sản); kể tên các nguyên nhân gây suy thoái rừng.",
+          hieu: "Phân tích được tác động tiêu cực của nạn phá rừng, cháy rừng, biến đổi khí hậu và khai thác quá mức đến cấu trúc hệ sinh thái và an ninh nguồn nước.",
+          vandung: "Đánh giá thực trạng suy thoái tài nguyên rừng tại địa phương và đề xuất các biện pháp giảm thiểu áp lực xâm hại rừng tự nhiên."
         }
       },
       {
         id: "cn12_3",
-        chapter: "Chủ đề 3: Bảo vệ và khai thác tài nguyên rừng",
-        lesson: "Bài 3: Nhiệm vụ bảo vệ rừng và các phương thức khai thác rừng bền vững",
-        periods: 3,
+        chapter: "Chương II: Trồng và chăm sóc rừng",
+        lesson: "Bài 3: Vai trò, nhiệm vụ của trồng và chăm sóc rừng",
+        periods: 2,
+        selected: true,
+        competencies: ["NCCN", "SDCN"],
+        yccd: {
+          biet: "Trình bày được vai trò và nhiệm vụ chiến lược của công tác trồng rừng và chăm sóc rừng trong giai đoạn hiện nay.",
+          hieu: "Phân tích được ý nghĩa to lớn của việc phủ xanh đất trống đồi trọc, trồng rừng phòng hộ đầu nguồn và rừng ngập mặn chắn sóng ven biển.",
+          vandung: "Xây dựng kế hoạch tuyên truyền và tham gia phong trào trồng cây gây rừng, Tết trồng cây phù hợp với điều kiện trường học và địa phương."
+        }
+      },
+      {
+        id: "cn12_4",
+        chapter: "Chương II: Trồng và chăm sóc rừng",
+        lesson: "Bài 4: Quy luật sinh trưởng và phát triển của cây rừng",
+        periods: 2,
+        selected: true,
+        competencies: ["NCCN", "SDCN"],
+        yccd: {
+          biet: "Nêu được các giai đoạn sinh trưởng, phát triển của cây rừng từ giai đoạn hạt, cây con, cây non, cây sào, cây trung niên đến cây già cỗi.",
+          hieu: "Phân tích được các quy luật sinh trưởng chiều cao, đường kính và hiện tượng tỉa cành tự nhiên do cạnh tranh ánh sáng trong quần thể rừng.",
+          vandung: "Vận dụng quy luật sinh trưởng và hiện tượng tỉa thưa tự nhiên để xác định mật độ trồng và thời điểm chặt tỉa thưa rừng trồng hợp lý."
+        }
+      },
+      {
+        id: "cn12_5",
+        chapter: "Chương II: Trồng và chăm sóc rừng",
+        lesson: "Bài 5: Kĩ thuật trồng và chăm sóc rừng",
+        periods: 2,
+        selected: true,
+        competencies: ["SDCN", "TKKT"],
+        yccd: {
+          biet: "Trình bày được thời vụ trồng, mật độ trồng và các bước trong quy trình kỹ thuật trồng rừng bằng cây con có bầu hoặc rễ trần; các công việc chăm sóc rừng trồng.",
+          hieu: "Giải thích được cơ sở khoa học của việc chuẩn bị đất trồng rừng theo đường đồng mức và kỹ thuật chăm sóc cây non trong 3 năm đầu (làm cỏ, xới váng, bón thúc, tỉa dặm).",
+          vandung: "Lập bản hướng dẫn kỹ thuật trồng và chăm sóc một loài cây rừng bản địa (sao đen, dầu rái, keo lai) đạt tỉ lệ sống trên 90%."
+        }
+      },
+      {
+        id: "cn12_6",
+        chapter: "Chương III: Bảo vệ và khai thác tài nguyên rừng",
+        lesson: "Bài 6: Ý nghĩa, nhiệm vụ, thực trạng của việc bảo vệ và khai thác rừng",
+        periods: 2,
+        selected: true,
+        competencies: ["NCCN", "ĐGCN"],
+        yccd: {
+          biet: "Nêu được ý nghĩa, nhiệm vụ bảo vệ tài nguyên rừng và thực trạng bảo vệ, khai thác rừng ở nước ta hiện nay.",
+          hieu: "Phân tích được mối quan hệ mật thiết giữa bảo vệ hệ sinh thái rừng với bảo tồn đa dạng sinh học, phòng chống thiên tai (lũ quét, sạt lở) và điều hòa khí hậu.",
+          vandung: "Đánh giá hiệu quả của chính sách giao khoán quản lý bảo vệ rừng và cơ chế chi trả dịch vụ môi trường rừng đối với đời sống cộng đồng vùng đệm."
+        }
+      },
+      {
+        id: "cn12_7",
+        chapter: "Chương III: Bảo vệ và khai thác tài nguyên rừng",
+        lesson: "Bài 7: Biện pháp bảo vệ và khai thác tài nguyên rừng",
+        periods: 2,
         selected: true,
         competencies: ["SDCN", "ĐGCN"],
         yccd: {
-          biet: "Trình bày được các biện pháp phòng cháy chữa cháy rừng, phòng trừ sâu bệnh hại và các phương thức khai thác trắng, khai thác dần, khai thác chọn.",
-          hieu: "So sánh được điều kiện áp dụng và tác động sinh thái của khai thác trắng, khai thác dần và khai thác chọn.",
-          vandung: "Xây dựng phương án khai thác và phục hồi tái sinh rừng bền vững kết hợp chứng chỉ rừng FSC."
+          biet: "Trình bày được các biện pháp phòng cháy chữa cháy rừng, phòng trừ sâu bệnh hại rừng; nêu được 3 phương thức khai thác rừng (khai thác trắng, khai thác dần, khai thác chọn).",
+          hieu: "So sánh được ưu, nhược điểm, điều kiện áp dụng và tác động sinh thái của khai thác trắng, khai thác dần và khai thác chọn; giải thích nguyên tắc tái sinh rừng sau khai thác.",
+          vandung: "Xây dựng phương án phòng chống cháy rừng trong mùa hanh khô hoặc đề xuất kế hoạch khai thác gỗ bền vững đạt chứng chỉ quản lý rừng FSC."
         }
       }
     ]
@@ -521,6 +612,198 @@ const QUESTION_BANK = {
         "Rừng già, rừng non và rừng trung bình.",
         "Rừng lá rộng, rừng lá kim và rừng hỗn giao.",
         "Rừng ngập mặn, rừng tràm và rừng thông."
+      ],
+      answer: 0
+    },
+    // CN12: Bài 2 đến Bài 7
+    {
+      unitId: "cn12_2", level: "biet", competency: "NCCN",
+      stem: "Hoạt động nào sau đây thuộc nhóm các hoạt động lâm nghiệp cơ bản theo quy định của Luật Lâm nghiệp?",
+      options: [
+        "Quản lí, bảo vệ, phát triển, sử dụng rừng; chế biến và thương mại lâm sản.",
+        "Chế biến phân bón hóa học và cơ khí nặng phục vụ nông trường.",
+        "Đắp đập ngăn mặn và nuôi thả tôm sú thâm canh.",
+        "Luyện cán thép và chế tạo ô tô vận tải gỗ."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_2", level: "hieu", competency: "ĐGCN",
+      stem: "Nguyên nhân chủ yếu nào sau đây gây suy thoái diện tích và chất lượng tài nguyên rừng tự nhiên ở nước ta?",
+      options: [
+        "Khai thác gỗ trái phép, phá rừng làm nương rẫy, cháy rừng và chuyển đổi mục đích sử dụng đất rừng.",
+        "Trồng quá nhiều cây giống bản địa quý hiếm.",
+        "Ứng dụng công nghệ GIS và máy bay không người lái theo dõi rừng.",
+        "Thành lập thêm các vườn quốc gia và khu bảo tồn thiên nhiên."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_3", level: "biet", competency: "NCCN",
+      stem: "Mục đích chính của việc xây dựng và phát triển hệ thống rừng phòng hộ đầu nguồn là gì?",
+      options: [
+        "Điều hòa dòng chảy, chống xói mòn rửa trôi đất, hạn chế lũ lụt và giữ ổn định nguồn nước ngầm.",
+        "Cung cấp gỗ củi thương phẩm khai thác hàng loạt hàng năm.",
+        "Chuyên canh cây cao su xuất khẩu thu mủ cao su quy mô lớn.",
+        "San lấp làm khu công nghiệp nặng và cảng biển nước sâu."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_3", level: "hieu", competency: "SDCN",
+      stem: "Tại sao việc trồng rừng ngập mặn ven biển lại có ý nghĩa chiến lược trong ứng phó với biến đổi khí hậu?",
+      options: [
+        "Vì rừng ngập mặn có bộ rễ cọc bạnh giúp chắn sóng, chắn gió bão, chống xói lở bờ biển và ngăn mặn xâm nhập.",
+        "Vì rừng ngập mặn cung cấp gỗ tròn xuất khẩu lớn nhất trong các loại rừng.",
+        "Vì cây ngập mặn hút hết nước biển giúp nước ngọt hóa bờ biển.",
+        "Vì rừng ngập mặn không bao giờ bị sâu bệnh hay thiên tai tấn công."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_4", level: "biet", competency: "NCCN",
+      stem: "Theo quy luật sinh trưởng, thứ tự các giai đoạn phát triển của cây rừng từ lúc gieo đến khi già cỗi là:",
+      options: [
+        "Giai đoạn hạt → Cây mầm (con) → Cây non → Cây sào → Cây trung niên → Cây già cỗi.",
+        "Cây già cỗi → Cây trung niên → Cây non → Cây sào → Giai đoạn hạt.",
+        "Giai đoạn hạt → Cây sào → Cây non → Cây trung niên → Cây già cỗi.",
+        "Cây non → Cây mầm → Cây sào → Cây già cỗi → Cây trung niên."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_4", level: "hieu", competency: "SDCN",
+      stem: "Hiện tượng tỉa cành tự nhiên ở rừng cây thân gỗ xảy ra chủ yếu do cơ chế sinh học nào?",
+      options: [
+        "Các cành phía dưới bị tầng tán phía trên che khuất, thiếu ánh sáng quang hợp nên cành khô và rụng dần.",
+        "Do sâu đục thân tấn công có chọn lọc chỉ ở các cành dưới thấp.",
+        "Do gió bão làm gãy đồng loạt các cành sát gốc cây.",
+        "Do người trồng rừng chủ động cưa cắt cành hàng tuần."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_5", level: "biet", competency: "SDCN",
+      stem: "Khi thực hiện quy trình kỹ thuật trồng rừng bằng cây con có bầu nilon, thao tác nào sau đây là BẮT BUỘC?",
+      options: [
+        "Rạch xé bỏ vỏ bầu nilon trước khi đặt cây con vào giữa hố trồng để rễ phát triển tự nhiên.",
+        "Giữ nguyên túi nilon bọc kín bầu để rễ giữ được độ ẩm trong đất lâu hơn.",
+        "Bẻ gãy toàn bộ rễ cọc của cây con trước khi đặt vào hố.",
+        "Chỉ lấp đất ngang cổ rễ mà không được giẫm chặt đất quanh gốc."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_5", level: "hieu", competency: "TKKT",
+      stem: "Công tác chăm sóc rừng trồng non (làm cỏ, xới váng, bón thúc, tỉa dặm) thường được tiến hành trọng điểm trong giai đoạn nào?",
+      options: [
+        "Trong 3 đến 4 năm đầu sau khi trồng cho đến khi tán rừng khép hoàn toàn.",
+        "Chỉ chăm sóc trong vòng 1 tháng đầu tiên sau khi trồng.",
+        "Chờ đến khi cây rừng đạt tuổi 15 năm mới bắt đầu chăm sóc.",
+        "Chỉ chăm sóc khi rừng đã chuẩn bị bước vào giai đoạn khai thác gỗ."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_6", level: "biet", competency: "NCCN",
+      stem: "Hành vi nào sau đây vi phạm nghiêm trọng quy định pháp luật về quản lý và bảo vệ rừng ở Việt Nam?",
+      options: [
+        "Khai thác gỗ trái phép, phá rừng làm rẫy, săn bắt động vật rừng nguy cấp, quý hiếm.",
+        "Trồng bổ sung cây gỗ lớn bản địa như Sao đen, Dầu rái vào rừng nghèo kiệt.",
+        "Tuần tra canh gác và phát hiện sớm các đám cháy rừng vào mùa khô.",
+        "Đăng ký tham gia nhận giao khoán bảo vệ rừng phòng hộ đầu nguồn."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_6", level: "hieu", competency: "ĐGCN",
+      stem: "Chính sách chi trả dịch vụ môi trường rừng (DVMTR) đem lại ý nghĩa kinh tế - xã hội quan trọng nào sau đây?",
+      options: [
+        "Tạo nguồn tài chính bền vững ngoài ngân sách hỗ trợ trực tiếp cho người dân vùng đệm gắn bó với công tác giữ rừng.",
+        "Buộc toàn bộ các nhà máy thủy điện phải ngừng phát điện vào mùa khô.",
+        "Cho phép người dân tự do chặt trắng rừng tự nhiên để bán gỗ lấy tiền.",
+        "Chỉ hỗ trợ cho các công ty khai thác khoáng sản trong vùng lõi vườn quốc gia."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_7", level: "biet", competency: "SDCN",
+      stem: "Phương thức khai thác rừng nào chỉ chặt những cây đã đến tuổi thành thục công nghệ và đạt kích thước quy định, giữ lại cây non và tầng tán che phủ bảo vệ đất?",
+      options: [
+        "Khai thác chọn.",
+        "Khai thác trắng.",
+        "Khai thác dần theo băng.",
+        "Khai thác triệt để một lần."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn12_7", level: "hieu", competency: "SDCN",
+      stem: "Biện pháp phòng cháy rừng chủ động và hiệu quả nhất tại các khu rừng trồng trước khi bước vào cao điểm mùa hanh khô là gì?",
+      options: [
+        "Dọn sạch thực bì làm các đường băng cản lửa trắng kết hợp đường băng cản lửa xanh, tăng cường chòi canh 24/24.",
+        "Phun nước ngập úng toàn bộ diện tích rừng suốt mùa mưa.",
+        "Đốt toàn bộ thảm thực bì vào ban đêm khi có gió lớn để dọn cỏ nhanh.",
+        "Chặt hạ toàn bộ cây lớn trong rừng để giảm vật liệu cháy."
+      ],
+      answer: 0
+    },
+
+    // CN11: Bài 3 đến Bài 6
+    {
+      unitId: "cn11_3", level: "biet", competency: "NCCN",
+      stem: "Yếu tố nào sau đây đóng vai trò quyết định đến giới hạn trần năng suất tối đa của vật nuôi trong điều kiện chăn nuôi tối ưu?",
+      options: [
+        "Tiềm năng di truyền của giống vật nuôi.",
+        "Màu sắc sơn tường của chuồng trại nuôi dưỡng.",
+        "Thời điểm gieo mạ của vụ lúa liền kề.",
+        "Chủng loại xe vận chuyển thức ăn gia súc."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn11_4", level: "biet", competency: "NCCN",
+      stem: "Phương pháp chọn lọc cá thể (kiểm tra năng suất bản thân và đời sau) thường được ưu tiên áp dụng đối với nhóm đối tượng vật nuôi nào?",
+      options: [
+        "Đàn đực giống và đàn cái giống sinh sản hạt nhân ưu tú.",
+        "Toàn bộ đàn gia cầm thương phẩm nuôi lấy thịt đại trà.",
+        "Đàn lợn thịt nuôi xuất khẩu ngắn ngày.",
+        "Đàn cá rô phi nuôi thương phẩm trong ao hồ lớn."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn11_5", level: "biet", competency: "SDCN",
+      stem: "Phép lai kinh tế đơn giản (lai giữa con đực giống A với con cái giống B để lấy con lai F1 nuôi thịt) nhằm mục đích chính là gì?",
+      options: [
+        "Tận dụng hiện tượng ưu thế lai giúp con thương phẩm sinh trưởng nhanh, sức sống khỏe và phẩm chất thịt tốt.",
+        "Tạo ra một giống vật nuôi thuần chủng hoàn toàn mới để giữ giống đời sau.",
+        "Bảo tồn nguồn gen của các giống vật nuôi bản địa đang có nguy cơ tuyệt chủng.",
+        "Làm tăng mức độ đồng hợp tử của các gen lặn có hại."
+      ],
+      answer: 0
+    },
+    {
+      unitId: "cn11_6", level: "biet", competency: "SDCN",
+      stem: "Công nghệ sinh học nào trong chăn nuôi cho phép một con đực giống ưu tú xuất sắc có thể phối giống và truyền gen cho hàng nghìn con cái?",
+      options: [
+        "Công nghệ thụ tinh nhân tạo (AI).",
+        "Nuôi cấy mô tế bào thực vật.",
+        "Khai thác trứng tự nhiên không cần bảo quản.",
+        "Ghép cành và chiết cành vô tính."
+      ],
+      answer: 0
+    },
+
+    // CN10: Bài 6 Thực hành
+    {
+      unitId: "u2_4", level: "biet", competency: "SDCN",
+      stem: "Trong quy trình thực hành xác định độ chua của đất bằng máy đo pH điện tử, mẫu đất thí nghiệm cần được pha với dung dịch nào theo tỉ lệ quy định?",
+      options: [
+        "Nước cất trung tính hoặc dung dịch KCl 1M.",
+        "Dung dịch axit sunfuric đặc H2SO4.",
+        "Nước đường saccarozơ 20%.",
+        "Dung dịch nước xà phòng kiềm mạnh."
       ],
       answer: 0
     }
