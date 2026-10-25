@@ -1171,7 +1171,7 @@ function distributeIntegerByWeights(totalCount, weights) {
 }
 
 // ============================================================================
-// Há»† THá»NG Tá»° Äá»˜NG CÃ‚N Báº°NG MA TRáº¬N CHUáº¨N ÄÃšNG 10.0 ÄIá»‚M (100% - CHUáº¨N CV 7991)
+// HỆ THỐNG TỰ ĐỘNG CÂN BẰNG MA TRẬN CHUẨN ĐÚNG 10.0 ĐIỂM (100% - CHUẨN CV 7991)
 // ============================================================================
 
 function autoBalanceMatrixTo10Points(showToast = true) {
@@ -1269,6 +1269,7 @@ function autoBalanceMatrixTo10Points(showToast = true) {
           `• Tổng điểm: Đúng 10.00 / 10.0đ.`);
   }
 }
+
 function autoGenerateMatrix() {
   autoBalanceMatrixTo10Points(false);
 }
@@ -1277,19 +1278,19 @@ function getRowPointCalculation(row) {
   if (!row) return { totalPoints: 0, totalItems: 0 };
   const pc = state.partConfig || {};
 
-  // MCQ: má»—i cÃ¢u Ä‘Ãºng chuáº©n 0.25Ä‘
+  // MCQ: mỗi câu đúng chuẩn 0.25đ
   const mcqCount = (Number(row.mcq_biet) || 0) + (Number(row.mcq_hieu) || 0) + (Number(row.mcq_vandung) || 0);
   const mcqP = (pc.mcq && pc.mcq.enabled !== false) ? mcqCount * (Number(pc.mcq.pointsPerQ) || 0.25) : 0;
 
-  // ÄÃºng - Sai: má»—i Ã½ lá»‡nh há»i chuáº©n CV 7991 lÃ  0.25Ä‘ (4 Ã½ = 1 cÃ¢u lá»›n = 1.0Ä‘)
+  // Đúng - Sai: mỗi ý lệnh hỏi chuẩn CV 7991 là 0.25đ (4 ý = 1 câu lớn = 1.0đ)
   const tfCount = (Number(row.tf_biet) || 0) + (Number(row.tf_hieu) || 0) + (Number(row.tf_vandung) || 0);
   const tfP = (pc.tf && pc.tf.enabled !== false) ? tfCount * 0.25 : 0;
 
-  // Tráº£ lá»i ngáº¯n: má»—i cÃ¢u chuáº©n 0.25Ä‘
+  // Trả lời ngắn: mỗi câu chuẩn 0.25đ
   const shortCount = (Number(row.short_biet) || 0) + (Number(row.short_hieu) || 0) + (Number(row.short_vandung) || 0);
   const shortP = (pc.short && pc.short.enabled) ? shortCount * (Number(pc.short.pointsPerQ) || 0.25) : 0;
 
-  // Tá»± luáº­n: Ä‘iá»ƒm thá»±c táº¿ cá»§a cÃ¢u tá»± luáº­n á»Ÿ bÃ i há»c nÃ y (bá»™i sá»‘ 0.5Ä‘ / 1.0Ä‘)
+  // Tự luận: điểm thực tế của câu tự luận ở bài học này (bội số 0.5đ / 1.0đ)
   const essayPoints = (Number(row.essay_points_biet) || 0) +
                       (Number(row.essay_points_hieu) || 0) +
                       (Number(row.essay_points_vandung) || 0);
@@ -1303,6 +1304,7 @@ function getRowPointCalculation(row) {
 
   return { totalPoints, totalItems };
 }
+
 // ============================================================================
 // CẤU HÌNH BỐ CỤC KHỔ GIẤY, ĐỘ RỘNG CỘT & PHÔNG CHỮ IN ẤN (CHUẨN CV 7991 & NĐ 30)
 // ============================================================================
@@ -1404,12 +1406,12 @@ function renderMatrixTable() {
 
   const selectedUnits = state.units.filter(u => u.selected);
   if (selectedUnits.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="17" class="text-center" style="padding:24px; color:#64748b;">ChÆ°a cÃ³ bÃ i há»c nÃ o Ä‘Æ°á»£c chá»n á»Ÿ BÆ°á»›c 1. Vui lÃ²ng quay láº¡i BÆ°á»›c 1 Ä‘á»ƒ chá»n bÃ i.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="17" class="text-center" style="padding:24px; color:#64748b;">Chưa có bài học nào được chọn ở Bước 1. Vui lòng quay lại Bước 1 để chọn bài.</td></tr>`;
     tfoot.innerHTML = "";
     return;
   }
 
-  // Tá»± Ä‘á»™ng khá»Ÿi táº¡o náº¿u chÆ°a cÃ³ dá»¯ liá»‡u ma tráº­n
+  // Tự động khởi tạo nếu chưa có dữ liệu ma trận
   let needInit = false;
   if (!state.matrixRows) {
     state.matrixRows = {};
@@ -1449,43 +1451,43 @@ function renderMatrixTable() {
       <tr>
         <td class="text-center" style="font-weight:600;">${idx + 1}</td>
         <td style="min-width:${colW}px; line-height:1.35; padding:6px 8px;">
-          <div style="font-size:11px; color:#64748b; margin-bottom:2px;">${escapeHtml(u.chapter)} â€¢ ${u.periods} tiáº¿t</div>
+          <div style="font-size:11px; color:#64748b; margin-bottom:2px;">${escapeHtml(u.chapter)} • ${u.periods} tiết</div>
           <strong style="font-size:13px; color:#1e293b;">${escapeHtml(u.lesson)}</strong>
         </td>
-        <!-- I. MCQ (0.25Ä‘ / cÃ¢u) -->
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_biet || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_biet', this.value)" title="MCQ Biáº¿t (0.25Ä‘)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_hieu', this.value)" title="MCQ Hiá»ƒu (0.25Ä‘)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_vandung', this.value)" title="MCQ Váº­n dá»¥ng (0.25Ä‘)" /></td>
-        <!-- II. ÄÃºng - Sai (0.25Ä‘ / Ã½) -->
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_biet || 0}" onchange="updateMatrixCell('${u.id}', 'tf_biet', this.value)" title="ÄÃºng/Sai - Ã Biáº¿t (0.25Ä‘)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'tf_hieu', this.value)" title="ÄÃºng/Sai - Ã Hiá»ƒu (0.25Ä‘)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'tf_vandung', this.value)" title="ÄÃºng/Sai - Ã Váº­n dá»¥ng (0.25Ä‘)" /></td>
-        <!-- III. Tráº£ lá»i ngáº¯n (0.25Ä‘ / cÃ¢u) -->
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_biet || 0}" onchange="updateMatrixCell('${u.id}', 'short_biet', this.value)" title="Tráº£ lá»i ngáº¯n Biáº¿t (0.25Ä‘)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'short_hieu', this.value)" title="Tráº£ lá»i ngáº¯n Hiá»ƒu (0.25Ä‘)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'short_vandung', this.value)" title="Tráº£ lá»i ngáº¯n Váº­n dá»¥ng (0.25Ä‘)" /></td>
-        <!-- IV. Tá»± luáº­n -->
+        <!-- I. MCQ (0.25đ / câu) -->
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_biet || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_biet', this.value)" title="MCQ Biết (0.25đ)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_hieu', this.value)" title="MCQ Hiểu (0.25đ)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_vandung', this.value)" title="MCQ Vận dụng (0.25đ)" /></td>
+        <!-- II. Đúng - Sai (0.25đ / ý) -->
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_biet || 0}" onchange="updateMatrixCell('${u.id}', 'tf_biet', this.value)" title="Đúng/Sai - Ý Biết (0.25đ)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'tf_hieu', this.value)" title="Đúng/Sai - Ý Hiểu (0.25đ)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'tf_vandung', this.value)" title="Đúng/Sai - Ý Vận dụng (0.25đ)" /></td>
+        <!-- III. Trả lời ngắn (0.25đ / câu) -->
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_biet || 0}" onchange="updateMatrixCell('${u.id}', 'short_biet', this.value)" title="Trả lời ngắn Biết (0.25đ)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'short_hieu', this.value)" title="Trả lời ngắn Hiểu (0.25đ)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'short_vandung', this.value)" title="Trả lời ngắn Vận dụng (0.25đ)" /></td>
+        <!-- IV. Tự luận -->
         <td class="text-center">
-          <input type="number" class="compact-num" min="0" value="${r.essay_biet || 0}" onchange="updateMatrixCell('${u.id}', 'essay_biet', this.value)" title="Sá»‘ cÃ¢u TL Biáº¿t" />
-          ${r.essay_biet > 0 ? `<div style="font-size:10.5px;color:#1d4ed8;font-weight:700;">${r.essay_points_biet || 1.5}Ä‘</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_biet || 0}" onchange="updateMatrixCell('${u.id}', 'essay_biet', this.value)" title="Số câu TL Biết" />
+          ${r.essay_biet > 0 ? `<div style="font-size:10.5px;color:#1d4ed8;font-weight:700;">${r.essay_points_biet || 1.0}đ</div>` : ''}
         </td>
         <td class="text-center">
-          <input type="number" class="compact-num" min="0" value="${r.essay_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'essay_hieu', this.value)" title="Sá»‘ cÃ¢u TL Hiá»ƒu" />
-          ${r.essay_hieu > 0 ? `<div style="font-size:10.5px;color:#b45309;font-weight:700;">${r.essay_points_hieu || 1.5}Ä‘</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'essay_hieu', this.value)" title="Số câu TL Hiểu" />
+          ${r.essay_hieu > 0 ? `<div style="font-size:10.5px;color:#b45309;font-weight:700;">${r.essay_points_hieu || 1.0}đ</div>` : ''}
         </td>
         <td class="text-center">
-          <input type="number" class="compact-num" min="0" value="${r.essay_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'essay_vandung', this.value)" title="Sá»‘ cÃ¢u TL Váº­n dá»¥ng" />
-          ${r.essay_vandung > 0 ? `<div style="font-size:10.5px;color:#be185d;font-weight:700;">${r.essay_points_vandung || 1.5}Ä‘</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'essay_vandung', this.value)" title="Số câu TL Vận dụng" />
+          ${r.essay_vandung > 0 ? `<div style="font-size:10.5px;color:#be185d;font-weight:700;">${r.essay_points_vandung || 1.0}đ</div>` : ''}
         </td>
-        <!-- Cá»™t Tá»•ng sá»‘ cÃ¢u, Äiá»ƒm & % cá»§a bÃ i há»c -->
+        <!-- Cột Tổng số câu, Điểm & % của bài học -->
         <td class="text-center"><strong>${rowCalc.totalItems}</strong></td>
-        <td class="text-center"><strong style="color:#0f766e; font-size:13.5px;">${rowCalc.totalPoints.toFixed(2)}Ä‘</strong></td>
+        <td class="text-center"><strong style="color:#0f766e; font-size:13.5px;">${rowCalc.totalPoints.toFixed(2)}đ</strong></td>
         <td class="text-center"><strong>${rowPct}%</strong></td>
       </tr>
     `;
   }).join("");
 
-  // Äiá»ƒm cÃ¡c cáº¥p Ä‘á»™ tÆ° duy theo chuáº©n CV 7991:
+  // Điểm các cấp độ tư duy theo chuẩn CV 7991:
   const bietPoints = round2(sums.mcq_biet * 0.25 + sums.tf_biet * 0.25 + sums.short_biet * 0.25 + sums.essay_points_biet);
   const hieuPoints = round2(sums.mcq_hieu * 0.25 + sums.tf_hieu * 0.25 + sums.short_hieu * 0.25 + sums.essay_points_hieu);
   const vdPoints = round2(sums.mcq_vandung * 0.25 + sums.tf_vandung * 0.25 + sums.short_vandung * 0.25 + sums.essay_points_vandung);
@@ -1500,7 +1502,7 @@ function renderMatrixTable() {
 
   tfoot.innerHTML = `
     <tr class="summary-row">
-      <td colspan="2" class="text-right" style="font-weight:800; font-size:13px;">Tá»”NG Cá»˜NG</td>
+      <td colspan="2" class="text-right" style="font-weight:800; font-size:13px;">TỔNG CỘNG</td>
       <td class="text-center" style="font-weight:700;">${sums.mcq_biet}</td>
       <td class="text-center" style="font-weight:700;">${sums.mcq_hieu}</td>
       <td class="text-center" style="font-weight:700;">${sums.mcq_vandung}</td>
@@ -1514,66 +1516,78 @@ function renderMatrixTable() {
       <td class="text-center" style="font-weight:700;">${sums.essay_hieu}</td>
       <td class="text-center" style="font-weight:700;">${sums.essay_vandung}</td>
       <td class="text-center" style="font-weight:800; font-size:13px;">${sums.totalItems}</td>
-      <td class="text-center" style="font-weight:800; font-size:14px; color:${isPerfect10 ? '#15803d' : '#b91c1c'};">${grandTotal.toFixed(2)}Ä‘</td>
+      <td class="text-center" style="font-weight:800; font-size:14px; color:${isPerfect10 ? '#15803d' : '#b91c1c'};">${grandTotal.toFixed(2)}đ</td>
       <td class="text-center" style="font-weight:800; font-size:13px; color:${isPerfect10 ? '#15803d' : '#b91c1c'};">${totalPct}%</td>
     </tr>
     <tr>
-      <td colspan="2" class="text-right" style="font-weight:700;">Tá»ˆ Lá»† TÆ¯ DUY</td>
+      <td colspan="2" class="text-right" style="font-weight:700;">TỶ LỆ TƯ DUY</td>
       <td colspan="12" class="text-center">
-        <span class="badge badge-biet" style="font-size:12px;padding:4px 10px;">Biáº¿t: ${bietPoints.toFixed(2)}Ä‘ (${bietPct}%)</span>
+        <span class="badge badge-biet" style="font-size:12px;padding:4px 10px;">Biết: ${bietPoints.toFixed(2)}đ (${bietPct}%)</span>
         &nbsp;
-        <span class="badge badge-hieu" style="font-size:12px;padding:4px 10px;">Hiá»ƒu: ${hieuPoints.toFixed(2)}Ä‘ (${hieuPct}%)</span>
+        <span class="badge badge-hieu" style="font-size:12px;padding:4px 10px;">Hiểu: ${hieuPoints.toFixed(2)}đ (${hieuPct}%)</span>
         &nbsp;
-        <span class="badge badge-vandung" style="font-size:12px;padding:4px 10px;">Váº­n dá»¥ng: ${vdPoints.toFixed(2)}Ä‘ (${vdPct}%)</span>
+        <span class="badge badge-vandung" style="font-size:12px;padding:4px 10px;">Vận dụng: ${vdPoints.toFixed(2)}đ (${vdPct}%)</span>
       </td>
       <td colspan="3" class="text-center">
-        <strong style="color:${isPerfect10 ? '#15803d' : '#b91c1c'}; font-size:14.5px;">${grandTotal.toFixed(2)} / 10.0Ä‘</strong>
+        <strong style="color:${isPerfect10 ? '#15803d' : '#b91c1c'}; font-size:14.5px;">${grandTotal.toFixed(2)} / 10.0đ</strong>
       </td>
     </tr>
   `;
 
-  // Cáº­p nháº­t Banner tráº¡ng thÃ¡i kiá»ƒm soÃ¡t Ä‘iá»ƒm sá»‘ ma tráº­n (ná»•i báº­t, chá»‘ng lá»™n xá»™n)
+  // Cập nhật Banner trạng thái kiểm soát điểm số ma trận (nổi bật, chống lộn xộn)
   const banner = document.getElementById("matrixBalanceStatusBanner");
   if (banner) {
+    const pc = state.partConfig || {};
+    const calc = getPartCalculations();
+    let structureDesc = `${calc.mcq.count} câu Trắc nghiệm (${calc.mcq.totalPoints.toFixed(1)}đ) • ${calc.tf.qCount} câu Đúng/Sai (${calc.tf.totalPoints.toFixed(1)}đ)`;
+    if (pc.short && pc.short.enabled && calc.short.count > 0) {
+      structureDesc += ` • ${calc.short.count} câu Điền khuyết (${calc.short.totalPoints.toFixed(1)}đ)`;
+    }
+    if (pc.essay && pc.essay.enabled && calc.essay.count > 0) {
+      structureDesc += ` • ${calc.essay.count} câu Tự luận (${calc.essay.totalPoints.toFixed(1)}đ)`;
+    }
+    structureDesc += ` • Tỷ lệ: Biết ${bietPct}% : Hiểu ${hieuPct}% : Vận dụng ${vdPct}%`;
+
     if (isPerfect10) {
       banner.innerHTML = `
         <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:18px;">âœ…</span>
+            <span style="font-size:18px;">✅</span>
             <div>
-              <strong style="color:#15803d; font-size:13.5px;">MA TRáº¬N ÄÃƒ CÃ‚N Báº°NG CHUáº¨N XÃC: 10.0 / 10.0 ÄIá»‚M (100%)</strong>
+              <strong style="color:#15803d; font-size:13.5px;">MA TRẬN ĐÃ CÂN BẰNG CHUẨN XÁC: 10.0 / 10.0 ĐIỂM (100%)</strong>
               <div style="font-size:11.5px; color:#166534; margin-top:2px;">
-                CÆ¡ cáº¥u: 16 cÃ¢u Tráº¯c nghiá»‡m (4.0Ä‘) â€¢ 3 cÃ¢u ÄÃºng/Sai (3.0Ä‘) â€¢ 2 cÃ¢u Tá»± luáº­n (3.0Ä‘) â€¢ Tá»‰ lá»‡: Biáº¿t ${bietPct}% : Hiá»ƒu ${hieuPct}% : Váº­n dá»¥ng ${vdPct}%
+                Cơ cấu: ${structureDesc}
               </div>
             </div>
           </div>
-          <button class="btn btn-outline btn-sm" onclick="autoBalanceMatrixTo10Points(true)" style="font-weight:600;" title="PhÃ¢n bá»• láº¡i Ä‘á»u theo sá»‘ tiáº¿t tá»«ng bÃ i">
-            ðŸ”„ CÃ¢n báº±ng láº¡i theo sá»‘ tiáº¿t
+          <button class="btn btn-outline btn-sm" onclick="autoBalanceMatrixTo10Points(true)" style="font-weight:600;" title="Phân bổ lại đều theo số tiết từng bài">
+            🔄 Cân bằng lại theo số tiết
           </button>
         </div>
       `;
     } else {
       const diff = round2(grandTotal - 10.0);
-      const diffStr = diff > 0 ? `+${diff.toFixed(2)}Ä‘` : `${diff.toFixed(2)}Ä‘`;
+      const diffStr = diff > 0 ? `+${diff.toFixed(2)}đ` : `${diff.toFixed(2)}đ`;
       banner.innerHTML = `
         <div style="background:#fef2f2; border:2px solid #ef4444; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; box-shadow:0 2px 8px rgba(239,68,68,0.12);">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:22px;">âš ï¸</span>
+            <span style="font-size:22px;">⚠️</span>
             <div>
-              <strong style="color:#b91c1c; font-size:13.5px;">MA TRáº¬N CHÆ¯A CÃ‚N Báº°NG: Tá»”NG ${grandTotal.toFixed(2)}Ä‘ / 10.0Ä‘ (${totalPct}% â€¢ Lá»‡ch ${diffStr})</strong>
+              <strong style="color:#b91c1c; font-size:13.5px;">MA TRẬN CHƯA CÂN BẰNG: TỔNG ${grandTotal.toFixed(2)}đ / 10.0đ (${totalPct}% • Lệch ${diffStr})</strong>
               <div style="font-size:11.5px; color:#991b1b; margin-top:2px;">
-                Äiá»ƒm sá»‘ Ä‘ang bá»‹ lá»‡ch khá»i chuáº©n 10.0Ä‘. Báº¥m nÃºt bÃªn cáº¡nh Ä‘á»ƒ há»‡ thá»‘ng <strong>tá»± Ä‘á»™ng chá»‰nh sá»­a láº¡i chuáº©n 10.0Ä‘ ngay láº­p tá»©c</strong>.
+                Điểm số đang bị lệch khỏi chuẩn 10.0đ. Bấm nút bên cạnh để hệ thống <strong>tự động chỉnh sửa lại chuẩn 10.0đ ngay lập tức</strong>.
               </div>
             </div>
           </div>
           <button class="btn btn-primary" onclick="autoBalanceMatrixTo10Points(true)" style="background:#16a34a; font-weight:700; font-size:13px; padding:7px 16px; border:none; box-shadow:0 2px 6px rgba(22,163,74,0.3);">
-            âš¡ Tá»° Äá»˜NG CÃ‚N Báº°NG 10.0Ä NGAY
+            ⚡ TỰ ĐỘNG CÂN BẰNG 10.0Đ NGAY
           </button>
         </div>
       `;
     }
   }
 }
+
 
 function updateMatrixCell(unitId, key, val) {
   if (!state.matrixRows || !state.matrixRows[unitId]) return;
