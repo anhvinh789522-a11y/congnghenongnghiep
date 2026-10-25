@@ -1,0 +1,461 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sổ Tay Lỗi Sai Cần Sửa – Công nghệ Nông nghiệp THPT Lộc Ninh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=11" />
+  <style>
+    .mistake-header-box {
+      background: linear-gradient(135deg, #fef2f2 0%, #fff1f2 50%, #ffffff 100%);
+      border: 1.5px solid #fecaca;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.05);
+    }
+    .mistake-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .tag-concept {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .tag-trap {
+      background: #fdf2f8;
+      color: #be185d;
+      border: 1px solid #fbcfe8;
+    }
+    .tag-calc {
+      background: #fefce8;
+      color: #854d0e;
+      border: 1px solid #fef08a;
+    }
+    .tag-cleared {
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+    .mistake-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    }
+    .mistake-card.cleared {
+      border-color: #86efac;
+      background: #f0fdf4;
+      opacity: 0.85;
+    }
+    .choice-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      font-size: 13.5px;
+      color: #1e293b;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: all 0.15s ease;
+    }
+    .choice-btn:hover {
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+    .choice-btn.correct {
+      background: #dcfce7 !important;
+      border-color: #22c55e !important;
+      color: #15803d !important;
+      font-weight: 700;
+    }
+    .choice-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: #ef4444 !important;
+      color: #b91c1c !important;
+    }
+    .streak-dots {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+      margin-left: 8px;
+    }
+    .streak-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #cbd5e1;
+    }
+    .streak-dot.active {
+      background: #16a34a;
+    }
+  </style>
+</head>
+<body style="background:var(--bg); min-height:100vh; display:flex; flex-direction:column; margin:0; font-family:var(--font-main);">
+
+  <!-- UNIFIED SLIM NAVBAR CHUẨN THIẾT KẾ -->
+  <header class="slim-navbar">
+    <div class="slim-brand">
+      <a href="index.html" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit;">
+        <span class="slim-logo">🌱</span>
+        <div>
+          <div class="slim-title">Công nghệ Nông nghiệp</div>
+          <div class="slim-sub">THPT Lộc Ninh</div>
+        </div>
+      </a>
+    </div>
+
+    <button class="slim-menu-btn" onclick="toggleSlimMenu()" aria-label="Menu chuyển trang">☰</button>
+
+    <nav class="slim-nav-tabs" id="slimNavTabs">
+      <a href="index.html" class="slim-tab-link">Trang chủ</a>
+      <a href="phan1.html" class="slim-tab-link">Bài học</a>
+      <a href="phan2.html" class="slim-tab-link">Hồ sơ 5512</a>
+      <a href="phan3.html" class="slim-tab-link">Soạn đề 7991</a>
+      <a href="phan4.html" class="slim-tab-link">Bồi dưỡng HSG</a>
+      <a href="phan5.html" class="slim-tab-link">Ôn thi THPT</a>
+      <a href="trochoi.html" class="slim-tab-link">Trò chơi</a>
+    </nav>
+
+    <div class="slim-actions">
+      <a href="thietke.html" class="clean-admin-btn" title="Phòng thiết kế Studio UI">🎨 Studio UI</a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main style="flex:1; max-width:1050px; width:100%; margin:0 auto; padding:28px 18px 40px; box-sizing:border-box;">
+
+    <!-- KHUNG TIÊU ĐỀ SỔ TAY LỖI SAI -->
+    <div class="mistake-header-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:28px;">🛠️</span>
+          <div>
+            <h1 style="font-size:22px; font-weight:800; color:#991b1b; margin:0 0 4px;">
+              SỔ TAY LỖI SAI CẦN SỬA
+            </h1>
+            <p style="font-size:13px; color:#64748b; margin:0;">
+              Tự động tổng hợp từ các bài tập &amp; đề thi bạn đã từng làm sai
+            </p>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="resetAllMistakesProgress()" style="background:#dc2626; border-color:#dc2626; font-weight:700;">
+          🔄 Làm lại các câu sai (Trả lời đúng 2 lần liên tiếp để xóa lỗi)
+        </button>
+      </div>
+
+      <!-- 3 NHÃN PHÂN LOẠI LỖI TỰ ĐỘNG -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; padding-top:12px; border-top:1px dashed #fca5a5;">
+        <div class="mistake-tag tag-concept">
+          <span>📘 [Nhầm khái niệm SGK]</span>
+          <span style="font-weight:400; opacity:0.9;">— Cần đọc lại Điểm tựa ghi nhớ.</span>
+        </div>
+        <div class="mistake-tag tag-trap">
+          <span>⚠️ [Bẫy mệnh đề Đúng/Sai]</span>
+          <span style="font-weight:400; opacity:0.9;">— Chú ý từ tuyệt đối (chỉ có, mọi, luôn luôn, hoàn toàn).</span>
+        </div>
+        <div class="mistake-tag tag-calc">
+          <span>📐 [Sai công thức / Tính toán]</span>
+          <span style="font-weight:400; opacity:0.9;">— Cần ôn lại dạng toán kỹ thuật tương ứng.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- THANH THỐNG KÊ & BỘ LỌC -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; background:#fff; padding:12px 18px; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:18px;">
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn btn-sm btn-primary" id="btnFilterAll" onclick="filterMistakes('all')">Tất cả (<span id="countAll">0</span>)</button>
+        <button class="btn btn-sm btn-outline" id="btnFilterConcept" onclick="filterMistakes('concept')">📘 Nhầm khái niệm (<span id="countConcept">0</span>)</button>
+        <button class="btn btn-sm btn-outline" id="btnFilterTrap" onclick="filterMistakes('trap')">⚠️ Bẫy Đúng/Sai (<span id="countTrap">0</span>)</button>
+        <button class="btn btn-sm btn-outline" id="btnFilterCalc" onclick="filterMistakes('calc')">📐 Sai công thức (<span id="countCalc">0</span>)</button>
+        <button class="btn btn-sm btn-outline" id="btnFilterCleared" onclick="filterMistakes('cleared')">✅ Đã xóa nợ (<span id="countCleared">0</span>)</button>
+      </div>
+
+      <div style="font-size:13px; font-weight:700; color:#166534;">
+        Đã xóa nợ: <span id="clearedStatText">0 / 0 câu</span> 🎉
+      </div>
+    </div>
+
+    <!-- DANH SÁCH CÂU HỎI TRONG SỔ TAY -->
+    <div id="mistakesListContainer"></div>
+
+  </main>
+
+  <script src="portal_auth.js"></script>
+  <script src="portal_pet.js"></script>
+  <script>
+    // DỮ LIỆU CÂU HỎI MẪU CHO SỔ TAY LỖI SAI (ĐỒNG BỘ NGUYÊN BẢN TỪ BỘ NGỮ LIỆU)
+    const MISTAKE_DATA = [
+      {
+        id: "err_01",
+        category: "concept",
+        tagLabel: "[Nhầm khái niệm SGK]",
+        tagClass: "tag-concept",
+        question: "Trong quy trình trồng trọt công nghệ cao, giá thể hữu cơ phổ biến nhất được sử dụng trong hệ thống thủy canh và cây trong nhà màng là:",
+        options: [
+          "Mụn dừa và trấu hun đã qua xử lý loại bỏ tanin và lignin",
+          "Đất sét pha cát chưa qua khử khuẩn",
+          "Cát xây dựng tự nhiên rửa sạch",
+          "Tro bếp tươi trộn phân chuồng tươi"
+        ],
+        answer: 0,
+        explanation: "Mụn dừa và trấu hun đã xử lý chát (tanin, lignin) là giá thể hữu cơ tơi xốp, giữ ẩm và thoáng khí tối ưu cho rễ cây trong nông nghiệp công nghệ cao.",
+        recallHint: "📖 Điểm tựa ghi nhớ SGK Công nghệ 10: Bài 6 - Đất và giá thể trồng trọt.",
+        streak: 0,
+        cleared: false
+      },
+      {
+        id: "err_02",
+        category: "trap",
+        tagLabel: "[Bẫy mệnh đề Đúng/Sai]",
+        tagClass: "tag-trap",
+        question: "Xét nhận định sau về ứng dụng vaccine phòng bệnh trong chăn nuôi: 'Tất cả các loại vaccine đều tạo được miễn dịch vĩnh viễn suốt đời cho vật nuôi chỉ sau một lần tiêm duy nhất.'",
+        options: [
+          "Đúng — Vaccine luôn kích hoạt kháng thể suốt đời.",
+          "Sai — Bẫy từ 'tất cả' và 'vĩnh viễn'. Đa số vaccine cần tiêm nhắc lại theo lịch để duy trì nồng độ kháng thể bảo hộ."
+        ],
+        answer: 1,
+        explanation: "Chú ý bẫy từ ngữ tuyệt đối 'Tất cả' và 'vĩnh viễn'. Mỗi loại vaccine có thời gian bảo hộ nhất định (thường từ 6 đến 12 tháng) và cần tiêm nhắc lại theo quy trình dịch tễ.",
+        recallHint: "⚠️ Chú ý: Các mệnh đề có chứa từ tuyệt đối 'chỉ có', 'mọi', 'luôn luôn', 'hoàn toàn' thường là bẫy sai trong đề thi tốt nghiệp THPT.",
+        streak: 0,
+        cleared: false
+      },
+      {
+        id: "err_03",
+        category: "calc",
+        tagLabel: "[Sai công thức / Tính toán]",
+        tagClass: "tag-calc",
+        question: "Một hộ chăn nuôi 1.000 con cá tra thương phẩm. Tổng lượng thức ăn công nghiệp đã tiêu thụ trong suốt vụ là 1.800 kg. Tổng khối lượng cá tăng thêm đạt 1.200 kg. Hệ số chuyển đổi thức ăn (FCR) của đàn cá là:",
+        options: [
+          "FCR = 0,67",
+          "FCR = 1,20",
+          "FCR = 1,50 (Lượng thức ăn tiêu thụ / Khối lượng tăng thêm = 1.800 / 1.200 = 1,5)",
+          "FCR = 2,16"
+        ],
+        answer: 2,
+        explanation: "Công thức chuẩn: FCR = Tổng lượng thức ăn cho ăn (kg) / Tổng khối lượng tăng thêm (kg). Áp dụng: 1.800 / 1.200 = 1,50.",
+        recallHint: "📐 Công thức FCR: Feed Conversion Ratio = Thức ăn tiêu tốn / Khối lượng thịt tăng. FCR càng nhỏ hiệu quả kinh tế càng cao.",
+        streak: 0,
+        cleared: false
+      },
+      {
+        id: "err_04",
+        category: "concept",
+        tagLabel: "[Nhầm khái niệm SGK]",
+        tagClass: "tag-concept",
+        question: "Biện pháp kỹ thuật nào sau đây KHÔNG thuộc nguyên lý bảo quản nông sản bằng phương pháp kiểm soát khí quyển (CA - Controlled Atmosphere)?",
+        options: [
+          "Hạ thấp nồng độ O2 xuống mức 1 - 3%",
+          "Tăng nồng độ CO2 lên mức thích hợp để ức chế hô hấp",
+          "Tăng nhiệt độ kho bảo quản lên 45°C - 50°C để tiêu diệt vi sinh vật",
+          "Kiểm soát độ ẩm tương đối và nồng độ khí ethylene"
+        ],
+        answer: 2,
+        explanation: "Kho CA luôn kết hợp với bảo quản lạnh (thường từ 0°C đến 5°C). Tăng nhiệt độ lên 45°C - 50°C sẽ làm hỏng hoàn toàn nông sản tươi.",
+        recallHint: "📖 Điểm tựa ghi nhớ SGK Công nghệ 12: Bài 9 - Kỹ thuật bảo quản và chế biến lâm sản / nông sản.",
+        streak: 0,
+        cleared: false
+      }
+    ];
+
+    let currentFilter = 'all';
+
+    function initMistakeNotebook() {
+      // Tải tiến trình từ localStorage nếu có
+      try {
+        const saved = localStorage.getItem("cnnn_mistake_progress");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          MISTAKE_DATA.forEach(item => {
+            if (parsed[item.id]) {
+              item.streak = parsed[item.id].streak || 0;
+              item.cleared = parsed[item.id].cleared || false;
+            }
+          });
+        }
+      } catch (e) {}
+
+      updateCounts();
+      renderMistakesList();
+    }
+
+    function saveMistakeProgress() {
+      const dump = {};
+      MISTAKE_DATA.forEach(item => {
+        dump[item.id] = { streak: item.streak, cleared: item.cleared };
+      });
+      localStorage.setItem("cnnn_mistake_progress", JSON.stringify(dump));
+    }
+
+    function updateCounts() {
+      document.getElementById("countAll").textContent = MISTAKE_DATA.length;
+      document.getElementById("countConcept").textContent = MISTAKE_DATA.filter(m => m.category === 'concept' && !m.cleared).length;
+      document.getElementById("countTrap").textContent = MISTAKE_DATA.filter(m => m.category === 'trap' && !m.cleared).length;
+      document.getElementById("countCalc").textContent = MISTAKE_DATA.filter(m => m.category === 'calc' && !m.cleared).length;
+      const clearedCount = MISTAKE_DATA.filter(m => m.cleared).length;
+      document.getElementById("countCleared").textContent = clearedCount;
+      document.getElementById("clearedStatText").textContent = `${clearedCount} / ${MISTAKE_DATA.length} câu`;
+    }
+
+    function filterMistakes(cat) {
+      currentFilter = cat;
+      ["All", "Concept", "Trap", "Calc", "Cleared"].forEach(k => {
+        const btn = document.getElementById("btnFilter" + k);
+        if (btn) btn.className = `btn btn-sm ${currentFilter.toLowerCase() === k.toLowerCase() ? 'btn-primary' : 'btn-outline'}`;
+      });
+      renderMistakesList();
+    }
+
+    function renderMistakesList() {
+      const container = document.getElementById("mistakesListContainer");
+      if (!container) return;
+
+      const filtered = MISTAKE_DATA.filter(item => {
+        if (currentFilter === 'all') return true;
+        if (currentFilter === 'cleared') return item.cleared;
+        return item.category === currentFilter && !item.cleared;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:48px 20px; background:#fff; border-radius:14px; border:1px solid #e2e8f0;">
+            <div style="font-size:42px; margin-bottom:10px;">🎉</div>
+            <h3 style="color:#166534; margin:0 0 6px;">Không có lỗi sai nào trong danh mục này!</h3>
+            <p style="font-size:13.5px; color:#64748b; margin:0;">Bạn đã làm chủ kiến thức hoặc đã xóa nợ thành công.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map((item, idx) => {
+        const dotsHtml = `
+          <span class="streak-dots" title="Cần đúng 2 lần liên tiếp để xóa lỗi">
+            <span class="streak-dot ${item.streak >= 1 ? 'active' : ''}"></span>
+            <span class="streak-dot ${item.streak >= 2 ? 'active' : ''}"></span>
+          </span>
+        `;
+
+        return `
+          <div class="mistake-card ${item.cleared ? 'cleared' : ''}" id="card_${item.id}">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="mistake-tag ${item.tagClass}">${item.tagLabel}</span>
+                <span style="font-size:12px; font-weight:700; color:#64748b;">
+                  Tiến trình: <strong>${item.streak}/2 lần đúng</strong> ${dotsHtml}
+                </span>
+              </div>
+              ${item.cleared ? `
+                <span class="badge badge-ok" style="font-weight:700; background:#dcfce7; color:#15803d;">
+                  ✅ ĐÃ XÓA LỖI THÀNH CÔNG
+                </span>
+              ` : ''}
+            </div>
+
+            <div style="font-size:15px; font-weight:700; color:#0f172a; line-height:1.5; margin-bottom:14px;">
+              ${idx + 1}. ${item.question}
+            </div>
+
+            <!-- CÁC LỰA CHỌN TRẢ LỜI -->
+            <div id="choices_${item.id}">
+              ${item.options.map((opt, oIdx) => `
+                <button class="choice-btn" onclick="answerMistake('${item.id}', ${oIdx})">
+                  <strong>${String.fromCharCode(65 + oIdx)}.</strong> ${opt}
+                </button>
+              `).join("")}
+            </div>
+
+            <!-- GIẢI THÍCH & ĐIỂM TỰA GHI NHỚ -->
+            <div id="explain_${item.id}" style="display:none; margin-top:12px; padding:12px 14px; border-radius:8px; font-size:13px; line-height:1.55;"></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function answerMistake(id, choiceIdx) {
+      const item = MISTAKE_DATA.find(m => m.id === id);
+      if (!item) return;
+
+      const card = document.getElementById("card_" + id);
+      const choiceBtns = card.querySelectorAll(".choice-btn");
+      const explainBox = document.getElementById("explain_" + id);
+
+      choiceBtns.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === item.answer) {
+          btn.classList.add("correct");
+        } else if (idx === choiceIdx) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      const isRight = (choiceIdx === item.answer);
+      if (isRight) {
+        item.streak = (item.streak || 0) + 1;
+        if (item.streak >= 2) {
+          item.cleared = true;
+          if (window.portalPet) {
+            portalPet.awardFarmPoints(50, "Xóa lỗi sai trong Sổ tay");
+          }
+        }
+      } else {
+        item.streak = 0; // Trượt thì reset chuỗi đúng về 0
+      }
+
+      saveMistakeProgress();
+      updateCounts();
+
+      explainBox.style.display = "block";
+      explainBox.style.background = isRight ? "#f0fdf4" : "#fef2f2";
+      explainBox.style.border = isRight ? "1px solid #bbf7d0" : "1px solid #fecaca";
+      explainBox.style.color = isRight ? "#166534" : "#991b1b";
+
+      explainBox.innerHTML = `
+        <div style="font-weight:700; margin-bottom:4px;">
+          ${isRight ? (item.cleared ? '🎉 Tuyệt vời! Bạn đã đúng 2 lần liên tiếp và xóa lỗi thành công (+50 ⭐)' : '✅ Bạn trả lời đúng! Cần đúng thêm 1 lần nữa để xóa nợ hoàn toàn.') : '❌ Vẫn chưa chính xác! Chuỗi đúng đã được đưa về 0 để bạn luyện lại kỹ hơn.'}
+        </div>
+        <div style="color:#334155; margin-bottom:6px;">${item.explanation}</div>
+        <div style="font-size:12px; font-weight:700; color:#1d4ed8;">${item.recallHint}</div>
+      `;
+
+      if (item.cleared) {
+        card.classList.add("cleared");
+      }
+    }
+
+    function resetAllMistakesProgress() {
+      if (confirm("Bạn có muốn làm mới lại tất cả câu sai để thử sức một lượt từ đầu?")) {
+        MISTAKE_DATA.forEach(m => {
+          m.streak = 0;
+          m.cleared = false;
+        });
+        saveMistakeProgress();
+        updateCounts();
+        renderMistakesList();
+      }
+    }
+
+    function toggleSlimMenu() {
+      const tabs = document.getElementById("slimNavTabs");
+      if (tabs) tabs.classList.toggle("open");
+    }
+
+    document.addEventListener("DOMContentLoaded", initMistakeNotebook);
+  </script>
+</body>
+</html>

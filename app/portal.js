@@ -1,4 +1,4 @@
-// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
+﻿// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
 // Phần 1: Kiến thức tóm tắt từng bài, câu hỏi nâng cao & Công cụ phân tích lý thuyết
 // Phần 2: Tổng hợp 77 bài giảng PPT trình chiếu & dạy nhanh (+ 42 Chuyên đề)
 // Phần 3: Soạn đề theo học kì (Chuẩn Công văn 7991 - 6 bước + Kho 97 Đề học kì)
@@ -12,6 +12,9 @@ const portalState = {
   mod1SubTab: "summary", // 'summary' | 'mindmap' | 'flashcard' | 'analyzer' | 'advanced_q'
   analyzerCustomQuery: "",
   mod1MindmapCollapsed: {},
+  mindmapLayout: "bilateral", // 'bilateral' | 'horizontal' | 'vertical'
+  mindmapReviewMode: false,
+  mod1MindmapZoom: 100,
   mod1FlashcardIdx: 0,
   mod1FlashcardFlipped: false,
   mod1FlashcardKnown: {},
@@ -531,8 +534,19 @@ function formatSgkSectionItem(rawLine, secNum, heading) {
 // ============================================================================
 
 // ============================================================================
-// HỖ TRỢ SƠ ĐỒ TƯ DUY TƯƠNG TÁC ĐA CẤP (NOTEBOOK LM STYLE INTERACTIVE MINDMAP)
+// HỆ THỐNG SƠ ĐỒ TƯ DUY GIÁO DỤC CHUẨN MỰC (CREATE-EDUCATION-MINDMAPS)
+// Chuẩn thiết kế: Phong cách sáng, 6 gam màu phân nhánh khoa học, 3 bố cục
+// (Tỏa 2 bên, Cây ngang, Cây dọc), Active Recall (Ẩn từ khóa), Xuất SVG vector & In A4
 // ============================================================================
+
+const MM_BRANCH_THEMES = [
+  { key: "green",  border: "#17613E", bg: "#f0fdf4", headerBg: "#dcfce7", text: "#17613E", badge: "#17613E", lightBg: "#ecfdf5" },
+  { key: "blue",   border: "#1D4ED8", bg: "#eff6ff", headerBg: "#dbeafe", text: "#1D4ED8", badge: "#1D4ED8", lightBg: "#eff6ff" },
+  { key: "purple", border: "#7C3AED", bg: "#f5f3ff", headerBg: "#ede9fe", text: "#7C3AED", badge: "#7C3AED", lightBg: "#f5f3ff" },
+  { key: "amber",  border: "#B45309", bg: "#fffbeb", headerBg: "#fef3c7", text: "#B45309", badge: "#B45309", lightBg: "#fffbeb" },
+  { key: "ruby",   border: "#BE185D", bg: "#fff1f2", headerBg: "#fce7f3", text: "#BE185D", badge: "#BE185D", lightBg: "#fff1f2" },
+  { key: "teal",   border: "#0F766E", bg: "#f0fdfa", headerBg: "#ccfbf1", text: "#0F766E", badge: "#0F766E", lightBg: "#f0fdfa" }
+];
 
 function toggleMindmapNode(nodeKey) {
   if (!portalState.mod1MindmapExpanded) {
@@ -550,6 +564,24 @@ function toggleMindmapBranch(idx) {
   toggleMindmapNode("sec_" + idx);
 }
 
+function setMindmapLayout(layout) {
+  portalState.mindmapLayout = layout;
+  renderModule1Theory();
+}
+
+function toggleMindmapReviewMode() {
+  portalState.mindmapReviewMode = !portalState.mindmapReviewMode;
+  renderModule1Theory();
+}
+
+function revealAllTerms(reveal) {
+  const terms = document.querySelectorAll(".edu-mm-blur-term");
+  terms.forEach(t => {
+    if (reveal) t.classList.add("revealed");
+    else t.classList.remove("revealed");
+  });
+}
+
 function setMindmapExpandLevel(level) {
   const curLesson = (PORTAL_DATA.lessons || []).find(l => l.id === portalState.mod1LessonId);
   if (!curLesson) return;
@@ -558,11 +590,7 @@ function setMindmapExpandLevel(level) {
   
   sgkSections.forEach((sec, sIdx) => {
     const secKey = "sec_" + sIdx;
-    if (level === "all" || level === "subsections") {
-      exp[secKey] = true;
-    } else {
-      exp[secKey] = false;
-    }
+    exp[secKey] = (level === "all" || level === "subsections");
     
     let subIdx = 0;
     (sec.items || []).forEach(it => {
@@ -579,27 +607,31 @@ function setMindmapExpandLevel(level) {
   renderModule1Theory();
 }
 
-function expandAllMindmapBranches(expand) {
-  setMindmapExpandLevel(expand ? "all" : "none");
-}
-
 function setMindmapZoom(delta) {
   let z = (portalState.mod1MindmapZoom || 100) + delta;
-  if (z < 70) z = 70;
-  if (z > 130) z = 130;
+  if (z < 60) z = 60;
+  if (z > 140) z = 140;
   portalState.mod1MindmapZoom = z;
   renderModule1Theory();
 }
 
-function formatMindmapLeafContent(rawLine) {
+function resetMindmapZoom() {
+  portalState.mod1MindmapZoom = 100;
+  renderModule1Theory();
+}
+
+function formatMindmapLeafContent(rawLine, isReviewMode) {
   const line = String(rawLine || "").trim();
   if (!line) return "";
   
   // 1. Chú thích / Lưu ý quan trọng
   if (/^(\*|•)?\s*Lưu ý/i.test(line)) {
     const noteText = line.replace(/^(\*|•)?\s*Lưu ý\s*:?/i, '').trim();
+    const renderedBody = isReviewMode 
+      ? `<span class="edu-mm-blur-term" onclick="this.classList.toggle('revealed')">${escapeHtml(noteText)}</span>`
+      : `<span>${escapeHtml(noteText)}</span>`;
     return `<div style="background:#fefce8; border:1px solid #fef08a; border-left:3.5px solid #eab308; border-radius:6px; padding:6px 10px; font-size:12.5px; line-height:1.55; color:#854d0e;">
-      💡 <strong style="color:#713f12;">Lưu ý cốt lõi:</strong> <span>${escapeHtml(noteText)}</span>
+      💡 <strong style="color:#713f12;">Lưu ý cốt lõi:</strong> ${renderedBody}
     </div>`;
   }
   
@@ -607,58 +639,55 @@ function formatMindmapLeafContent(rawLine) {
   if (/^[a-eđ]\)\s+/i.test(line)) {
     const match = line.match(/^([a-eđ]\)\s*[^:]+:?)(.*)/i);
     if (match) {
-      return `<div style="font-size:13.5px; line-height:1.6; color:#334155;">
-        <span style="color:var(--primary); font-weight:800; margin-right:4px;">▸</span>
-        <strong style="color:#0f172a; font-weight:700;">${escapeHtml(match[1].trim())}</strong>
-        ${match[2] ? `<span> ${escapeHtml(match[2].trim())}</span>` : ''}
+      const heading = match[1].trim();
+      const body = match[2] ? match[2].trim() : '';
+      const renderedBody = isReviewMode && body
+        ? `<span class="edu-mm-blur-term" onclick="this.classList.toggle('revealed')">${escapeHtml(body)}</span>`
+        : `<span> ${escapeHtml(body)}</span>`;
+      return `<div style="font-size:13px; line-height:1.6; color:#334155;">
+        <span style="color:#17613E; font-weight:800; margin-right:4px;">▸</span>
+        <strong style="color:#0f172a; font-weight:700;">${escapeHtml(heading)}</strong>
+        ${renderedBody}
       </div>`;
     }
   }
 
-  // 3. Sub-level (bắt đầu bằng dấu +)
+  // 3. Sub-level (bắt đầu bằng dấu + hoặc - hoặc •)
   const isSubLevel = /^\+\s+/.test(line);
   const clean = line.replace(/^[-+•]\s*/, "");
   const bulletSymbol = isSubLevel ? "–" : "•";
-  const indentStyle = isSubLevel ? "padding-left:14px; font-size:13px; color:#475569;" : "font-size:13.5px; color:#334155;";
+  const indentStyle = isSubLevel ? "padding-left:14px; font-size:12.5px; color:#475569;" : "font-size:13px; color:#334155;";
 
   if (clean.includes(":")) {
     const parts = clean.split(":");
+    const term = parts[0].trim();
+    const def = parts.slice(1).join(":").trim();
+    const renderedDef = isReviewMode && def
+      ? `<span class="edu-mm-blur-term" onclick="this.classList.toggle('revealed')">${escapeHtml(def)}</span>`
+      : `<span> ${escapeHtml(def)}</span>`;
     return `<div style="${indentStyle} line-height:1.6;">
-      <span style="color:var(--primary); font-weight:800; margin-right:5px;">${bulletSymbol}</span>
-      <strong style="color:#0f172a; font-weight:700;">${escapeHtml(parts[0].trim())}:</strong>
-      <span> ${escapeHtml(parts.slice(1).join(":").trim())}</span>
+      <span style="color:#17613E; font-weight:800; margin-right:5px;">${bulletSymbol}</span>
+      <strong style="color:#0f172a; font-weight:700;">${escapeHtml(term)}:</strong>
+      ${renderedDef}
     </div>`;
   }
 
+  const renderedClean = isReviewMode
+    ? `<span class="edu-mm-blur-term" onclick="this.classList.toggle('revealed')">${escapeHtml(clean)}</span>`
+    : `<span>${escapeHtml(clean)}</span>`;
+
   return `<div style="${indentStyle} line-height:1.6;">
-    <span style="color:var(--primary); font-weight:800; margin-right:5px;">${bulletSymbol}</span>
-    <span>${escapeHtml(clean)}</span>
+    <span style="color:#17613E; font-weight:800; margin-right:5px;">${bulletSymbol}</span>
+    ${renderedClean}
   </div>`;
 }
 
-function renderMindmapHtml(curLesson, sgkSections) {
-  if (!portalState.mod1MindmapExpanded) {
-    portalState.mod1MindmapExpanded = {};
-    sgkSections.forEach((_, sIdx) => {
-      portalState.mod1MindmapExpanded["sec_" + sIdx] = true;
-    });
-  }
-
-  const zoom = portalState.mod1MindmapZoom || 100;
-  
-  const branchThemes = [
-    { border: "#059669", bg: "#f0fdf4", headerBg: "#dcfce7", text: "#065f46", badge: "#059669", lightBg: "#ecfdf5" },
-    { border: "#2563eb", bg: "#eff6ff", headerBg: "#dbeafe", text: "#1e40af", badge: "#2563eb", lightBg: "#eff6ff" },
-    { border: "#d97706", bg: "#fffbeb", headerBg: "#fef3c7", text: "#92400e", badge: "#d97706", lightBg: "#fffbeb" },
-    { border: "#7c3aed", bg: "#f5f3ff", headerBg: "#ede9fe", text: "#5b21b6", badge: "#7c3aed", lightBg: "#f5f3ff" },
-    { border: "#db2777", bg: "#fff1f2", headerBg: "#fce7f3", text: "#9d174d", badge: "#db2777", lightBg: "#fff1f2" },
-    { border: "#0891b2", bg: "#f0fdfa", headerBg: "#cffafe", text: "#155e75", badge: "#0891b2", lightBg: "#f0fdfa" }
-  ];
-
+// BỘ PHÂN TÍCH VÀ BIÊN SOẠN DỮ LIỆU CÂY CHUẨN (MINDMAP PARSER)
+function buildEducationMindmapData(curLesson, sgkSections) {
   let totalSubCount = 0;
   let totalLeafCount = 0;
 
-  const parsedBranches = sgkSections.map((sec, sIdx) => {
+  const branches = sgkSections.map((sec, sIdx) => {
     const heading = sec.heading || ("Mục " + (sIdx + 1));
     const romanMatch = String(heading).trim().match(/^([IVXLCDM]+)[\.\s\:\-]/i);
     let prefix = sIdx + 1;
@@ -667,7 +696,7 @@ function renderMindmapHtml(curLesson, sgkSections) {
       if (rmap[romanMatch[1].toUpperCase()]) prefix = rmap[romanMatch[1].toUpperCase()];
     }
 
-    const theme = branchThemes[sIdx % branchThemes.length];
+    const theme = MM_BRANCH_THEMES[sIdx % MM_BRANCH_THEMES.length];
     const subNodes = [];
     let curNode = null;
 
@@ -712,133 +741,373 @@ function renderMindmapHtml(curLesson, sgkSections) {
     };
   });
 
-  return `
-    <div class="mindmap-wrapper">
-      <!-- THANH ĐIỀU KHIỂN CHUẨN NOTEBOOK LM -->
-      <div class="mindmap-header-bar">
-        <div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="background:#dcfce7; color:#15803d; font-size:11px; font-weight:800; padding:2px 8px; border-radius:12px; border:1px solid #bbf7d0;">NOTEBOOK LM STYLE</span>
-            <h4 style="color:var(--primary-dark); font-size:16px; margin:0;">🌿 Sơ đồ Tư duy Nhánh Tương tác</h4>
-          </div>
-          <p style="font-size:12.5px; color:var(--text-muted); margin:4px 0 0;">
-            Bấm vào từng <strong>Tiểu mục (1.1, 1.2... 2.1, 2.2...)</strong> để bung ra các lá kiến thức chuyên sâu. Tự do mở/đóng từng nhánh theo tiến trình học tập.
-          </p>
+  return { branches, totalSubCount, totalLeafCount };
+}
+
+// XUẤT SƠ ĐỒ DẠNG VECTOR SVG NGUYÊN BẢN (EXPORT STANDALONE SVG)
+function exportMindmapSVG() {
+  const curLesson = (PORTAL_DATA.lessons || []).find(l => l.id === portalState.mod1LessonId);
+  if (!curLesson) return;
+  const sgkSections = curLesson.sgkSections || [];
+  const { branches } = buildEducationMindmapData(curLesson, sgkSections);
+
+  const width = 1400;
+  let yOffset = 180;
+  const branchElements = [];
+
+  branches.forEach((b, bIdx) => {
+    const colX = (bIdx % 2 === 0) ? 80 : 740;
+    const curY = yOffset;
+    const theme = b.theme;
+
+    let subHtml = "";
+    let subY = curY + 60;
+    b.subNodes.forEach((s) => {
+      subHtml += `
+        <rect x="${colX + 20}" y="${subY}" width="540" height="34" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+        <text x="${colX + 35}" y="${subY + 22}" font-family="Be Vietnam Pro, sans-serif" font-size="13" font-weight="bold" fill="#0f172a">${s.numLabel}. ${escapeHtml(s.title.substring(0, 48))}</text>
+      `;
+      subY += 42;
+    });
+
+    const boxHeight = Math.max(70, subY - curY + 10);
+    branchElements.push(`
+      <g>
+        <rect x="${colX}" y="${curY}" width="580" height="${boxHeight}" rx="12" fill="${theme.bg}" stroke="${theme.border}" stroke-width="2"/>
+        <rect x="${colX}" y="${curY}" width="580" height="42" rx="12" fill="${theme.border}"/>
+        <text x="${colX + 18}" y="${curY + 27}" font-family="Be Vietnam Pro, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">NHÁNH ${b.prefix}: ${escapeHtml(b.heading)}</text>
+        ${subHtml}
+      </g>
+    `);
+
+    if (bIdx % 2 === 1 || bIdx === branches.length - 1) {
+      yOffset += boxHeight + 30;
+    }
+  });
+
+  const totalHeight = Math.max(800, yOffset + 60);
+
+  const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${totalHeight}" width="${width}" height="${totalHeight}">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&amp;display=swap');
+    text { font-family: 'Be Vietnam Pro', sans-serif; }
+  </style>
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  
+  <!-- NÚT TRUNG TÂM -->
+  <g>
+    <rect x="250" y="30" width="900" height="100" rx="16" fill="#17613e" stroke="#15803d" stroke-width="3"/>
+    <text x="700" y="70" text-anchor="middle" font-size="20" font-weight="800" fill="#ffffff">${escapeHtml(curLesson.title)}</text>
+    <text x="700" y="100" text-anchor="middle" font-size="13" fill="#dcfce7">${escapeHtml(curLesson.chapter || '')} • Chuẩn Công nghệ Nông nghiệp THPT</text>
+  </g>
+
+  <!-- CÁC NHÁNH -->
+  ${branchElements.join("\n")}
+</svg>`;
+
+  const blob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `So_do_tu_duy_${curLesson.id || 'bai_hoc'}.svg`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// XUẤT DÀN Ý BÀI HỌC VĂN BẢN (ACCESSIBLE OUTLINE)
+function openMindmapOutlineModal() {
+  const curLesson = (PORTAL_DATA.lessons || []).find(l => l.id === portalState.mod1LessonId);
+  if (!curLesson) return;
+  const sgkSections = curLesson.sgkSections || [];
+  const { branches } = buildEducationMindmapData(curLesson, sgkSections);
+
+  let outlineText = `# ${curLesson.title}\n\n`;
+  let outlineHtml = `<div style="font-weight:800; font-size:16px; color:#17613e; margin-bottom:12px;">🌱 ${escapeHtml(curLesson.title)}</div><ul class="edu-mm-outline-list">`;
+
+  branches.forEach(b => {
+    outlineText += `## ${b.heading}\n`;
+    outlineHtml += `<li><strong style="color:${b.theme.border};">🌿 ${escapeHtml(b.heading)}</strong><ul>`;
+
+    b.subNodes.forEach(s => {
+      outlineText += `   ${s.numLabel}. ${s.title}\n`;
+      outlineHtml += `<li><strong>${escapeHtml(s.numLabel)}. ${escapeHtml(s.title)}</strong><ul>`;
+
+      s.leaves.forEach(l => {
+        outlineText += `      - ${l}\n`;
+        outlineHtml += `<li>${escapeHtml(l)}</li>`;
+      });
+
+      outlineHtml += `</ul></li>`;
+    });
+
+    outlineHtml += `</ul></li>`;
+    outlineText += `\n`;
+  });
+  outlineHtml += `</ul>`;
+
+  const modal = document.createElement("div");
+  modal.className = "edu-mm-modal-overlay";
+  modal.id = "eduMmOutlineModal";
+  modal.innerHTML = `
+    <div class="edu-mm-modal-card">
+      <div class="edu-mm-modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">📋</span>
+          <h3 style="margin:0; font-size:16px; color:#0f172a;">Dàn Ý Văn Bản Phân Cấp (Hỗ Trợ Ghi Chép & Giảng Dạy)</h3>
         </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-          <button class="btn btn-primary btn-sm" onclick="setMindmapExpandLevel('all')" title="Bung tất cả các cấp để xem toàn bộ bài">
-            ➕ Mở rộng tất cả
-          </button>
-          <button class="btn btn-outline btn-sm" onclick="setMindmapExpandLevel('subsections')" title="Mở các mục lớn và tiểu mục (sẵn sàng bấm)">
-            🌿 Mức Tiểu mục
-          </button>
-          <button class="btn btn-outline btn-sm" onclick="setMindmapExpandLevel('none')" title="Thu gọn chỉ giữ tiêu đề">
-            ➖ Thu gọn tất cả
-          </button>
-          
-          <div style="display:flex; align-items:center; gap:4px; margin-left:6px; background:#f1f5f9; padding:2px 6px; border-radius:6px; border:1px solid #cbd5e1;">
-            <button class="btn btn-ghost btn-xs" onclick="setMindmapZoom(-10)" title="Thu nhỏ sơ đồ" style="padding:2px 6px; font-weight:800;">−</button>
-            <span style="font-size:11.5px; font-weight:700; color:#334155; min-width:38px; text-align:center;">${zoom}%</span>
-            <button class="btn btn-ghost btn-xs" onclick="setMindmapZoom(10)" title="Phóng to sơ đồ" style="padding:2px 6px; font-weight:800;">+</button>
+        <button class="btn btn-ghost btn-xs" onclick="closeMindmapOutlineModal()" style="font-size:16px;">✕</button>
+      </div>
+      <div class="edu-mm-modal-body" id="eduMmOutlineBody">
+        ${outlineHtml}
+      </div>
+      <div style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:12px; color:#64748b;">Định dạng văn bản có thể sao chép trực tiếp vào Word hoặc giáo án</span>
+        <button class="btn btn-primary btn-sm" onclick="copyMindmapOutlineText()">📋 Sao chép toàn bộ dàn ý</button>
+      </div>
+    </div>
+  `;
+  window.__curMindmapOutlineText = outlineText;
+  document.body.appendChild(modal);
+}
+
+function closeMindmapOutlineModal() {
+  const m = document.getElementById("eduMmOutlineModal");
+  if (m) m.remove();
+}
+
+function copyMindmapOutlineText() {
+  if (window.__curMindmapOutlineText) {
+    navigator.clipboard.writeText(window.__curMindmapOutlineText).then(() => {
+      alert("✅ Đã sao chép dàn ý bài học thành công!");
+    }).catch(() => {
+      alert("⚠️ Không thể tự động sao chép. Bạn có thể bôi đen và nhấn Ctrl+C.");
+    });
+  }
+}
+
+// BỘ DỰNG GIAO DIỆN CHÍNH (RENDER MINDMAP HTML ENGINE)
+function renderMindmapHtml(curLesson, sgkSections) {
+  if (!portalState.mod1MindmapExpanded) {
+    portalState.mod1MindmapExpanded = {};
+    sgkSections.forEach((_, sIdx) => {
+      portalState.mod1MindmapExpanded["sec_" + sIdx] = true;
+    });
+  }
+
+  const layout = portalState.mindmapLayout || "bilateral"; // 'bilateral' | 'horizontal' | 'vertical'
+  const isReviewMode = !!portalState.mindmapReviewMode;
+  const zoom = portalState.mod1MindmapZoom || 100;
+  
+  const { branches, totalSubCount, totalLeafCount } = buildEducationMindmapData(curLesson, sgkSections);
+
+  // Hàm render thẻ Nhánh
+  function renderBranchCard(sec) {
+    const isSecOpen = portalState.mod1MindmapExpanded[sec.id] !== false;
+    const theme = sec.theme;
+
+    return `
+      <div class="edu-mm-branch-card" style="border-top:4px solid ${theme.border};">
+        <div class="edu-mm-branch-header" style="background:${theme.headerBg}; color:${theme.text};" onclick="toggleMindmapNode('${sec.id}')">
+          <div style="display:flex; align-items:center; gap:8px; flex:1;">
+            <span class="edu-mm-branch-badge" style="background:${theme.badge};">
+              Nhánh ${sec.prefix}
+            </span>
+            <span class="edu-mm-branch-title">${escapeHtml(sec.heading)}</span>
           </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:11px; background:rgba(255,255,255,0.8); color:${theme.text}; padding:2px 7px; border-radius:10px; font-weight:700;">
+              ${sec.subNodes.length} mục
+            </span>
+            <span style="font-size:12px; font-weight:800;">${isSecOpen ? '▲' : '▼'}</span>
+          </div>
+        </div>
+
+        ${isSecOpen ? `
+          <div class="edu-mm-branch-body">
+            ${sec.subNodes.map(sub => {
+              const isSubOpen = portalState.mod1MindmapExpanded[sub.id] === true;
+              return `
+                <div class="edu-mm-sub-card ${isSubOpen ? 'expanded' : ''}">
+                  <div class="edu-mm-sub-header" onclick="toggleMindmapNode('${sub.id}')">
+                    <div style="display:flex; align-items:center; gap:7px; flex:1;">
+                      <span class="edu-mm-sub-num" style="background:${theme.badge};">
+                        ${sub.numLabel}
+                      </span>
+                      <span class="edu-mm-sub-title">${escapeHtml(sub.title)}</span>
+                    </div>
+                    <button class="edu-mm-toggle-pill" onclick="event.stopPropagation(); toggleMindmapNode('${sub.id}')">
+                      ${isSubOpen ? '− Thu gọn' : `+ ${sub.leaves.length} ý cốt lõi`}
+                    </button>
+                  </div>
+
+                  ${isSubOpen ? `
+                    <div class="edu-mm-leaves-wrap">
+                      ${sub.leaves.map(leaf => `
+                        <div class="edu-mm-leaf-item" style="border-left:3px solid ${theme.badge};">
+                          ${formatMindmapLeafContent(leaf, isReviewMode)}
+                        </div>
+                      `).join("")}
+                    </div>
+                  ` : ''}
+                </div>
+              `;
+            }).join("")}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  // Dựng khung theo từng Bố cục
+  let layoutContent = "";
+  if (layout === "bilateral") {
+    // Tỏa 2 bên: Cân bằng số nhánh Trái - Phải
+    const leftBranches = [];
+    const rightBranches = [];
+    branches.forEach((b, idx) => {
+      if (idx % 2 === 0) leftBranches.push(b);
+      else rightBranches.push(b);
+    });
+
+    layoutContent = `
+      <div class="edu-mm-bilateral-layout">
+        <!-- NÚT GỐC TRUNG TÂM -->
+        <div class="edu-mm-root-card">
+          <div class="edu-mm-root-badge">🌱 TRUNG TÂM KIẾN THỨC CỐT LÕI</div>
+          <h3 class="edu-mm-root-title">${escapeHtml(curLesson.title)}</h3>
+          <div class="edu-mm-root-meta">
+            ${escapeHtml(curLesson.chapter || '')} • ${branches.length} Nhánh Chính • ${totalSubCount} Tiểu mục • ${totalLeafCount} Đơn vị kiến thức
+          </div>
+        </div>
+
+        <!-- 2 CÁNH TỎA 2 BÊN -->
+        <div class="edu-mm-wings-container">
+          <div class="edu-mm-wing">
+            ${leftBranches.map(renderBranchCard).join("")}
+          </div>
+          <div class="edu-mm-wing">
+            ${rightBranches.map(renderBranchCard).join("")}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (layout === "horizontal") {
+    // Cây ngang từ trái sang phải
+    layoutContent = `
+      <div class="edu-mm-horizontal-layout">
+        <div class="edu-mm-horizontal-root-col">
+          <div class="edu-mm-root-card" style="margin:0;">
+            <div class="edu-mm-root-badge">🌱 GỐC KIẾN THỨC</div>
+            <h3 class="edu-mm-root-title" style="font-size:16px;">${escapeHtml(curLesson.title)}</h3>
+            <div class="edu-mm-root-meta">
+              ${escapeHtml(curLesson.chapter || '')}
+            </div>
+          </div>
+        </div>
+        <div class="edu-mm-horizontal-branches-col">
+          ${branches.map(renderBranchCard).join("")}
+        </div>
+      </div>
+    `;
+  } else {
+    // Cây dọc Accordion - Tối ưu cho Mobile & In ấn
+    layoutContent = `
+      <div class="edu-mm-vertical-layout">
+        <div class="edu-mm-root-card">
+          <div class="edu-mm-root-badge">🌱 BÀI HỌC TRỌNG TÂM</div>
+          <h3 class="edu-mm-root-title">${escapeHtml(curLesson.title)}</h3>
+          <div class="edu-mm-root-meta">
+            ${escapeHtml(curLesson.chapter || '')} • ${branches.length} Nhánh • ${totalSubCount} Tiểu mục
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px; margin-top:14px;">
+          ${branches.map(renderBranchCard).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="edu-mindmap-wrapper">
+      <!-- THANH ĐIỀU KHIỂN CHUYÊN NGHIỆP THEO CHUẨN CREATE-EDUCATION-MINDMAPS -->
+      <div class="edu-mm-toolbar">
+        <div class="edu-mm-title-group">
+          <span class="edu-mm-badge-main">
+            🌿 SƠ ĐỒ TƯ DUY
+          </span>
           
-          <button class="btn btn-outline btn-sm" onclick="window.print()" title="In sơ đồ tư duy">
-            🖨️ In sơ đồ
+          <!-- BỘ CHỌN 3 BỐ CỤC -->
+          <div class="edu-mm-layout-group">
+            <button class="edu-mm-pill-btn ${layout === 'bilateral' ? 'active' : ''}" onclick="setMindmapLayout('bilateral')" title="Bố cục tỏa đều hai cánh">
+              🌐 Tỏa 2 bên
+            </button>
+            <button class="edu-mm-pill-btn ${layout === 'horizontal' ? 'active' : ''}" onclick="setMindmapLayout('horizontal')" title="Bố cục cây ngang từ trái sang phải">
+              🌲 Cây ngang
+            </button>
+            <button class="edu-mm-pill-btn ${layout === 'vertical' ? 'active' : ''}" onclick="setMindmapLayout('vertical')" title="Bố cục cây dọc tối ưu cho điện thoại">
+              📱 Cây dọc
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <!-- CHẾ ĐỘ ÔN TẬP ACTIVE RECALL -->
+          <button class="edu-mm-pill-btn btn-recall ${isReviewMode ? 'active' : ''}" onclick="toggleMindmapReviewMode()" title="Che mờ từ khóa cốt lõi để tự nhẩm nhớ trước khi xem">
+            ${isReviewMode ? '👁️ Đang Ôn tập (Ẩn từ khóa)' : '💡 Bật Ôn tập (Active Recall)'}
           </button>
+
+          <!-- MỞ RỘNG / THU GỌN -->
+          <div class="edu-mm-btn-group">
+            <button class="edu-mm-pill-btn" onclick="setMindmapExpandLevel('all')" title="Mở bung toàn bộ các cấp">
+              ➕ Mở hết
+            </button>
+            <button class="edu-mm-pill-btn" onclick="setMindmapExpandLevel('none')" title="Thu gọn chỉ giữ nhánh chính">
+              ➖ Thu gọn
+            </button>
+          </div>
+
+          <!-- THU PHÓNG ZOOM -->
+          <div class="edu-mm-btn-group">
+            <button class="edu-mm-pill-btn" onclick="setMindmapZoom(-10)" title="Thu nhỏ">−</button>
+            <button class="edu-mm-pill-btn" onclick="resetMindmapZoom()" title="Khôi phục 100%">${zoom}%</button>
+            <button class="edu-mm-pill-btn" onclick="setMindmapZoom(10)" title="Phóng to">+</button>
+          </div>
+
+          <!-- CÔNG CỤ XUẤT BẢN -->
+          <div class="edu-mm-btn-group">
+            <button class="edu-mm-pill-btn" onclick="openMindmapOutlineModal()" title="Xem và sao chép dàn ý văn bản bài học">
+              📋 Dàn ý
+            </button>
+            <button class="edu-mm-pill-btn" onclick="exportMindmapSVG()" title="Tải sơ đồ vector SVG sắc nét về máy">
+              📥 Xuất SVG
+            </button>
+            <button class="edu-mm-pill-btn" onclick="window.print()" title="In ra giấy hoặc lưu file PDF A4">
+              🖨️ In A4
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- KHUNG CANVAS BẢN ĐỒ TƯ DUY (CHỐNG NGỢP CHỮ, ZOOM LINH HOẠT) -->
-      <div class="nlm-mindmap-canvas" style="transform: scale(${zoom / 100}); transform-origin: top center;">
-        
-        <!-- NÚT GỐC (ROOT NODE) -->
-        <div class="nlm-root-card">
-          <div class="nlm-root-badge">🌱 TRUNG TÂM KIẾN THỨC CỐT LÕI</div>
-          <div style="font-size:18px; font-weight:800; letter-spacing:-0.01em;">${escapeHtml(curLesson.title)}</div>
-          <div style="font-size:12.5px; opacity:0.92; margin-top:6px;">
-            ${escapeHtml(curLesson.chapter || '')} • ${parsedBranches.length} Nhánh Mục lớn • ${totalSubCount} Tiểu mục • ${totalLeafCount} Đơn vị kiến thức
+      <!-- KHUNG CANVAS BẢN ĐỒ TƯ DUY -->
+      <div class="edu-mm-canvas-wrap">
+        ${isReviewMode ? `
+          <div class="edu-mm-recall-banner">
+            <div>
+              <strong>🧠 Chế độ Ôn tập Trí nhớ (Active Recall):</strong> Các từ khóa định nghĩa, số liệu quan trọng đã được ẩn. Hãy nhẩm nhớ trước rồi chạm vào để xem đáp án.
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline btn-xs" onclick="revealAllTerms(true)" style="background:#ffffff;">Hiện tất cả</button>
+              <button class="btn btn-outline btn-xs" onclick="revealAllTerms(false)" style="background:#ffffff;">Ẩn lại</button>
+            </div>
           </div>
+        ` : ''}
+
+        <div class="edu-mm-canvas" style="transform: scale(${zoom / 100});">
+          ${layoutContent}
         </div>
-
-        <!-- CÁC NHÁNH KIẾN THỨC BUNG TỎA ĐA CẤP (BRANCHES CONTAINER) -->
-        <div class="nlm-branch-container">
-          ${parsedBranches.map(sec => {
-            const isSecOpen = portalState.mod1MindmapExpanded[sec.id] !== false;
-            const theme = sec.theme;
-
-            return `
-              <div class="nlm-sec-node" style="border-left:5px solid ${theme.border};">
-                
-                <!-- TIÊU ĐỀ MỤC LỚN (NHÁNH CẤP 1) -->
-                <div class="nlm-sec-header" style="background:${theme.headerBg}; color:${theme.text};" onclick="toggleMindmapNode('${sec.id}')">
-                  <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                    <span style="background:${theme.badge}; color:#ffffff; font-size:11px; padding:3px 10px; border-radius:14px; font-weight:800;">
-                      NHÁNH ${sec.prefix}
-                    </span>
-                    <span style="font-size:15px; font-weight:800;">${escapeHtml(sec.heading)}</span>
-                    <span style="background:rgba(255,255,255,0.85); color:${theme.text}; font-size:11.5px; padding:1px 8px; border-radius:10px; font-weight:700; border:1px solid ${theme.border}44;">
-                      ${sec.subNodes.length} tiểu mục
-                    </span>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:6px; font-size:13px; font-weight:700;">
-                    <span>${isSecOpen ? '▼ Thu gọn' : '▶ Mở rộng'}</span>
-                  </div>
-                </div>
-
-                <!-- NỘI DUNG NHÁNH CẤP 1: CÁC TIỂU MỤC CẤP 2 (CHỈ HIỆN KHI MỤC LỚN MỞ) -->
-                ${isSecOpen ? `
-                  <div class="nlm-sec-body">
-                    <div class="nlm-tree-list">
-                      ${sec.subNodes.map(sub => {
-                        const isSubOpen = portalState.mod1MindmapExpanded[sub.id] === true;
-                        const leafCount = sub.leaves.length;
-
-                        return `
-                          <div class="nlm-sub-item">
-                            <!-- THANH TIỂU MỤC (NHÁNH CẤP 2) - CLICK VÀO BUNG RA CÁC LÁ -->
-                            <div class="nlm-sub-header ${isSubOpen ? 'expanded' : ''}" onclick="toggleMindmapNode('${sub.id}')">
-                              <div style="display:flex; align-items:center; gap:8px;">
-                                <span style="display:inline-flex; align-items:center; justify-content:center; background:${theme.badge}; color:#ffffff; font-weight:800; font-size:12.5px; padding:2px 8px; border-radius:6px; font-family:'Plus Jakarta Sans',sans-serif; flex-shrink:0;">
-                                  ${sub.numLabel}
-                                </span>
-                                <span style="font-weight:700; font-size:14.5px; color:#0f172a;">
-                                  ${escapeHtml(sub.title)}
-                                </span>
-                              </div>
-                              
-                              <!-- NÚT BẤM BUNG / THU NHÁNH CON -->
-                              <div>
-                                <button class="nlm-btn-toggle ${isSubOpen ? 'active' : ''}" onclick="event.stopPropagation(); toggleMindmapNode('${sub.id}')">
-                                  ${isSubOpen 
-                                    ? `<span>− Thu gọn</span> <span style="font-size:10px;">▲</span>` 
-                                    : `<span>+ ${leafCount} ý cốt lõi</span> <span style="font-size:10px;">▼</span>`
-                                  }
-                                </button>
-                              </div>
-                            </div>
-
-                            <!-- CÁC LÁ KIẾN THỨC CẤP 3 (CHỈ HIỆN KHI TIỂU MỤC ĐƯỢC BẤM MỞ) -->
-                            ${isSubOpen ? `
-                              <div class="nlm-leaf-container">
-                                ${sub.leaves.map(leaf => `
-                                  <div class="nlm-leaf-card" style="border-left:3px solid ${theme.badge};">
-                                    ${formatMindmapLeafContent(leaf)}
-                                  </div>
-                                `).join("")}
-                              </div>
-                            ` : ''}
-                          </div>
-                        `;
-                      }).join("")}
-                    </div>
-                  </div>
-                ` : ''}
-
-              </div>
-            `;
-          }).join("")}
-        </div>
-
       </div>
     </div>
   `;
@@ -1617,6 +1886,12 @@ function submitMod1Quiz() {
     totalShort: shorts.length
   };
   portalState.mod1QuizState = "submitted";
+
+  // Thưởng điểm Nông trại Thú cưng khi hoàn thành đề củng cố
+  const earnedFarmPts = Math.round(totalScore * 20);
+  if (window.portalPet && typeof window.portalPet.awardFarmPoints === "function") {
+    window.portalPet.awardFarmPoints(earnedFarmPts, `Làm đề củng cố CV 7991 đạt ${totalScore} điểm`);
+  }
 
   renderModule1Theory();
 }
@@ -2773,27 +3048,27 @@ function exportHsgExamWord() {
 // Cấu trúc chuẩn Bộ: 24 MCQ (6,0đ) + 4 Đúng/Sai (4,0đ, thang 0.1 - 0.25 - 0.5 - 1.0đ) = 28 câu, 50 phút
 // ============================================================================
 // ============================================================================
-// XÃC Äá»ŠNH CHÃNH XÃC PHÃ‚N MÃ”N: LÃ‚M NGHIá»†P (BÃ€I 1-7) VS THá»¦Y Sáº¢N (BÃ€I 8-27)
-// Chuáº©n hÃ³a metadata cÃ¢u há»i vÃ  bÃ i há»c theo SGK CÃ´ng nghá»‡ 12 Káº¿t ná»‘i tri thá»©c
+// XÁC ĐỊNH CHÍNH XÁC PHÂN MÔN: LÂM NGHIỆP (BÀI 1-7) VS THỦY SẢN (BÀI 8-27)
+// Chuẩn hóa metadata câu hỏi và bài học theo SGK Công nghệ 12 Kết nối tri thức
 // ============================================================================
 function getQuestionSubject(q) {
-  if (!q) return "LÃ¢m nghiá»‡p";
+  if (!q) return "Lâm nghiệp";
   if (q.topic) {
-    if (/lÃ¢m|rá»«ng|cÃ¢y gá»—|thá»±c bÃ¬/i.test(q.topic)) return "LÃ¢m nghiá»‡p";
-    if (/thá»§y sáº£n|cÃ¡|tÃ´m|ao nuÃ´i|biofloc|ras/i.test(q.topic)) return "Thá»§y sáº£n";
+    if (/lâm|rừng|cây gỗ|thực bì/i.test(q.topic)) return "Lâm nghiệp";
+    if (/thủy sản|cá|tôm|ao nuôi|biofloc|ras/i.test(q.topic)) return "Thủy sản";
   }
   if (q.unitId) {
-    if (["cn12_1", "cn12_2", "cn12_3"].includes(q.unitId)) return "LÃ¢m nghiá»‡p";
-    if (["cn12_4", "cn12_5", "cn12_6", "cn12_7", "cn12_8", "cn12_8b", "cn12_9", "cn12_10"].includes(q.unitId)) return "Thá»§y sáº£n";
+    if (["cn12_1", "cn12_2", "cn12_3"].includes(q.unitId)) return "Lâm nghiệp";
+    if (["cn12_4", "cn12_5", "cn12_6", "cn12_7", "cn12_8", "cn12_8b", "cn12_9", "cn12_10"].includes(q.unitId)) return "Thủy sản";
   }
   if (typeof q.lesson === "number") {
-    return q.lesson <= 7 ? "LÃ¢m nghiá»‡p" : "Thá»§y sáº£n";
+    return q.lesson <= 7 ? "Lâm nghiệp" : "Thủy sản";
   }
   const text = (q.stem || "") + " " + (q.context || "") + " " + (q.title || "");
-  if (/rá»«ng|lÃ¢m nghiá»‡p|cÃ¢y giá»‘ng lÃ¢m nghiá»‡p|chá»©ng chá»‰ fsc|Ä‘Æ°á»ng bÄƒng cáº£n lá»­a|khai thÃ¡c chá»n|khai thÃ¡c tráº¯ng|khai thÃ¡c dáº§n|gá»— lá»›n|tá»‰a thÆ°a/i.test(text)) {
-    return "LÃ¢m nghiá»‡p";
+  if (/rừng|lâm nghiệp|cây giống lâm nghiệp|chứng chỉ fsc|đường băng cản lửa|khai thác chọn|khai thác trắng|khai thác dần|gỗ lớn|tỉa thưa/i.test(text)) {
+    return "Lâm nghiệp";
   }
-  return "Thá»§y sáº£n";
+  return "Thủy sản";
 }
 window.getQuestionSubject = getQuestionSubject;
 
@@ -2803,7 +3078,7 @@ function isLessonLam(l) {
     return l.lesson <= 7;
   }
   const text = (l.title || "") + " " + (l.chapter || "");
-  return /lÃ¢m nghiá»‡p|rá»«ng|cÃ¢y rá»«ng|gá»—/i.test(text);
+  return /lâm nghiệp|rừng|cây rừng|gỗ/i.test(text);
 }
 window.isLessonLam = isLessonLam;
 function initGradExam(examId) {
@@ -3044,11 +3319,28 @@ function submitGradExam(force) {
     tfDetails,
     timeSpentSeconds: (50 * 60) - portalState.gradTimerSeconds
   };
+
+  // 1. Tự động lưu bảng điểm vào hồ sơ cá nhân nếu học sinh đã đăng nhập
+  if (window.portalAuth && typeof window.portalAuth.recordStudentScore === "function") {
+    window.portalAuth.recordStudentScore({
+      score: totalScore,
+      maxScore: 10,
+      examTitle: "Đề thi thử tốt nghiệp THPT Lộc Ninh (28 câu)",
+      correctMcq: mcqCorrect,
+      totalMcq: mcqs.length
+    });
+  }
+
+  // 2. Thưởng điểm Nông trại Thú cưng (Gamification)
+  const earnedFarmPts = Math.round(totalScore * 40);
+  if (window.portalPet && typeof window.portalPet.awardFarmPoints === "function") {
+    window.portalPet.awardFarmPoints(earnedFarmPts, `Thi thử tốt nghiệp THPT đạt ${totalScore} điểm`);
+  }
   renderGraduationExamView();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 // ============================================================================
-// MODAL XEM TRá»°C TIáº¾P FILE PDF 48 Äá»€ THI CHÃNH THá»¨C Bá»˜ GD&ÄT
+// MODAL XEM TRỰC TIẾP FILE PDF 48 ĐỀ THI CHÍNH THỨC BỘ GD&ĐT
 // ============================================================================
 window.openMinistryPdfModal = function(code, serverUrl, fileUrl) {
   let modal = document.getElementById("ministryPdfModal");
@@ -3061,13 +3353,13 @@ window.openMinistryPdfModal = function(code, serverUrl, fileUrl) {
       <div class="modal-box" style="max-width:1100px; width:95%; height:92vh; display:flex; flex-direction:column; padding:16px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:8px;">
           <div>
-            <h3 id="ministryPdfModalTitle" style="color:var(--primary-dark); font-size:16.5px; margin:0 0 2px;">ðŸ›ï¸ Äá» Thi ChÃ­nh Thá»©c Bá»™ GD&amp;ÄT</h3>
-            <span id="ministryPdfModalSub" style="font-size:12px; color:var(--text-muted);">28 cÃ¢u chuáº©n Bá»™ â€¢ Thá»i gian lÃ m bÃ i 50 phÃºt</span>
+            <h3 id="ministryPdfModalTitle" style="color:var(--primary-dark); font-size:16.5px; margin:0 0 2px;">🏛️ Đề Thi Chính Thức Bộ GD&amp;ĐT</h3>
+            <span id="ministryPdfModalSub" style="font-size:12px; color:var(--text-muted);">28 câu chuẩn Bộ • Thời gian làm bài 50 phút</span>
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
-            <a id="ministryPdfModalOpenTab" href="#" target="_blank" class="btn btn-sm btn-outline">ðŸŒ Má»Ÿ tab má»›i</a>
-            <a id="ministryPdfModalDownloadLink" href="#" class="btn btn-sm btn-primary">ðŸ“¥ Táº£i PDF</a>
-            <button class="btn btn-sm btn-outline" onclick="closeMinistryPdfModal()" style="font-weight:700;">âœ• ÄÃ³ng</button>
+            <a id="ministryPdfModalOpenTab" href="#" target="_blank" class="btn btn-sm btn-outline">🌐 Mở tab mới</a>
+            <a id="ministryPdfModalDownloadLink" href="#" class="btn btn-sm btn-primary">📥 Tải PDF</a>
+            <button class="btn btn-sm btn-outline" onclick="closeMinistryPdfModal()" style="font-weight:700;">✕ Đóng</button>
           </div>
         </div>
         <div style="flex:1; background:#f8fafc; border-radius:8px; overflow:hidden; border:1px solid #cbd5e1; position:relative;">
@@ -3081,9 +3373,9 @@ window.openMinistryPdfModal = function(code, serverUrl, fileUrl) {
 
   const encodedUrl = encodeURI(serverUrl);
   const titleEl = document.getElementById("ministryPdfModalTitle");
-  if (titleEl) titleEl.textContent = `ðŸ›ï¸ Äá» Thi ChÃ­nh Thá»©c Bá»™ GD&ÄT 2026 â€” MÃ£ Äá» ${code}`;
+  if (titleEl) titleEl.textContent = `🏛️ Đề Thi Chính Thức Bộ GD&ĐT 2026 — Mã Đề ${code}`;
   const subEl = document.getElementById("ministryPdfModalSub");
-  if (subEl) subEl.textContent = `MÃ£ Ä‘á» ${code} â€¢ File PDF Ä‘á» thi gá»‘c Bá»™ GD&ÄT â€¢ Khá»‘i 12 LÃ¢m nghiá»‡p & Thá»§y sáº£n`;
+  if (subEl) subEl.textContent = `Mã đề ${code} • File PDF đề thi gốc Bộ GD&ĐT • Khối 12 Lâm nghiệp & Thủy sản`;
 
   const iframe = document.getElementById("ministryPdfIframe");
   if (iframe) iframe.src = encodedUrl;
@@ -3108,7 +3400,7 @@ window.closeMinistryPdfModal = function() {
 };
 
 // ============================================================================
-// STATE & HÃ€M ÄIá»€U KHIá»‚N Ã”N Táº¬P THEO BÃ€I (KHá»I 12: 27 BÃ€I)
+// STATE & HÀM ĐIỀU KHIỂN ÔN TẬP THEO BÀI (KHỐI 12: 27 BÀI)
 // ============================================================================
 portalState.selectedGradLessonId = portalState.selectedGradLessonId || "cn12_b1";
 portalState.gradLessonFilter = portalState.gradLessonFilter || "all";
@@ -3149,7 +3441,7 @@ window.generateExamFromCurrentLesson = function(lessonNum) {
   let cn12Tfs = (QUESTION_BANK.tf || []).filter(q => q.grade === "cn12" || (q.unitId && q.unitId.startsWith("cn12")));
 
   portalState.gradExamId = "simulated_lesson_" + lessonNum;
-  portalState.gradExamTitle = `Äá» Luyá»‡n Thi 28 CÃ¢u Trá»ng TÃ¢m BÃ i ${lessonNum} (Khá»‘i 12) & Chuáº©n Ma Tráº­n Bá»™ GD&ÄT`;
+  portalState.gradExamTitle = `Đề Luyện Thi 28 Câu Trọng Tâm Bài ${lessonNum} (Khối 12) & Chuẩn Ma Trận Bộ GD&ĐT`;
   portalState.gradSubmitted = false;
   portalState.gradScore = null;
   portalState.gradUserMcqAnswers = {};
@@ -3167,7 +3459,7 @@ window.generateExamFromCurrentLesson = function(lessonNum) {
   portalState.gradExamSubTab = "mock_test";
   startGradTimer();
   renderGraduationExamView();
-  alert(`ðŸŽ² ÄÃ£ táº¡o thÃ nh cÃ´ng Ä‘á» thi thá»­ 28 cÃ¢u trá»ng tÃ¢m theo BÃ i ${lessonNum}! Báº¡n Ä‘ang á»Ÿ PhÃ²ng Thi Thá»­.`);
+  alert(`🎲 Đã tạo thành công đề thi thử 28 câu trọng tâm theo Bài ${lessonNum}! Bạn đang ở Phòng Thi Thử.`);
 };
 
 
@@ -3706,6 +3998,15 @@ function renderModule5Graduation() {
                 <div style="font-size:13px; color:var(--text-muted); line-height:1.5;">
                   • Điểm Phần I: <strong>${portalState.gradScore.mcqPoints}/6,0đ</strong> (${portalState.gradScore.mcqCorrect}/24 câu đúng)<br/>
                   • Điểm Phần II: <strong>${portalState.gradScore.tfPoints}/4,0đ</strong> (Barem chuẩn Bộ: 0.1 - 0.25 - 0.5 - 1.0đ)
+                </div>
+
+                <div style="margin-top:8px; padding:8px 12px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:8px; font-size:12.5px; color:#166534; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                  <div>
+                    🐾 <strong>Thưởng Nông Trại:</strong> Nhận được <strong>+${Math.round(portalState.gradScore.totalScore * 40)} 🪙 Điểm</strong> nuôi thú cưng!
+                  </div>
+                  <button type="button" class="btn btn-sm btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="font-size:11.5px; padding:4px 10px; background:#16a34a; font-weight:700;">
+                    🐾 Vào Nông Trại
+                  </button>
                 </div>
                 ${Number(portalState.gradScore.totalScore) < 8.0 ? `
                   <div style="margin-top:8px; padding:8px 12px; background:#fff1f2; border:1px solid #fecdd3; border-radius:6px; font-size:12.5px; color:#be123c;">
