@@ -438,6 +438,9 @@
               <button class="btn btn-primary btn-sm" onclick="openLessonPickerModal()">➕ Chọn thêm bài từ SGK (77 bài)</button>
               <button class="btn btn-outline btn-sm" onclick="selectAllUnits(true)">✅ Chọn hết</button>
               <button class="btn btn-outline btn-sm" onclick="selectAllUnits(false)">⬜ Bỏ chọn</button>
+              <button class="btn btn-outline btn-sm" onclick="openExternalCorpusModal()" style="font-weight:700; color:#15803d; border-color:#86efac; background:#f0fdf4;" title="Chọn hoặc nhập ngữ liệu thực tế, tình huống nông nghiệp ngoài SGK theo đề cương và PPCT">
+                📖 Ngữ liệu bên ngoài theo Đề cương (<span id="externalCorpusCountBadge">0</span>)
+              </button>
               <button class="btn btn-outline btn-sm" onclick="addNewUnit()">✏️ Tự tạo bài mới (Nhập thủ công)</button>
               <label class="btn btn-outline btn-sm" style="cursor:pointer; margin:0;">
                 📂 Nhập PPCT
@@ -464,6 +467,9 @@
               <tbody id="ppctTableBody"></tbody>
             </table>
           </div>
+
+          <!-- Khu vực ngữ liệu ngoài SGK đã chọn theo đề cương/PPCT -->
+          <div id="externalCorpusContainer" style="margin-top:12px;"></div>
 
           <div class="step-footer-nav" style="margin-top:10px; padding-top:10px;">
             <div></div>
@@ -992,9 +998,28 @@
     </div>
   </div>
 
+  <!-- MODAL BƯỚC 1: CHỌN NGỮ LIỆU BÊN NGOÀI THEO ĐỀ CƯƠNG / PPCT -->
+  <div class="modal-backdrop" id="externalCorpusModalBackdrop">
+    <div class="modal-box" style="max-width:1100px; width:96%; max-height:92vh; display:flex; flex-direction:column;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+        <div>
+          <h3 style="color:var(--primary-dark); margin:0;">📖 Ngữ Liệu Bên Ngoài Theo Đề Cương &amp; Phân Phối Chương Trình</h3>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+            Trích xuất tình huống thực tiễn, mô hình nông nghiệp địa phương (Đông Nam Bộ / Lộc Ninh) phục vụ câu hỏi Đúng/Sai và Tự luận chuẩn CV 7991.
+          </div>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="btn btn-outline btn-sm" onclick="closeExternalCorpusModal()">✕ Đóng</button>
+        </div>
+      </div>
+      <div id="externalCorpusModalBody" style="flex:1; overflow-y:auto; padding-right:4px; max-height:75vh;"></div>
+    </div>
+  </div>
+
   <script>window.FORCED_MODULE = 3;</script>
   <script src="data.js?v=2"></script>
   <script src="corpus_bank.js?v=2"></script>
+  <script src="external_corpus.js?v=2"></script>
   <script src="portal_data.js?v=2"></script>
   <script src="portal_5512_data.js?v=2"></script>
   <script src="portal_5512.js?v=2"></script>

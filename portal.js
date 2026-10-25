@@ -1,4 +1,4 @@
-﻿// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
+// Bộ điều khiển trung tâm cho Hệ sinh thái 4 Phân hệ Công nghệ Nông nghiệp (Lớp 10, 11, 12)
 // Phần 1: Kiến thức tóm tắt từng bài, câu hỏi nâng cao & Công cụ phân tích lý thuyết
 // Phần 2: Tổng hợp 77 bài giảng PPT trình chiếu & dạy nhanh (+ 42 Chuyên đề)
 // Phần 3: Soạn đề theo học kì (Chuẩn Công văn 7991 - 6 bước + Kho 97 Đề học kì)

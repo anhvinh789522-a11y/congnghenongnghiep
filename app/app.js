@@ -373,6 +373,10 @@ function renderPpctTable() {
       </div>
     `;
   }
+
+  if (window.ExternalCorpus && typeof window.ExternalCorpus.updateStep1View === "function") {
+    window.ExternalCorpus.updateStep1View();
+  }
 }
 
 let pickerCurrentGrade = "all";
@@ -1475,6 +1479,7 @@ function generateExamFromMatrix(showNotification = true) {
 
   // 2. Sinh câu hỏi Đúng - Sai (TF)
   const tfList = [];
+  const selectedExtCorpus = (window.ExternalCorpus ? ExternalCorpus.getSelected() : []) || [];
   if (pc.tf.enabled) {
     const numQ = pc.tf.numQuestions;
     for (let i = 0; i < numQ; i++) {
@@ -1498,14 +1503,21 @@ function generateExamFromMatrix(showNotification = true) {
               : `Sai vì không phù hợp với yêu cầu kỹ thuật bài "${targetUnit.lesson}" (SGK Kết nối tri thức).`)
           };
         });
-        const baseStem = bankCandidate.stem || bankCandidate.context || "";
+        const extCorpus = selectedExtCorpus[i] || null;
+        let baseStem = bankCandidate.stem || bankCandidate.context || "";
+        if (extCorpus) {
+          baseStem = `Dựa vào dữ liệu thực tiễn trong đoạn trích ngữ liệu "${extCorpus.title}", hãy xác định tính Đúng/Sai của các mệnh đề sau:`;
+        } else if (state.questionSourceMode === "adapt") {
+          baseStem = adaptAgriculturalText(baseStem, i + 1);
+        }
         tfList.push({
           id: "tf_" + (i + 1),
           unitId: targetUnit.id,
           unitName: targetUnit.lesson,
           competency: bankCandidate.competency || targetUnit.competencies[0] || "SDCN",
           points: pc.tf.pointsPerQuestion,
-          stem: state.questionSourceMode === "adapt" ? adaptAgriculturalText(baseStem, i + 1) : baseStem,
+          stem: baseStem,
+          externalCorpus: extCorpus,
           statements: normStmts
         });
       }
@@ -1554,6 +1566,13 @@ function generateExamFromMatrix(showNotification = true) {
         for (let i = 0; i < countNeeded; i++) {
           const bankEssay = QUESTION_BANK.essay.find(e => e.unitId === u.id && !essayList.some(ex => ex.stem === e.stem))
                          || QUESTION_BANK.essay[essayList.length % QUESTION_BANK.essay.length];
+          const extEssayCorpus = (selectedExtCorpus.length > tfList.length)
+            ? selectedExtCorpus[tfList.length + essayList.length]
+            : (selectedExtCorpus.length > 0 && essayList.length === 0 ? selectedExtCorpus[0] : null);
+          let essayStem = bankEssay.stem;
+          if (extEssayCorpus && !essayList.some(e => e.externalCorpus && e.externalCorpus.id === extEssayCorpus.id)) {
+            essayStem = `[Tình huống thực tế: ${extEssayCorpus.title}]\nTừ tình huống kỹ thuật được nêu trong ngữ liệu đề cương, hãy phân tích và trả lời các yêu cầu sau:\n` + bankEssay.stem;
+          }
           essayList.push({
             id: "essay_" + (essayList.length + 1),
             unitId: u.id,
@@ -1561,7 +1580,8 @@ function generateExamFromMatrix(showNotification = true) {
             level: lvl,
             competency: u.competencies.join(", "),
             points: pointPerEssay,
-            stem: bankEssay.stem,
+            stem: essayStem,
+            externalCorpus: extEssayCorpus,
             rubric: [...bankEssay.rubric]
           });
         }
@@ -1675,6 +1695,15 @@ function renderExamEditor() {
         </div>
         ${tf.map((q, idx) => `
           <div class="q-compact-row">
+            ${q.externalCorpus ? `
+              <div style="background:#f0fdf4; border-left:4px solid #16a34a; border-radius:4px; padding:8px 12px; margin-bottom:8px; font-size:12.5px;">
+                <div style="font-weight:700; color:#15803d; margin-bottom:3px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>📖 Ngữ liệu bên ngoài theo Đề cương: ${escapeHtml(q.externalCorpus.title)}</span>
+                  <span style="font-size:11px; font-weight:normal; color:#16a34a;">Nguồn: ${escapeHtml(q.externalCorpus.source || '')}</span>
+                </div>
+                <div style="color:#334155; font-style:italic; line-height:1.45;">"${escapeHtml(q.externalCorpus.content)}"</div>
+              </div>
+            ` : ''}
             <div style="font-size:13px; margin-bottom:6px;">
               <strong>Câu ${idx + 1} (${q.points}đ — ${escapeHtml(q.unitName)}):</strong> ${escapeHtml(q.stem)}
             </div>
@@ -1730,6 +1759,15 @@ function renderExamEditor() {
         </div>
         ${essay.map((q, idx) => `
           <div class="q-compact-row">
+            ${q.externalCorpus ? `
+              <div style="background:#f0fdf4; border-left:4px solid #16a34a; border-radius:4px; padding:8px 12px; margin-bottom:8px; font-size:12.5px;">
+                <div style="font-weight:700; color:#15803d; margin-bottom:3px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>📖 Tình huống nông nghiệp thực tế / Đề cương: ${escapeHtml(q.externalCorpus.title)}</span>
+                  <span style="font-size:11px; font-weight:normal; color:#16a34a;">Nguồn: ${escapeHtml(q.externalCorpus.source || '')}</span>
+                </div>
+                <div style="color:#334155; font-style:italic; line-height:1.45;">"${escapeHtml(q.externalCorpus.content)}"</div>
+              </div>
+            ` : ''}
             <div style="font-weight:600; margin-bottom:4px;"><strong>Câu ${idx + 1} (${q.points} điểm — ${escapeHtml(q.unitName)}):</strong> ${escapeHtml(q.stem)}</div>
             <div style="background:#f8fafc; border-left:3px solid var(--primary); padding:6px 10px; font-size:12px; color:#334155;">
               <strong>Hướng dẫn chấm:</strong><br/>
@@ -1820,6 +1858,13 @@ function renderExamEditor() {
                 <input type="number" class="compact-num" step="0.25" min="0.25" value="${q.points}" onchange="updateExamQuestionPoint('tf', ${idx}, this.value)" /> đ
               </div>
             </div>
+            ${q.externalCorpus ? `
+              <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:6px; padding:6px 10px; margin-bottom:8px; font-size:12px;">
+                <strong style="color:#15803d;">📖 Ngữ liệu đề cương: ${escapeHtml(q.externalCorpus.title)}</strong>
+                <div style="color:#334155; font-style:italic; margin-top:2px;">"${escapeHtml(q.externalCorpus.content)}"</div>
+                <div style="font-size:11px; color:#16a34a; margin-top:3px;">📌 Nguồn: ${escapeHtml(q.externalCorpus.source || '')}</div>
+              </div>
+            ` : ''}
             <textarea rows="3" onchange="state.exam.tf[${idx}].stem = this.value">${escapeHtml(q.stem)}</textarea>
             <table class="std-table" style="margin-top:8px;">
               <thead>
@@ -1920,6 +1965,13 @@ function renderExamEditor() {
                 <input type="number" class="compact-num" step="0.25" value="${q.points}" onchange="updateExamQuestionPoint('essay', ${idx}, this.value)" /> đ
               </div>
             </div>
+            ${q.externalCorpus ? `
+              <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:6px; padding:6px 10px; margin-bottom:8px; font-size:12px;">
+                <strong style="color:#15803d;">📖 Tình huống nông nghiệp thực tiễn: ${escapeHtml(q.externalCorpus.title)}</strong>
+                <div style="color:#334155; font-style:italic; margin-top:2px;">"${escapeHtml(q.externalCorpus.content)}"</div>
+                <div style="font-size:11px; color:#16a34a; margin-top:3px;">📌 Nguồn: ${escapeHtml(q.externalCorpus.source || '')}</div>
+              </div>
+            ` : ''}
             <label style="font-size:12px; font-weight:600;">Nội dung câu hỏi tự luận:</label>
             <textarea rows="4" onchange="state.exam.essay[${idx}].stem = this.value">${escapeHtml(q.stem)}</textarea>
             <label style="font-size:12px; font-weight:600; margin-top:8px; display:block;">Hướng dẫn chấm & Biểu điểm chi tiết:</label>
@@ -2876,6 +2928,15 @@ function buildExamQuestionsOnlyHtml() {
     const pSum = tf.reduce((s, q) => s + Number(q.points), 0);
     html += `<p style="margin:10pt 0 4pt 0;"><strong>PHẦN II. Câu trắc nghiệm đúng sai (${pSum.toFixed(2)} điểm).</strong><br/><i>Thí sinh trả lời từ câu 1 đến câu ${tf.length}. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.</i></p>`;
     tf.forEach((q, idx) => {
+      if (q.externalCorpus) {
+        html += `
+          <div style="border:1pt solid #475569; padding:6pt 10pt; margin:8pt 0 4pt 0; background-color:#f8fafc;">
+            <p style="margin:0 0 3pt 0; font-weight:bold; font-size:10.5pt;">Đoạn trích ngữ liệu (Câu ${idx + 1}): ${escapeHtml(q.externalCorpus.title)}</p>
+            <p style="margin:0; font-style:italic; font-size:10.5pt; text-align:justify; line-height:1.4;">"${escapeHtml(q.externalCorpus.content)}"</p>
+            <p style="margin:3pt 0 0 0; text-align:right; font-size:9.5pt;"><em>(Nguồn: ${escapeHtml(q.externalCorpus.source || '')})</em></p>
+          </div>
+        `;
+      }
       html += `<p style="margin:6pt 0 2pt 0;"><strong>Câu ${idx + 1} (${q.points}đ):</strong> ${escapeHtml(q.stem)}</p>`;
       (q.statements || []).forEach(st => {
         html += `<p style="margin:2pt 0 2pt 14pt;"><strong>${escapeHtml(st.label)})</strong> ${escapeHtml(st.text)}</p>`;
@@ -2895,6 +2956,15 @@ function buildExamQuestionsOnlyHtml() {
     const pSum = essay.reduce((s, q) => s + Number(q.points), 0);
     html += `<p style="margin:10pt 0 4pt 0;"><strong>PHẦN TỰ LUẬN (${pSum.toFixed(2)} điểm).</strong></p>`;
     essay.forEach((q, idx) => {
+      if (q.externalCorpus && !tf.some(t => t.externalCorpus && t.externalCorpus.id === q.externalCorpus.id)) {
+        html += `
+          <div style="border:1pt solid #475569; padding:6pt 10pt; margin:8pt 0 4pt 0; background-color:#f8fafc;">
+            <p style="margin:0 0 3pt 0; font-weight:bold; font-size:10.5pt;">Tình huống nông nghiệp thực tiễn (Câu ${idx + 1}): ${escapeHtml(q.externalCorpus.title)}</p>
+            <p style="margin:0; font-style:italic; font-size:10.5pt; text-align:justify; line-height:1.4;">"${escapeHtml(q.externalCorpus.content)}"</p>
+            <p style="margin:3pt 0 0 0; text-align:right; font-size:9.5pt;"><em>(Nguồn: ${escapeHtml(q.externalCorpus.source || '')})</em></p>
+          </div>
+        `;
+      }
       html += `<p style="margin:6pt 0;"><strong>Câu ${idx + 1} (${q.points} điểm):</strong><br/>${escapeHtml(q.stem).replace(/\n/g, "<br/>")}</p>`;
     });
   }
