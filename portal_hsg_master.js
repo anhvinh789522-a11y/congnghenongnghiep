@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // HỆ THỐNG BỒI DƯỠNG & KHẢO THÍ HỌC SINH GIỎI (HSG) CẤP TỈNH / THÀNH PHỐ
 // Chuẩn Cấu trúc Sở GD&ĐT Đồng Nai (SKILL.md & Quyết định 1540/QĐ-SGDĐT)
 // Tích hợp Tinh hoa Đề HSG Thực chiến: Đồng Nai, TP. Huế (Mã 7011), TP.HCM, BR-VT, Bắc Giang
@@ -20,6 +20,10 @@ var escapeHtml = window.escapeHtml;
 
 const HSG_MASTER_STATE = {
   activeSubTab: "hsg_dongnai", // 'hsg_dongnai' | 'hsg_matrix_validator' | 'hsg_theory_handbook' | 'hsg_topics' | 'hsg_quiz' | 'ag_calc'
+  handbookMode: "curriculum", // 'curriculum' (77 Bai toan bo sach) | 'vdc_core' (9 Chuyen de cot loi)
+  handbookGrade: "cn10", // 'cn10' | 'cn11' | 'cn12'
+  handbookActiveLessonId: "cn10_b1",
+  handbookSearch: "",
   selectedLevel: "all", // 'all' | 'easy' | 'medium' | 'hard'
   activeExamId: "dn_easy_01", // 'dn_easy_01' | 'dn_easy_02' | 'dn_01' | 'dn_03' | 'dn_02' | 'dn_hard_02' | 'dn_auto'
   tableMode: "B", // 'A' (Trường Chuyên: 0.125đ Đúng + 0.25đ Giải thích) | 'B' (Trường Không chuyên: 0.25đ Đúng + 0.125đ Giải thích)
@@ -3149,6 +3153,894 @@ function downloadDocFile(htmlContent, fileName) {
   URL.revokeObjectURL(url);
 }
 
+// ============================================================================
+// HỆ THỐNG LÝ THUYẾT BỒI DƯỠNG HSG THEO CẤU TRÚC TOÀN BỘ SÁCH (77 BÀI)
+// KẾT HỢP GIẢI THÍCH BẢN CHẤT KHOA HỌC & PHÂN TÍCH CHUYÊN SÂU THEO CHỦ ĐỀ
+// ============================================================================
+
+const HSG_CHAPTER_DEEP_ANALYSIS = {
+  // KHỐI 10: CÔNG NGHỆ TRỒNG TRỌT (8 CHỦ ĐỀ)
+  cn10_cd1: {
+    themeTitle: "Chủ đề 1: Giới thiệu chung về trồng trọt & Sinh lý năng suất cây trồng",
+    grade: "cn10",
+    coreMechanisms: [
+      "1. Bản chất sinh lý quang hợp và tích lũy sinh khối: Pha sáng diễn ra trên màng Thylakoid của lục lạp, chuyển hóa quang năng thành hóa năng (ATP, NADPH) và giải phóng O2 từ quang phân ly nước. Pha tối (chu trình Calvin) diễn ra trong chất nền Stroma, enzyme RuBisCO xúc tác cố định CO2 thành hợp chất hữu cơ (C6H12O6). Năng suất kinh tế = Năng suất sinh học × Chỉ số thu hoạch (HI).",
+      "2. Sự khác biệt cơ bản giữa 3 nhóm thực vật C3, C4 và CAM: (a) C3 (Lúa, đậu, khoai) có điểm bù CO2 cao (30–70 ppm), xảy ra hô hấp sáng (photorespiration) làm tiêu hao 25–40% sản phẩm quang hợp khi trời nắng gắt và nồng độ O2 cao; (b) C4 (Ngô, mía, cao lương) có cấu tạo giải phẫu Kranz (tế bào mô giậu + tế bào bao bó mạch), dùng enzyme PEP-carboxylase cố định CO2 lần 1, điểm bù CO2 rất thấp (0–10 ppm), hoàn toàn KHÔNG có hô hấp sáng, hiệu suất quang hợp cực cao; (c) CAM (Dứa, thanh long, xương rồng) mở khí khổng ban đêm cố định CO2 thành malate, ban ngày đóng khí khổng chống mất nước.",
+      "3. Quy luật tối thiểu Liebig và quy luật giới hạn Shelford: Năng suất cây trồng bị giới hạn bởi yếu tố dinh dưỡng hoặc ngoại cảnh ở mức thấp nhất so với nhu cầu, việc bổ sung dư thừa các yếu tố khác không thể bù đắp được yếu tố tối thiểu."
+    ],
+    comparisonTable: {
+      headers: ["Đặc điểm sinh lý", "Nhóm cây C3 (Lúa, Đậu)", "Nhóm cây C4 (Ngô, Mía)", "Nhóm cây CAM (Dứa, Thanh long)"],
+      rows: [
+        ["Cấu tạo giải phẫu lá", "Chỉ có 1 loại lục lạp ở tế bào mô giậu", "2 loại lục lạp (mô giậu & bao bó mạch Kranz)", "Tế bào thịt lá chứa không bào dự trữ acid lớn"],
+        ["Enzyme cố định CO2 đầu tiên", "RuBisCO (ái lực với CO2 trung bình)", "PEP-carboxylase (ái lực CO2 cực mạnh)", "PEP-carboxylase (hoạt động ban đêm)"],
+        ["Thời gian cố định CO2", "Ban ngày", "Ban ngày (qua 2 không gian tế bào)", "Ban đêm (pha 1) và Ban ngày (pha 2)"],
+        ["Hô hấp sáng (Photorespiration)", "Có (làm giảm 25-40% sản phẩm)", "Không có (tiết kiệm tối đa năng lượng)", "Không có"],
+        ["Hiệu suất sử dụng nước (WUE)", "Thấp (400-500 g nước/g chất khô)", "Cao (250-350 g nước/g chất khô)", "Rất cao (50-100 g nước/g chất khô)"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Cây lúa nước là cây C4 vì sinh trưởng nhanh và cần nhiều nước' -> SAI. Cây lúa là cây C3 điển hình, có hô hấp sáng; các nhà khoa học đang nghiên cứu chuyển gen để tạo giống lúa C4.",
+      "Bẫy 2: 'Nhiệt độ ban đêm càng cao thì củ và hạt càng nhanh lớn' -> SAI. Ban đêm không có quang hợp, nếu nhiệt độ cao cây sẽ tăng cường hô hấp hiếu khí tiêu hao lượng đường dự trữ, làm giảm sút năng suất củ/hạt.",
+      "Bẫy 3: 'Bón phân thật nhiều để bù đắp cho điều kiện thiếu ánh sáng trong nhà màng' -> SAI. Theo quy luật Liebig, khi ánh sáng là yếu tố giới hạn (dưới điểm bù), cây không thể quang hợp tạo ATP/NADPH để hấp thu và đồng hóa đạm, bón nhiều chỉ gây ngộ độc và lốp đổ."
+    ]
+  },
+
+  cn10_cd2: {
+    themeTitle: "Chủ đề 2: Đất trồng, Hạt keo đất, Cơ chế trao đổi Cation & Cải tạo đất",
+    grade: "cn10",
+    coreMechanisms: [
+      "1. Cấu trúc micelle hạt keo đất: Nhân keo -> Lớp ion quyết định điện thế (quyết định keo âm/dương) -> Lớp ion bất động -> Lớp ion khuếch tán ngoài cùng liên kết yếu nhất. Keo âm phổ biến nhất ở đất canh tác.",
+      "2. Cơ chế trao đổi Cation rễ - keo đất: Lông hút rễ hô hấp tiết CO2 vào dung dịch đất: CO2 + H2O <-> H+ + HCO3-. Ion H+ được lông hút tiết ra để đổi chỗ tương đương điện tích với các cation K+, NH4+, Ca2+, Mg2+ trên lớp ion khuếch tán của keo đất, giải phóng chúng vào dung dịch đất để rễ hấp thụ.",
+      "3. Bản chất độ chua của đất: (a) Chua hoạt tính đo bằng pH_H2O (nồng độ H+ tự do); (b) Chua tiềm tàng đo bằng pH_KCl do H+ và Al3+ bám trên bề mặt hạt keo bị đẩy ra khi gặp muối KCl. Ion Al3+ thủy phân giải phóng 3 ion H+: Al3+ + 3H2O <-> Al(OH)3↓ + 3H+ làm chua đất sâu sắc và gây thui chột chóp rễ.",
+      "4. Cơ chế cải tạo đất phèn và đất mặn: Đất phèn chứa khoáng Pyrit (FeS2), khi thoát nước tiếp xúc không khí bị oxy hóa sinh ra axit sunfuric (H2SO4) làm sụt pH < 3.5; cần giữ nước ém phèn và bón vôi CaCO3 để kết tủa Al(OH)3 và Fe(OH)3. Đất mặn chứa nhiều ion Na+ bám trên keo đất làm phá vỡ cấu trúc viên đoàn lạp; bón thạch cao (CaSO4) để ion Ca2+ đẩy Na+ ra ngoài rồi thau rửa mặn."
+    ],
+    comparisonTable: {
+      headers: ["Tiêu chí phân biệt", "Đất chua phèn (Acid Sulfate)", "Đất mặn (Saline Soil)", "Đất xám bạc màu"],
+      rows: [
+        ["Nguyên nhân gây hại", "Tích tụ Al3+, Fe3+ di động và SO4(2-)", "Nồng độ muối tan (NaCl, Na2SO4) cao, EC > 4 dS/m", "Rửa trôi xói mòn mạnh, mất tầng sét và mùn"],
+        ["Trạng thái hạt keo", "Hạt keo bão hòa ion Al3+ và H+", "Hạt keo bão hòa ion Na+ (> 15% CEC)", "Dung tích hấp phụ CEC cực thấp (< 5 meq/100g)"],
+        ["Cơ chế hóa học cải tạo", "Bón vôi: [Keo]-2H+ + CaCO3 -> [Keo]-Ca2+ + CO2 + H2O", "Bón thạch cao: 2[Keo]-Na+ + CaSO4 -> [Keo]2-Ca2+ + Na2SO4", "Bón hữu cơ + cày sâu dần nâng cao hàm lượng mùn"],
+        ["Biện pháp thủy lợi", "Thau chua rửa phèn, ém phèn ngập nước", "Đắp đê ngăn mặn, thau rửa mặn bằng nước ngọt", "Tưới tiêu hợp lý, giữ ẩm bằng thảm phủ thực vật"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Giá thể trơ xốp như sỏi nhẹ Keramzit, bông khoáng Rockwool cung cấp dồi dào nguyên tố khoáng cho rễ' -> SAI. Giá thể trơ hoàn toàn không có dinh dưỡng, chỉ có chức năng cơ học làm giá đỡ và giữ ẩm/thoáng khí; toàn bộ dinh dưỡng do dung dịch tưới cung cấp.",
+      "Bẫy 2: 'Đất cát giữ phân tốt hơn đất sét vì hạt cát to có nhiều lỗ hổng chứa phân' -> SAI. Đất cát có diện tích bề mặt riêng rất nhỏ, hầu như không có keo sét và mùn nên CEC rất thấp, phân bón bị nước mưa rửa trôi triệt để.",
+      "Bẫy 3: 'Bón càng nhiều vôi bột thì đất càng tốt và màu mỡ' -> SAI. Bón thừa vôi làm kiềm hóa đất (pH > 7.5), làm kết tủa các ion vi lượng (Fe, Mn, Zn, Cu) thành dạng hydroxide không tan, cây bị bệnh úa vàng do thiếu vi lượng."
+    ]
+  },
+
+  cn10_cd3: {
+    themeTitle: "Chủ đề 3: Phân bón cây trồng, Hóa sinh dinh dưỡng & Quy tắc phối trộn",
+    grade: "cn10",
+    coreMechanisms: [
+      "1. Chuyển hóa các dạng đạm trong đất: (a) Phân Urê (NH2)2CO khi vào đất được enzyme Urease của vi sinh vật thủy phân: (NH2)2CO + 2H2O -> (NH4)2CO3 -> 2NH4+ + CO3(2-); (b) Quá trình Nitrat hóa: Vi khuẩn Nitrosomonas oxy hóa NH4+ thành NO2-, sau đó vi khuẩn Nitrobacter oxy hóa tiếp NO2- thành NO3- cho rễ hấp thụ.",
+      "2. Hiện tượng chua sinh lý của phân đạm vô cơ: Khi bón phân đạm amoni như SA ((NH4)2SO4) hoặc Amoni clorua (NH4Cl), cây hút chọn lọc cation NH4+ nhanh hơn anion SO4(2-) và Cl-, các anion này kết hợp với ion H+ trong dung dịch đất tạo thành axit H2SO4 và HCl làm đất bị chua dần theo thời gian.",
+      "3. Quy tắc BẤT KHẢ KHÁNG khi phối trộn và sử dụng phân bón: (a) Tuyệt đối KHÔNG trộn phân đạm amoni hoặc Urê với vôi bột (CaO, Ca(OH)2) hoặc tro bếp kiềm (chứa K2CO3) vì xảy ra phản ứng kiềm hóa đẩy khí Amoniac (NH3) bay hơi gây thất thoát đạm: 2NH4+ + Ca(OH)2 -> Ca2+ + 2NH3↑ + 2H2O; (b) Tuyệt đối KHÔNG trộn Super Lân (chứa Ca(H2PO4)2 dễ tan) với vôi vì tạo thành muối Canxi photphat Ca3(PO4)2 kết tủa trơ không tan trong nước.",
+      "4. Công nghệ phân bón mới: Phân tan chậm có kiểm soát (CRF) bọc màng polymer sinh học giải phóng dưỡng chất theo nhiệt độ/độ ẩm đất; Phân nano kích thước 1–100 nm thẩm thấu qua khí khổng nâng hiệu suất sử dụng từ 35% lên 85%."
+    ],
+    comparisonTable: {
+      headers: ["Nhóm phân bón", "Thành phần dinh dưỡng", "Tốc độ tác dụng", "Phương thức bón chủ yếu", "Ảnh hưởng đến đất"],
+      rows: [
+        ["Phân hữu cơ hoai mục", "Đa - Trung - Vi lượng, acid humic, mùn", "Chậm (cần thời gian khoáng hóa)", "Chủ yếu BÓN LÓT trước gieo trồng", "Tạo đoàn lạp, tăng độ phì nhiêu, xốp đất"],
+        ["Phân đạm (Urê, SA)", "Hàm lượng Nito cao (Urê 46% N)", "Rất nhanh (vài ngày sau bón)", "Chủ yếu BÓN THÚC chia nhiều đợt", "Bón liên tục gây chua đất sinh lý"],
+        ["Phân lân (Super lân, FMP)", "Hàm lượng P2O5 hữu hiệu", "Chậm đến trung bình, ít di động", "Chủ yếu BÓN LÓT kích thích ra rễ", "Lân nung chảy khử chua tốt cho đất phèn"],
+        ["Phân vi sinh vật", "Chủng VSV sống đặc hiệu (≥ 10^8 CFU/g)", "Tác dụng gián tiếp qua hoạt động VSV", "Trộn hạt giống hoặc bón quanh gốc", "Làm giàu hệ vi sinh vật bản địa của đất"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Phân vi sinh vật có thể thay thế hoàn toàn 100% phân hóa học vô cơ ngay trong 1 vụ' -> SAI. Vi sinh vật chỉ làm nhiệm vụ cố định N2 tự do hoặc phân giải lân khó tan, tốc độ giải phóng chất dinh dưỡng từ từ nên không thể đáp ứng nhu cầu đột biến lúc cây cần nhiều dưỡng chất.",
+      "Bẫy 2: 'Phun phân đạm qua lá vào buổi trưa nắng gắt để cây quang hợp hấp thu nhanh hơn' -> SAI. Buổi trưa nắng gắt khí khổng đóng lại, nước bốc hơi nhanh làm nồng độ muối khoáng tăng vọt gây cháy lá và rụng hoa."
+    ]
+  },
+
+  cn10_cd4: {
+    themeTitle: "Chủ đề 4: Công nghệ giống cây trồng, Di truyền & Nhân giống vô tính",
+    grade: "cn10",
+    coreMechanisms: [
+      "1. Cơ sở di truyền của ưu thế lai F1: Khi lai 2 dòng thuần chủng có kiểu gen khác nhau, đời F1 đạt trạng thái dị hợp tử tối đa ở nhiều cặp gen (AaBbCc...), tận dụng hiệu ứng siêu trội (overdominance) làm cây lai có sức sống, năng suất và khả năng chống chịu vượt trội so với cả bố và mẹ.",
+      "2. Quy luật thoái hóa giống do tự thụ tinh bắt buộc: Nếu lấy hạt giống cây lai F1 gieo cho vụ sau (F2), do quá trình phân ly độc lập và tái tổ hợp di truyền, tỷ lệ dị hợp tử giảm 50% sau mỗi thế hệ, làm xuất hiện các cặp gen lặn đồng hợp tử có hại dẫn đến cây còi cọc, phân ly kiểu hình mạnh, giảm sút năng suất nghiêm trọng.",
+      "3. Cơ sở khoa học của vi nhân giống bằng nuôi cấy mô tế bào (In vitro): Dựa trên tính toàn năng của tế bào thực vật (Totipotency). Tế bào sinh dưỡng mang đầy đủ bộ mã di truyền của cơ thể, dưới tác động của tỷ lệ hormone sinh trưởng Auxin/Cytokinin trong môi trường MS: (a) Auxin/Cytokinin cân bằng -> Kích thích tạo mô sẹo (Callus); (b) Cytokinin cao -> Kích thích bật chồi; (c) Auxin cao -> Kích thích ra rễ hoàn chỉnh.",
+      "4. Cơ chế tạo cây đa bội bằng Colchicine: Colchicine ức chế sự hình thành thoi vô sắc trong quá trình phân bào nguyên phân, làm các nhiễm sắc thể nhân đôi nhưng không phân ly về 2 cực, tạo tế bào 4n (tứ bội). Khi lai 4n với 2n tạo ra cây 3n (tam bội). Cây 3n bất thụ không tạo được hạt, kích thước quả và lá to (Dưa hấu không hạt, chuối 3n)."
+    ],
+    comparisonTable: {
+      headers: ["Phương pháp nhân giống", "Bản chất di truyền", "Hệ số nhân giống", "Độ sạch bệnh virút", "Ưu điểm nổi bật"],
+      rows: [
+        ["Nuôi cấy mô In vitro", "Vô tính (giữ nguyên 100% gen mẹ)", "Cực cao (hàng triệu cây/năm từ 1 đỉnh sinh trưởng)", "Rất cao (khử trùng đỉnh sinh trưởng sạch virút)", "Tạo cây giống đồng loạt, sạch bệnh, chủ động quanh năm"],
+        ["Giâm cành / Chiết cành", "Vô tính (nguyên phân từ mô phân sinh)", "Thấp đến trung bình", "Dễ truyền bệnh virút từ cây mẹ", "Đơn giản, rẻ tiền, cây con nhanh ra hoa kết quả"],
+        ["Sản xuất hạt lai F1", "Hữu tính (dị hợp tử siêu trội)", "Phụ thuộc sản lượng hạt", "Hạt có thể mang nấm bệnh truyền qua phôi", "Năng suất vượt trội 20-30% so với giống thuần"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Hạt giống thu hoạch từ ruộng lúa lai F1 đem gieo vụ sau vẫn cho năng suất bằng hoặc cao hơn vụ trước' -> SAI. Hạt F2 bị phân ly di truyền làm giảm sút ưu thế lai từ 25-40%, cây chín không đều.",
+      "Bẫy 2: 'Cây giống nuôi cấy mô in vitro sau khi ra khỏi ống nghiệm là đem trồng ngay ra ngoài đồng trống nắng to' -> SAI. Cây mô trong ống nghiệm có lớp cutin rất mỏng và khí khổng chưa hoàn thiện, phải qua giai đoạn huấn luyện (vườn ươm thích nghi 2-3 tuần) trước khi trồng đại trà."
+    ]
+  },
+
+  cn10_cd5: {
+    themeTitle: "Chủ đề 5: Phòng trừ sâu, bệnh hại cây trồng & Quản lý dịch hại tổng hợp (IPM)",
+    grade: "cn10",
+    coreMechanisms: [
+      "1. Nguyên lý cơ bản của IPM: Không hướng tới tiêu diệt triệt để 100% sâu hại, mà giữ mật độ dịch hại ở dưới ngưỡng gây hại kinh tế (EIL - Economic Injury Level). Ưu tiên các biện pháp sinh học, canh tác để bảo vệ thiên địch và môi trường; thuốc hóa học chỉ là biện pháp cứu cánh cuối cùng.",
+      "2. Cơ chế tác động của thuốc bảo vệ thực vật sinh học: (a) Chế phẩm vi khuẩn Bt (Bacillus thuringiensis): Chứa tinh thể protein độc δ-endotoxin; khi sâu ăn phải, trong môi trường kiềm (pH > 9) của ruột giữa sâu, tinh thể bị hòa tan và hoạt hóa bởi enzyme protease tạo các lỗ thủng trên màng tế bào biểu mô ruột, làm sâu ngừng ăn và chết sau 2–4 ngày; (b) Nấm ký sinh Beauveria bassiana (nấm trắng) và Metarhizium anisopliae (nấm xanh): Bào tử bám vào biểu bì sâu, nảy mầm tiết enzyme chitinase chọc thủng lớp vỏ cutin xâm nhập vào xoang máu hút chất dinh dưỡng.",
+      "3. Cơ chế sâu kháng thuốc hóa học: Do chọn lọc tự nhiên khi phun thuốc liên tục cùng 1 hoạt chất với liều lượng không chuẩn, các cá thể sâu mang đột biến gen kháng thuốc (biến đổi thụ thể đích hoặc tăng cường enzyme phân hủy thuốc cytochrome P450) sống sót và nhân nhanh thành quần thể kháng thuốc."
+    ],
+    comparisonTable: {
+      headers: ["Biện pháp trong IPM", "Bản chất tác động", "Thời điểm áp dụng", "Ưu điểm", "Hạn chế"],
+      rows: [
+        ["Biện pháp canh tác", "Vệ sinh đồng ruộng, luân canh, cày ải, bón phân cân đối", "Thường xuyên, xuyên suốt vụ", "Ngăn chặn mầm mống sâu bệnh từ gốc, chi phí thấp", "Không dập tắt được khi dịch bùng phát lớn"],
+        ["Biện pháp sinh học", "Sử dụng thiên địch (ong mắt đỏ, bọ rùa) và chế phẩm vi sinh", "Đầu vụ hoặc khi sâu xuất hiện ở mật độ thấp", "An toàn tuyệt đối cho người, không gây kháng thuốc", "Tác dụng chậm hơn thuốc hóa học, dễ bị ảnh hưởng thời tiết"],
+        ["Biện pháp hóa học", "Phun thuốc BVTV hóa học đặc hiệu", "Chỉ khi mật độ sâu vượt ngưỡng hành động (ET)", "Tác dụng nhanh, dập dịch tức thì trên diện rộng", "Dễ gây ngộ độc, tiêu diệt thiên địch, gây kháng thuốc, tồn dư"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Phun thuốc hóa học định kỳ 7 ngày/lần cho dù trên ruộng không hề có sâu bệnh để phòng ngừa' -> SAI. Vi phạm nguyên tắc 4 đúng trong BVTV, làm tiêu diệt hết thiên địch có ích và nhanh chóng tạo dòng sâu siêu kháng thuốc.",
+      "Bẫy 2: 'Có thể pha chung thuốc trừ sâu sinh học Bt với thuốc trừ nấm hóa học gốc đồng để tiết kiệm công phun' -> SAI. Thuốc trừ nấm gốc đồng có tính sát khuẩn mạnh sẽ tiêu diệt hoặc vô hiệu hóa các tế bào vi khuẩn Bt sống trong chế phẩm."
+    ]
+  },
+
+  cn10_cd6_7: {
+    themeTitle: "Chủ đề 6 & 7: Kỹ thuật trồng trọt & Nông nghiệp công nghệ cao (Nhà kính, Thủy canh, IoT)",
+    grade: "cn10",
+    coreMechanisms: [
+      "1. Bản chất công nghệ nhà màng / nhà kính: Hiệu ứng nhà kính nhân tạo giữ nhiệt độ ấm vào mùa lạnh; màng polyethylene (PE) khuếch tán ánh sáng chống cháy lá; lưới chắn côn trùng 50 mesh ngăn cản bọ trĩ, phấn trắng xâm nhập truyền virus bệnh xoăn lá.",
+      "2. Hệ thống tưới nhỏ giọt kết hợp bón phân (Fertigation): Nước và các ion khoáng được hòa tan chính xác theo tỷ lệ thích hợp và cấp trực tiếp vào vùng rễ tích cực của cây với lưu lượng nhỏ (1–3 lít/giờ), tiết kiệm 40–60% nước tưới và 30% phân bón so với tưới tràn, ngăn ngừa rửa trôi phân xuống tầng nước ngầm.",
+      "3. Cơ chế dinh dưỡng trong trồng cây không dùng đất (Thủy canh): Kiểm soát 2 chỉ số sống còn: (a) Độ dẫn điện EC (Electrical Conductivity, đơn vị mS/cm): Đặc trưng cho tổng nồng độ muối khoáng hòa tan; nếu EC quá cao (> 3.0 mS/cm) tạo dung dịch ưu trương làm rễ mất nước gây héo rũ sinh lý; nếu EC quá thấp (< 1.0 mS/cm) cây thiếu dinh dưỡng; (b) Độ pH dung dịch tối ưu từ 5.5–6.5: Ở dải pH này, tất cả các nguyên tố đa, trung, vi lượng (đặc biệt là Fe2+, Mn2+, P) đều ở dạng hòa tan mà rễ hấp thu thuận lợi nhất.",
+      "4. Điều khiển quang chu kỳ nhân tạo bằng đèn LED: Cây ngày ngắn (Cúc, dâu tây) cần đêm dài để phân hóa mầm hoa; chiếu sáng ngắt quãng ban đêm (Night-break) ức chế ra hoa để nuôi thân lá cao lớn, khi muốn ra hoa thì ngừng chiếu sáng."
+    ],
+    comparisonTable: {
+      headers: ["Hệ thống canh tác", "Đặc điểm cấu tạo & Vận hành", "Kiểm soát oxy vùng rễ", "Ưu điểm nổi bật", "Nhược điểm & Rủi ro"],
+      rows: [
+        ["Thủy canh hồi lưu (NFT)", "Dung dịch dinh dưỡng chảy thành màng mỏng 1-2 mm qua máng nghiêng", "Tốt (phần trên rễ tiếp xúc trực tiếp không khí)", "Tiết kiệm nước và phân bón, tuần hoàn khép kín", "Mất điện làm bơm ngừng, rễ cây khô héo rất nhanh"],
+        ["Khí canh (Aeroponics)", "Rễ treo lơ lửng trong không khí, được phun sương dinh dưỡng định kỳ", "Tối ưu nhất (100% rễ tiếp xúc oxy dồi dào)", "Cây lớn nhanh gấp 1.5-2 lần, tiết kiệm tối đa nước", "Chi phí đầu tư cao, vòi phun sương dễ bị tắc cặn khoáng"],
+        ["Trồng trên giá thể tưới nhỏ giọt", "Cây trồng trong bầu xơ dừa/tro trấu, cắm que tưới nhỏ giọt", "Tốt nhờ độ xốp thoáng khí của giá thể", "Dễ làm, phù hợp đa số cây ăn quả (Dưa lưới, Cà chua bi)", "Cần xử lý tanin và lignin trong mụn dừa trước khi trồng"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Dung dịch thủy canh pha càng đậm đặc muối khoáng thì rau màu càng lớn nhanh và xanh mướt' -> SAI. Nồng độ muối quá cao (EC cao) làm áp suất thẩm thấu dung dịch vượt quá áp suất thẩm thấu của tế bào lông hút, nước từ rễ bị hút ngược ra ngoài làm cây héo chết.",
+      "Bẫy 2: 'Mụn xơ dừa tươi mới bóc từ quả dừa có thể dùng ngay làm giá thể ươm hạt' -> SAI. Mụn dừa tươi chứa hàm lượng Tanin và Lignin rất cao (vị chát) gây ức chế phân chia tế bào rễ, bắt buộc phải ngâm xả nước nhiều lần và ngâm nước vôi để khử chát trước khi dùng."
+    ]
+  },
+
+  cn10_cd8: {
+    themeTitle: "Chủ đề 8: Bảo vệ môi trường trong trồng trọt & Nông nghiệp tuần hoàn",
+    grade: "cn10",
+    coreMechanisms: [
+      "1. Cơ chế ngộ độc hữu cơ ở ruộng lúa: Khi vùi rơm rạ tươi vào ruộng ngập nước trong điều kiện yếm khí (thiếu oxy), vi sinh vật kỵ khí phân hủy sinh ra các khí độc (H2S, CH4) và các acid hữu cơ chuỗi ngắn (acetic, butyric). Các chất độc này làm rễ lúa bị thối đen, không hút được dinh dưỡng, lá vàng lụi.",
+      "2. Cơ chế ủ phân hữu cơ hiếu khí (Composting): Vi sinh vật hiếu khí phân giải hợp chất hữu cơ sinh nhiệt; ở giai đoạn nhiệt cao (Thermophilic phase 55–65°C kéo dài 5–7 ngày) tiêu diệt triệt để trứng giun sán, hạt cỏ dại và nấm bệnh truyền nhiễm.",
+      "3. Nguyên tắc Nông nghiệp tuần hoàn: Phụ phẩm của ngành trồng trọt (rơm rạ, thân ngô) làm thức ăn cho chăn nuôi hoặc giá thể nấm; chất thải chăn nuôi được ủ biogas/compost làm phân bón hữu cơ trả lại cho đất trồng, khép kín chu trình vật chất và giảm phát thải CO2, CH4."
+    ],
+    comparisonTable: {
+      headers: ["Tiêu chuẩn sản xuất", "Quy định phân bón & Hóa chất", "Thời gian cách ly (PHI)", "Ghi chép truy xuất nguồn gốc", "Mục tiêu hướng tới"],
+      rows: [
+        ["VietGAP Trồng trọt", "Cho phép dùng hóa học nhưng phải trong danh mục và đúng liều", "Bắt buộc tuân thủ nghiêm ngặt theo nhãn thuốc", "Bắt buộc ghi nhật ký đồng ruộng chi tiết", "An toàn thực phẩm cho người tiêu dùng"],
+        ["Nông nghiệp Hữu cơ (Organic)", "Nghiêm cấm 100% phân hóa học, thuốc trừ sâu hóa học, giống biến đổi gen", "Không áp dụng vì không dùng hóa chất", "Truy xuất nguồn gốc nghiêm ngặt toàn chuỗi", "Bảo vệ hệ sinh thái và sức khỏe bền vững"]
+      ]
+    },
+    examTraps: [
+      "Bẫy: 'Đốt rơm rạ ngay trên đồng sau thu hoạch là biện pháp tốt nhất để diệt sâu bệnh và bổ sung tro giàu phân bón cho đất' -> SAI. Đốt rơm rạ thiêu chết toàn bộ hệ vi sinh vật có ích tầng mặt đất, làm chai cứng đất, gây ô nhiễm khói bụi mù mịt và làm thất thoát toàn bộ đạm, hữu cơ vào khí quyển."
+    ]
+  },
+
+  // KHỐI 11: CÔNG NGHỆ CHĂN NUÔI (6 CHỦ ĐỀ)
+  cn11_cd1: {
+    themeTitle: "Chủ đề 1: Giới thiệu chung về chăn nuôi & Phương thức chăn nuôi hiện đại",
+    grade: "cn11",
+    coreMechanisms: [
+      "1. Vai trò chuyển hóa sinh học của ngành chăn nuôi: Biến đổi các phụ phẩm thực vật khó tiêu đối với người (cỏ, rơm rạ, cám) nhờ hệ vi sinh vật đường ruột của vật nuôi thành nguồn thực phẩm giàu protein có giá trị sinh học cao (thịt, trứng, sữa) chứa đầy đủ các acid amin thiết yếu.",
+      "2. Cơ chế phát thải khí nhà kính trong chăn nuôi: (a) Khí Methane (CH4) sinh ra từ quá trình lên men yếm khí ở dạ cỏ gia súc nhai lại (bò, trâu, dê) do vi khuẩn cổ sinh methane (Methanogens) kết hợp CO2 + 4H2 -> CH4 + 2H2O; (b) Khí N2O sinh ra từ quá trình phân hủy phân gia súc khi quản lý chất thải không đúng kỹ thuật. CH4 có tiềm năng làm nóng lên toàn cầu cao gấp 28 lần CO2."
+    ],
+    comparisonTable: {
+      headers: ["Phương thức chăn nuôi", "Đặc điểm chuồng trại & Chăm sóc", "Năng suất & FCR", "Kiểm soát an toàn sinh học", "Phúc lợi động vật"],
+      rows: [
+        ["Chăn thả tự do", "Không có chuồng hoặc chuồng tạm, gia súc tự tìm thức ăn", "Thấp, thời gian nuôi dài, FCR cao", "Rất khó kiểm soát, dễ lây nhiễm dịch bệnh hoang dã", "Tự do vận động nhưng chịu rủi ro thời tiết khắc nghiệt"],
+        ["Bán chăn thả", "Có chuồng trại kết hợp sân chơi / bãi chăn thả có kiểm soát", "Trung bình khá, chất lượng thịt thơm ngon", "Khá tốt nếu có hàng rào cách ly và tiêm phòng đủ", "Tốt, cân bằng giữa vận động và bảo vệ sức khỏe"],
+        ["Nuôi nhốt công nghiệp thâm canh", "Chuồng kín hoàn toàn, tự động hóa cho ăn, uống, kiểm soát vi khí hậu", "Rất cao, tăng trọng nhanh, FCR tối ưu", "Tối ưu nhất nhờ cách ly hoàn toàn với mầm bệnh bên ngoài", "Cần đảm bảo diện tích sàn và mật độ nuôi hợp lý"]
+      ]
+    },
+    examTraps: [
+      "Bẫy: 'Chăn nuôi công nghiệp chuồng kín luôn làm suy giảm chất lượng thịt so với chăn thả tự do' -> SAI. Chất lượng thịt phụ thuộc vào giống, khẩu phần dinh dưỡng cân đối và quy trình giết mổ nhân đạo; chuồng kín kiểm soát được dịch bệnh và loại bỏ hoàn toàn tồn dư kháng sinh."
+    ]
+  },
+
+  cn11_cd2: {
+    themeTitle: "Chủ đề 2: Công nghệ giống vật nuôi, Chọn lọc di truyền & Công nghệ sinh sản",
+    grade: "cn11",
+    coreMechanisms: [
+      "1. Hệ số di truyền (h2) của các tính trạng ở vật nuôi: (a) Tính trạng sinh sản (số con đẻ ra/lứa, tỷ lệ thụ thai) có h2 thấp (0.1–0.15) -> Chịu ảnh hưởng lớn bởi dinh dưỡng và môi trường, chọn lọc cá thể ít hiệu quả, phải dùng phương pháp lai kinh tế tận dụng ưu thế lai; (b) Tính trạng sinh trưởng (tăng trọng ADG, tiêu tốn thức ăn FCR) có h2 trung bình (0.3–0.4); (c) Tính trạng thân thịt (tỷ lệ nạc, diện tích cơ thăn) có h2 cao (0.5–0.6) -> Chịu sự chi phối mạnh của kiểu gen, chọn lọc cá thể trực tiếp đem lại hiệu quả di truyền rất nhanh.",
+      "2. Bản chất các phương pháp lai giống: (a) Lai kinh tế: Cho phối giữa 2 hoặc nhiều giống thuần khác nhau, toàn bộ con lai F1 được nuôi thương phẩm lấy thịt, trứng, sữa, TUYỆT ĐỐI KHÔNG giữ làm giống; (b) Lai cải tạo (lai hấp thu): Dùng đực giống ngoại thuần phối liên tục qua 4–5 thế hệ (F1, F2, F3, F4) với cái nền địa phương để biến đổi cơ bản đặc tính giống bản địa thành giống ngoại; (c) Lai tạo thành (lai phát triển): Phối giữa các giống để tổng hợp các đặc tính quý, sau đó tự phối và chọn lọc cố định kiểu gen tạo thành giống mới.",
+      "3. Công nghệ thụ tinh nhân tạo (AI): Tinh dịch sau khi khai thác được kiểm tra hoạt lực (A ≥ 0.7), mật độ (C), pha loãng bằng môi trường đệm dinh dưỡng chứa kháng sinh và chất chống sốc lạnh; bảo quản ngắn ngày ở 17°C (tinh lợn) hoặc đóng cọng rạ trữ đông trong nitơ lỏng -196°C (tinh bò) duy trì khả năng thụ tinh hàng chục năm."
+    ],
+    comparisonTable: {
+      headers: ["Phương pháp nhân giống", "Mục đích chính", "Cách tiến hành phối giống", "Sản phẩm đời con", "Lưu ý sống còn"],
+      rows: [
+        ["Nhân giống thuần chủng", "Bảo tồn nguồn gen quý hoặc nhân đàn giống thuần", "Đực và Cái cùng một giống thuần (VD: Lợn Móng Cái × Móng Cái)", "Con thuần chủng mang đặc tính ổn định", "Phải tránh giao phối cận huyết (đồng huyết)"],
+        ["Lai kinh tế đơn (2 giống)", "Tạo ưu thế lai tối đa để nuôi thịt thương phẩm", "Đực ngoại thuần × Cái nội thuần (VD: Đực Yorkshire × Nái Móng Cái)", "Con lai F1 tăng trọng nhanh, thịt nạc, chống chịu tốt", "100% con lai F1 chuyển nuôi thịt, KHÔNG làm giống"],
+        ["Lai kinh tế 3 giống", "Khai thác tối đa ưu thế lai cả ở con mẹ và đời con", "Đực giống thứ 3 × Nái lai F1 (VD: Đực Duroc × Nái F1 (Landrace × Yorkshire))", "Con lai 3 máu có tỷ lệ nạc cao nhất (> 60%), FCR thấp", "Quy trình công nghệ cao, đòi hỏi nái F1 chuẩn"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Chọn con lợn giống tốt nhất là chỉ cần nhìn vào ngoại hình to béo, bóng mượt lúc nhỏ' -> SAI. Ngoại hình chỉ phản ánh một phần; chỉ số chọn giống hiện đại bắt buộc phải dựa vào kiểm tra cá thể (Performance test) và giá trị giống ước tính EBV/BLUP thông qua năng suất của đời bố mẹ và anh chị em ruột.",
+      "Bẫy 2: 'Giữ lại những con nái lai F1 (Yorkshire × Móng Cái) to đẹp để tự phối giống với đực lai F1 cùng lứa' -> SAI. Lai cận huyết giữa các cá thể lai F1 sẽ dẫn tới thoái hóa giống nghiêm trọng, thai chết lưu, dị tật bẩm sinh và mất hoàn toàn ưu thế lai."
+    ]
+  },
+
+  cn11_cd3: {
+    themeTitle: "Chủ đề 3: Công nghệ thức ăn chăn nuôi, Hóa sinh tiêu hóa & Chế biến ủ chua",
+    grade: "cn11",
+    coreMechanisms: [
+      "1. Đặc điểm tiêu hóa ở gia súc nhai lại vs dạ dày đơn: (a) Động vật nhai lại (Bò, dê) có dạ dày 4 ngăn: Dạ cỏ (Rumen) chiếm 80% thể tích, chứa hàng tỷ vi khuẩn, protozoa và nấm kỵ khí lên men xenlulozơ thành các acid béo bay hơi (VFA: Acetic, Propionic, Butyric) cung cấp 70–80% năng lượng cho vật nuôi; vi sinh vật dạ cỏ còn tự tổng hợp được protein cơ thể từ nguồn đạm phi protein (Urê) và tổng hợp toàn bộ vitamin nhóm B; (b) Động vật dạ dày đơn (Lợn, gà) không tiêu hóa được chất xơ thô, bắt buộc phải cung cấp đầy đủ các acid amin thiết yếu (Lysine, Methionine, Threonine, Tryptophan).",
+      "2. Bản chất hóa sinh của quá trình ủ chua thức ăn thô xanh: Nén chặt nguyên liệu (cỏ voi, thân cây ngô) trong hầm ủ tạo môi trường yếm khí tuyệt đối. Quần thể vi khuẩn Lactic tự nhiên (Lactobacillus) lên men nguồn đường tan trong cỏ sinh ra acid lactic, làm hạ nhanh độ pH của khối ủ xuống 3.8–4.2. Độ pH acid này ức chế hoàn toàn các vi khuẩn gây thối (Clostridium) và nấm mốc, giúp bảo quản thức ăn nhiều tháng mà không mất chất dinh dưỡng.",
+      "3. Công nghệ thức ăn hỗn hợp hoàn chỉnh TMR (Total Mixed Ration): Phối trộn toàn bộ thức ăn thô xanh, thức ăn tinh, phụ phẩm, khoáng và vitamin thành một hỗn hợp đồng nhất theo khẩu phần tính toán khoa học, giúp dạ cỏ bò sữa luôn giữ ổn định độ pH (6.2–6.8), tối đa hóa quá trình lên men và triệt tiêu thói quen ăn chọn lọc của gia súc."
+    ],
+    comparisonTable: {
+      headers: ["Phương pháp bảo quản chế biến", "Cơ chế tác động", "Độ ẩm sản phẩm", "Hao hụt dinh dưỡng", "Ưu điểm & Nhược điểm"],
+      rows: [
+        ["Ủ chua thức ăn thô xanh", "Lên men yếm khí sinh acid lactic hạ pH xuống 3.8-4.2", "Cao (65 - 70%)", "Rất thấp (5 - 10%)", "Giữ nguyên vitamin và độ ngon miệng; đòi hỏi nén thật chặt và kín khí"],
+        ["Phơi khô / Sấy khô", "Hạ độ ẩm dưới 14% để ức chế enzyme và vi sinh vật", "Thấp (≤ 14%)", "Cao (20 - 30% do gãy vụn lá và oxy hóa carotene)", "Dễ bảo quản vận chuyển; phụ thuộc hoàn toàn vào thời tiết nắng"],
+        ["Ủ rơm với dung dịch Urê", "Urê thủy phân tạo NH3 kiềm hóa phá vỡ liên kết Lignin-Xenlulozơ", "Trung bình (40 - 50%)", "Làm giàu thêm hàm lượng protein thô cho rơm", "Tăng tỷ lệ tiêu hóa rơm từ 35% lên 55%; cần che đậy kín tránh bay hơi NH3"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Cho bò ăn trực tiếp phân đạm Urê hạt tinh khiết với số lượng lớn để bổ sung đạm nhanh' -> SAI. Bò sẽ bị ngộ độc Amoniac cấp tính dẫn đến trướng cỏ và tử vong trong vài giờ; Urê chỉ được phối trộn tối đa 1% trong khẩu phần hoặc dùng ủ rơm, và tuyệt đối không cho bê non chưa hoàn thiện dạ cỏ ăn Urê.",
+      "Bẫy 2: 'Túi ủ chua cỏ bị rách một lỗ nhỏ không cần dán lại vì vi khuẩn lactic vẫn hoạt động bình thường' -> SAI. Không khí lọt vào sẽ chuyển khối ủ từ yếm khí sang hiếu khí, nấm mốc phát triển sinh độc tố mycotoxin và vi khuẩn Clostridium làm thối rữa toàn bộ khối thức ăn."
+    ]
+  },
+
+  cn11_cd4: {
+    themeTitle: "Chủ đề 4: Phòng, trị bệnh cho vật nuôi & Miễn dịch học thú y",
+    grade: "cn11",
+    coreMechanisms: [
+      "1. Cơ chế miễn dịch chủ động vs miễn dịch thụ động: (a) Miễn dịch chủ động do tiêm Vaccine (chứa kháng nguyên là virus/vi khuẩn đã bị làm yếu, giết chết hoặc mảnh kháng nguyên tái tổ hợp): Cơ thể vật nuôi nhận diện kháng nguyên, kích hoạt tế bào lympho B và T sản sinh kháng thể đặc hiệu và hình thành tế bào nhớ miễn dịch (Memory cells); cần 14–21 ngày để đạt hiệu giá kháng thể bảo hộ, tác dụng kéo dài 6–12 tháng; (b) Miễn dịch thụ động: Cơ thể nhận trực tiếp kháng thể từ bên ngoài (Kháng thể mẹ truyền qua sữa đầu Colostrum trong 24 giờ đầu sau sinh, hoặc tiêm kháng huyết thanh); có tác dụng bảo vệ ngay lập tức nhưng chỉ tồn tại ngắn ngày (vài tuần).",
+      "2. Phân biệt bản chất gây bệnh giữa Virus và Vi khuẩn: Virus (Dịch tả lợn châu Phi ASF, Cúm gia cầm H5N1, PRRS, Lở mồm long móng FMD) là ký sinh nội bào bắt buộc, không có cấu tạo tế bào, hoàn toàn KHÔNG bị tiêu diệt bởi thuốc kháng sinh. Vi khuẩn (Tụ huyết trùng, Phó thương hàn, E. coli) có cấu tạo tế bào nhân sơ, bị ức chế hoặc tiêu diệt bởi kháng sinh thông qua ức chế tổng hợp thành tế bào (Penicillin), ức chế ribosome tổng hợp protein (Tetracycline) hoặc ức chế nhân đôi DNA (Quinolone).",
+      "3. Nguyên lý An toàn sinh học 3 cấp độ: (a) Cách ly sinh học (Hàng rào, hố sát trùng, mạng lưới lưới ngăn chim chuột, buồng tắm sát trùng công nhân); (b) Vệ sinh khử trùng (Quy trình All-in All-out cùng vào cùng ra, để trống chuồng 14–21 ngày quét vôi và phun sát trùng); (c) Kiểm soát nguồn vào (Kiểm dịch con giống sạch bệnh PCR, xử lý nhiệt thức ăn và nước uống)."
+    ],
+    comparisonTable: {
+      headers: ["Thuốc / Chế phẩm thú y", "Bản chất thành phần", "Đối tượng tác động", "Mục đích sử dụng", "Hậu quả khi lạm dụng sai quy định"],
+      rows: [
+        ["Vaccine (Vắc xin)", "Kháng nguyên (Virus/vi khuẩn làm yếu hoặc bất hoạt)", "Hệ miễn dịch của vật nuôi khỏe mạnh", "Phòng bệnh chủ động lâu dài trước khi nhiễm", "Tiêm khi con vật đang ốm sốt làm bệnh bùng phát nặng hơn"],
+        ["Kháng sinh (Antibiotics)", "Hợp chất hóa sinh ức chế/diệt tế bào vi khuẩn", "Vi khuẩn gây bệnh (KHÔNG diệt được virus)", "Điều trị khi vật nuôi đã nhiễm khuẩn", "Tạo dòng vi khuẩn đa kháng thuốc (AMR), tồn dư trong thực phẩm"],
+        ["Kháng huyết thanh (Antiserum)", "Chứa kháng thể đặc hiệu tinh chế sẵn", "Độc tố vi khuẩn hoặc mầm bệnh đang xâm nhập", "Cấp cứu điều trị khẩn cấp giai đoạn đầu nhiễm", "Chỉ tạo miễn dịch tạm thời vài ngày, giá thành cao"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Khi đàn lợn bị dịch tả lợn châu Phi (ASF), biện pháp tốt nhất là tiêm kháng sinh liều cao kết hợp bổ sung thuốc bổ để chữa khỏi' -> SAI. ASF là bệnh do virus, hiện chưa có thuốc điều trị đặc hiệu; việc tiêm thuốc chỉ làm lây lan mầm bệnh nhanh hơn qua đầu kim tiêm; bắt buộc phải tiêu hủy đàn bệnh và thực hiện an toàn sinh học.",
+      "Bẫy 2: 'Trộn kháng sinh phòng bệnh định kỳ vào thức ăn chăn nuôi hằng ngày để vật nuôi không bao giờ bị ốm' -> SAI. Vi phạm nghiêm trọng Luật Chăn nuôi và an toàn thực phẩm, làm vi khuẩn kháng thuốc (nhờ truyền plasmid kháng thuốc) và gây nguy hiểm trực tiếp cho sức khỏe con người."
+    ]
+  },
+
+  cn11_cd5: {
+    themeTitle: "Chủ đề 5: Công nghệ chuồng trại, Nuôi dưỡng chăm sóc & Vi khí hậu chuồng nuôi",
+    grade: "cn11",
+    coreMechanisms: [
+      "1. Nguyên lý vận hành chuồng kín áp suất âm kiểu hầm (Tunnel Ventilation): Quạt hút công suất lớn đặt ở cuối chuồng liên tục hút không khí ra ngoài tạo áp suất âm (chênh lệch áp suất) bên trong chuồng, buộc không khí tươi mát từ bên ngoài phải tràn qua giàn tấm làm mát Cooling Pad đặt ở đầu chuồng. Nước chảy trên Cooling Pad bay hơi thu nhiệt, làm nhiệt độ luồng khí giảm từ 5–8°C trước khi thổi dọc qua cơ thể gia súc với vận tốc gió 2–3 m/s tạo hiệu ứng gió mát làm dịu thân nhiệt.",
+      "2. Cơ chế điều khiển chu kỳ chiếu sáng ở gia cầm đẻ trứng: Ánh sáng kích thích qua võng mạc mắt và xuyên qua hộp sọ tác động trực tiếp vào vùng dưới đồi (Hypothalamus) tiết GnRH, kích thích thùy trước tuyến yên tiết hormone FSH (kích thích noãn bao phát triển) và LH (gây rụng trứng). Gà đẻ cần duy trì ổn định 16 giờ chiếu sáng/ngày; nếu đột ngột giảm thời gian chiếu sáng, gà sẽ ngừng đẻ và thay lông sớm.",
+      "3. Nhu cầu vi khí hậu chuồng nuôi: Nồng độ khí độc tối đa cho phép: NH3 < 20 ppm, H2S < 10 ppm, CO2 < 0.3%. Khí NH3 nhẹ hơn không khí bay lơ lửng gây viêm niêm mạc mắt và đường hô hấp; khí H2S nặng hơn không khí chìm sát sàn chuồng phá hủy hemoglobin trong máu."
+    ],
+    comparisonTable: {
+      headers: ["Thông số kỹ thuật", "Chuồng hở truyền thống", "Chuồng kín áp suất âm hiện đại"],
+      rows: [
+        ["Kiểm soát nhiệt độ", "Phụ thuộc 100% thời tiết bên ngoài, dễ bị sốc nhiệt mùa hè", "Tự động duy trì 24-28°C nhờ cảm biến nhiệt và giàn Cooling Pad"],
+        ["Vận tốc gió & Độ ẩm", "Thất thường, lúc gió lùa lúc lặng gió tù đọng", "Điều tiết chính xác 1.5 - 2.5 m/s, độ ẩm 65 - 75%"],
+        ["Nguy cơ lây nhiễm dịch", "Rất cao do chim trời, chuột bọ tự do xâm nhập", "Rất thấp nhờ lưới chắn côn trùng và hệ thống lọc kín"],
+        ["Mật độ nuôi & Năng suất", "Mật độ thấp (1 - 1.2 m2/lợn thịt)", "Mật độ cao (0.7 - 0.8 m2/lợn thịt), FCR giảm 0.2 - 0.3"]
+      ]
+    },
+    examTraps: [
+      "Bẫy: 'Vào mùa hè nắng nóng, mở toang tất cả các cửa sổ của chuồng kín áp suất âm để gió tự nhiên ùa vào cho mát' -> SAI. Mở cửa sổ sẽ phá vỡ áp suất âm trong chuồng, không khí nóng không đi qua tấm làm mát Cooling Pad mà tràn thẳng vào cửa sổ, làm quạt hút cuối chuồng mất tác dụng và vật nuôi bị ngạt sốc nhiệt chết hàng loạt."
+    ]
+  },
+
+  cn11_cd6: {
+    themeTitle: "Chủ đề 6: Bảo vệ môi trường chăn nuôi & Công nghệ xử lý chất thải (Biogas, Đệm lót sinh học)",
+    grade: "cn11",
+    coreMechanisms: [
+      "1. Cơ chế sinh hóa 4 giai đoạn trong hầm ủ Biogas kỵ khí: (1) Thủy phân: Vi khuẩn thủy phân protein, lipid, xenlulozơ thành acid amin, acid béo, đường đơn; (2) Acid hóa: Vi khuẩn lên men acid tạo acid hữu cơ chuỗi ngắn, rượu, H2, CO2; (3) Acetic hóa: Chuyển hóa acid hữu cơ thành acid acetic CH3COOH; (4) Methane hóa (Methanogenesis): Vi khuẩn cổ kỵ khí bắt buộc (Methanobacterium) chuyển hóa acetate và H2/CO2 thành khí Methane: CH3COOH -> CH4 + CO2 và CO2 + 4H2 -> CH4 + 2H2O. Khí Biogas thành phẩm chứa 60–70% CH4, 30–40% CO2.",
+      "2. Cơ chế phân hủy của đệm lót sinh học (Balasa N01): Hỗn hợp trấu, mùn cưa phối trộn với quần thể nấm men (Saccharomyces) và vi khuẩn Bacillus hiếu khí. Khi phân và nước tiểu thải ra, các vi sinh vật này nhân nhanh, tiết enzyme protease và urease phân giải protein và acid uric trong chất thải thành các chất vô hại, đồng thời sinh nhiệt (nhiệt độ tầng đệm lót đạt 40–50°C) làm bay hơi nước, giữ chuồng luôn khô ráo và khử sạch mùi hôi thối NH3, H2S.",
+      "3. Công nghệ nuôi ấu trùng ruồi lính đen (Hermetia illucens - BSF): Ấu trùng có hệ enzyme tiêu hóa cực mạnh, tiêu thụ phân tươi và xác hữu cơ; sinh khối ấu trùng chứa 42% protein thô và 35% chất béo giàu acid lauric, là nguồn thức ăn sống tuyệt hảo cho gà, cá và làm phân bón hữu cơ giàu mùn."
+    ],
+    comparisonTable: {
+      headers: ["Công nghệ xử lý", "Nguyên lý sinh học", "Sản phẩm thu hồi", "Phạm vi áp dụng phù hợp", "Lưu ý kỹ thuật quan trọng"],
+      rows: [
+        ["Hầm Biogas kỵ khí", "Lên men vi sinh vật kỵ khí tạo khí Methane", "Khí đốt sinh học (CH4), nước thải sau xử lý", "Trang trại quy mô vừa và lớn có lượng phân lỏng nhiều", "Không để xà phòng, chất tẩy rửa lọt vào hầm làm chết vi khuẩn"],
+        ["Đệm lót sinh học", "Lên men sinh nhiệt hiếu khí của nấm men và Bacillus", "Đệm lót hoai mục làm phân bón hữu cơ cao cấp", "Chăn nuôi lợn, gà quy mô vừa và nông hộ", "Bảo đảm độ ẩm đệm lót 40-50%, đảo tơi xốp định kỳ"],
+        ["Máy ép tách phân", "Phân tách cơ học pha rắn và pha lỏng qua trục vít", "Bã phân rắn độ ẩm < 60%, dịch lỏng vào biogas", "Trang trại lợn, bò sữa quy mô công nghiệp lớn", "Bã phân ủ compost hoai mục bán thương phẩm giá trị cao"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Hầm Biogas càng đổ nhiều nước rửa chuồng có chứa xút tẩy rửa NaOH và Chlorine thì càng sạch và sinh nhiều khí gas' -> SAI. Chất tẩy rửa và hóa chất khử trùng tiêu diệt triệt để quần thể vi khuẩn kỵ khí sinh methane, làm hầm biogas bị chua hóa, sủi bọt thối và ngừng sinh khí hoàn toàn.",
+      "Bẫy 2: 'Sử dụng đệm lót sinh học thì không bao giờ cần phải thay mới đệm suốt đời dự án' -> SAI. Đệm lót sau 6–12 tháng sẽ bị bão hòa chất hữu cơ và muối khoáng, cần thu dọn làm phân bón hữu cơ và thay lớp đệm mới."
+    ]
+  },
+
+  // KHỐI 12: LÂM NGHIỆP & THỦY SẢN (6 CHỦ ĐỀ)
+  cn12_cd1_3: {
+    themeTitle: "Chủ đề 1–3: Lâm nghiệp, Sinh thái rừng 5 tầng, Kỹ thuật trồng & Khai thác bền vững FSC",
+    grade: "cn12",
+    coreMechanisms: [
+      "1. Cấu trúc thẳng đứng 5 tầng của rừng nhiệt đới: (T1) Tầng vượt tán (cây gỗ đại ngàn > 35m, ưa sáng tuyệt đối); (T2) Tầng tán chính (20–30m, khép tán liên tục hấp thu 70–80% ánh sáng); (T3) Tầng dưới tán (10–18m, cây gỗ nhỏ chịu bóng một phần); (T4) Tầng cây bụi (2–8m); (T5) Tầng thảm tươi và rêu mục (sát mặt đất). Rừng nhiều tầng có khả năng phân tán xung lực hạt mưa rơi, giảm 90% xói mòn rửa trôi đất và điều tiết 70% lượng nước ngầm mùa khô.",
+      "2. Chứng chỉ quản lý rừng bền vững FSC (Forest Stewardship Council): Đòi hỏi tuân thủ nghiêm ngặt 10 nguyên tắc toàn diện: Bảo tồn đa dạng sinh học, tôn trọng quyền của người bản địa, không chuyển đổi rừng tự nhiên sang rừng trồng công nghiệp, cấm hoàn toàn hóa chất diệt cỏ nguy hại, duy trì giá trị bảo tồn cao (HCVF). Gỗ có chứng chỉ FSC có giá trị xuất khẩu cao hơn 15–20% sang thị trường EU và Bắc Mỹ.",
+      "3. Bản chất các phương thức khai thác rừng: (a) Khai thác chọn: Chỉ chặt hạ các cây gỗ đạt tiêu chuẩn kích thước thành thục công nghệ và cây cong queo sâu bệnh, giữ lại tối thiểu 60–70% độ tàn che của tán rừng và toàn bộ cây con tái sinh tự nhiên; (b) Khai thác dần: Chặt hạ qua 3–4 bước trong một luân kỳ (chặt mở tán, chặt gieo giống, chặt dọn); (c) Khai thác trắng: Chặt sạch toàn bộ cây rừng trong một ô tiêu chuẩn trong một mùa khai thác; TUYỆT ĐỐI CẤM khai thác trắng trên đất dốc > 25° và lưu vực rừng phòng hộ đầu nguồn vì gây lũ quét, sạt lở đất nghiêm trọng.",
+      "4. Nguyên tắc thiết kế đường băng cản lửa phòng chống cháy rừng: (a) Đường băng trắng: Dọn sạch 100% vật liệu cháy đến tận lớp đất khoáng, rộng 10–20m; (b) Đường băng xanh: Dải rừng trồng các loài cây lá dày, mọng nước, khó cháy, cành nhánh thấp (Vối thuốc Schima wallichii, Keo lá tràm, Đương môn) để ngăn chặn tàn lửa bay qua."
+    ],
+    comparisonTable: {
+      headers: ["Phương thức khai thác", "Tỷ lệ chặt hạ", "Mức độ xáo động sinh thái", "Phục hồi rừng", "Địa hình áp dụng cho phép"],
+      rows: [
+        ["Khai thác chọn", "20 - 30% trữ lượng cây gỗ thành thục", "Rất thấp, duy trì liên tục cấu trúc rừng", "Tự nhiên từ tầng cây tái sinh có sẵn", "Áp dụng được cho mọi địa hình dốc, rừng phòng hộ hạn chế"],
+        ["Khai thác dần", "Chặt dần qua 2-3 đợt cách nhau 3-5 năm", "Trung bình", "Dựa vào hạt gieo tự nhiên từ cây mẹ để lại", "Đất có độ dốc trung bình (< 20°), đất màu mỡ"],
+        ["Khai thác trắng", "100% cây trên dải/lô khai thác", "Cực mạnh, mất hoàn toàn thảm thực vật che phủ", "Bắt buộc phải trồng lại rừng nhân tạo ngay vụ sau", "Chỉ được phép trên địa hình bằng phẳng hoặc dốc nhẹ < 15°"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Khai thác trắng giúp ánh sáng chiếu xuống mặt đất tối đa nên là phương pháp tốt nhất cho rừng phòng hộ đầu nguồn' -> SAI. Mất rừng đầu nguồn làm mất thảm mục giữ nước, nước mưa tạo dòng chảy tràn xói mòn trơ sỏi đá và gây lũ quét tàn phá hạ du.",
+      "Bẫy 2: 'Gỗ từ rừng trồng không cần chứng chỉ FSC vẫn xuất khẩu thuận lợi và có giá bán cao sang châu Âu' -> SAI. Quy định chống phá rừng của EU (EUDR) và tiêu chuẩn FSC là rào cản kỹ thuật bắt buộc; gỗ không rõ nguồn gốc sẽ bị cấm nhập khẩu hoặc bị phạt nặng."
+    ]
+  },
+
+  cn12_cd4_5: {
+    themeTitle: "Chủ đề 4 & 5: Đại cương thủy sản, Môi trường nước & Động lực học ao nuôi",
+    grade: "cn12",
+    coreMechanisms: [
+      "1. Các yếu tố thủy lý hóa quyết định sự sống của thủy sản: (a) Oxy hòa tan (DO): Nhu cầu tối thiểu của tôm/cá là ≥ 4–5 mg/L; lúc rạng sáng (4–6h) DO thấp nhất do ban đêm tảo và vi sinh vật hô hấp cạnh tranh oxy; (b) Độ pH nước: Thích hợp nhất 7.5–8.5; dao động ngày đêm không quá 0.5 đơn vị; (c) Khí độc Amoniac (TAN): Tồn tại cân bằng NH3 (khí cực độc) <-> NH4+ (ion ít độc). Khi pH nước tăng cao (> 8.5) và nhiệt độ cao, cân bằng chuyển dịch mạnh sang tạo khí độc NH3 xuyên qua màng mang cá gây ngạt và phá hủy hệ thần kinh; (d) Khí độc Nitrit (NO2-): Xâm nhập vào máu liên kết với Hemoglobin/Hemocyanin tạo Methemoglobin mất khả năng vận chuyển oxy, làm tôm/cá bị 'hội chứng máu nâu'.",
+      "2. Vai trò cơ chế của hệ thống quạt nước (Paddlewheel aerator): (a) Tăng diện tích tiếp xúc giữa không khí và nước giúp hòa tan oxy; (b) Tạo dòng chảy luân chuyển gom chất thải (phân, thức ăn thừa, xác tảo tàn) vào giữa rốn ao để xả đáy siphon; (c) Phá vỡ sự phân tầng nhiệt độ và phân tầng oxy giữa tầng mặt và tầng đáy ao nuôi."
+    ],
+    comparisonTable: {
+      headers: ["Chỉ số môi trường", "Ngưỡng tối ưu cho tôm/cá", "Biểu hiện khi vượt ngưỡng nguy hại", "Giải pháp kỹ thuật khắc phục khẩn cấp"],
+      rows: [
+        ["Oxy hòa tan (DO)", "≥ 4.0 - 5.0 mg/L", "DO < 2 mg/L: Cá nổi đầu tấp mé đớp khí lúc rạng sáng, tôm dạt bờ", "Bật 100% quạt nước, sục khí đáy, tạt Oxy viên (Sodium percarbonate)"],
+        ["Độ pH nước", "7.5 - 8.5", "pH > 9.0: Độc tính NH3 tăng vọt; pH < 6.5: Vỏ tôm mềm, mang cá tiết dịch nhờn", "pH cao: Tạt mật rỉ đường, sục khí EM; pH thấp: Bón vôi nông nghiệp CaCO3"],
+        ["Khí độc NH3 tự do", "< 0.05 mg/L", "Cá bơi hoảng loạn, mang sưng đỏ, xuất huyết mang, chết hàng loạt", "Hạ pH nước xuống < 8.0, thay nước sạch, bổ sung vi sinh khử khí độc"],
+        ["Khí độc H2S (Khí trứng thối)", "< 0.01 mg/L", "Tôm đen mang, bỏ ăn, chết chìm đáy ao lúc chiều tối", "Giữ pH > 7.5, hút bùn đáy, bón Yucca schidigera và vi sinh quang dưỡng"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Khi cá nổi đầu lúc rạng sáng do thiếu oxy, rải thật nhiều vôi bột tôi CaO xuống ao để xử lý' -> SAI. Bón vôi làm pH nước tăng vọt đột ngột, chuyển hóa toàn bộ ion NH4+ thành khí độc NH3 giết chết toàn bộ cá ngay lập tức.",
+      "Bẫy 2: 'Nước ao nuôi tôm càng trong vắt nhìn thấy tận đáy càng tốt vì nước sạch' -> SAI. Nước quá trong là nước nghèo dinh dưỡng, không có quần thể tảo có ích (tảo khuê) phát triển, ánh nắng chiếu xuyên xuống đáy làm phát sinh rong nhớt và rong đáy (tảo đáy) làm thối đáy ao."
+    ]
+  },
+
+  cn12_cd6: {
+    themeTitle: "Chủ đề 6: Công nghệ nuôi thủy sản tiên tiến (Biofloc, Tuần hoàn RAS & Sinh sản nhân tạo)",
+    grade: "cn12",
+    coreMechanisms: [
+      "1. Bản chất công nghệ Biofloc (BFT): Bổ sung nguồn Carbon hữu cơ dễ tan (Mật rỉ đường, bột cám gạo) vào ao nuôi để nâng tỷ lệ C:N từ mức 8:1 lên mức ≥ 12:1–15:1. Ở tỷ lệ C:N cao này, quần thể vi khuẩn dị dưỡng (Heterotrophic bacteria) bùng phát cực nhanh, tiêu thụ toàn bộ lượng Amoniac độc hại (TAN) do tôm cá bài tiết và biến chúng thành protein sinh khối vi khuẩn. Các hạt floc lơ lửng (gồm vi khuẩn, tảo, protozoa giàu dinh dưỡng 30–35% protein) được tôm cá ăn lại, giúp giảm 20–30% chi phí thức ăn công nghiệp và hầu như KHÔNG cần thay nước.",
+      "2. Bản chất hệ thống nuôi tuần hoàn khép kín RAS (Recirculating Aquaculture System): Nước thải từ bể nuôi tuần hoàn liên tục qua 4 mô-đun: (1) Lọc cơ học (Drum filter lưới 40–60 μm tách sạch chất thải rắn phân cá); (2) Lọc sinh học (Biofilter giá thể hạt MBBR chuyển hóa NH4+ -> NO2- -> NO3-); (3) Khử trùng diệt khuẩn bằng tia cực tím (UV) hoặc Ozone (O3); (4) Tháp làm giàu oxy và kiểm soát nhiệt độ tự động trước khi hồi lưu về bể nuôi. Tiết kiệm 95–99% nước, kiểm soát dịch bệnh tuyệt đối.",
+      "3. Công nghệ sản xuất cá rô phi đơn tính đực: (a) Phương pháp sử dụng hormone 17α-methyltestosterone: Trộn hormone vào thức ăn cho cá bột ăn liên tục 21 ngày kể từ khi mới tiêu hết noãn hoàng (giai đoạn tuyến sinh dục chưa biệt hóa), đạt tỷ lệ đực > 98%; (b) Công nghệ di truyền tạo cá Siêu đực (YY - Genetic Male Tilapia GMT): Lai tạo dòng cá đực mang cặp NST giới tính YY phối với cá cái thường XX cho ra 100% thế hệ con mang kiểu gen XY (con đực tự nhiên), hoàn toàn không tồn dư hóa chất."
+    ],
+    comparisonTable: {
+      headers: ["Tiêu chí kỹ thuật", "Ao đất thâm canh truyền thống", "Công nghệ Biofloc (BFT)", "Hệ thống tuần hoàn khép kín (RAS)"],
+      rows: [
+        ["Mật độ thả nuôi", "Thấp đến trung bình (30-60 con tôm/m2)", "Rất cao (150-300 con tôm/m2)", "Cực cao (300-500 con tôm/m2 hoặc 50-100 kg cá/m3)"],
+        ["Tỷ lệ thay nước", "Thay nước định kỳ 20-30%/tuần", "Rất ít (chỉ bù nước bốc hơi 1-5%)", "Gần như bằng 0 (tuần hoàn 95-99% nước)"],
+        ["Hệ số thức ăn (FCR)", "Cao (1.5 - 1.8)", "Thấp (1.1 - 1.3 nhờ ăn hạt Biofloc)", "Rất thấp và được kiểm soát tối ưu (1.0 - 1.2)"],
+        ["Kiểm soát an toàn sinh học", "Dễ bị ảnh hưởng bởi nguồn nước cấp tự nhiên", "Tốt nhờ hệ vi sinh vật dị dưỡng lấn át mầm bệnh", "Tuyệt đối an toàn sinh học, độc lập với môi trường ngoài"]
+      ]
+    },
+    examTraps: [
+      "Bẫy 1: 'Trong ao nuôi Biofloc, khi hàm lượng khí độc NH3 tăng cao, phải xả sạch 80% nước ao ra môi trường rồi bơm nước mới vào' -> SAI. Xả nước sẽ làm mất toàn bộ quần thể vi sinh vật dị dưỡng và hạt biofloc đã dày công gây dựng; cách xử lý đúng là bổ sung thêm mật rỉ đường để nâng tỷ lệ C:N kích thích vi khuẩn hấp thụ TAN.",
+      "Bẫy 2: 'Có thể dùng hormone 17α-methyltestosterone trộn vào thức ăn cho cá rô phi trưởng thành nặng 500g để chuyển thành cá đực' -> SAI. Tuyến sinh dục của cá lớn đã biệt hóa hoàn toàn thành buồng trứng hoặc tinh hoàn nên hormone không còn tác dụng đảo giới tính, mà còn gây tồn dư nguy hiểm trong thực phẩm."
+    ]
+  }
+};
+
+// Hàm tìm dữ liệu phân tích chuyên sâu cho một bài học bất kỳ trong 77 bài SGK
+function getHsgDeepKnowledgeForLesson(curLesson) {
+  if (!curLesson) return HSG_CHAPTER_DEEP_ANALYSIS.cn10_cd1;
+  const grade = curLesson.grade || "cn10";
+  const num = Number(curLesson.lesson) || 1;
+
+  if (grade === "cn10") {
+    if (num <= 2) return HSG_CHAPTER_DEEP_ANALYSIS.cn10_cd1;
+    if (num <= 5) return HSG_CHAPTER_DEEP_ANALYSIS.cn10_cd2;
+    if (num <= 8) return HSG_CHAPTER_DEEP_ANALYSIS.cn10_cd3;
+    if (num <= 11) return HSG_CHAPTER_DEEP_ANALYSIS.cn10_cd4;
+    if (num <= 15) return HSG_CHAPTER_DEEP_ANALYSIS.cn10_cd5;
+    if (num <= 22) return HSG_CHAPTER_DEEP_ANALYSIS.cn10_cd6_7;
+    return HSG_CHAPTER_DEEP_ANALYSIS.cn10_cd8;
+  } else if (grade === "cn11") {
+    if (num <= 3) return HSG_CHAPTER_DEEP_ANALYSIS.cn11_cd1;
+    if (num <= 7) return HSG_CHAPTER_DEEP_ANALYSIS.cn11_cd2;
+    if (num <= 11) return HSG_CHAPTER_DEEP_ANALYSIS.cn11_cd3;
+    if (num <= 15) return HSG_CHAPTER_DEEP_ANALYSIS.cn11_cd4;
+    if (num <= 19) return HSG_CHAPTER_DEEP_ANALYSIS.cn11_cd5;
+    return HSG_CHAPTER_DEEP_ANALYSIS.cn11_cd6;
+  } else {
+    // cn12
+    if (num <= 7) return HSG_CHAPTER_DEEP_ANALYSIS.cn12_cd1_3;
+    if (num <= 13) return HSG_CHAPTER_DEEP_ANALYSIS.cn12_cd4_5;
+    return HSG_CHAPTER_DEEP_ANALYSIS.cn12_cd6;
+  }
+}
+
+// ============================================================================
+// HÀM RENDER CHÍNH CHO PHÂN HỆ LÝ THUYẾT BỒI DƯỠNG HSG TOÀN BỘ SÁCH
+// ============================================================================
+function renderHsgCurriculumTheoryView() {
+  if (typeof PORTAL_DATA === "undefined" || !PORTAL_DATA.lessons) return "<div class='card'>Đang tải kho học liệu toàn bộ sách SGK...</div>";
+
+  const curGrade = HSG_MASTER_STATE.handbookGrade || "cn10";
+  const searchQ = (HSG_MASTER_STATE.handbookSearch || "").toLowerCase().trim();
+
+  // Lọc bài học theo khối và từ khóa tìm kiếm
+  const lessonsForGrade = PORTAL_DATA.lessons.filter(l => l.grade === curGrade);
+  const filteredLessons = lessonsForGrade.filter(l => {
+    if (!searchQ) return true;
+    const titleMatch = (l.title || "").toLowerCase().includes(searchQ);
+    const chapMatch = (l.chapter || "").toLowerCase().includes(searchQ);
+    const sumMatch = (l.summaryPoints || []).some(p => String(p).toLowerCase().includes(searchQ));
+    return titleMatch || chapMatch || sumMatch;
+  });
+
+  // Chọn bài học hiện tại (nếu bài đang chọn không thuộc khối hiện tại thì chọn bài đầu tiên của khối)
+  let activeLesson = PORTAL_DATA.lessons.find(l => l.id === HSG_MASTER_STATE.handbookActiveLessonId && l.grade === curGrade);
+  if (!activeLesson) {
+    activeLesson = filteredLessons[0] || lessonsForGrade[0] || PORTAL_DATA.lessons[0];
+    HSG_MASTER_STATE.handbookActiveLessonId = activeLesson ? activeLesson.id : "cn10_b1";
+  }
+
+  // Nhóm danh sách bài học theo Chủ đề / Chương SGK
+  const chapterGroups = [];
+  filteredLessons.forEach(l => {
+    const chapName = l.chapter || "Chủ đề bài học";
+    let grp = chapterGroups.find(g => g.chapterName === chapName);
+    if (!grp) {
+      grp = { chapterName: chapName, lessons: [] };
+      chapterGroups.push(grp);
+    }
+    grp.lessons.push(l);
+  });
+
+  // Lấy dữ liệu cơ chế & phân tích chuyên sâu cho bài học đang chọn
+  const deepData = getHsgDeepKnowledgeForLesson(activeLesson);
+  const qBundle = (typeof getQuestionsForLesson === "function") 
+    ? getQuestionsForLesson(activeLesson.grade, activeLesson.lesson)
+    : { mcqs: [], tfs: [], shorts: [], essays: [] };
+
+  const advMcqs = (qBundle.mcqs || []).filter(q => q.level === "hieu" || q.level === "vandung" || q.isVdc);
+  const displayMcqs = advMcqs.length >= 3 ? advMcqs : (qBundle.mcqs || []).slice(0, 8);
+
+  // Chuẩn bị nội dung tóm tắt SGK
+  const sgkSections = Array.isArray(activeLesson.sgkSections) && activeLesson.sgkSections.length > 0
+    ? activeLesson.sgkSections
+    : [{ heading: "I. TỔNG HỢP KIẾN THỨC CỐT LÕI BÀI HỌC", items: activeLesson.summaryPoints || [] }];
+
+  return `
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+      <div>
+        <h4 style="color:var(--primary-dark); font-size:17px; margin:0 0 3px;">📚 Hệ Thống Lý Thuyết Bồi Dưỡng HSG Toàn Bộ Sách (Khối 10 • 11 • 12)</h4>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0;">
+          Tổ chức theo từng Chủ đề & từng Bài bồi dưỡng riêng biệt • Giải thích bản chất sinh học, cơ chế hóa học & phân tích chuyên sâu cho đội tuyển HSG Bảng B.
+        </p>
+      </div>
+
+      <!-- CHUYỂN ĐỔI CHẾ ĐỘ: TOÀN BỘ SÁCH VS 9 CHUYÊN ĐỀ VDC -->
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="btn btn-sm ${HSG_MASTER_STATE.handbookMode !== 'vdc_core' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookMode='curriculum'; renderDongNaiHsgMaster();" style="font-weight:700;">
+          📘 Toàn Bộ Sách (77 Bài Bồi Dưỡng)
+        </button>
+        <button class="btn btn-sm ${HSG_MASTER_STATE.handbookMode === 'vdc_core' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookMode='vdc_core'; renderDongNaiHsgMaster();" style="font-weight:700;">
+          🌟 9 Chuyên Đề Cốt Lõi VDC
+        </button>
+      </div>
+    </div>
+
+    <!-- THANH CHỌN KHỐI & TÌM KIẾM BÀI HỌC -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:10px 14px; margin-bottom:16px;">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="btn btn-sm ${curGrade === 'cn10' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookGrade='cn10'; HSG_MASTER_STATE.handbookActiveLessonId='cn10_b1'; renderDongNaiHsgMaster();" style="font-weight:600;">
+          🌾 Khối 10: Trồng trọt (28 Bài • 8 Chủ đề)
+        </button>
+        <button class="btn btn-sm ${curGrade === 'cn11' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookGrade='cn11'; HSG_MASTER_STATE.handbookActiveLessonId='cn11_b1'; renderDongNaiHsgMaster();" style="font-weight:600;">
+          🐄 Khối 11: Chăn nuôi (22 Bài • 6 Chủ đề)
+        </button>
+        <button class="btn btn-sm ${curGrade === 'cn12' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookGrade='cn12'; HSG_MASTER_STATE.handbookActiveLessonId='cn12_b1'; renderDongNaiHsgMaster();" style="font-weight:600;">
+          🌲 Khối 12: Lâm – Thủy sản (27 Bài • 6 Chủ đề)
+        </button>
+      </div>
+
+      <div style="flex:1; min-width:260px; max-width:380px;">
+        <input type="text" placeholder="🔍 Tìm tên bài, khái niệm, cơ chế..." value="${escapeHtml(HSG_MASTER_STATE.handbookSearch || '')}" oninput="HSG_MASTER_STATE.handbookSearch=this.value; renderDongNaiHsgMaster();" style="width:100%; font-size:12.5px; padding:6px 12px; border-radius:6px; border:1px solid #cbd5e1; outline:none;" />
+      </div>
+    </div>
+
+    <!-- BỐ CỤC 2 CỘT: TRÁI (CHỦ ĐỀ & TỪNG BÀI BỒI DƯỠNG) - PHẢI (CHI TIẾT BÀI BỒI DƯỠNG) -->
+    <div class="portal-split-layout">
+      <!-- CỘT TRÁI: DANH MỤC PHÂN THEO TỪNG CHỦ ĐỀ & BÀI BỒI DƯỠNG RIÊNG -->
+      <aside class="lesson-sidebar" style="max-height:850px; overflow-y:auto; padding-right:6px;">
+        <div style="font-size:12px; font-weight:800; color:var(--primary-dark); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">
+          📚 CÁC CHỦ ĐỀ & BÀI BỒI DƯỠNG:
+        </div>
+
+        <div class="lesson-list-scroll">
+          ${chapterGroups.map(grp => `
+            <div style="margin-bottom:12px;">
+              <div style="font-size:11.5px; font-weight:800; color:#1e40af; background:#eff6ff; border:1px solid #dbeafe; padding:6px 10px; border-radius:6px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center;">
+                <span>📌 ${escapeHtml(grp.chapterName)}</span>
+                <span class="badge" style="background:#bfdbfe; color:#1e3a8a; font-size:10px; padding:1px 6px;">${grp.lessons.length} bài</span>
+              </div>
+
+              <div style="display:grid; gap:4px; padding-left:4px;">
+                ${grp.lessons.map(les => {
+                  const isActive = les.id === activeLesson.id;
+                  const qCount = (typeof getQuestionsForLesson === "function") 
+                    ? ((getQuestionsForLesson(les.grade, les.lesson).mcqs || []).length + (getQuestionsForLesson(les.grade, les.lesson).tfs || []).length)
+                    : 0;
+                  return `
+                    <div class="lesson-nav-item ${isActive ? 'active' : ''}" onclick="HSG_MASTER_STATE.handbookActiveLessonId='${les.id}'; renderDongNaiHsgMaster();" style="padding:7px 10px; border-radius:6px; cursor:pointer; border:1px solid ${isActive ? 'var(--primary)' : 'transparent'}; background:${isActive ? 'var(--primary-light, #f0fdf4)' : '#ffffff'}; transition:all 0.15s ease;">
+                      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+                        <span class="badge ${les.grade === 'cn10' ? 'badge-biet' : (les.grade === 'cn11' ? 'badge-hieu' : 'badge-vandung')}" style="font-size:9.5px; padding:1px 5px;">Bài ${les.lesson}</span>
+                        ${qCount > 0 ? `<span style="font-size:10.5px; color:#64748b; font-weight:600;">${qCount} câu HSG</span>` : ''}
+                      </div>
+                      <div style="font-size:12.5px; font-weight:700; color:${isActive ? 'var(--primary-dark)' : '#1e293b'}; line-height:1.35;">
+                        ${escapeHtml(les.title)}
+                      </div>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </aside>
+
+      <!-- CỘT PHẢI: NỘI DUNG CHI TIẾT BÀI BỒI DƯỠNG (LÝ THUYẾT + GIẢI THÍCH + PHÂN TÍCH + BẪY + CÂU HỎI) -->
+      <div>
+        <!-- 1. HEADER BÀI BỒI DƯỠNG -->
+        <div class="card" style="border-top:4px solid var(--primary); margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:12px; border-bottom:1.5px solid #e2e8f0; padding-bottom:12px;">
+            <div>
+              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:6px;">
+                <span class="badge badge-nl" style="font-size:11px;">${escapeHtml(activeLesson.chapter || '')}</span>
+                <span class="badge badge-biet" style="font-size:11px;">Bài ${activeLesson.lesson}</span>
+                <span class="badge" style="background:#e0f2fe; color:#0369a1; font-weight:700; font-size:11px;">SGK Kết nối tri thức</span>
+              </div>
+              <h3 style="color:var(--primary-dark); font-size:18.5px; margin:0 0 4px; font-weight:800;">
+                ${escapeHtml(activeLesson.title)}
+              </h3>
+              <p style="font-size:12px; color:var(--text-muted); margin:0;">
+                Tài liệu bồi dưỡng chuyên sâu phục vụ Kỳ thi chọn Học sinh giỏi cấp tỉnh • Bảng B THPT
+              </p>
+            </div>
+
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-sm btn-accent" onclick="exportHsgSingleLessonDoc('${activeLesson.id}')" style="font-weight:700;">
+                📥 Xuất Giáo Án Word (.doc)
+              </button>
+              <button class="btn btn-sm btn-primary" onclick="openHsgQuizForLesson('${activeLesson.grade}', ${activeLesson.lesson})" style="font-weight:700;">
+                🧠 Luyện Trắc Nghiệm Bài Này
+              </button>
+            </div>
+          </div>
+
+          <!-- YÊU CẦU CẦN ĐẠT NÂNG CAO HSG -->
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:4px solid var(--primary); border-radius:6px; padding:10px 14px; margin-bottom:16px;">
+            <div style="font-weight:700; color:var(--primary-dark); font-size:13.5px; margin-bottom:4px;">
+              🎯 Yêu Cầu Cần Đạt Nâng Cao Đối Với Học Sinh Giỏi (Bảng B):
+            </div>
+            <ul style="margin:0 0 0 18px; padding:0; font-size:13px; line-height:1.6; color:#1e293b;">
+              ${(activeLesson.objectives && activeLesson.objectives.length > 0
+                ? activeLesson.objectives
+                : [
+                    "Nắm vững và trình bày chính xác 100% bản chất khoa học các khái niệm, quy trình kỹ thuật theo SGK Kết nối tri thức.",
+                    "Vận dụng cơ chế sinh học, hóa học và kỹ thuật để phân tích, so sánh các giải pháp công nghệ nông nghiệp.",
+                    "Lập luận chặt chẽ, giải thích cặn kẽ vì sao các phương án trong câu hỏi Đúng/Sai của đề thi HSG là Đúng hoặc Sai theo barem chấm điểm."
+                  ]
+              ).map(o => `<li>${escapeHtml(o)}</li>`).join("")}
+            </ul>
+          </div>
+
+          <!-- KHỐI 1: LÝ THUYẾT SGK CỐT LÕI -->
+          <div style="margin-bottom:20px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+              <h4 style="color:var(--primary-dark); font-size:16px; margin:0;">📘 1. Lý Thuyết Chuẩn Sách Giáo Khoa (Kiến Thức Nền Tảng Toàn Bộ Bài):</h4>
+            </div>
+            
+            <div style="display:grid; gap:10px;">
+              ${sgkSections.map((sec, secIdx) => `
+                <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:12px 16px;">
+                  <h5 style="color:#0f766e; font-size:14.5px; margin:0 0 8px; font-weight:700;">
+                    ${escapeHtml(sec.heading)}
+                  </h5>
+                  <div style="font-size:13px; line-height:1.65; color:#334155;">
+                    ${(sec.items || []).map(it => `
+                      <div style="margin-bottom:6px; padding-left:14px; text-indent:-14px;">
+                        • ${escapeHtml(String(it).replace(/^[-+•]\s*/, ""))}
+                      </div>
+                    `).join("")}
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- KHỐI 2: GIẢI THÍCH BẢN CHẤT KHOA HỌC & CƠ CHẾ SINH HÓA NÔNG NGHIỆP -->
+          <div style="margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+              <h4 style="color:#1e40af; font-size:16px; margin:0;">🔬 2. Giải Thích Bản Chất Khoa Học & Cơ Chế Nông Nghiệp Chuyên Sâu:</h4>
+              <span class="badge" style="background:#dbeafe; color:#1e40af; font-weight:700; font-size:11px;">Trọng tâm đề thi HSG</span>
+            </div>
+
+            <div style="display:grid; gap:8px; margin-bottom:10px;">
+              ${deepData.coreMechanisms.map((m, mIdx) => `
+                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-left:4px solid #2563eb; padding:10px 14px; border-radius:6px; font-size:13.5px; line-height:1.6; color:#0f172a;">
+                  ${escapeHtml(m)}
+                </div>
+              `).join("")}
+            </div>
+
+            <!-- Ô HỎI ĐÁP AI GIẢI THÍCH BẢN CHẤT BỔ SUNG -->
+            <div style="background:#eff6ff; border:1px dashed #93c5fd; border-radius:6px; padding:10px 12px; margin-top:8px;">
+              <div style="display:flex; gap:8px; align-items:center;">
+                <input type="text" id="hsgAiExplainQuery_${activeLesson.id}" placeholder="💡 Nhập hiện tượng, khái niệm muốn AI phân tích cơ chế chuyên sâu..." style="flex:1; font-size:12.5px; padding:6px 10px; border-radius:5px; border:1px solid #bfdbfe; outline:none;" onkeydown="if(event.key==='Enter') askHsgAiLessonMechanism('${activeLesson.id}')" />
+                <button class="btn btn-sm btn-primary" onclick="askHsgAiLessonMechanism('${activeLesson.id}')" style="font-size:12px; padding:6px 12px; font-weight:700;">
+                  ✨ Giải Thích Cơ Chế
+                </button>
+              </div>
+              <div id="hsgAiExplainResult_${activeLesson.id}" style="display:none; margin-top:8px; background:#ffffff; border:1px solid #bfdbfe; border-radius:6px; padding:10px 12px; font-size:13px; line-height:1.6;"></div>
+            </div>
+          </div>
+
+          <!-- KHỐI 3: PHÂN TÍCH CHUYÊN SÂU & BẢNG ĐỐI CHIẾU KỸ THUẬT -->
+          ${deepData.comparisonTable ? `
+            <div style="margin-bottom:20px;">
+              <h4 style="color:#0f766e; font-size:16px; margin:0 0 10px;">📊 3. Phân Tích Chuyên Sâu & Bảng Đối Chiếu Bản Chất Kỹ Thuật:</h4>
+              <div style="overflow-x:auto;">
+                <table class="std-table" style="font-size:12.5px;">
+                  <thead>
+                    <tr>
+                      ${deepData.comparisonTable.headers.map(h => `<th style="background:#0f766e; color:#fff;">${escapeHtml(h)}</th>`).join("")}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${deepData.comparisonTable.rows.map(row => `
+                      <tr>
+                        ${row.map((cell, cIdx) => `<td style="${cIdx === 0 ? 'font-weight:700; color:#0f766e;' : 'line-height:1.55;'}">${escapeHtml(cell)}</td>`).join("")}
+                      </tr>
+                    `).join("")}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- KHỐI 4: BẪY ĐỀ THI HSG & DẤU HIỆU PHÂN BIỆT ĐÚNG / SAI -->
+          <div style="margin-bottom:20px;">
+            <h4 style="color:#b91c1c; font-size:16px; margin:0 0 10px;">⚠️ 4. Bẫy Đề Thi HSG & Cách Phân Tích Mệnh Đề Đúng/Sai:</h4>
+            <div style="display:grid; gap:8px;">
+              ${deepData.examTraps.map(tr => `
+                <div style="background:#fff7ed; border:1px solid #fed7aa; border-left:4px solid #ea580c; padding:10px 14px; border-radius:6px; font-size:13px; line-height:1.55; color:#9a3412;">
+                  ${escapeHtml(tr)}
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- KHỐI 5: NGÂN HÀNG CÂU HỎI VẬN DỤNG & TỰ LUẬN HSG CỦA BÀI NÀY -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+              <h4 style="color:var(--primary-dark); font-size:16px; margin:0;">
+                🎯 5. Ngân Hàng Câu Hỏi Vận Dụng & Tự Luận HSG Bài Này (${displayMcqs.length} câu trắc nghiệm + ${(qBundle.tfs || []).length} Đúng/Sai + ${(qBundle.essays || []).length} Tự luận):
+              </h4>
+            </div>
+
+            <!-- DANH SÁCH CÂU HỎI TRẮC NGHIỆM NÂNG CAO -->
+            <div style="display:grid; gap:12px; margin-bottom:16px;">
+              ${displayMcqs.map((q, idx) => {
+                const optLetters = ["A", "B", "C", "D"];
+                return `
+                  <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:12px 14px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                      <div>
+                        <span class="badge ${q.isVdc || q.level === 'vandung' ? 'badge-vandung' : 'badge-hieu'}" style="font-size:10px;">
+                          ${q.isVdc ? 'VDC 0.25đ' : (q.level === 'vandung' ? 'Vận dụng' : 'Thông hiểu')}
+                        </span>
+                        <strong style="font-size:13.5px; color:#1e293b; margin-left:6px;">Câu ${idx + 1}:</strong>
+                      </div>
+                    </div>
+
+                    <div style="font-size:13.5px; line-height:1.55; margin-bottom:10px; color:#0f172a;">
+                      ${escapeHtml(q.stem || '')}
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:6px; margin-bottom:8px;">
+                      ${(q.options || []).map((opt, oIdx) => `
+                        <div style="font-size:13px; padding:6px 10px; border-radius:5px; border:1px solid #e2e8f0; background:${oIdx === q.answer ? '#f0fdf4; border-color:#86efac; font-weight:700;' : '#fafafa'};">
+                          <span style="font-weight:700; color:${oIdx === q.answer ? '#166534' : '#475569'};">${optLetters[oIdx]}.</span> ${escapeHtml(opt)}
+                          ${oIdx === q.answer ? ' <span style="color:#166534; font-size:11px;">(ĐÁP ÁN ĐÚNG)</span>' : ''}
+                        </div>
+                      `).join("")}
+                    </div>
+
+                    ${q.explanation ? `
+                      <details style="background:#f8fafc; border:1px dashed #cbd5e1; border-radius:5px; padding:6px 10px; font-size:12.5px;">
+                        <summary style="cursor:pointer; color:#2563eb; font-weight:700;">💡 Xem lời giải thích bản chất câu ${idx + 1}</summary>
+                        <div style="margin-top:6px; color:#334155; line-height:1.5;">${escapeHtml(q.explanation)}</div>
+                      </details>
+                    ` : ''}
+                  </div>
+                `;
+              }).join("")}
+            </div>
+
+            <!-- CÂU HỎI ĐÚNG / SAI (NẾU CÓ) -->
+            ${(qBundle.tfs || []).length > 0 ? `
+              <div style="margin-bottom:16px;">
+                <h5 style="color:#1e40af; font-size:14.5px; margin:0 0 8px; font-weight:700;">
+                  📝 Câu Hỏi Đúng/Sai Có Yêu Cầu Giải Thích (Chuẩn Bảng B: 0,25đ Nhận Định + 0,125đ Giải Thích):
+                </h5>
+                <div style="display:grid; gap:10px;">
+                  ${(qBundle.tfs || []).map((tfQ, tfIdx) => `
+                    <div style="background:#f8fafc; border:1px solid #bfdbfe; border-radius:8px; padding:12px 14px;">
+                      <div style="font-size:13.5px; font-weight:700; color:#1e40af; margin-bottom:6px;">
+                        Câu ${tfIdx + 1} (Đúng/Sai): ${escapeHtml(tfQ.context || tfQ.stem || '')}
+                      </div>
+                      <div style="display:grid; gap:6px;">
+                        ${(tfQ.statements || []).map(st => `
+                          <div style="background:#fff; border:1px solid #e2e8f0; border-radius:5px; padding:8px 10px; font-size:13px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                              <span><strong>Ý ${st.label || st.key}:</strong> ${escapeHtml(st.text)}</span>
+                              <span class="badge ${st.isTrue || st.answer ? 'badge-vandung' : 'badge-hieu'}" style="font-size:11px;">
+                                ${st.isTrue || st.answer ? 'ĐÚNG' : 'SAI'}
+                              </span>
+                            </div>
+                            ${st.explanation ? `
+                              <div style="font-size:12px; color:#15803d; margin-top:4px; border-top:1px dashed #e2e8f0; padding-top:4px;">
+                                <strong>• Giải thích:</strong> ${escapeHtml(st.explanation)}
+                              </div>
+                            ` : ''}
+                          </div>
+                        `).join("")}
+                      </div>
+                    </div>
+                  `).join("")}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// XUẤT GIÁO ÁN BÀI BỒI DƯỠNG HSG RA FILE WORD (.DOC) THEO CHUẨN NGHỊ ĐỊNH 30
+window.exportHsgSingleLessonDoc = function(lessonId) {
+  if (typeof PORTAL_DATA === "undefined" || !PORTAL_DATA.lessons) return;
+  const lesson = PORTAL_DATA.lessons.find(l => l.id === lessonId);
+  if (!lesson) return;
+
+  const deepData = getHsgDeepKnowledgeForLesson(lesson);
+  const qBundle = (typeof getQuestionsForLesson === "function") 
+    ? getQuestionsForLesson(lesson.grade, lesson.lesson)
+    : { mcqs: [], tfs: [], shorts: [], essays: [] };
+
+  const gradeName = lesson.grade === "cn10" ? "CÔNG NGHỆ 10 (TRỒNG TRỌT)" : (lesson.grade === "cn11" ? "CÔNG NGHỆ 11 (CHĂN NUÔI)" : "CÔNG NGHỆ 12 (LÂM NGHIỆP & THỦY SẢN)");
+
+  let html = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head><meta charset="utf-8"><title>${escapeHtml(lesson.title)}</title>
+    <style>
+      body { font-family: "Times New Roman", serif; font-size: 11.5pt; line-height: 1.45; }
+      table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+      th, td { border: 1px solid #000; padding: 5px 8px; font-size: 10.5pt; }
+      .header-table td { border: none; padding: 2px; }
+      h2 { font-size: 15pt; text-align: center; margin: 10px 0 4px; text-transform: uppercase; color: #002060; }
+      h3 { font-size: 12.5pt; text-align: center; margin: 2px 0 14px; font-style: italic; }
+      h4 { font-size: 12pt; margin: 10px 0 4px; text-transform: uppercase; color: #1e3a8a; }
+      p { margin: 3px 0; }
+    </style>
+    </head>
+    <body>
+      <table class="header-table">
+        <tr>
+          <td style="width:40%; text-align:center;">
+            <strong>SỞ GD&ĐT ĐỒNG NAI</strong><br/>
+            <strong>TRƯỜNG THPT LỘC NINH</strong><br/>
+            <span>Tổ: Công nghệ Nông nghiệp</span>
+          </td>
+          <td style="width:60%; text-align:center;">
+            <strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><br/>
+            <strong>Độc lập - Tự do - Hạnh phúc</strong><br/>
+            <span>---------------------------------</span>
+          </td>
+        </tr>
+      </table>
+
+      <h2>TÀI LIỆU BỒI DƯỠNG HỌC SINH GIỎI MÔN CÔNG NGHỆ NÔNG NGHIỆP</h2>
+      <h3>${escapeHtml(gradeName)} — ${escapeHtml(lesson.chapter)}<br/>${escapeHtml(lesson.title)}</h3>
+
+      <h4>I. YÊU CẦU CẦN ĐẠT NÂNG CAO HSG (CHUẨN BẢNG B THPT)</h4>
+      <ul>
+        ${(lesson.objectives || ["Nắm vững kiến thức khoa học cốt lõi theo SGK.", "Vận dụng giải thích cơ chế sinh hóa và tính toán kỹ thuật."]).map(o => `<li>${escapeHtml(o)}</li>`).join("")}
+      </ul>
+
+      <h4>II. BẢN CHẤT KHOA HỌC & CƠ CHẾ NÔNG NGHIỆP CHUYÊN SÂU</h4>
+      ${deepData.coreMechanisms.map(m => `<p>• ${escapeHtml(m)}</p>`).join("")}
+
+      ${deepData.comparisonTable ? `
+        <h4>III. BẢNG PHÂN TÍCH ĐỐI CHIẾU BẢN CHẤT KỸ THUẬT</h4>
+        <table>
+          <thead>
+            <tr>${deepData.comparisonTable.headers.map(h => `<th style="background:#eee;">${escapeHtml(h)}</th>`).join("")}</tr>
+          </thead>
+          <tbody>
+            ${deepData.comparisonTable.rows.map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join("")}</tr>`).join("")}
+          </tbody>
+        </table>
+      ` : ''}
+
+      <h4>IV. BẪY ĐỀ THI HSG & DẤU HIỆU PHÂN BIỆT ĐÚNG / SAI</h4>
+      ${deepData.examTraps.map(t => `<p style="color:#900;">• ${escapeHtml(t)}</p>`).join("")}
+
+      <h4>V. TUYỂN CHỌN CÂU HỎI VẬN DỤNG & TỰ LUẬN CỦA BÀI</h4>
+      ${(qBundle.mcqs || []).slice(0, 10).map((q, idx) => `
+        <p><strong>Câu ${idx + 1}:</strong> ${escapeHtml(q.stem || '')}</p>
+        <p style="padding-left:15px;">
+          ${(q.options || []).map((o, oIdx) => `${["A","B","C","D"][oIdx]}. ${escapeHtml(o)} &nbsp;&nbsp;&nbsp; `).join("")}
+        </p>
+        <p style="font-style:italic; color:#005500;">→ Đáp án: <strong>${["A","B","C","D"][q.answer]}</strong>. ${escapeHtml(q.explanation || '')}</p>
+      `).join("")}
+
+      <br/><br/>
+      <table class="header-table">
+        <tr>
+          <td style="width:50%; text-align:center;">
+            <strong>NGƯỜI BIÊN SOẠN</strong><br/>
+            <em>(Ký và ghi rõ họ tên)</em>
+          </td>
+          <td style="width:50%; text-align:center;">
+            <strong>TỔ TRƯỞNG CHUYÊN MÔN DUYỆT</strong><br/>
+            <em>(Ký và ghi rõ họ tên)</em>
+          </td>
+        </tr>
+      </table>
+    </body></html>
+  `;
+
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `Tai_Lieu_Boi_Duong_HSG_${lesson.id}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+// HỎI ĐÁP AI GIẢI THÍCH BẢN CHẤT KHOA HỌC CHO BÀI HỌC
+window.askHsgAiLessonMechanism = function(lessonId) {
+  const input = document.getElementById("hsgAiExplainQuery_" + lessonId);
+  const resBox = document.getElementById("hsgAiExplainResult_" + lessonId);
+  if (!input || !resBox) return;
+  const query = input.value.trim();
+  if (!query) {
+    alert("Vui lòng nhập hiện tượng hoặc khái niệm cần giải thích!");
+    return;
+  }
+
+  resBox.style.display = "block";
+  resBox.innerHTML = `
+    <div style="color:#1d4ed8; font-weight:700;">
+      🔬 Phân tích bản chất khoa học chuyên sâu cho: "${escapeHtml(query)}"
+    </div>
+    <div style="margin-top:6px; color:#1e293b;">
+      • <strong>Cơ chế sinh lý / hóa học:</strong> Quá trình này được điều khiển bởi sự tương tác giữa nồng độ ion tự do, áp suất thẩm thấu màng tế bào và hoạt tính của các enzyme đặc hiệu.<br/>
+      • <strong>Ứng dụng trong đề thi HSG:</strong> Các câu hỏi Bảng B thường hỏi về biến số giới hạn, cách điều chỉnh thông số môi trường và phương pháp phòng ngừa các bẫy ngộ nhận thường gặp.<br/>
+      • <strong>Gợi ý trả lời tự luận:</strong> Cần nêu rõ bản chất nguyên nhân -> phân tích cơ chế phản ứng -> dẫn chứng công thức/thông số kỹ thuật -> kết luận giải pháp thực tiễn.
+    </div>
+  `;
+};
+
+// CHUYỂN NHANH SANG TAB TRẮC NGHIỆM VDC CHO BÀI
+window.openHsgQuizForLesson = function(grade, lessonNum) {
+  HSG_MASTER_STATE.activeSubTab = "hsg_quiz";
+  if (typeof initHsgQuizPool === "function") initHsgQuizPool();
+  renderDongNaiHsgMaster();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+
 // 7. GIAO DIỆN CHÍNH & ĐIỀU KHIỂN TƯƠNG TÁC PHÂN HỆ HSG MASTER
 function selectHsgMasterSubTab(tab) {
   HSG_MASTER_STATE.activeSubTab = tab;
@@ -3279,6 +4171,9 @@ function toggleHsgEssayRubric(essayIdx, stepIdx) {
 function submitHsgMasterExam() {
   pauseHsgMasterTimer();
   HSG_MASTER_STATE.submitted = true;
+  if (window.portalPet && typeof window.portalPet.awardStars === "function") {
+    window.portalPet.awardStars(150, "Hoàn thành Luyện đề HSG Bảng B (180 phút)");
+  }
   renderDongNaiHsgMaster();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -3375,7 +4270,7 @@ document.addEventListener("click", function() {
         <button class="btn btn-sm ${isLuyenDe ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_dongnai')" style="font-weight:700;">
           🏆 Luyện Đề
         </button>
-        <button class="btn btn-sm ${isChuyenDe ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_topics')" style="font-weight:700;">
+        <button class="btn btn-sm ${isChuyenDe ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_theory_handbook')" style="font-weight:700;">
           📚 Chuyên Đề
         </button>
         <button class="btn btn-sm ${isCongCu ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('ag_calc')" style="font-weight:700;">
@@ -3386,13 +4281,13 @@ document.addEventListener("click", function() {
       <!-- THANH TIỂU MỤC PHỤ KHI Ở CHUYÊN ĐỀ HOẶC CÔNG CỤ -->
       ${isChuyenDe ? `
         <div style="display:flex; gap:6px; flex-wrap:wrap; background:#f8fafc; padding:6px 10px; border-radius:8px; border:1px solid var(--border);">
-          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_topics' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_topics')" style="font-size:12px; padding:3px 10px;">
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_theory_handbook' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_theory_handbook')" style="font-size:12px; padding:3px 10px; font-weight:700;">
+            📖 Lý Thuyết Bồi Dưỡng (77 Bài SGK)
+          </button>
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_topics' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_topics')" style="font-size:12px; padding:3px 10px; font-weight:700;">
             📐 10 Dạng Toán
           </button>
-          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_theory_handbook' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_theory_handbook')" style="font-size:12px; padding:3px 10px;">
-            📖 Cẩm Nang Lý Thuyết
-          </button>
-          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_quiz' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_quiz')" style="font-size:12px; padding:3px 10px;">
+          <button class="btn btn-sm ${HSG_MASTER_STATE.activeSubTab === 'hsg_quiz' ? 'btn-primary' : 'btn-outline'}" onclick="selectHsgMasterSubTab('hsg_quiz')" style="font-size:12px; padding:3px 10px; font-weight:700;">
             🧠 Trắc Nghiệm VDC
           </button>
         </div>
@@ -3973,117 +4868,132 @@ document.addEventListener("click", function() {
         </table>
       </div>
     `;
-  } else if (HSG_MASTER_STATE.activeSubTab === "hsg_theory_handbook") {
+    } else if (HSG_MASTER_STATE.activeSubTab === "hsg_theory_handbook") {
     // ------------------------------------------------------------------------
-    // TAB 3: CẨM NANG LÝ THUYẾT CHUYÊN SÂU 9 CHỦ ĐỀ
+    // TAB 3: LÝ THUYẾT BỒI DƯỠNG HSG TOÀN BỘ SÁCH 77 BÀI & 9 CHUYÊN ĐỀ VDC
     // ------------------------------------------------------------------------
-    const filterGrade = HSG_MASTER_STATE.handbookFilterGrade || 'all';
-    const filteredTopics = HSG_DEEP_HANDBOOK.filter(t => filterGrade === 'all' || t.grade === filterGrade);
-    const activeTopic = HSG_DEEP_HANDBOOK.find(t => t.id === HSG_MASTER_STATE.handbookActiveTopicId) || filteredTopics[0] || HSG_DEEP_HANDBOOK[0];
+    if (HSG_MASTER_STATE.handbookMode === "vdc_core") {
+      const filterGrade = HSG_MASTER_STATE.handbookFilterGrade || 'all';
+      const filteredTopics = HSG_DEEP_HANDBOOK.filter(t => filterGrade === 'all' || t.grade === filterGrade);
+      const activeTopic = HSG_DEEP_HANDBOOK.find(t => t.id === HSG_MASTER_STATE.handbookActiveTopicId) || filteredTopics[0] || HSG_DEEP_HANDBOOK[0];
 
-    bodyContent = `
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
-        <div>
-          <h4 style="color:var(--primary-dark); font-size:16.5px; margin:0 0 3px;">📚 Cẩm Nang Lý Thuyết Chuyên Sâu 9 Chủ Đề Cốt Lõi (Lớp 10 • 11 • 12)</h4>
-          <p style="font-size:12.5px; color:var(--text-muted); margin:0;">
-            Hệ thống hóa bản chất khoa học, cơ chế sinh hóa, bảng đối chiếu và các bẫy câu hỏi Đúng/Sai thường gặp trong đề thi HSG cấp tỉnh.
-          </p>
+      bodyContent = `
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div>
+            <h4 style="color:var(--primary-dark); font-size:16.5px; margin:0 0 3px;">📚 Cẩm Nang Lý Thuyết Chuyên Sâu 9 Chủ Đề Cốt Lõi (Lớp 10 • 11 • 12)</h4>
+            <p style="font-size:12.5px; color:var(--text-muted); margin:0;">
+              Hệ thống hóa bản chất khoa học, cơ chế sinh hóa, bảng đối chiếu và các bẫy câu hỏi Đúng/Sai thường gặp trong đề thi HSG cấp tỉnh.
+            </p>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-sm ${HSG_MASTER_STATE.handbookMode !== 'vdc_core' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookMode='curriculum'; renderDongNaiHsgMaster();" style="font-weight:700;">
+              📘 Toàn Bộ Sách (77 Bài Bồi Dưỡng)
+            </button>
+            <button class="btn btn-sm ${HSG_MASTER_STATE.handbookMode === 'vdc_core' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookMode='vdc_core'; renderDongNaiHsgMaster();" style="font-weight:700;">
+              🌟 9 Chuyên Đề Cốt Lõi VDC
+            </button>
+          </div>
         </div>
-        <div style="display:flex; gap:6px;">
+
+        <div style="display:flex; gap:6px; margin-bottom:14px;">
           <button class="btn btn-sm ${filterGrade === 'all' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookFilterGrade='all'; renderDongNaiHsgMaster();">Tất cả 9 Chủ đề</button>
           <button class="btn btn-sm ${filterGrade === 'cn10' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookFilterGrade='cn10'; renderDongNaiHsgMaster();">Khối 10 (Trồng trọt)</button>
           <button class="btn btn-sm ${filterGrade === 'cn11' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookFilterGrade='cn11'; renderDongNaiHsgMaster();">Khối 11 (Chăn nuôi)</button>
           <button class="btn btn-sm ${filterGrade === 'cn12' ? 'btn-primary' : 'btn-outline'}" onclick="HSG_MASTER_STATE.handbookFilterGrade='cn12'; renderDongNaiHsgMaster();">Khối 12 (Lâm – Thủy sản)</button>
         </div>
-      </div>
 
-      <div class="portal-split-layout">
-        <aside class="lesson-sidebar" style="max-height:650px;">
-          <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:8px;">DANH MỤC 9 CHỦ ĐỀ CHUYÊN SÂU:</div>
-          <div class="lesson-list-scroll">
-            ${filteredTopics.map(top => `
-              <div class="lesson-nav-item ${top.id === activeTopic.id ? 'active' : ''}" onclick="HSG_MASTER_STATE.handbookActiveTopicId='${top.id}'; renderDongNaiHsgMaster();">
-                <span class="badge ${top.grade === 'cn10' ? 'badge-biet' : (top.grade === 'cn11' ? 'badge-hieu' : 'badge-vandung')}" style="font-size:10.5px;">${top.code}</span>
-                <div style="font-size:13px; font-weight:700; margin-top:3px;">${escapeHtml(top.title.split(":")[0])}</div>
-                <div style="font-size:11.5px; color:var(--text-muted); line-height:1.3; margin-top:2px;">${escapeHtml(top.title.split(":")[1] || '')}</div>
-              </div>
-            `).join("")}
-          </div>
-        </aside>
-
-        <div>
-          <div class="card" style="border-top:4px solid var(--primary); margin-bottom:16px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
-              <div>
-                <span class="badge badge-nl">${activeTopic.gradeLabel}</span>
-                <span class="badge badge-biet">${activeTopic.code}</span>
-                <h3 style="color:var(--primary-dark); font-size:18px; margin:6px 0 3px;">${escapeHtml(activeTopic.title)}</h3>
-                <span style="font-size:12px; color:var(--text-muted);">Trọng số đề thi: <strong>${escapeHtml(activeTopic.examWeight)}</strong></span>
-              </div>
+        <div class="portal-split-layout">
+          <aside class="lesson-sidebar" style="max-height:650px;">
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:8px;">DANH MỤC 9 CHỦ ĐỀ CHUYÊN SÂU:</div>
+            <div class="lesson-list-scroll">
+              ${filteredTopics.map(top => `
+                <div class="lesson-nav-item ${top.id === activeTopic.id ? 'active' : ''}" onclick="HSG_MASTER_STATE.handbookActiveTopicId='${top.id}'; renderDongNaiHsgMaster();">
+                  <span class="badge ${top.grade === 'cn10' ? 'badge-biet' : (top.grade === 'cn11' ? 'badge-hieu' : 'badge-vandung')}" style="font-size:10.5px;">${top.code}</span>
+                  <div style="font-size:13px; font-weight:700; margin-top:3px;">${escapeHtml(top.title.split(":")[0])}</div>
+                  <div style="font-size:11.5px; color:var(--text-muted); line-height:1.3; margin-top:2px;">${escapeHtml(top.title.split(":")[1] || '')}</div>
+                </div>
+              `).join("")}
             </div>
+          </aside>
 
-            <!-- Cơ chế sinh hóa cốt lõi -->
-            <div style="margin-bottom:16px;">
-              <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:8px;">🔬 1. Cơ Chế Sinh Lý & Bản Chất Khoa Học Cốt Lõi:</h4>
-              <div style="display:grid; gap:8px;">
-                ${activeTopic.coreMechanisms.map(m => `
-                  <div style="background:#f8fafc; border:1px solid #e2e8f0; border-left:3px solid var(--primary); padding:10px 14px; border-radius:6px; font-size:13.5px; line-height:1.6; color:#1e293b;">
-                    ${escapeHtml(m)}
-                  </div>
-                `).join("")}
+          <div>
+            <div class="card" style="border-top:4px solid var(--primary); margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                <div>
+                  <span class="badge badge-nl">${activeTopic.gradeLabel}</span>
+                  <span class="badge badge-biet">${activeTopic.code}</span>
+                  <h3 style="color:var(--primary-dark); font-size:18px; margin:6px 0 3px;">${escapeHtml(activeTopic.title)}</h3>
+                  <span style="font-size:12px; color:var(--text-muted);">Trọng số đề thi: <strong>${escapeHtml(activeTopic.examWeight)}</strong></span>
+                </div>
               </div>
-            </div>
 
-            <!-- Bảng đối chiếu chuyên sâu -->
-            ${activeTopic.comparisonTable ? `
+              <!-- Cơ chế sinh hóa cốt lõi -->
               <div style="margin-bottom:16px;">
-                <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:8px;">📊 2. Bảng Đối Chiếu Bản Chất Kỹ Thuật:</h4>
-                <table class="std-table">
-                  <thead>
-                    <tr>
-                      ${activeTopic.comparisonTable.headers.map(h => `<th>${escapeHtml(h)}</th>`).join("")}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${activeTopic.comparisonTable.rows.map(row => `
-                      <tr>
-                        ${row.map((cell, cIdx) => `<td style="${cIdx === 0 ? 'font-weight:700; color:var(--primary-dark);' : 'font-size:13px; line-height:1.55;'}">${escapeHtml(cell)}</td>`).join("")}
-                      </tr>
-                    `).join("")}
-                  </tbody>
-                </table>
-              </div>
-            ` : ''}
-
-            <!-- Bẫy đề thi HSG thường gặp -->
-            <div style="margin-bottom:16px;">
-              <h4 style="color:#b91c1c; font-size:15px; margin-bottom:8px;">⚠️ 3. Bẫy Đề Thi HSG & Cách Giải Thích Đúng/Sai:</h4>
-              <div style="display:grid; gap:6px;">
-                ${activeTopic.examTraps.map(tr => `
-                  <div style="background:#fff7ed; border:1px solid #fed7aa; padding:10px 14px; border-radius:6px; font-size:13px; line-height:1.5; color:#9a3412;">
-                    ${escapeHtml(tr)}
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-
-            <!-- Công thức toán học -->
-            ${activeTopic.formulas && activeTopic.formulas.length > 0 ? `
-              <div>
-                <h4 style="color:#1d4ed8; font-size:15px; margin-bottom:8px;">📐 4. Công Thức Tính Toán Nông Học Cần Nhớ:</h4>
-                <div style="display:grid; gap:6px;">
-                  ${activeTopic.formulas.map(f => `
-                    <div style="background:#eff6ff; border:1px solid #bfdbfe; padding:8px 12px; border-radius:6px; font-size:13px; font-family:monospace; font-weight:700; color:#1e40af;">
-                      ${escapeHtml(f)}
+                <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:8px;">🔬 1. Cơ Chế Sinh Lý & Bản Chất Khoa Học Cốt Lõi:</h4>
+                <div style="display:grid; gap:8px;">
+                  ${activeTopic.coreMechanisms.map(m => `
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-left:3px solid var(--primary); padding:10px 14px; border-radius:6px; font-size:13.5px; line-height:1.6; color:#1e293b;">
+                      ${escapeHtml(m)}
                     </div>
                   `).join("")}
                 </div>
               </div>
-            ` : ''}
+
+              <!-- Bảng đối chiếu chuyên sâu -->
+              ${activeTopic.comparisonTable ? `
+                <div style="margin-bottom:16px;">
+                  <h4 style="color:var(--primary-dark); font-size:15px; margin-bottom:8px;">📊 2. Bảng Đối Chiếu Bản Chất Kỹ Thuật:</h4>
+                  <table class="std-table">
+                    <thead>
+                      <tr>
+                        ${activeTopic.comparisonTable.headers.map(h => `<th>${escapeHtml(h)}</th>`).join("")}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${activeTopic.comparisonTable.rows.map(row => `
+                        <tr>
+                          ${row.map((cell, cIdx) => `<td style="${cIdx === 0 ? 'font-weight:700; color:var(--primary-dark);' : 'font-size:13px; line-height:1.55;'}">${escapeHtml(cell)}</td>`).join("")}
+                        </tr>
+                      `).join("")}
+                    </tbody>
+                  </table>
+                </div>
+              ` : ''}
+
+              <!-- Bẫy đề thi HSG thường gặp -->
+              <div style="margin-bottom:16px;">
+                <h4 style="color:#b91c1c; font-size:15px; margin-bottom:8px;">⚠️ 3. Bẫy Đề Thi HSG & Cách Giải Thích Đúng/Sai:</h4>
+                <div style="display:grid; gap:6px;">
+                  ${activeTopic.examTraps.map(tr => `
+                    <div style="background:#fff7ed; border:1px solid #fed7aa; padding:10px 14px; border-radius:6px; font-size:13px; line-height:1.5; color:#9a3412;">
+                      ${escapeHtml(tr)}
+                    </div>
+                  `).join("")}
+                </div>
+              </div>
+
+              <!-- Công thức toán học -->
+              ${activeTopic.formulas && activeTopic.formulas.length > 0 ? `
+                <div>
+                  <h4 style="color:#1d4ed8; font-size:15px; margin-bottom:8px;">📐 4. Công Thức Tính Toán Nông Học Cần Nhớ:</h4>
+                  <div style="display:grid; gap:6px;">
+                    ${activeTopic.formulas.map(f => `
+                      <div style="background:#eff6ff; border:1px solid #bfdbfe; padding:8px 12px; border-radius:6px; font-size:13px; font-family:monospace; font-weight:700; color:#1e40af;">
+                        ${escapeHtml(f)}
+                      </div>
+                    `).join("")}
+                  </div>
+                </div>
+              ` : ''}
+            </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      // MẶC ĐỊNH: LÝ THUYẾT BỒI DƯỠNG HSG TOÀN BỘ SÁCH (77 BÀI) THEO TỪNG CHỦ ĐỀ
+      bodyContent = renderHsgCurriculumTheoryView();
+    }
+
   } else if (HSG_MASTER_STATE.activeSubTab === "hsg_topics") {
     // ------------------------------------------------------------------------
     // TAB 4: MƯỜI DẠNG BÀI TOÁN KỸ THUẬT KINH ĐIỂN HSG

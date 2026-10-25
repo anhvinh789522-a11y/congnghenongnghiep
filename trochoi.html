@@ -6,25 +6,32 @@
   <title>Kho Trò Chơi Học Tập &amp; Ôn Luyện – Công nghệ Nông nghiệp THPT Lộc Ninh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=11" />
   <style>
-    /* GAME HUB STYLES */
+    /* ========================================================================== */
+    /* ARCADE & GAME HUB STYLES - FONT & TYPOGRAPHY CHUẨN BE VIETNAM PRO */
+    /* ========================================================================== */
+    body, button, input, select, textarea {
+      font-family: 'Be Vietnam Pro', -apple-system, sans-serif !important;
+      -webkit-font-smoothing: antialiased;
+    }
+
     .game-hero {
       background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #10b981 100%);
       color: #ffffff;
       border-radius: 20px;
-      padding: 32px 28px;
-      margin-bottom: 28px;
-      box-shadow: 0 10px 30px rgba(4, 120, 87, 0.25);
+      padding: 30px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(4, 120, 87, 0.22);
       position: relative;
       overflow: hidden;
     }
     .game-hero::after {
       content: "🎮";
       position: absolute;
-      right: 24px;
-      bottom: -10px;
+      right: 20px;
+      bottom: -15px;
       font-size: 130px;
       opacity: 0.12;
       pointer-events: none;
@@ -42,15 +49,15 @@
     }
     .game-selector-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      margin-bottom: 32px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
     }
     .game-card-select {
       background: #ffffff;
       border: 2px solid #e2e8f0;
       border-radius: 16px;
-      padding: 22px;
+      padding: 20px 18px;
       cursor: pointer;
       transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
@@ -62,12 +69,12 @@
     .game-card-select:hover {
       transform: translateY(-4px);
       border-color: #10b981;
-      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.18);
+      box-shadow: 0 10px 24px rgba(16, 185, 129, 0.18);
     }
     .game-card-select.active {
       border-color: #10b981;
       background: #f0fdf4;
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
     }
     .game-badge-reward {
       display: inline-block;
@@ -77,31 +84,50 @@
       font-weight: 800;
       background: #fef3c7;
       color: #b45309;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     /* PLAY AREA CONTAINER */
     .game-stage-box {
       background: #ffffff;
-      border: 2px solid #cbd5e1;
+      border: 2px solid #e2e8f0;
       border-radius: 20px;
       padding: 28px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
       min-height: 480px;
       margin-bottom: 32px;
     }
 
-    /* GAME 1: SPEED QUIZ BLITZ */
-    .speed-quiz-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #f1f5f9;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 10px;
+    /* QUIZ BUTTONS & CHOICES */
+    .choice-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      line-height: 1.5;
+      font-family: inherit;
     }
+    .choice-btn:hover {
+      background: #f0fdf4;
+      border-color: #10b981;
+      color: #065f46;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12);
+    }
+    .choice-btn strong {
+      color: #059669;
+    }
+
+    /* GAME 1: SPEED QUIZ */
     .timer-circle {
       width: 52px;
       height: 52px;
@@ -111,7 +137,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       color: #b91c1c;
       animation: timerPulse 1s infinite alternate;
@@ -120,78 +146,20 @@
       from { transform: scale(1); }
       to { transform: scale(1.06); }
     }
-    .combo-badge {
-      font-size: 14px;
-      font-weight: 800;
-      color: #ea580c;
-      background: #fff7ed;
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid #fed7aa;
-    }
-    .quiz-question-stem {
-      font-size: 18px;
-      font-weight: 700;
-      color: #0f172a;
-      line-height: 1.5;
-      margin-bottom: 20px;
-      background: #f8fafc;
-      padding: 16px 20px;
-      border-radius: 12px;
-      border-left: 5px solid #10b981;
-    }
-    .quiz-options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    @media (max-width: 640px) {
-      .quiz-options-grid { grid-template-columns: 1fr; }
-    }
-    .quiz-opt-btn {
-      padding: 14px 18px;
-      background: #ffffff;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #334155;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .quiz-opt-btn:hover {
-      background: #f0fdf4;
-      border-color: #10b981;
-      transform: translateY(-2px);
-    }
-    .quiz-opt-btn.correct {
-      background: #dcfce7 !important;
-      border-color: #22c55e !important;
-      color: #15803d !important;
-    }
-    .quiz-opt-btn.wrong {
-      background: #fee2e2 !important;
-      border-color: #ef4444 !important;
-      color: #991b1b !important;
-    }
 
     /* GAME 2: MEMORY CARD MATCH */
     .memory-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto;
     }
     @media (max-width: 600px) {
       .memory-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
     }
     .memory-card {
-      height: 110px;
+      height: 115px;
       perspective: 1000px;
       cursor: pointer;
     }
@@ -209,7 +177,7 @@
     }
     .memory-card.matched .memory-card-inner {
       transform: rotateY(180deg);
-      opacity: 0.5;
+      opacity: 0.6;
       pointer-events: none;
     }
     .memory-front, .memory-back {
@@ -221,14 +189,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
       box-sizing: border-box;
     }
     .memory-front {
       background: linear-gradient(135deg, #10b981 0%, #047857 100%);
       color: #ffffff;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 800;
       border: 2px solid #34d399;
     }
@@ -239,21 +207,21 @@
       border: 2px solid #10b981;
       font-size: 13px;
       font-weight: 700;
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
-    /* GAME 3: LUCKY WHEEL */
+    /* GAME 5: LUCKY WHEEL */
     .wheel-container {
       position: relative;
-      width: 280px;
-      height: 280px;
+      width: 290px;
+      height: 290px;
       margin: 0 auto 24px;
     }
     .wheel-canvas {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
       border: 6px solid #10b981;
       transition: transform 4s cubic-bezier(0.1, 1, 0.2, 1);
     }
@@ -271,13 +239,13 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     }
 
-    /* RESULT MODAL */
+    /* RESULT BANNER */
     .game-win-card {
       text-align: center;
       padding: 32px 20px;
       background: #f0fdf4;
       border: 2px dashed #86efac;
-      border-radius: 16px;
+      border-radius: 18px;
     }
   </style>
 </head>
@@ -312,68 +280,57 @@
 
     <!-- HERO BANNER -->
     <div class="game-hero">
-      <div style="font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:#a7f3d0; margin-bottom:6px;">
+      <div style="font-size:12.5px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:#a7f3d0; margin-bottom:6px;">
         Arcade Học Tập • Công nghệ Nông nghiệp 10 - 11 - 12
       </div>
-      <h1 style="font-size:26px; font-weight:800; margin:0 0 8px;">
-        🎮 KHO TRÒ CHƠI NÔNG NGHIỆP — ÔN BÀI NHANH, NHẬN ĐIỂM THƯỞNG (XP)
+      <h1 style="font-size:25px; font-weight:800; margin:0 0 8px; line-height:1.35;">
+        🎮 KHO TRÒ CHƠI HỌC TẬP — ÔN BÀI NHANH, TÍCH SAO NUÔI THÚ
       </h1>
-      <p style="font-size:14.5px; opacity:0.95; margin:0; max-width:680px; line-height:1.5;">
-        Vừa thư giãn vừa khắc sâu kiến thức SGK Nông nghiệp. Thắng mỗi ván nhận ngay bão <strong>⭐ Sao Nông Nghiệp</strong> để đổi đồ ăn, phụ kiện và giúp bé cưng lớn lên thăng hạng danh hiệu!
+      <p style="font-size:14.5px; opacity:0.95; margin:0; max-width:680px; line-height:1.55;">
+        Vừa thư giãn vừa ghi nhớ sâu kiến thức SGK Nông nghiệp. Thắng mỗi ván nhận ngay cơn mưa <strong>⭐ Sao Nông Nghiệp</strong> để cho bé cưng ăn no, tắm mát và thăng hạng danh hiệu!
       </p>
 
       <div class="game-star-bar">
         <div style="display:flex; align-items:center; gap:6px; font-weight:800; font-size:15px;">
           <span>⭐</span>
-          <span id="gameHeroStarDisplay">0</span> Sao Nông Nghiệp
+          <span id="gameHeroStarDisplay" class="pet-stars-display">0</span> Sao Nông Nghiệp
         </div>
         <span style="opacity:0.6;">|</span>
-        <button type="button" class="btn btn-sm btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#ffffff; color:#065f46; font-weight:700; border:none; padding:4px 12px; font-size:12.5px;">
-          🐾 Vào Nông Trại Chăm Sóc Bé
+        <button type="button" class="btn btn-sm btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#ffffff; color:#065f46; font-weight:800; border:none; padding:5px 14px; font-size:13px; border-radius:20px; cursor:pointer;">
+          🐾 Mở Nông Trại Chăm Sóc Bé
         </button>
       </div>
     </div>
 
-    <!-- BỘ LỌC ĐẦU TRANG THEO KHỐI, GIAI ĐOẠN & BÀI HỌC -->
-    <div style="background:#fff; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 18px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+    <!-- BỘ LỌC ĐẦU TRANG THEO KHỐI & GIAI ĐOẠN -->
+    <div style="background:#fff; border:1.5px solid #e2e8f0; border-radius:14px; padding:12px 18px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-        <span style="font-size:13px; font-weight:800; color:#166534;">Chọn Khối:</span>
-        <button class="btn btn-sm btn-primary" id="btnGameK10" onclick="selectGameGrade('cn10')">Khối 10</button>
-        <button class="btn btn-sm btn-outline" id="btnGameK11" onclick="selectGameGrade('cn11')">Khối 11</button>
-        <button class="btn btn-sm btn-outline" id="btnGameK12" onclick="selectGameGrade('cn12')">Khối 12</button>
+        <span style="font-size:13px; font-weight:800; color:#166534;">Bộ lọc Ngân hàng Câu hỏi:</span>
+        <button class="btn btn-sm btn-primary" id="btnGameK10" onclick="selectGameGrade('cn10')">Khối 10 (Trồng trọt)</button>
+        <button class="btn btn-sm btn-outline" id="btnGameK11" onclick="selectGameGrade('cn11')">Khối 11 (Chăn nuôi)</button>
+        <button class="btn btn-sm btn-outline" id="btnGameK12" onclick="selectGameGrade('cn12')">Khối 12 (Lâm - Thủy sản)</button>
       </div>
       <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-        <div style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:12.5px; font-weight:700; color:#64748b;">Chọn Giai đoạn:</span>
-          <select id="gameTermSelect" onchange="filterGameByTerm(this.value)" style="padding:5px 10px; border-radius:6px; border:1px solid #cbd5e1; font-size:12.5px; font-weight:600;">
-            <option value="gk1">Giữa Kì 1 ▾</option>
-            <option value="ck1">Cuối Kì 1 ▾</option>
-            <option value="gk2">Giữa Kì 2 ▾</option>
-            <option value="ck2">Cuối Kì 2 ▾</option>
-          </select>
-        </div>
-        <div style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:12.5px; font-weight:700; color:#64748b;">Chọn Bài học:</span>
-          <select id="gameLessonSelect" onchange="filterGameByLesson(this.value)" style="padding:5px 10px; border-radius:6px; border:1px solid #cbd5e1; font-size:12.5px; font-weight:600; max-width:260px;">
-            <option value="cur_lesson">Bài hiện tại đang mở khóa ▾</option>
-            <option value="b1">Bài 1: Giới thiệu chung</option>
-            <option value="b2">Bài 2: Cây trồng &amp; yếu tố chính</option>
-            <option value="b3">Bài 3: Giống cây trồng &amp; nhân giống</option>
-          </select>
-        </div>
+        <span style="font-size:12.5px; font-weight:700; color:#64748b;">Đợt học:</span>
+        <select id="gameTermSelect" onchange="filterGameByTerm(this.value)" style="padding:5px 10px; border-radius:6px; border:1px solid #cbd5e1; font-size:12.5px; font-weight:600;">
+          <option value="gk1">Giữa Kì 1 ▾</option>
+          <option value="ck1">Cuối Kì 1 ▾</option>
+          <option value="gk2">Giữa Kì 2 ▾</option>
+          <option value="ck2">Cuối Kì 2 ▾</option>
+        </select>
       </div>
     </div>
 
-    <!-- DANH SÁCH 5 TRÒ CHƠI HỌC TẬP CHUẨN HÓA -->
-    <div class="game-selector-grid" style="grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));">
+    <!-- DANH SÁCH 5 THẺ CHỌN TRÒ CHƠI HỌC TẬP -->
+    <div class="game-selector-grid">
       <!-- GAME 1 -->
       <div class="game-card-select active" id="selGame1" onclick="switchGameMode(1)">
         <div>
           <span class="game-badge-reward">Thưởng tới +150 ⭐</span>
-          <div style="font-size:30px; margin-bottom:8px;">⚡</div>
+          <div style="font-size:30px; margin-bottom:6px;">⚡</div>
           <h3 style="font-size:15px; font-weight:800; color:#0f172a; margin:0 0 6px;">1. Phản Xạ Đúng/Sai 60 Giây</h3>
           <p style="font-size:12px; color:#64748b; line-height:1.45; margin:0;">
-            Nhanh tay nhận định Đúng hoặc Sai cho từng câu hỏi SGK theo bài trước khi đồng hồ đếm ngược kết thúc.
+            Nhanh tay nhận định Đúng hoặc Sai cho các mệnh đề kiến thức SGK trước khi hết 60 giây.
           </p>
         </div>
         <div style="margin-top:12px; font-weight:700; font-size:12.5px; color:#10b981;">
@@ -385,10 +342,10 @@
       <div class="game-card-select" id="selGame2" onclick="switchGameMode(2)">
         <div>
           <span class="game-badge-reward">Thưởng tới +120 ⭐</span>
-          <div style="font-size:30px; margin-bottom:8px;">🧩</div>
+          <div style="font-size:30px; margin-bottom:6px;">🧩</div>
           <h3 style="font-size:15px; font-weight:800; color:#0f172a; margin:0 0 6px;">2. Lật Thẻ Ghép Cặp Nhà Nông</h3>
           <p style="font-size:12px; color:#64748b; line-height:1.45; margin:0;">
-            Ghép đúng cặp <em>Khái niệm – Bản chất/Vai trò</em> trong thời gian ngắn nhất để đạt mốc 3 sao danh giá.
+            Lật thẻ ghép đúng cặp Khái niệm &amp; Bản chất kỹ thuật nông nghiệp để đạt 3 sao danh giá.
           </p>
         </div>
         <div style="margin-top:12px; font-weight:700; font-size:12.5px; color:#10b981;">
@@ -400,10 +357,10 @@
       <div class="game-card-select" id="selGame3" onclick="switchGameMode(3)">
         <div>
           <span class="game-badge-reward">Thưởng tới +160 ⭐</span>
-          <div style="font-size:30px; margin-bottom:8px;">🩺</div>
+          <div style="font-size:30px; margin-bottom:6px;">🩺</div>
           <h3 style="font-size:15px; font-weight:800; color:#0f172a; margin:0 0 6px;">3. Bác Sĩ Cây Trồng &amp; Vật Nuôi</h3>
           <p style="font-size:12px; color:#64748b; line-height:1.45; margin:0;">
-            Chẩn đoán tình huống thực tế và chọn phác đồ xử lý đúng kỹ thuật phòng chống sâu bệnh, dịch hại.
+            Chẩn đoán triệu chứng sâu bệnh, dịch hại thực tế và chọn phác đồ điều trị chuẩn VietGAP.
           </p>
         </div>
         <div style="margin-top:12px; font-weight:700; font-size:12.5px; color:#10b981;">
@@ -415,10 +372,10 @@
       <div class="game-card-select" id="selGame4" onclick="switchGameMode(4)">
         <div>
           <span class="game-badge-reward">Thưởng tới +200 ⭐</span>
-          <div style="font-size:30px; margin-bottom:8px;">🏰</div>
+          <div style="font-size:30px; margin-bottom:6px;">🏰</div>
           <h3 style="font-size:15px; font-weight:800; color:#0f172a; margin:0 0 6px;">4. Vượt Ải 10 Câu (3 Trái Tim)</h3>
           <p style="font-size:12px; color:#64748b; line-height:1.45; margin:0;">
-            Thử thách 10 câu hỏi từ Nhận biết đến Vận dụng cao của bài học mà không được phép sai quá 3 lần.
+            Chinh phục 10 ải kiến thức từ Nhận biết đến Vận dụng mà không được để mất quá 3 mạng.
           </p>
         </div>
         <div style="margin-top:12px; font-weight:700; font-size:12.5px; color:#10b981;">
@@ -429,11 +386,11 @@
       <!-- GAME 5 -->
       <div class="game-card-select" id="selGame5" onclick="switchGameMode(5)">
         <div>
-          <span class="game-badge-reward">Thưởng vui nhộn 🎲</span>
-          <div style="font-size:30px; margin-bottom:8px;">🎲</div>
-          <h3 style="font-size:15px; font-weight:800; color:#0f172a; margin:0 0 6px;">5. Gọi Tên Ngẫu Nhiên</h3>
+          <span class="game-badge-reward">Vòng quay &amp; Thưởng 🎲</span>
+          <div style="font-size:30px; margin-bottom:6px;">🎡</div>
+          <h3 style="font-size:15px; font-weight:800; color:#0f172a; margin:0 0 6px;">5. Vòng Quay &amp; Bốc Thăm Lớp</h3>
           <p style="font-size:12px; color:#64748b; line-height:1.45; margin:0;">
-            Vòng quay may mắn, Hộp quà bí mật bốc thăm học sinh trả lời câu hỏi tạo không khí sôi động trên lớp.
+            Vòng quay may mắn nhận thức ăn thú cưng và bốc thăm ngẫu nhiên học sinh trả lời trên lớp.
           </p>
         </div>
         <div style="margin-top:12px; font-weight:700; font-size:12.5px; color:#10b981;">
@@ -443,9 +400,7 @@
     </div>
 
     <!-- KHU VỰC CHƠI GAME TRỰC TIẾP (GAME STAGE) -->
-    <div class="game-stage-box" id="gameStageArea">
-      <!-- Sẽ được render động qua JavaScript -->
-    </div>
+    <div class="game-stage-box" id="gameStageArea"></div>
 
   </main>
 
@@ -455,78 +410,185 @@
   <script src="ui_theme_sync.js?v=1"></script>
   <script>
     // ========================================================================
-    // GAME ENGINE & DATA (KHO TRÒ CHƠI HỌC TẬP CNNN)
+    // GAME ENGINE & DỮ LIỆU CÂU HỎI THEO KHỐI (10 - 11 - 12)
     // ========================================================================
     let currentGameId = 1;
-
-    // Ngân hàng câu hỏi Speed Quiz Blitz
-    const SPEED_QUESTIONS = [
-      {
-        q: "Công nghệ nuôi cấy mô tế bào thực vật (In vitro) có ưu điểm nổi bật nào nhất?",
-        opts: ["Tạo cây con sạch bệnh và đồng đều di truyền số lượng lớn", "Làm thay đổi hoàn toàn hệ gen của cây trồng", "Chỉ áp dụng được cho các loại cây rừng thân gỗ cổ thụ", "Không cần môi trường dinh dưỡng khử trùng"],
-        ans: 0
-      },
-      {
-        q: "Theo tiêu chuẩn VietGAP, việc sử dụng thuốc bảo vệ thực vật cần tuân thủ nguyên tắc gì?",
-        opts: ["Nguyên tắc 4 đúng (đúng thuốc, đúng lúc, đúng nồng độ/liều lượng, đúng cách)", "Phun thuốc định kỳ hằng ngày bất kể có sâu hại hay không", "Sử dụng liều lượng gấp đôi khuyến cáo để diệt sâu triệt để", "Ưu tiên dùng thuốc hóa học có độ độc cao nhất"],
-        ans: 0
-      },
-      {
-        q: "Hệ thống nuôi thủy sản tuần hoàn khép kín (RAS) mang lại lợi ích môi trường cốt lõi nào?",
-        opts: ["Tiết kiệm 90-99% lượng nước và kiểm soát mầm bệnh sinh học", "Xả thải toàn bộ bùn lắng trực tiếp ra sông hồ", "Tăng chi phí thay nước và hóa chất xử lý", "Chỉ nuôi được ở vùng nước mặn ven biển"],
-        ans: 0
-      },
-      {
-        q: "Rừng đặc dụng tại Việt Nam (như Vườn quốc gia Lộc Ninh) có chức năng chính là gì?",
-        opts: ["Bảo tồn thiên nhiên, nguồn gen sinh vật và nghiên cứu khoa học", "Khai thác tối đa gỗ và lâm sản để xuất khẩu", "Trồng cây cao su để lấy mủ thương mại", "Nuôi thả gia súc tự do quy mô lớn"],
-        ans: 0
-      },
-      {
-        q: "Giống lúa ST25 của Việt Nam nổi tiếng thế giới nhờ những phẩm chất vượt trội nào?",
-        opts: ["Hạt gạo thon dài, cơm dẻo mềm, thơm mùi lá dứa và đạt giải Nhất thế giới", "Năng suất cao nhất nhưng cơm khô và không có mùi thơm", "Chỉ trồng được ở vùng đất phèn nặng không có phù sa", "Là giống lúa chuyển gen kháng thuốc diệt cỏ"],
-        ans: 0
-      },
-      {
-        q: "Thiết bị bay không người lái (Drone) trong nông nghiệp 4.0 thường ứng dụng làm gì?",
-        opts: ["Bản đồ hóa đồng ruộng, phun thuốc BVTV và rải phân bón chính xác", "Thu hoạch thủ công từng quả chín trên cành", "Đào xới đất sâu 2 mét để cải tạo tầng đất", "Vận chuyển nông sản khối lượng hàng trăm tấn liên tỉnh"],
-        ans: 0
-      },
-      {
-        q: "Trong nuôi tôm công nghệ cao, việc sục khí (quạt nước) nhằm mục đích chủ yếu gì?",
-        opts: ["Cung cấp oxy hòa tan và gom chất thải vào hố xiphon đáy ao", "Làm nước ấm lên để tôm không bị lạnh", "Đuổi chim bói cá không bay vào ao", "Làm nước đục để tôm dễ ngụy trang"],
-        ans: 0
-      },
-      {
-        q: "Biện pháp sinh học phòng trừ sâu bệnh cây trồng có ưu điểm bền vững là gì?",
-        opts: ["An toàn cho người tiêu dùng, bảo vệ thiên địch và không gây ô nhiễm môi trường", "Tiêu diệt tức thì 100% sâu bệnh chỉ sau 5 phút", "Chi phí luôn bằng 0 đồng", "Thay thế hoàn toàn việc tưới nước cho cây"],
-        ans: 0
-      }
-    ];
-
-    // Ngân hàng cặp thẻ Memory Match
-    const MEMORY_PAIRS = [
-      { term: "Hệ Thống RAS", desc: "Nuôi thủy sản tuần hoàn khép kín" },
-      { term: "Nuôi Cấy Mô", desc: "Nhân giống vô tính sạch bệnh" },
-      { term: "VietGAP", desc: "Tiêu chuẩn nông nghiệp sạch an toàn" },
-      { term: "Rừng Phòng Hộ", desc: "Chắn sóng biển, giữ nguồn nước" },
-      { term: "Lúa ST25", desc: "Gạo ngon nhất thế giới Việt Nam" },
-      { term: "Drone Nông Nghiệp", desc: "Phun thuốc & bón phân chính xác" }
-    ];
-
-    // Cập nhật hiển thị sao ở Hero
-    function updateHeroStars() {
-      if (window.portalPet) {
-        const pet = portalPet.getPetData();
-        const el = document.getElementById("gameHeroStarDisplay");
-        if (el) el.textContent = pet.stars || 0;
-      }
-    }
-
-    // Trạng thái bộ lọc
     let currentGrade = "cn10";
     let currentTerm = "gk1";
-    let currentLesson = "cur_lesson";
 
+    // 1. NGÂN HÀNG PHẢN XẠ ĐÚNG/SAI 60 GIÂY (THEO KHỐI)
+    const SPEED_TF_DATA = {
+      cn10: [
+        { q: "Công nghệ nuôi cấy mô tế bào thực vật (In vitro) tạo ra cây giống đồng đều về di truyền và sạch bệnh virus.", isTrue: true, explain: "Đúng! Nuôi cấy đỉnh sinh trưởng giúp loại trừ hoàn toàn virus gây bệnh." },
+        { q: "Nguyên tắc '4 đúng' trong bảo vệ thực vật gồm: đúng thuốc, đúng lúc, đúng nồng độ liều lượng, đúng cách.", isTrue: true, explain: "Đúng! Đây là nguyên tắc cốt lõi theo tiêu chuẩn VietGAP." },
+        { q: "Bón phân vô cơ với nồng độ càng đậm đặc thì bộ rễ cây trồng phát triển càng nhanh và khỏe mạnh.", isTrue: false, explain: "Sai! Bón quá đậm đặc gây ưu trương, làm rễ non mất nước cháy rễ và chết cây." },
+        { q: "Ghép cành là phương pháp nhân giống vô tính giữ được trọn vẹn đặc tính quý của cây mẹ đầu dòng.", isTrue: true, explain: "Đúng! Cây con thừa hưởng 100% vật chất di truyền của cành ghép." },
+        { q: "Đất có độ chua cao (pH < 4,5) thì không cần bón vôi nông nghiệp vì cây trồng tự thích nghi được.", isTrue: false, explain: "Sai! Đất chua phải khử chua bằng vôi nông nghiệp (CaCO3) để nâng pH và giải phóng dinh dưỡng." },
+        { q: "Hệ thống tưới nhỏ giọt kết hợp bón phân (Fertigation) giúp tiết kiệm 30-50% lượng nước tưới so với tưới tràn.", isTrue: true, explain: "Đúng! Nước và dinh dưỡng được đưa trực tiếp vào vùng rễ tích cực." }
+      ],
+      cn11: [
+        { q: "Công thức lai kinh tế 3 giống lợn (Duroc x [Landrace x Yorkshire]) tạo con lai F2 có tỷ lệ nạc cao trên 60%.", isTrue: true, explain: "Đúng! Con lai kế thừa sức sinh trưởng nhanh của Duroc và khả năng sinh sản của mẹ Landrace-Yorkshire." },
+        { q: "Ủ chua thức ăn thô xanh cho gia súc ăn cỏ là quá trình lên men hiếu khí cần mở toang miệng hầm ủ.", isTrue: false, explain: "Sai! Ủ chua bắt buộc phải ém khí (yếm khí) để vi khuẩn lactic chuyển hóa đường thành axit lactic." },
+        { q: "Hầm khí sinh học Biogas vừa tạo khí đốt methane (CH4) vừa tiêu diệt hầu hết trứng giun sán trong phân vật nuôi.", isTrue: true, explain: "Đúng! Môi trường yếm khí và nhiệt độ trong hầm tiêu diệt mầm bệnh nguy hiểm." },
+        { q: "Vắc-xin dùng để điều trị ngay lập tức khi con vật đang sốt cao và phát bệnh nặng.", isTrue: false, explain: "Sai! Vắc-xin dùng để phòng bệnh trước cho vật nuôi khỏe mạnh, không dùng điều trị khi đã phát bệnh." },
+        { q: "Chuồng nuôi khép kín điều hòa nhiệt độ (chuồng lạnh) giúp giảm thiểu stress nhiệt cho vật nuôi vào mùa khô.", isTrue: true, explain: "Đúng! Chuồng có giàn làm mát pad cooling và quạt hút thông gió hiện đại." },
+        { q: "Cho lợn ăn thức ăn chứa chất cấm Salbutamol (tạo nạc) là biện pháp chăn nuôi an toàn sinh học.", isTrue: false, explain: "Sai! Salbutamol là chất độc hại bị cấm tuyệt đối vì gây nguy hiểm tính mạng người tiêu dùng." }
+      ],
+      cn12: [
+        { q: "Hệ thống nuôi thủy sản tuần hoàn RAS tái sử dụng từ 90% đến 99% lượng nước nuôi.", isTrue: true, explain: "Đúng! Nước được tuần hoàn qua hệ thống lọc cơ học và sinh học khép kín." },
+        { q: "Rừng đặc dụng tại Việt Nam có chức năng chính là khai thác tối đa gỗ xẻ để bán ra thị trường quốc tế.", isTrue: false, explain: "Sai! Rừng đặc dụng dùng để bảo tồn thiên nhiên, nguồn gen sinh vật và nghiên cứu khoa học." },
+        { q: "Thiết bị bay không người lái (Drone) nông nghiệp có thể vừa viễn thám phân tích sức khỏe vừa phun thuốc BVTV.", isTrue: true, explain: "Đúng! Drone 4.0 giúp định vị chính xác điểm sâu hại và giảm 30% hóa chất." },
+        { q: "Trong kỹ thuật nuôi tôm công nghệ cao, quạt nước chỉ có tác dụng làm ấm nước vào ban đêm.", isTrue: false, explain: "Sai! Quạt nước cung cấp oxy hòa tan và gom chất thải bùn đáy về hố xiphon." },
+        { q: "Trồng rừng phòng hộ ven biển bằng cây đước, cây mắm giúp chắn sóng biển và chống xói lở đất.", isTrue: true, explain: "Đúng! Hệ rễ chân nơm chằng chịt giữ phù sa và che chắn đê biển kiên cố." },
+        { q: "Cá rô phi đơn tính đực được ưa chuộng hơn cá cái vì lớn nhanh hơn từ 20-30% và không đẻ con làm chật ao.", isTrue: true, explain: "Đúng! Cá đực dành toàn bộ năng lượng để tăng trọng lượng thịt." }
+      ]
+    };
+
+    // 2. NGÂN HÀNG GHÉP CẶP MEMORY (THEO KHỐI)
+    const MEMORY_PAIRS_DATA = {
+      cn10: [
+        { term: "Nuôi Cấy Mô", desc: "Nhân giống vô tính sạch bệnh" },
+        { term: "VietGAP", desc: "Tiêu chuẩn nông nghiệp sạch an toàn" },
+        { term: "Fertigation", desc: "Tưới nhỏ giọt kết hợp bón phân" },
+        { term: "Đất Chua", desc: "pH dưới 5,5 cần bón vôi khử chua" },
+        { term: "Ghép Mắt Gỗ", desc: "Nhân giống sầu riêng chất lượng cao" },
+        { term: "Phân Vi Sinh", desc: "Cung cấp nấm đối kháng Trichoderma" }
+      ],
+      cn11: [
+        { term: "Lai 3 Giống", desc: "Duroc x (Landrace x Yorkshire)" },
+        { term: "Ủ Chua Thức Ăn", desc: "Lên men yếm khí hạ pH diệt khuẩn" },
+        { term: "Hầm Biogas", desc: "Xử lý phân sinh khí Methane CH4" },
+        { term: "VietGAHP", desc: "Quy chuẩn chăn nuôi an toàn sinh học" },
+        { term: "Bệnh Tai Xanh", desc: "Hội chứng PRRS gây sốt & sảy thai" },
+        { term: "Thức Ăn Tinh", desc: "Cung cấp năng lượng & đạm đậm đặc" }
+      ],
+      cn12: [
+        { term: "Hệ Thống RAS", desc: "Nuôi thủy sản tuần hoàn khép kín" },
+        { term: "Rừng Phòng Hộ", desc: "Chắn sóng biển, giữ nguồn nước ngầm" },
+        { term: "Rừng Đặc Dụng", desc: "Bảo tồn thiên nhiên và nguồn gen" },
+        { term: "Rô Phi Đơn Tính", desc: "Nuôi toàn đực lớn nhanh vượt trội" },
+        { term: "Drone 4.0", desc: "Viễn thám & phun thuốc chuẩn xác" },
+        { term: "Hố Xiphon", desc: "Thu gom chất thải đáy ao nuôi tôm" }
+      ]
+    };
+
+    // 3. NGÂN HÀNG BÁC SĨ CÂY TRỒNG & VẬT NUÔI
+    const DOCTOR_CASES_DATA = {
+      cn10: [
+        {
+          caseTitle: "Lá Lúa Xuất Hiện Vết Bệnh Hình Thoi Nâu Xám (Bệnh Đạo Ôn)",
+          symptoms: "Trên phiến lá xuất hiện vết bệnh hình thoi màu nâu xám viền nâu đậm, lá khô lụi nhanh trong thời tiết ẩm ướt thừa đạm.",
+          protocols: [
+            "Cắt ngay phân đạm (Ure), giữ nước ruộng và phun thuốc nấm đặc trị (Tricyclazole) theo nguyên tắc 4 đúng.",
+            "Bón thật nhiều phân đạm tươi để kích thích lá non mọc bù.",
+            "Tháo cạn kiệt nước và xịt thuốc trừ sâu rầy liều cực cao."
+          ],
+          correct: 0,
+          advice: "Nấm đạo ôn bùng phát cực nhanh khi dư thừa phân đạm. Cắt đạm và phun thuốc nấm đặc trị là phác đồ vàng!"
+        },
+        {
+          caseTitle: "Cây Sầu Riêng Bị Xì Mủ Thân, Thối Rễ (Nấm Phytophthora)",
+          symptoms: "Vỏ thân cây ứa mủ màu nâu đen, lá vàng rụng hàng loạt, rễ tơ bị thối đen do đất đọng nước mùa mưa.",
+          protocols: [
+            "Tưới phân hóa học đậm đặc để rễ hấp thu mạnh.",
+            "Cào thông thoáng gốc, quét thuốc gốc đồng hoặc Metalaxyl lên vết xì mủ, thoát nước triệt để cho vườn.",
+            "Tưới ngập úng gốc liên tục 7 ngày đêm."
+          ],
+          correct: 1,
+          advice: "Nấm Phytophthora kỵ đất thông thoáng ráo nước. Quét thuốc đặc trị và khai thông rãnh thoát nước là cứu tinh!"
+        }
+      ],
+      cn11: [
+        {
+          caseTitle: "Đàn Heo Sốt Cao, Da Đỏ Tím Tái Ở Tai & Mõm (Hội Chứng Tai Xanh / PRRS)",
+          symptoms: "Heo sốt cao 40 - 41.5°C, tai và mõm tím bầm, ho khó thở, lợn nái mang thai bị sảy thai đột ngột.",
+          protocols: [
+            "Cách ly nghiêm ngặt, khử trùng vôi bột/Iodine, hạ sốt (Paracetamol) và tiêm kháng sinh phổ rộng chống nhiễm trùng kế phát.",
+            "Tắm ngay nước đá lạnh cho lợn hạ sốt.",
+            "Bán tống tháo đàn heo ngay không cần kiểm dịch."
+          ],
+          correct: 0,
+          advice: "Virus PRRS phá hủy hệ miễn dịch. Bắt buộc cách ly, trợ sức trợ lực, hạ sốt và chặn vi khuẩn bội nhiễm!"
+        },
+        {
+          caseTitle: "Bò Sữa Bị Viêm Vú, Sữa Đóng Vón Cục Màu Vàng Chanh",
+          symptoms: "Bầu vú sưng nóng đỏ đau, bò nhạy cảm khi vắt sữa, sữa loãng có lẫn mủ và dịch vàng.",
+          protocols: [
+            "Vệ sinh núm vú trước và sau khi vắt, bơm tuýp thuốc kháng sinh đặc trị viêm vú vào núm vú bị bệnh, giữ nền chuồng khô ráo.",
+            "Để nguyên sữa thừa lưu cữu trong bầu vú không vắt.",
+            "Đánh đập bò để bò chịu đứng yên."
+          ],
+          correct: 0,
+          advice: "Viêm vú do vi khuẩn xâm nhập ống dẫn sữa. Giữ vệ sinh bầu vú và bơm thuốc kháng sinh theo hướng dẫn thú y!"
+        }
+      ],
+      cn12: [
+        {
+          caseTitle: "Tôm Nuôi Nước Ngọt Bị Đục Cơ & Mềm Vỏ Kéo Dài",
+          symptoms: "Tôm bơi lờ đờ ven bờ ao vào sáng sớm, thân chuyển màu trắng đục, vỏ mỏng mềm không cứng lại sau lột xác.",
+          protocols: [
+            "Tăng cường quạt sục khí oxy hòa tan ≥ 5 mg/L, bổ sung khoáng Canxi, Magie và tạt vôi nông nghiệp nâng độ kiềm.",
+            "Rải thuốc trừ sâu để diệt sạch phù du.",
+            "Cho ăn gấp đôi lượng thức ăn để tôm mau no."
+          ],
+          correct: 0,
+          advice: "Đục cơ và mềm vỏ do thiếu oxy cục bộ và thiếu khoáng chất vi lượng cần thiết để tái tạo vỏ kitin!"
+        },
+        {
+          caseTitle: "Cá Tra Bị Bệnh Gan Thận Mủ (Vi khuẩn Edwardsiella ictaluri)",
+          symptoms: "Cá bơi yếu, mổ khám thấy gan và thận có nhiều đốm trắng li ti như hạt gạo, bụng sưng trướng.",
+          protocols: [
+            "Bổ sung Vitamin C tăng sức đề kháng, trộn kháng sinh theo đơn vào thức ăn và xử lý sát khuẩn nguồn nước ao.",
+            "Tát cạn ao và vứt bỏ toàn bộ cá chết ra sông.",
+            "Cho cá ăn mỡ động vật đậm đặc."
+          ],
+          correct: 0,
+          advice: "Bệnh gan thận mủ do vi khuẩn nội hoại sinh. Giảm lượng ăn, nâng cao sức đề kháng và dùng kháng sinh nhạy cảm!"
+        }
+      ]
+    };
+
+    // 4. NGÂN HÀNG VƯỢT ẢI 10 CÂU (CASTLE)
+    const CASTLE_QUESTIONS_DATA = {
+      cn10: [
+        { q: "Nguyên tố khoáng nào đóng vai trò chính tạo màu xanh diệp lục và phát triển thân lá?", opts: ["Đạm (N)", "Lân (P)", "Kali (K)", "Canxi (Ca)"], ans: 0 },
+        { q: "Chỉ số pH đất thích hợp cho phần lớn các loại cây trồng nông nghiệp là:", opts: ["pH từ 5,5 đến 6,5 (hơi chua đến trung tính)", "pH < 3 (cực chua)", "pH > 9 (cực kiềm)", "pH = 0"], ans: 0 },
+        { q: "Nhân giống vô tính bằng phương pháp chiết cành có ưu điểm nổi trội là:", opts: ["Cây con giữ nguyên đặc tính tốt của cây mẹ và sớm ra quả", "Tạo ra giống mới biến dị hoàn toàn", "Chỉ làm được trong phòng thí nghiệm", "Không tốn công chăm sóc"], ans: 0 },
+        { q: "Để chống xói mòn trên đất đồi dốc huyện Lộc Ninh, biện pháp canh tác tối ưu là:", opts: ["Trồng theo đường đồng mức và duy trì thảm cỏ che phủ", "Chặt phá sạch toàn bộ cây cỏ để đất trơ trụi", "Xới đất thật tơi xốp trước mùa mưa bão", "Đốt nương làm rẫy liên tục"], ans: 0 },
+        { q: "Bón phân lót cho cây trồng thường sử dụng loại phân bón nào?", opts: ["Phân hữu cơ hoai mục và phân lân khó tan", "Phân đạm Ure dễ bay hơi", "Phân Kali tan nhanh", "Thuốc kích thích sinh trưởng nồng độ cao"], ans: 0 },
+        { q: "Hiện tượng cây bị 'cháy rễ' sau khi bón phân là do nguyên nhân nào?", opts: ["Nồng độ dung dịch phân quá cao hút ngược nước từ rễ ra", "Đất quá ẩm ướt làm rễ lạnh", "Cây hấp thu quá nhiều nước ngọt", "Thiếu ánh sáng mặt trời"], ans: 0 },
+        { q: "Nhà màng công nghệ cao mang lại lợi ích nổi bật nào trong sản xuất rau màu?", opts: ["Chắn sâu bọ cơ học và điều hòa tiểu khí hậu", "Thay thế hoàn toàn ánh sáng mặt trời bằng bóng đèn", "Không cần cung cấp dinh dưỡng cho cây", "Chỉ trồng được vào mùa đông"], ans: 0 },
+        { q: "Nấm đối kháng Trichoderma thường được ủ cùng phân chuồng nhằm mục đích gì?", opts: ["Ức chế nấm gây thối rễ và phân giải nhanh chất xơ", "Làm nóng phân bón lên 100°C", "Tạo mùi thơm cho rau quả", "Diệt sạch giun đất có ích"], ans: 0 },
+        { q: "Kỹ thuật bấm ngọn, tỉa cành cho cây ăn quả nhằm mục đích chủ yếu gì?", opts: ["Tập trung dinh dưỡng nuôi cành quả và tạo tán thông thoáng", "Làm cho cây không bao giờ ra hoa", "Giúp cây cao vút lên 20 mét", "Để cây rụng hết lá"], ans: 0 },
+        { q: "Tiêu chuẩn VietGAP trong trồng trọt yêu cầu thời gian cách ly thuốc BVTV nhằm:", opts: ["Đảm bảo dư lượng thuốc phân giải an toàn trước thu hoạch", "Cho sâu hại kịp quay lại phá hoại", "Làm quả chín ép nhanh hơn", "Không cần quan tâm đến thời gian cách ly"], ans: 0 }
+      ],
+      cn11: [
+        { q: "Thức ăn tinh trong khẩu phần gia súc bao gồm các loại nào sau đây?", opts: ["Bột ngô, cám gạo, bột đậu tương, bột cá", "Cỏ voi, thân cây ngô, rơm rạ", "Nước khoáng và vôi bột", "Lá chuối tươi"], ans: 0 },
+        { q: "Mục đích cốt lõi của công tác chọn giống vật nuôi là:", opts: ["Chọn giữ lại những cá thể có phẩm chất di truyền tốt nhất", "Giữ lại tất cả con vật không phân biệt tốt xấu", "Chỉ chọn con vật có màu lông sặc sỡ", "Nhân giống ngẫu nhiên không kiểm soát"], ans: 0 },
+        { q: "Nhiệt độ thích hợp trong chuồng úm gà con tuần đầu tiên là:", opts: ["32°C đến 35°C", "15°C đến 18°C", "50°C", "Dưới 10°C"], ans: 0 },
+        { q: "Khí Methane (CH4) sinh ra từ hầm Biogas được ứng dụng tốt nhất làm gì?", opts: ["Chất đốt sạch sinh hoạt và chạy máy phát điện", "Bơm vào chuồng nuôi làm mát cho gia súc", "Xả trực tiếp ra không khí làm thơm môi trường", "Làm thức ăn uống cho lợn"], ans: 0 },
+        { q: "Phương pháp thụ tinh nhân tạo cho bò mang lại ưu điểm vượt trội nào?", opts: ["Khai thác tối đa tiềm năng di truyền đực giống tốt và tránh lây bệnh", "Sinh ra bê con không mang gen của bò mẹ", "Làm giảm tỷ lệ thụ thai", "Bắt buộc bò mẹ phải sinh ba"], ans: 0 },
+        { q: "Bệnh Lở mồm long móng (FMD) ở gia súc là do tác nhân nào gây ra?", opts: ["Virus thuộc họ Picornaviridae", "Giun sán ký sinh đường ruột", "Thiếu vitamin A trong thức ăn", "Do ngộ độc thức ăn ôi thiu"], ans: 0 },
+        { q: "Chỉ số FCR (Feed Conversion Ratio) trong chăn nuôi thể hiện điều gì?", opts: ["Lượng thức ăn tiêu tốn để tăng 1 kg thể trọng", "Tỷ lệ sống của đàn vật nuôi", "Số lượng con non sinh ra một lứa", "Thời gian ngủ của gia súc"], ans: 0 },
+        { q: "Đặc điểm ngoại hình của lợn nái sinh sản tốt là:", opts: ["Lưng thẳng, mông nở nang, có tối thiểu 12 vú đồng đều không lép", "Bụng xệ sát đất, chân vòng kiềng yếu ớt", "Chỉ có 6 núm vú", "Lưng gù và mắt lồi"], ans: 0 },
+        { q: "Quy trình vệ sinh thú y phòng bệnh cho trại chăn nuôi gồm nguyên tắc:", opts: ["Cùng vào - Cùng ra (All in - All out) và cách ly nghiêm ngặt", "Nuôi lẫn lộn tất cả các lứa tuổi trong một ô chuồng", "Người lạ ra vào chuồng tự do không khử trùng", "Chỉ dọn phân 1 năm 1 lần"], ans: 0 },
+        { q: "Ứng dụng đệm lót sinh học trong chăn nuôi gà có tác dụng chính là:", opts: ["Phân giải phân giải mùi hôi thối và giữ ấm chân gà", "Làm chuồng gà luôn ướt sũng", "Cho gà ăn thay thế hoàn toàn cám", "Gây ô nhiễm môi trường nông thôn"], ans: 0 }
+      ],
+      cn12: [
+        { q: "Hệ thống nuôi thủy sản tuần hoàn RAS kiểm soát môi trường bằng cách:", opts: ["Lọc cơ học tách phân và lọc sinh học chuyển hóa NH3/NO2- thành NO3-", "Thay nước sông liên tục 24/24 giờ", "Cho thật nhiều kháng sinh vào nước", "Chỉ nuôi trong chậu nhỏ"], ans: 0 },
+        { q: "Loại rừng nào giữ vai trò quan trọng nhất trong việc điều tiết nguồn nước đầu nguồn?", opts: ["Rừng phòng hộ đầu nguồn", "Rừng sản xuất cây keo lá tràm", "Rừng cao su khai thác mủ", "Vườn hoa cây cảnh đô thị"], ans: 0 },
+        { q: "Thiết bị quạt nước trong ao nuôi tôm công nghiệp tạo dòng chảy nhằm:", opts: ["Tập trung chất thải vào giữa ao để xiphon và tăng oxy hòa tan", "Làm tôm bị chóng mặt không bơi được", "Đuổi cá tạp ra ngoài", "Làm nước đổi sang màu đỏ"], ans: 0 },
+        { q: "Phương pháp tạo cá rô phi đơn tính đực phổ biến nhất hiện nay là:", opts: ["Cho cá bột ăn thức ăn có chứa hormone 17α-methyltestosterone", "Nuôi cá trong môi trường nước đá lạnh", "Tách thủ công từng con khi trưởng thành", "Chiếu tia X đột biến gen"], ans: 0 },
+        { q: "Kỹ thuật trồng rừng bằng cây con có bầu rễ đạt tỷ lệ sống cao vì:", opts: ["Bộ rễ không bị tổn thương và có sẵn dinh dưỡng ban đầu", "Để nguyên túi nilon dày không cần rách vỏ", "Rễ cây không cần tiếp xúc với đất hố", "Trồng vào những ngày nắng gắt nhất"], ans: 0 },
+        { q: "Chỉ số DO (Dissolved Oxygen) trong ao nuôi thủy sản có nghĩa là:", opts: ["Hàm lượng oxy hòa tan trong nước (mg/L)", "Độ mặn của nước biển", "Độ đục của bùn cát đáy ao", "Hàm lượng khí độc clo"], ans: 0 },
+        { q: "Thời điểm hàm lượng oxy hòa tan trong ao nuôi thủy sản thường xuống thấp nhất là:", opts: ["Sáng sớm (trước lúc mặt trời mọc) do tảo hô hấp ban đêm", "Giữa trưa khi trời nắng to", "Buổi chiều lúc 15 giờ", "Bất kỳ lúc nào cũng như nhau"], ans: 0 },
+        { q: "Mô hình Nông - Lâm kết hợp tại vùng đồi Đông Nam Bộ mang lại lợi ích:", opts: ["Tăng hiệu quả kinh tế, chống xói mòn và đa dạng hóa sinh học", "Làm thoái hóa đất nhanh chóng", "Gây cháy rừng triền miên", "Giảm thu nhập của người nông dân"], ans: 0 },
+        { q: "Nguyên nhân chính gây ra hiện tượng phú dưỡng (tảo nở hoa) trong ao nuôi cá là:", opts: ["Dư thừa thức ăn chứa nhiều đạm và lân làm nước ô nhiễm", "Nước ao quá trong và sạch", "Không thả cá vào ao", "Thiếu ánh sáng mặt trời"], ans: 0 },
+        { q: "Gỗ của loại cây lâm nghiệp nào sau đây được xếp vào nhóm gỗ quý nhóm 1 tại Việt Nam?", opts: ["Gỗ Gõ Đỏ, Gỗ Hương, Gỗ Cẩm Lai", "Cây Keo Tai Tượng", "Cây Bạch Đàn", "Cây Bồ Đề"], ans: 0 }
+      ]
+    };
+
+    // Cập nhật giao diện bộ lọc Khối
     function selectGameGrade(g) {
       currentGrade = g;
       ["cn10", "cn11", "cn12"].forEach(k => {
@@ -541,12 +603,7 @@
       switchGameMode(currentGameId);
     }
 
-    function filterGameByLesson(lesson) {
-      currentLesson = lesson;
-      switchGameMode(currentGameId);
-    }
-
-    // Chuyển chế độ game
+    // Chuyển chế độ game (1 - 5)
     function switchGameMode(gameId) {
       currentGameId = gameId;
       document.querySelectorAll(".game-card-select").forEach((el, idx) => {
@@ -558,50 +615,18 @@
       else if (gameId === 2) renderMemoryMatch(stage);
       else if (gameId === 3) renderDoctorGame(stage);
       else if (gameId === 4) renderCastleGame(stage);
-      else if (gameId === 5) renderRandomPickerGame(stage);
+      else if (gameId === 5) renderRandomPickerAndWheel(stage);
     }
 
     // ========================================================================
     // GAME 1: PHẢN XẠ ĐÚNG/SAI 60 GIÂY
     // ========================================================================
-    const SPEED_TF_QUESTIONS = [
-      {
-        q: "Công nghệ nuôi cấy mô tế bào thực vật (In vitro) tạo ra cây giống đồng đều về di truyền và sạch bệnh virus.",
-        isTrue: true,
-        explain: "Đúng! Nuôi cấy đỉnh sinh trưởng giúp loại bỏ mầm bệnh virus và nhân bản vô tính số lượng lớn."
-      },
-      {
-        q: "Hệ thống nuôi thủy sản tuần hoàn RAS bắt buộc phải thay 100% lượng nước hàng ngày từ sông ngòi.",
-        isTrue: false,
-        explain: "Sai! RAS là hệ thống khép kín tái sử dụng 90-99% nước nhờ các bể lọc sinh học và cơ học."
-      },
-      {
-        q: "Nguyên tắc '4 đúng' trong bảo vệ thực vật gồm: đúng thuốc, đúng lúc, đúng nồng độ liều lượng, đúng cách.",
-        isTrue: true,
-        explain: "Đúng! Đây là nguyên tắc cốt lõi theo tiêu chuẩn VietGAP để đảm bảo an toàn nông sản."
-      },
-      {
-        q: "Rừng phòng hộ đầu nguồn có chức năng chính là khai thác tối đa gỗ xẻ để bán ra thị trường quốc tế.",
-        isTrue: false,
-        explain: "Sai! Chức năng chính của rừng phòng hộ là giữ đất, chống xói mòn, điều tiết nguồn nước ngầm."
-      },
-      {
-        q: "Thiết bị Drone nông nghiệp có thể vừa chụp ảnh viễn thám phân tích sức khỏe cây vừa phun thuốc BVTV chính xác.",
-        isTrue: true,
-        explain: "Đúng! Drone 4.0 tích hợp camera đa phổ và vòi phun ly tâm giúp giảm 30% lượng thuốc hóa học."
-      },
-      {
-        q: "Tất cả các loại phân vô cơ bón càng nhiều với nồng độ càng đậm đặc thì cây trồng phát triển càng khỏe mạnh.",
-        isTrue: false,
-        explain: "Sai! Bón quá liều sẽ gây ngộ độc phân bón (cháy rễ, thối ngọn, chua hóa đất) và ô nhiễm mạch nước ngầm."
-      }
-    ];
-
     let speedTimer = null;
     let speedTimeLeft = 60;
     let speedIndex = 0;
     let speedScore = 0;
     let speedCombo = 0;
+    let speedActiveQuestions = [];
 
     function renderSpeedQuiz(container) {
       if (speedTimer) clearInterval(speedTimer);
@@ -611,13 +636,15 @@
       speedCombo = 0;
 
       container.innerHTML = `
-        <div style="text-align:center; padding:20px 0;">
+        <div style="text-align:center; padding:20px 0; max-width:620px; margin:0 auto;">
           <div style="font-size:52px; margin-bottom:12px;">⚡</div>
-          <h2 style="color:#0f172a; margin-bottom:8px; font-weight:800;">Phản Xạ Đúng/Sai 60 Giây Theo Bài</h2>
-          <p style="color:#64748b; font-size:14.5px; max-width:540px; margin:0 auto 24px; line-height:1.6;">
-            Bạn có <strong>60 giây</strong> để phản xạ nhanh Đúng hoặc Sai cho các mệnh đề kiến thức SGK. Mỗi câu đúng nhận điểm + Combo streak nhân đôi sao thưởng!
+          <h2 style="color:#0f172a; margin-bottom:8px; font-weight:800; font-size:22px;">
+            Phản Xạ Đúng/Sai 60 Giây (${currentGrade === 'cn10' ? 'Khối 10: Trồng trọt' : currentGrade === 'cn11' ? 'Khối 11: Chăn nuôi' : 'Khối 12: Lâm - Thủy sản'})
+          </h2>
+          <p style="color:#64748b; font-size:14.5px; line-height:1.6; margin:0 auto 24px;">
+            Bạn có đúng <strong>60 giây</strong> để phản xạ nhanh Đúng hoặc Sai cho các mệnh đề kiến thức SGK. Đúng liên tiếp kích hoạt <strong>Combo Streak x2, x3</strong> bão sao!
           </p>
-          <button type="button" class="btn btn-primary" onclick="startSpeedQuiz()" style="background:#10b981; font-weight:800; font-size:16px; padding:12px 32px;">
+          <button type="button" class="btn btn-primary" onclick="startSpeedQuiz()" style="background:#10b981; font-weight:800; font-size:16px; padding:12px 36px; border-radius:12px;">
             🚀 BẮT ĐẦU 60 GIÂY NGAY
           </button>
         </div>
@@ -629,6 +656,9 @@
       speedIndex = 0;
       speedScore = 0;
       speedCombo = 0;
+
+      const pool = SPEED_TF_DATA[currentGrade] || SPEED_TF_DATA.cn10;
+      speedActiveQuestions = pool.slice().sort(() => Math.random() - 0.5);
 
       const stage = document.getElementById("gameStageArea");
       renderSpeedQuizQuestion(stage);
@@ -646,32 +676,33 @@
     }
 
     function renderSpeedQuizQuestion(container) {
-      if (speedIndex >= SPEED_TF_QUESTIONS.length) {
+      if (speedIndex >= speedActiveQuestions.length) {
         clearInterval(speedTimer);
         finishSpeedQuiz();
         return;
       }
-      const item = SPEED_TF_QUESTIONS[speedIndex];
+      const item = speedActiveQuestions[speedIndex];
+      const comboMult = Math.min(3, 1 + Math.floor(speedCombo / 2));
 
       container.innerHTML = `
-        <div style="max-width:620px; margin:0 auto;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#f8fafc; padding:8px 16px; border-radius:10px; border:1px solid #e2e8f0;">
-            <div style="font-weight:800; color:#0f172a;">Câu ${speedIndex + 1}/${SPEED_TF_QUESTIONS.length}</div>
-            <div style="font-weight:800; color:#ef4444; font-size:16px;" id="speedTimeDisplay">⏱️ ${speedTimeLeft}s</div>
-            <div style="font-weight:800; color:#10b981;">Điểm: ${speedScore} ⭐ (Combo: x${Math.min(3, 1 + speedCombo)})</div>
+        <div style="max-width:640px; margin:0 auto;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; background:#f8fafc; padding:10px 18px; border-radius:12px; border:1px solid #e2e8f0;">
+            <div style="font-weight:800; color:#0f172a; font-size:13.5px;">Câu ${speedIndex + 1} / ${speedActiveQuestions.length}</div>
+            <div class="timer-circle" id="speedTimeDisplay">${speedTimeLeft}s</div>
+            <div style="font-weight:800; color:#10b981; font-size:13.5px;">Điểm: ${speedScore} ⭐ (Combo: x${comboMult})</div>
           </div>
 
-          <div style="background:#ffffff; border:2px solid #e2e8f0; border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 4px 12px rgba(0,0,0,0.04);">
+          <div style="background:#ffffff; border:2px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px; box-shadow:0 4px 14px rgba(0,0,0,0.04);">
             <div style="font-size:16.5px; font-weight:700; color:#1e293b; line-height:1.6; text-align:center;">
               "${item.q}"
             </div>
           </div>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-            <button type="button" class="btn btn-primary" onclick="answerSpeedTf(true)" style="background:#16a34a; font-size:18px; font-weight:800; padding:16px;">
+            <button type="button" class="btn btn-primary" onclick="answerSpeedTf(true)" style="background:#16a34a; font-size:18px; font-weight:800; padding:16px; border-radius:12px;">
               ✅ ĐÚNG
             </button>
-            <button type="button" class="btn btn-primary" onclick="answerSpeedTf(false)" style="background:#dc2626; font-size:18px; font-weight:800; padding:16px;">
+            <button type="button" class="btn btn-primary" onclick="answerSpeedTf(false)" style="background:#dc2626; font-size:18px; font-weight:800; padding:16px; border-radius:12px;">
               ❌ SAI
             </button>
           </div>
@@ -680,12 +711,12 @@
     }
 
     function answerSpeedTf(userChoice) {
-      const item = SPEED_TF_QUESTIONS[speedIndex];
+      const item = speedActiveQuestions[speedIndex];
       const isRight = (userChoice === item.isTrue);
       if (isRight) {
         speedCombo++;
         const multiplier = Math.min(3, 1 + Math.floor(speedCombo / 2));
-        speedScore += 20 * multiplier;
+        speedScore += 25 * multiplier;
       } else {
         speedCombo = 0;
       }
@@ -698,20 +729,19 @@
       const stage = document.getElementById("gameStageArea");
       const starsAwarded = Math.max(30, speedScore);
       if (window.portalPet) portalPet.awardFarmPoints(starsAwarded, "Hoàn thành Phản Xạ Đúng/Sai 60 Giây");
-      updateHeroStars();
 
       stage.innerHTML = `
         <div class="game-win-card">
           <div style="font-size:56px; margin-bottom:12px;">🏆</div>
           <h2 style="font-size:24px; color:#065f46; font-weight:800; margin-bottom:6px;">HẾT GIỜ — PHẢN XẠ XUẤT SẮC!</h2>
           <div style="font-size:18px; font-weight:800; color:#d97706; margin-bottom:16px;">
-            Tổng điểm đạt được: ${speedScore} điểm • Nhận thưởng: +${starsAwarded} ⭐ Sao Nông Nghiệp!
+            Tổng điểm: ${speedScore} điểm • Nhận thưởng: +${starsAwarded} ⭐ Sao Nông Nghiệp!
           </div>
           <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-            <button type="button" class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#10b981; font-weight:800;">
+            <button type="button" class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#10b981; font-weight:800; padding:10px 20px;">
               🐾 Mở Nông Trại Chăm Sóc Bé
             </button>
-            <button type="button" class="btn btn-outline" onclick="switchGameMode(1)">
+            <button type="button" class="btn btn-outline" onclick="switchGameMode(1)" style="font-weight:700; padding:10px 20px;">
               🔄 Thử Thách Lại
             </button>
           </div>
@@ -720,428 +750,7 @@
     }
 
     // ========================================================================
-    // GAME 3: BÁC SĨ CÂY TRỒNG & VẬT NUÔI
-    // ========================================================================
-    const DOCTOR_CASES = [
-      {
-        caseTitle: "Lá Lúa Bị Vết Đốm Hình Thoi Nâu Xám (Đạo Ôn)",
-        symptoms: "Trên phiến lá xuất hiện vết bệnh hình thoi màu nâu xám, viền nâu đậm, lá vàng lụi nhanh trong thời tiết sương mù ẩm ướt.",
-        protocols: [
-          "Dừng ngay việc bón thừa đạm (Ure), giữ mực nước ruộng hợp lý và phun thuốc đặc trị nấm (như Tricyclazole hoặc Isoprothiolane).",
-          "Bón thật nhiều phân đạm tươi để kích thích lúa mọc thêm lá mới.",
-          "Tháo cạn kiệt nước và xịt thuốc trừ sâu rầy liều cực cao."
-        ],
-        correct: 0,
-        advice: "Phác đồ chuẩn: Nấm đạo ôn phát triển cực nhanh khi thừa đạm và ẩm độ cao. Phải cắt ngay nguồn đạm và xử lý thuốc nấm theo nguyên tắc 4 đúng."
-      },
-      {
-        caseTitle: "Đàn Heo Bỏ Ăn, Sốt Cao, Da Đỏ Rực (Tai Xanh / PRRS)",
-        symptoms: "Heo sốt cao 40 - 41.5°C, tai và mõm tím tái đỏ ửng, thở khó, ho khan và sảy thai ở heo nái mang thai.",
-        protocols: [
-          "Bán tống bán tháo đàn heo ngay lập tức không cần kiểm dịch.",
-          "Cách ly cá thể bệnh, tiêu độc khử trùng chuồng trại bằng vôi bột/Iodine, hạ sốt (Paracetamol) và tiêm kháng sinh phổ rộng chống nhiễm trùng kế phát.",
-          "Tắm nước đá lạnh cho heo hạ nhiệt nhanh."
-        ],
-        correct: 1,
-        advice: "Phác đồ chuẩn: Hội chứng tai xanh do virus PRRS gây suy giảm miễn dịch, bắt buộc cách ly, trợ sức hạ sốt và ngừa nhiễm trùng kế phát."
-      },
-      {
-        caseTitle: "Tôm Nuôi Nước Ngọt Bị Mềm Vỏ, Đục Cơ",
-        symptoms: "Tôm lột xác không cứng vỏ, thân cơ chuyển sang màu trắng đục, bơi lờ đờ ven bờ ao vào buổi sáng sớm.",
-        protocols: [
-          "Kiểm tra và nâng kiềm (tạt khoáng Canxi, Magie, Vôi nông nghiệp CaCO3), tăng cường quạt khí sục oxy hòa tan ≥ 5 mg/L.",
-          "Rải thuốc trừ sâu để diệt các sinh vật phù du.",
-          "Cho ăn gấp đôi thức ăn để tôm mau lớn."
-        ],
-        correct: 0,
-        advice: "Phác đồ chuẩn: Mềm vỏ đục cơ do thiếu khoáng đa vi lượng và thiếu oxy cục bộ lúc lột xác. Bổ sung khoáng và quạt nước là cốt lõi."
-      }
-    ];
-
-    let doctorIndex = 0;
-    let doctorScore = 0;
-
-    function renderDoctorGame(container) {
-      doctorIndex = 0;
-      doctorScore = 0;
-      showNextDoctorCase(container);
-    }
-
-    function showNextDoctorCase(container) {
-      if (doctorIndex >= DOCTOR_CASES.length) {
-        finishDoctorGame(container);
-        return;
-      }
-      const c = DOCTOR_CASES[doctorIndex];
-
-      container.innerHTML = `
-        <div style="max-width:640px; margin:0 auto;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span style="font-weight:800; color:#0284c7; font-size:13px;">🩺 Ca Bệnh ${doctorIndex + 1} / ${DOCTOR_CASES.length}</span>
-            <span style="font-weight:700; color:#10b981;">Điểm tích lũy: ${doctorScore} ⭐</span>
-          </div>
-
-          <div style="background:#ffffff; border:1.5px solid #bae6fd; border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 4px 14px rgba(2,132,199,0.06);">
-            <div style="font-size:12px; font-weight:800; color:#0369a1; text-transform:uppercase; margin-bottom:4px;">TRIỆU CHỨNG LÂM SÀNG:</div>
-            <h3 style="font-size:17px; color:#0c4a6e; margin:0 0 8px;">${c.caseTitle}</h3>
-            <p style="font-size:13.5px; color:#475569; line-height:1.6; margin:0;">${c.symptoms}</p>
-          </div>
-
-          <div style="font-size:13px; font-weight:700; color:#334155; margin-bottom:10px;">
-            👨‍⚕️ Hãy lựa chọn Phác đồ xử lý kỹ thuật tối ưu nhất:
-          </div>
-
-          <div>
-            ${c.protocols.map((p, pIdx) => `
-              <button class="choice-btn" onclick="handleDoctorChoice(${pIdx})" style="padding:12px 16px; font-size:13.5px;">
-                <strong>Phác đồ ${String.fromCharCode(65 + pIdx)}:</strong> ${p}
-              </button>
-            `).join("")}
-          </div>
-        </div>
-      `;
-    }
-
-    function handleDoctorChoice(choiceIdx) {
-      const c = DOCTOR_CASES[doctorIndex];
-      const isRight = (choiceIdx === c.correct);
-      if (isRight) {
-        doctorScore += 50;
-        alert("✅ CHẨN ĐOÁN & ĐIỀU TRỊ CHÍNH XÁC!\n\n" + c.advice + "\n(+50 ⭐)");
-      } else {
-        alert("⚠️ PHÁC ĐỒ CHƯA PHÙ HỢP!\n\n" + c.advice);
-      }
-      doctorIndex++;
-      showNextDoctorCase(document.getElementById("gameStageArea"));
-    }
-
-    function finishDoctorGame(container) {
-      const starsAwarded = Math.max(30, doctorScore);
-      if (window.portalPet) portalPet.awardFarmPoints(starsAwarded, "Hoàn thành Bác sĩ Nông nghiệp");
-      updateHeroStars();
-
-      container.innerHTML = `
-        <div class="game-win-card">
-          <div style="font-size:56px; margin-bottom:12px;">🩺</div>
-          <h2 style="font-size:22px; color:#0284c7; font-weight:800; margin-bottom:6px;">HOÀN THÀNH CA KHÁM BỆNH!</h2>
-          <div style="font-size:18px; font-weight:800; color:#d97706; margin-bottom:16px;">
-            Bạn đã cứu sống cây trồng &amp; vật nuôi, nhận ngay: +${starsAwarded} ⭐ Sao Nông Nghiệp!
-          </div>
-          <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-            <button type="button" class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#0284c7; font-weight:800;">
-              🐾 Cho Bé Cưng Ăn Ngay
-            </button>
-            <button type="button" class="btn btn-outline" onclick="switchGameMode(3)">
-              🔄 Khám Ca Khác
-            </button>
-          </div>
-        </div>
-      `;
-    }
-
-    // ========================================================================
-    // GAME 4: VƯỢT ẢI 10 CÂU (3 TRÁI TIM)
-    // ========================================================================
-    const CASTLE_QUESTIONS = [
-      { q: "Nguyên tố khoáng nào quyết định màu xanh của diệp lục và sinh trưởng sinh dưỡng?", opts: ["Đạm (N)", "Lân (P)", "Kali (K)", "Canxi (Ca)"], ans: 0 },
-      { q: "Thời vụ gieo trồng ở miền Nam thường phân chia theo yếu tố khí hậu nào?", opts: ["Mùa mưa và mùa khô", "Bốn mùa Xuân - Hạ - Thu - Đông", "Nhiệt độ đóng băng dưới 0°C", "Số ngày có tuyết rơi"], ans: 0 },
-      { q: "Phương pháp nhân giống vô tính nào giữ trọn vẹn đặc tính tốt của cây mẹ?", opts: ["Chiết cành, ghép cành, giâm cành", "Gieo hạt lai F1 tự do", "Bón nhiều phân lân", "Tưới nước nhỏ giọt"], ans: 0 },
-      { q: "Chỉ số pH đất thích hợp cho hầu hết các loại cây trồng nông nghiệp là:", opts: ["pH từ 5,5 đến 6,5 (hơi chua đến trung tính)", "pH < 3 (cực chua)", "pH > 9 (cực kiềm)", "pH = 0"], ans: 0 },
-      { q: "Đặc điểm nhận biết bệnh do virus gây ra ở thực vật là:", opts: ["Lá khảm vàng xoăn tít, cây cằn cọc biến dạng", "Lá chảy mủ trắng có mùi thơm", "Rễ phình to tạo thành củ ngọt", "Hoa nở to gấp 10 lần bình thường"], ans: 0 },
-      { q: "Thức ăn ủ chua cho bò sữa có ưu điểm nổi bật là:", opts: ["Giàu vi sinh vật có lợi, thơm ngon, bảo quản được lâu trong mùa khô", "Không có giá trị dinh dưỡng", "Chỉ dùng cho gà con mới nở", "Gây đầy hơi chướng bụng"], ans: 0 },
-      { q: "Hệ thống tưới nhỏ giọt kết hợp bón phân (Fertigation) tiết kiệm bao nhiêu % nước?", opts: ["30% - 50% lượng nước so với tưới tràn", "0%", "Tốn nước hơn tưới rãnh", "Chỉ dùng được khi trời mưa to"], ans: 0 },
-      { q: "Khâu kỹ thuật quyết định tỷ lệ sống của cây rừng khi trồng dặm là:", opts: ["Xé bỏ vỏ bầu nilon trước khi đặt cây và lèn chặt đất", "Để nguyên cả túi nilon dày bọc rễ", "Trồng cây ngược ngọn xuống đất", "Không cần lấp đất vào hố"], ans: 0 },
-      { q: "Trong chăn nuôi tuần hoàn, phân chuồng thải ra được xử lý tối ưu bằng cách:", opts: ["Ủ vi sinh hoai mục hoặc làm hầm Biogas tạo khí đốt sạch", "Xả thẳng trực tiếp ra mương nước tưới rau", "Vứt bỏ ra lề đường giao thông", "Đốt cháy tạo khói đen"], ans: 0 },
-      { q: "Tiêu chuẩn GAP (Good Agricultural Practices) hướng tới mục tiêu nào sau đây?", opts: ["An toàn thực phẩm, an toàn người lao động, bảo vệ môi trường và truy xuất nguồn gốc", "Tối đa hóa hóa chất độc hại để diệt sạch sinh vật", "Chỉ tập trung vào bao bì đẹp mắt", "Không cần ghi chép nhật ký đồng ruộng"], ans: 0 }
-    ];
-
-    let castleStage = 0;
-    let castleHearts = 3;
-    let castleStars = 0;
-
-    function renderCastleGame(container) {
-      castleStage = 0;
-      castleHearts = 3;
-      castleStars = 0;
-      showNextCastleStage(container);
-    }
-
-    function showNextCastleStage(container) {
-      if (castleHearts <= 0) {
-        container.innerHTML = `
-          <div class="game-win-card" style="border-color:#fca5a5; background:#fff1f2;">
-            <div style="font-size:56px; margin-bottom:12px;">💔</div>
-            <h2 style="font-size:22px; color:#b91c1c; font-weight:800; margin-bottom:6px;">BẠN ĐÃ HẾT 3 TRÁI TIM!</h2>
-            <p style="font-size:14px; color:#64748b; margin-bottom:16px;">Vượt ải dừng lại ở câu ${castleStage + 1}. Hãy ôn lại kiến thức và thử thách lại nhé!</p>
-            <button class="btn btn-primary" onclick="switchGameMode(4)" style="background:#dc2626;">🔄 Vượt Ải Lại</button>
-          </div>
-        `;
-        return;
-      }
-
-      if (castleStage >= CASTLE_QUESTIONS.length) {
-        const starsAwarded = 150;
-        if (window.portalPet) portalPet.awardFarmPoints(starsAwarded, "Hoàn thành Xuất sắc Vượt Ải 10 Câu");
-        updateHeroStars();
-
-        container.innerHTML = `
-          <div class="game-win-card">
-            <div style="font-size:56px; margin-bottom:12px;">🏰</div>
-            <h2 style="font-size:22px; color:#15803d; font-weight:800; margin-bottom:6px;">CHIẾN THẮNG TOÀN DIỆN 10 ẢI!</h2>
-            <div style="font-size:18px; font-weight:800; color:#d97706; margin-bottom:16px;">
-              Nhận ngay: +${starsAwarded} ⭐ Sao Nông Nghiệp &amp; Danh hiệu Hiệp Sĩ Nông Nghiệp!
-            </div>
-            <button class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#16a34a;">🐾 Mở Nông Trại Chăm Sóc Bé</button>
-          </div>
-        `;
-        return;
-      }
-
-      const q = CASTLE_QUESTIONS[castleStage];
-      const heartsHtml = "❤️ ".repeat(castleHearts) + "🖤 ".repeat(3 - castleHearts);
-
-      container.innerHTML = `
-        <div style="max-width:620px; margin:0 auto;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; background:#f8fafc; padding:8px 16px; border-radius:10px; border:1px solid #e2e8f0;">
-            <span style="font-weight:800; color:#7c3aed;">ẢI ${castleStage + 1} / 10</span>
-            <span style="font-size:16px;">${heartsHtml}</span>
-            <span style="font-weight:700; color:#10b981;">Điểm: +${castleStars} ⭐</span>
-          </div>
-
-          <div style="background:#fff; border:1.5px solid #ddd6fe; border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 4px 12px rgba(124,58,237,0.05);">
-            <div style="font-size:15.5px; font-weight:700; color:#0f172a; line-height:1.6; text-align:center;">
-              ${castleStage + 1}. ${q.q}
-            </div>
-          </div>
-
-          <div>
-            ${q.opts.map((opt, oIdx) => `
-              <button class="choice-btn" onclick="handleCastleChoice(${oIdx})">
-                <strong>${String.fromCharCode(65 + oIdx)}.</strong> ${opt}
-              </button>
-            `).join("")}
-          </div>
-        </div>
-      `;
-    }
-
-    function handleCastleChoice(choiceIdx) {
-      const q = CASTLE_QUESTIONS[castleStage];
-      if (choiceIdx === q.ans) {
-        castleStars += 15;
-      } else {
-        castleHearts--;
-      }
-      castleStage++;
-      showNextCastleStage(document.getElementById("gameStageArea"));
-    }
-
-    // ========================================================================
-    // GAME 5: GỌI TÊN NGẪU NHIÊN TRÊN LỚP
-    // ========================================================================
-    const SAMPLE_STUDENTS = [
-      "Nguyễn Văn An", "Trần Thị Mai", "Lê Hoàng Long", "Phạm Minh Đức",
-      "Võ Ngọc Ánh", "Đặng Quốc Bảo", "Bùi Thanh Trúc", "Hoàng Gia Huy",
-      "Đỗ Hải Yến", "Ngô Tấn Tài", "Dương Thu Thảo", "Vũ Đình Trọng"
-    ];
-
-    function renderRandomPickerGame(container) {
-      container.innerHTML = `
-        <div style="text-align:center; max-width:600px; margin:0 auto;">
-          <div style="font-size:48px; margin-bottom:10px;">🎲</div>
-          <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin:0 0 6px;">Vòng Quay Gọi Tên Ngẫu Nhiên</h2>
-          <p style="font-size:13.5px; color:#64748b; margin:0 0 20px;">
-            Hỗ trợ Thầy Cô và Học sinh bốc thăm ngẫu nhiên bạn lên bảng trả lời câu hỏi bài học!
-          </p>
-
-          <div style="background:#f8fafc; border:2px dashed #bbf7d0; border-radius:16px; padding:32px 20px; margin-bottom:20px;">
-            <div id="randomPickedName" style="font-size:26px; font-weight:800; color:#15803d; min-height:40px;">
-              [ Sẵn sàng bấm quay ]
-            </div>
-          </div>
-
-          <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-            <button class="btn btn-primary" id="btnRunRandomPick" onclick="runRandomPicker()" style="background:#16a34a; font-size:16px; font-weight:800; padding:12px 32px;">
-              🎡 QUAY TÊN NGAY
-            </button>
-            <button class="btn btn-outline" onclick="openCustomNameInput()">
-              ✏️ Sửa danh sách lớp
-            </button>
-          </div>
-        </div>
-      `;
-    }
-
-    let isPicking = false;
-    function runRandomPicker() {
-      if (isPicking) return;
-      isPicking = true;
-      const display = document.getElementById("randomPickedName");
-      const btn = document.getElementById("btnRunRandomPick");
-      if (btn) btn.disabled = true;
-
-      let counter = 0;
-      const interval = setInterval(() => {
-        const randName = SAMPLE_STUDENTS[Math.floor(Math.random() * SAMPLE_STUDENTS.length)];
-        display.textContent = "🎲 " + randName;
-        counter++;
-        if (counter > 25) {
-          clearInterval(interval);
-          isPicking = false;
-          if (btn) btn.disabled = false;
-          const finalName = SAMPLE_STUDENTS[Math.floor(Math.random() * SAMPLE_STUDENTS.length)];
-          display.innerHTML = `🎉 <span style="color:#b45309; text-decoration:underline;">${finalName}</span> 🎉`;
-          if (window.portalPet) portalPet.awardFarmPoints(20, "Tham gia vòng quay gọi tên may mắn");
-          updateHeroStars();
-        }
-      }, 80);
-    }
-
-    function openCustomNameInput() {
-      const names = prompt("Nhập danh sách học sinh (cách nhau bằng dấu phẩy):", SAMPLE_STUDENTS.join(", "));
-      if (names && names.trim()) {
-        const list = names.split(",").map(n => n.trim()).filter(n => n);
-        if (list.length > 0) {
-          SAMPLE_STUDENTS.length = 0;
-          SAMPLE_STUDENTS.push(...list);
-          alert(`Đã cập nhật danh sách lớp gồm ${list.length} học sinh!`);
-        }
-      }
-    }
-    // ========================================================================
-    let speedTimer = null;
-    let speedTimeLeft = 10;
-    let speedQuestionIndex = 0;
-    let speedScore = 0;
-    let speedCombo = 0;
-    let speedQuestionsPool = [];
-
-    function renderSpeedQuiz(container) {
-      if (speedTimer) clearInterval(speedTimer);
-      speedQuestionsPool = SPEED_QUESTIONS.slice().sort(() => Math.random() - 0.5).slice(0, 5);
-      speedQuestionIndex = 0;
-      speedScore = 0;
-      speedCombo = 0;
-
-      container.innerHTML = `
-        <div style="text-align:center; padding:20px 0;">
-          <div style="font-size:52px; margin-bottom:12px;">⚡</div>
-          <h2 style="color:#0f172a; margin-bottom:8px; font-weight:800;">Đấu Trí Tốc Độ: 10 Giây Mỗi Câu</h2>
-          <p style="color:#64748b; font-size:14.5px; max-width:540px; margin:0 auto 24px; line-height:1.6;">
-            Bạn có <strong>10 giây</strong> để chọn câu trả lời đúng. Chuỗi đúng liên tiếp (Combo Streak) sẽ nhân đôi điểm thưởng Sao cho thú cưng!
-          </p>
-          <button type="button" class="btn btn-primary" onclick="startSpeedQuiz()" style="background:#10b981; font-weight:800; font-size:16px; padding:12px 32px;">
-            🚀 BẮT ĐẦU CHƠI NGAY
-          </button>
-        </div>
-      `;
-    }
-
-    function startSpeedQuiz() {
-      loadSpeedQuestion();
-    }
-
-    function loadSpeedQuestion() {
-      if (speedQuestionIndex >= speedQuestionsPool.length) {
-        finishSpeedQuiz();
-        return;
-      }
-
-      speedTimeLeft = 10;
-      const q = speedQuestionsPool[speedQuestionIndex];
-      const stage = document.getElementById("gameStageArea");
-
-      stage.innerHTML = `
-        <div class="speed-quiz-top">
-          <div style="font-size:14px; font-weight:800; color:#0f172a;">
-            Câu ${speedQuestionIndex + 1} / ${speedQuestionsPool.length}
-          </div>
-          <div class="timer-circle" id="speedTimerNum">10</div>
-          <div class="combo-badge">🔥 Combo: x${speedCombo}</div>
-        </div>
-
-        <div class="quiz-question-stem">${q.q}</div>
-
-        <div class="quiz-options-grid">
-          ${q.opts.map((opt, oIdx) => `
-            <button type="button" class="quiz-opt-btn" onclick="handleSpeedAnswer(${oIdx})">
-              <span style="display:inline-block; width:26px; height:26px; border-radius:50%; background:#f1f5f9; text-align:center; line-height:26px; font-weight:800; font-size:12px;">${String.fromCharCode(65 + oIdx)}</span>
-              <span>${opt}</span>
-            </button>
-          `).join("")}
-        </div>
-      `;
-
-      if (speedTimer) clearInterval(speedTimer);
-      speedTimer = setInterval(() => {
-        speedTimeLeft--;
-        const tEl = document.getElementById("speedTimerNum");
-        if (tEl) tEl.textContent = speedTimeLeft;
-
-        if (speedTimeLeft <= 0) {
-          clearInterval(speedTimer);
-          handleSpeedAnswer(-1); // Hết giờ
-        }
-      }, 1000);
-    }
-
-    function handleSpeedAnswer(selectedIdx) {
-      if (speedTimer) clearInterval(speedTimer);
-      const q = speedQuestionsPool[speedQuestionIndex];
-      const buttons = document.querySelectorAll(".quiz-opt-btn");
-
-      buttons.forEach(b => b.disabled = true);
-
-      if (selectedIdx === q.ans) {
-        speedCombo++;
-        const earned = 20 + (speedCombo * 5);
-        speedScore += earned;
-        if (buttons[selectedIdx]) buttons[selectedIdx].classList.add("correct");
-      } else {
-        speedCombo = 0;
-        if (selectedIdx >= 0 && buttons[selectedIdx]) buttons[selectedIdx].classList.add("wrong");
-        if (buttons[q.ans]) buttons[q.ans].classList.add("correct");
-      }
-
-      setTimeout(() => {
-        speedQuestionIndex++;
-        loadSpeedQuestion();
-      }, 1100);
-    }
-
-    function finishSpeedQuiz() {
-      const stage = document.getElementById("gameStageArea");
-      const starsAwarded = Math.max(30, speedScore);
-
-      if (window.portalPet) {
-        portalPet.awardFarmPoints(starsAwarded, "Chiến thắng Đấu Trí Tốc Độ");
-      }
-      updateHeroStars();
-
-      stage.innerHTML = `
-        <div class="game-win-card">
-          <div style="font-size:56px; margin-bottom:12px;">🏆</div>
-          <h2 style="font-size:22px; color:#065f46; font-weight:800; margin-bottom:6px;">HOÀN THÀNH XUẤT SẮC!</h2>
-          <div style="font-size:18px; font-weight:800; color:#d97706; margin-bottom:16px;">
-            Bạn nhận được: +${starsAwarded} ⭐ Sao Nông Nghiệp!
-          </div>
-          <p style="color:#475569; font-size:14px; margin-bottom:24px;">
-            Số sao đã được cộng thẳng vào tài khoản để bạn mua thức ăn và đồ chơi cho bé cưng.
-          </p>
-          <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-            <button type="button" class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#10b981; font-weight:800;">
-              🐾 Mở Nông Trại Chăm Sóc Bé
-            </button>
-            <button type="button" class="btn btn-outline" onclick="switchGameMode(1)">
-              🔄 Chơi Lại Ván Mới
-            </button>
-          </div>
-        </div>
-      `;
-    }
-
-    // ========================================================================
-    // GAME 2: LẬT THẺ GHÉP ĐÔI (MEMORY CARD MATCH)
+    // GAME 2: LẬT THẺ GHÉP CẶP NHÀ NÔNG (MEMORY MATCH)
     // ========================================================================
     let memoryCards = [];
     let flippedCards = [];
@@ -1151,9 +760,9 @@
       matchedCount = 0;
       flippedCards = [];
 
-      // Tạo 12 thẻ (6 cặp)
+      const pairs = MEMORY_PAIRS_DATA[currentGrade] || MEMORY_PAIRS_DATA.cn10;
       const deck = [];
-      MEMORY_PAIRS.forEach((p, idx) => {
+      pairs.forEach((p, idx) => {
         deck.push({ id: idx, type: 'term', text: p.term });
         deck.push({ id: idx, type: 'desc', text: p.desc });
       });
@@ -1163,10 +772,12 @@
       container.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
           <div>
-            <h3 style="margin:0; color:#0f172a; font-size:18px; font-weight:800;">🃏 Lật Thẻ Ghép Đôi Thuật Ngữ Nông Nghiệp</h3>
-            <span style="font-size:13px; color:#64748b;">Lật 2 thẻ ghép đúng Thuật ngữ với Định nghĩa tương ứng!</span>
+            <h3 style="margin:0; color:#0f172a; font-size:18px; font-weight:800;">
+              🧩 Lật Thẻ Ghép Đôi Thuật Ngữ Nông Nghiệp (${currentGrade === 'cn10' ? 'K10' : currentGrade === 'cn11' ? 'K11' : 'K12'})
+            </h3>
+            <span style="font-size:13px; color:#64748b;">Lật 2 thẻ ghép đúng Thuật ngữ với Định nghĩa bản chất tương ứng!</span>
           </div>
-          <button type="button" class="btn btn-sm btn-outline" onclick="renderMemoryMatch(document.getElementById('gameStageArea'))">
+          <button type="button" class="btn btn-sm btn-outline" onclick="renderMemoryMatch(document.getElementById('gameStageArea'))" style="font-weight:700;">
             🔄 Xáo Thẻ Mới
           </button>
         </div>
@@ -1194,46 +805,44 @@
       if (flippedCards.length === 2) {
         const [c1, c2] = flippedCards;
         if (c1.card.id === c2.card.id) {
-          // Ghép đúng cặp!
           setTimeout(() => {
             document.getElementById("memCard_" + c1.idx).classList.add("matched");
             document.getElementById("memCard_" + c2.idx).classList.add("matched");
             matchedCount++;
             flippedCards = [];
 
-            if (matchedCount === MEMORY_PAIRS.length) {
+            const pairs = MEMORY_PAIRS_DATA[currentGrade] || MEMORY_PAIRS_DATA.cn10;
+            if (matchedCount === pairs.length) {
               finishMemoryGame();
             }
-          }, 500);
+          }, 450);
         } else {
-          // Sai -> lật úp lại
           setTimeout(() => {
             document.getElementById("memCard_" + c1.idx).classList.remove("flipped");
             document.getElementById("memCard_" + c2.idx).classList.remove("flipped");
             flippedCards = [];
-          }, 900);
+          }, 850);
         }
       }
     }
 
     function finishMemoryGame() {
       const stage = document.getElementById("gameStageArea");
-      const starsAwarded = 100;
-      if (window.portalPet) portalPet.awardFarmPoints(starsAwarded, "Ghép đúng toàn bộ thẻ tri thức");
-      updateHeroStars();
+      const starsAwarded = 120;
+      if (window.portalPet) portalPet.awardFarmPoints(starsAwarded, "Ghép đúng toàn bộ thẻ tri thức Nông nghiệp");
 
       stage.innerHTML = `
         <div class="game-win-card">
           <div style="font-size:56px; margin-bottom:12px;">🌟</div>
-          <h2 style="font-size:22px; color:#065f46; font-weight:800; margin-bottom:6px;">TRÍ NHỚ TUYỆT ĐỈNH!</h2>
+          <h2 style="font-size:24px; color:#065f46; font-weight:800; margin-bottom:6px;">TRÍ NHỚ TUYỆT ĐỈNH!</h2>
           <div style="font-size:18px; font-weight:800; color:#d97706; margin-bottom:16px;">
             Nhận ngay: +${starsAwarded} ⭐ Sao Nông Nghiệp!
           </div>
           <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-            <button type="button" class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#10b981; font-weight:800;">
+            <button type="button" class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#10b981; font-weight:800; padding:10px 20px;">
               🐾 Cho Bé Cưng Ăn Ngay
             </button>
-            <button type="button" class="btn btn-outline" onclick="switchGameMode(2)">
+            <button type="button" class="btn btn-outline" onclick="switchGameMode(2)" style="font-weight:700; padding:10px 20px;">
               🔄 Thử Thách Lại
             </button>
           </div>
@@ -1242,36 +851,259 @@
     }
 
     // ========================================================================
-    // GAME 3: VÒNG QUAY MAY MẮN (LUCKY WHEEL)
+    // GAME 3: BÁC SĨ CÂY TRỒNG & VẬT NUÔI
     // ========================================================================
+    let doctorIndex = 0;
+    let doctorScore = 0;
+    let doctorCases = [];
+
+    function renderDoctorGame(container) {
+      doctorIndex = 0;
+      doctorScore = 0;
+      doctorCases = DOCTOR_CASES_DATA[currentGrade] || DOCTOR_CASES_DATA.cn10;
+      showNextDoctorCase(container);
+    }
+
+    function showNextDoctorCase(container) {
+      if (doctorIndex >= doctorCases.length) {
+        finishDoctorGame(container);
+        return;
+      }
+      const c = doctorCases[doctorIndex];
+
+      container.innerHTML = `
+        <div style="max-width:660px; margin:0 auto;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#f0f9ff; padding:10px 18px; border-radius:12px; border:1px solid #bae6fd;">
+            <span style="font-weight:800; color:#0284c7; font-size:13.5px;">🩺 Ca Bệnh ${doctorIndex + 1} / ${doctorCases.length}</span>
+            <span style="font-weight:700; color:#10b981; font-size:13.5px;">Điểm tích lũy: ${doctorScore} ⭐</span>
+          </div>
+
+          <div style="background:#ffffff; border:1.5px solid #bae6fd; border-radius:16px; padding:22px; margin-bottom:18px; box-shadow:0 4px 14px rgba(2,132,199,0.06);">
+            <div style="font-size:11.5px; font-weight:800; color:#0369a1; text-transform:uppercase; margin-bottom:4px; letter-spacing:0.5px;">TRIỆU CHỨNG LÂM SÀNG:</div>
+            <h3 style="font-size:17.5px; color:#0c4a6e; margin:0 0 8px; font-weight:800;">${c.caseTitle}</h3>
+            <p style="font-size:14px; color:#475569; line-height:1.6; margin:0;">${c.symptoms}</p>
+          </div>
+
+          <div style="font-size:13.5px; font-weight:700; color:#1e293b; margin-bottom:12px;">
+            👨‍⚕️ Hãy lựa chọn Phác đồ xử lý kỹ thuật tối ưu nhất:
+          </div>
+
+          <div>
+            ${c.protocols.map((p, pIdx) => `
+              <button class="choice-btn" onclick="handleDoctorChoice(${pIdx})">
+                <strong>Phác đồ ${String.fromCharCode(65 + pIdx)}:</strong> ${p}
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function handleDoctorChoice(choiceIdx) {
+      const c = doctorCases[doctorIndex];
+      const isRight = (choiceIdx === c.correct);
+      const stage = document.getElementById("gameStageArea");
+
+      if (isRight) {
+        doctorScore += 60;
+      }
+
+      // Hiển thị card kết quả ca bệnh thay vì alert
+      stage.innerHTML = `
+        <div style="max-width:660px; margin:0 auto; padding:24px; background:${isRight ? '#f0fdf4' : '#fff1f2'}; border:2px solid ${isRight ? '#86efac' : '#fecdd3'}; border-radius:16px; text-align:center;">
+          <div style="font-size:48px; margin-bottom:10px;">${isRight ? '✅' : '⚠️'}</div>
+          <h3 style="font-size:18px; font-weight:800; color:${isRight ? '#15803d' : '#be123c'}; margin:0 0 8px;">
+            ${isRight ? 'CHẨN ĐOÁN & ĐIỀU TRỊ CHÍNH XÁC! (+60 ⭐)' : 'PHÁC ĐỒ CHƯA CHÍNH XÁC!'}
+          </h3>
+          <p style="font-size:14px; color:#334155; line-height:1.6; max-width:540px; margin:0 auto 20px;">
+            <strong>Chuyên gia Nông học hướng dẫn:</strong> ${c.advice}
+          </p>
+          <button type="button" class="btn btn-primary" onclick="proceedToNextDoctorCase()" style="background:${isRight ? '#16a34a' : '#0284c7'}; font-weight:800; padding:10px 24px; border-radius:10px;">
+            Tiếp tục ca tiếp theo ➔
+          </button>
+        </div>
+      `;
+    }
+
+    function proceedToNextDoctorCase() {
+      doctorIndex++;
+      showNextDoctorCase(document.getElementById("gameStageArea"));
+    }
+
+    function finishDoctorGame(container) {
+      const starsAwarded = Math.max(40, doctorScore);
+      if (window.portalPet) portalPet.awardFarmPoints(starsAwarded, "Hoàn thành Khám bệnh Bác sĩ Nông nghiệp");
+
+      container.innerHTML = `
+        <div class="game-win-card">
+          <div style="font-size:56px; margin-bottom:12px;">🩺</div>
+          <h2 style="font-size:24px; color:#0284c7; font-weight:800; margin-bottom:6px;">HOÀN THÀNH CA KHÁM BỆNH!</h2>
+          <div style="font-size:18px; font-weight:800; color:#d97706; margin-bottom:16px;">
+            Bạn đã bảo vệ mùa màng thành công, nhận ngay: +${starsAwarded} ⭐ Sao Nông Nghiệp!
+          </div>
+          <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#0284c7; font-weight:800; padding:10px 20px;">
+              🐾 Cho Bé Cưng Ăn Ngay
+            </button>
+            <button type="button" class="btn btn-outline" onclick="switchGameMode(3)" style="font-weight:700; padding:10px 20px;">
+              🔄 Khám Ca Khác
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ========================================================================
+    // GAME 4: VƯỢT ẢI 10 CÂU (3 TRÁI TIM)
+    // ========================================================================
+    let castleStage = 0;
+    let castleHearts = 3;
+    let castleStars = 0;
+    let castleQuestions = [];
+
+    function renderCastleGame(container) {
+      castleStage = 0;
+      castleHearts = 3;
+      castleStars = 0;
+      castleQuestions = CASTLE_QUESTIONS_DATA[currentGrade] || CASTLE_QUESTIONS_DATA.cn10;
+      showNextCastleStage(container);
+    }
+
+    function showNextCastleStage(container) {
+      if (castleHearts <= 0) {
+        container.innerHTML = `
+          <div class="game-win-card" style="border-color:#fca5a5; background:#fff1f2;">
+            <div style="font-size:56px; margin-bottom:12px;">💔</div>
+            <h2 style="font-size:22px; color:#b91c1c; font-weight:800; margin-bottom:6px;">BẠN ĐÃ DÙNG HẾT 3 TRÁI TIM!</h2>
+            <p style="font-size:14px; color:#64748b; margin-bottom:20px;">Hành trình dừng lại ở ải ${castleStage + 1}. Hãy ôn lại kiến thức và chinh phục lại nhé!</p>
+            <button class="btn btn-primary" onclick="switchGameMode(4)" style="background:#dc2626; font-weight:800; padding:10px 24px;">🔄 Vượt Ải Lại</button>
+          </div>
+        `;
+        return;
+      }
+
+      if (castleStage >= castleQuestions.length) {
+        const starsAwarded = 180;
+        if (window.portalPet) portalPet.awardFarmPoints(starsAwarded, "Chiến thắng trọn vẹn 10 ải tri thức Nông nghiệp");
+
+        container.innerHTML = `
+          <div class="game-win-card">
+            <div style="font-size:56px; margin-bottom:12px;">🏰</div>
+            <h2 style="font-size:24px; color:#15803d; font-weight:800; margin-bottom:6px;">CHIẾN THẮNG TOÀN DIỆN 10 ẢI!</h2>
+            <div style="font-size:18px; font-weight:800; color:#d97706; margin-bottom:16px;">
+              Nhận ngay: +${starsAwarded} ⭐ Sao Nông Nghiệp &amp; Danh hiệu Hiệp Sĩ Nông Nghiệp!
+            </div>
+            <button class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#16a34a; font-weight:800; padding:10px 24px;">🐾 Mở Nông Trại Chăm Sóc Bé</button>
+          </div>
+        `;
+        return;
+      }
+
+      const q = castleQuestions[castleStage];
+      const heartsHtml = "❤️ ".repeat(castleHearts) + "🖤 ".repeat(3 - castleHearts);
+
+      container.innerHTML = `
+        <div style="max-width:640px; margin:0 auto;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#f8fafc; padding:10px 18px; border-radius:12px; border:1px solid #e2e8f0;">
+            <span style="font-weight:800; color:#7c3aed; font-size:13.5px;">ẢI ${castleStage + 1} / 10</span>
+            <span style="font-size:16px;">${heartsHtml}</span>
+            <span style="font-weight:700; color:#10b981; font-size:13.5px;">Điểm: +${castleStars} ⭐</span>
+          </div>
+
+          <div style="background:#fff; border:1.5px solid #ddd6fe; border-radius:16px; padding:22px; margin-bottom:18px; box-shadow:0 4px 12px rgba(124,58,237,0.05);">
+            <div style="font-size:16px; font-weight:700; color:#0f172a; line-height:1.6; text-align:center;">
+              ${castleStage + 1}. ${q.q}
+            </div>
+          </div>
+
+          <div>
+            ${q.opts.map((opt, oIdx) => `
+              <button class="choice-btn" onclick="handleCastleChoice(${oIdx})">
+                <strong>${String.fromCharCode(65 + oIdx)}.</strong> ${opt}
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function handleCastleChoice(choiceIdx) {
+      const q = castleQuestions[castleStage];
+      if (choiceIdx === q.ans) {
+        castleStars += 18;
+      } else {
+        castleHearts--;
+      }
+      castleStage++;
+      showNextCastleStage(document.getElementById("gameStageArea"));
+    }
+
+    // ========================================================================
+    // GAME 5: VÒNG QUAY MAY MẮN & BỐC THĂM LỚP
+    // ========================================================================
+    const SAMPLE_STUDENTS = [
+      "Nguyễn Văn An", "Trần Thị Mai", "Lê Hoàng Long", "Phạm Minh Đức",
+      "Võ Ngọc Ánh", "Đặng Quốc Bảo", "Bùi Thanh Trúc", "Hoàng Gia Huy",
+      "Đỗ Hải Yến", "Ngô Tấn Tài", "Dương Thu Thảo", "Vũ Đình Trọng"
+    ];
+
     const WHEEL_SECTORS = [
       { label: "+50 ⭐", stars: 50, color: "#10b981" },
       { label: "+100 ⭐", stars: 100, color: "#3b82f6" },
-      { label: "🥩 Xương Thơm", stars: 40, color: "#f59e0b" },
+      { label: "🥕 Cà Rốt", stars: 40, color: "#f59e0b" },
       { label: "+150 ⭐", stars: 150, color: "#ec4899" },
-      { label: "🐟 Pate Cá", stars: 50, color: "#8b5cf6" },
+      { label: "🌽 Bắp Ngô", stars: 60, color: "#8b5cf6" },
       { label: "+80 ⭐", stars: 80, color: "#06b6d4" },
-      { label: "👑 Vương Miện", stars: 300, color: "#eab308" },
+      { label: "👑 Vương Miện", stars: 250, color: "#eab308" },
       { label: "+200 ⭐", stars: 200, color: "#ef4444" }
     ];
     let isSpinning = false;
+    let isPicking = false;
 
-    function renderLuckyWheel(container) {
+    function renderRandomPickerAndWheel(container) {
       container.innerHTML = `
-        <div style="text-align:center;">
-          <h3 style="margin:0 0 6px; font-size:19px; font-weight:800; color:#0f172a;">🎡 Vòng Quay Tri Thức Nông Nghiệp</h3>
-          <p style="font-size:13.5px; color:#64748b; margin:0 auto 20px;">
-            Quay vòng quay để nhận quà Sao &amp; Vật phẩm nuôi bé cưng!
-          </p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; align-items:start; max-width:880px; margin:0 auto;">
+          
+          <!-- CỘT 1: VÒNG QUAY MAY MẮN -->
+          <div style="text-align:center; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:18px; padding:22px;">
+            <h3 style="margin:0 0 6px; font-size:17px; font-weight:800; color:#0f172a;">🎡 Vòng Quay May Mắn Nông Trại</h3>
+            <p style="font-size:12.5px; color:#64748b; margin:0 0 16px;">
+              Quay vòng quay để nhận quà Sao &amp; Đồ ăn cho bé cưng!
+            </p>
 
-          <div class="wheel-container">
-            <div class="wheel-pointer"></div>
-            <canvas id="luckyWheelCanvas" class="wheel-canvas" width="300" height="300"></canvas>
+            <div class="wheel-container">
+              <div class="wheel-pointer"></div>
+              <canvas id="luckyWheelCanvas" class="wheel-canvas" width="300" height="300"></canvas>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="btnSpinWheel" onclick="spinLuckyWheel()" style="background:#10b981; font-size:15px; font-weight:800; padding:10px 30px; border-radius:10px;">
+              🎯 QUAY NGAY
+            </button>
           </div>
 
-          <button type="button" class="btn btn-primary" id="btnSpinWheel" onclick="spinLuckyWheel()" style="background:#10b981; font-size:16px; font-weight:800; padding:12px 36px;">
-            🎯 QUAY NGAY
-          </button>
+          <!-- CỘT 2: BỐC THĂM HỌC SINH -->
+          <div style="text-align:center; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:18px; padding:22px;">
+            <h3 style="margin:0 0 6px; font-size:17px; font-weight:800; color:#0f172a;">🎲 Bốc Thăm Tên Lên Bảng</h3>
+            <p style="font-size:12.5px; color:#64748b; margin:0 0 16px;">
+              Hỗ trợ Thầy Cô và Lớp gọi tên ngẫu nhiên học sinh trả lời!
+            </p>
+
+            <div style="background:#ffffff; border:2px dashed #86efac; border-radius:16px; padding:32px 16px; margin-bottom:18px; min-height:120px; display:flex; align-items:center; justify-content:center;">
+              <div id="randomPickedName" style="font-size:22px; font-weight:800; color:#15803d;">
+                [ Sẵn sàng bấm quay ]
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-primary" id="btnRunRandomPick" onclick="runRandomPicker()" style="background:#16a34a; font-size:14.5px; font-weight:800; padding:10px 22px; border-radius:10px;">
+                🎡 Bốc Thăm Ngay
+              </button>
+              <button class="btn btn-outline" onclick="openCustomNameInput()" style="font-size:13px; font-weight:700;">
+                ✏️ Sửa danh sách lớp
+              </button>
+            </div>
+          </div>
+
         </div>
       `;
       setTimeout(drawWheelCanvas, 50);
@@ -1294,13 +1126,12 @@
         ctx.lineTo(150, 150);
         ctx.fill();
 
-        // Vẽ chữ
         ctx.save();
         ctx.translate(150, 150);
         ctx.rotate(angle + arc / 2);
         ctx.textAlign = "right";
         ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 13px 'Plus Jakarta Sans', sans-serif";
+        ctx.font = "bold 13px 'Be Vietnam Pro', sans-serif";
         ctx.fillText(sec.label, 130, 5);
         ctx.restore();
       });
@@ -1313,115 +1144,58 @@
       const btn = document.getElementById("btnSpinWheel");
       if (btn) btn.disabled = true;
 
-      const randDegrees = Math.floor(Math.random() * 360) + 1440; // ít nhất 4 vòng
+      const randDegrees = Math.floor(Math.random() * 360) + 1440;
       canvas.style.transform = `rotate(${randDegrees}deg)`;
 
       setTimeout(() => {
         isSpinning = false;
         if (btn) btn.disabled = false;
         const actualDeg = randDegrees % 360;
-        // Tính ô trúng (mũi tên ở trên đỉnh = 270 deg)
         const sectorDeg = 360 / WHEEL_SECTORS.length;
         const prizeIdx = Math.floor(((360 - actualDeg + 270) % 360) / sectorDeg);
         const prize = WHEEL_SECTORS[prizeIdx] || WHEEL_SECTORS[0];
 
         if (window.portalPet) portalPet.awardFarmPoints(prize.stars, "Trúng thưởng Vòng Quay May Mắn");
-        updateHeroStars();
-
-        alert(`🎉 CHÚC MỪNG BẠN!\n\nBạn quay trúng: ${prize.label}!\nĐã cộng thẳng ${prize.stars} ⭐ Sao Nông Nghiệp vào hồ sơ của bạn.`);
       }, 4200);
     }
 
-    // ========================================================================
-    // GAME 4: PHÂN LOẠI THẦN TỐC (SORTER CHALLENGE)
-    // ========================================================================
-    const SORTER_ITEMS = [
-      { name: "Cây Keo Lai", group: "lam", label: "Lâm nghiệp" },
-      { name: "Cá Tra & Cá Ba Sa", group: "thuy", label: "Thủy sản" },
-      { name: "Cây Gỗ Sưa Đỏ", group: "lam", label: "Lâm nghiệp" },
-      { name: "Tôm Sú & Tôm Thẻ", group: "thuy", label: "Thủy sản" },
-      { name: "Rừng Đước Chắn Sóng", group: "lam", label: "Lâm nghiệp" },
-      { name: "Rong Nho Biển", group: "thuy", label: "Thủy sản" },
-      { name: "Cây Thông Ba Lá", group: "lam", label: "Lâm nghiệp" },
-      { name: "Cá Rô Phi Đơn Tính", group: "thuy", label: "Thủy sản" }
-    ];
-    let sorterIndex = 0;
-    let sorterScore = 0;
+    function runRandomPicker() {
+      if (isPicking) return;
+      isPicking = true;
+      const display = document.getElementById("randomPickedName");
+      const btn = document.getElementById("btnRunRandomPick");
+      if (btn) btn.disabled = true;
 
-    function renderSorterGame(container) {
-      sorterIndex = 0;
-      sorterScore = 0;
-      showNextSorterItem(container);
+      let counter = 0;
+      const interval = setInterval(() => {
+        const randName = SAMPLE_STUDENTS[Math.floor(Math.random() * SAMPLE_STUDENTS.length)];
+        display.textContent = "🎲 " + randName;
+        counter++;
+        if (counter > 25) {
+          clearInterval(interval);
+          isPicking = false;
+          if (btn) btn.disabled = false;
+          const finalName = SAMPLE_STUDENTS[Math.floor(Math.random() * SAMPLE_STUDENTS.length)];
+          display.innerHTML = `🎉 <span style="color:#b45309; text-decoration:underline;">${finalName}</span> 🎉`;
+          if (window.portalPet) portalPet.awardFarmPoints(25, "Bốc thăm câu hỏi may mắn");
+        }
+      }, 80);
     }
 
-    function showNextSorterItem(container) {
-      if (sorterIndex >= SORTER_ITEMS.length) {
-        finishSorterGame(container);
-        return;
+    function openCustomNameInput() {
+      const names = prompt("Nhập danh sách học sinh của lớp (cách nhau bằng dấu phẩy):", SAMPLE_STUDENTS.join(", "));
+      if (names && names.trim()) {
+        const list = names.split(",").map(n => n.trim()).filter(n => n);
+        if (list.length > 0) {
+          SAMPLE_STUDENTS.length = 0;
+          SAMPLE_STUDENTS.push(...list);
+          alert(`Đã cập nhật danh sách lớp gồm ${list.length} học sinh!`);
+        }
       }
-      const item = SORTER_ITEMS[sorterIndex];
-
-      container.innerHTML = `
-        <div style="text-align:center; max-width:520px; margin:0 auto;">
-          <div style="font-size:13px; font-weight:800; color:#10b981; margin-bottom:4px;">
-            Câu ${sorterIndex + 1} / ${SORTER_ITEMS.length} • Điểm: ${sorterScore}
-          </div>
-          <h3 style="font-size:18px; color:#0f172a; margin-bottom:18px;">
-            Hãy bấm chọn đúng nhóm ngành của đối tượng sau:
-          </h3>
-
-          <div style="background:#f8fafc; border:2px dashed #10b981; border-radius:16px; padding:28px 20px; font-size:22px; font-weight:800; color:#065f46; margin-bottom:24px; box-shadow:0 4px 14px rgba(0,0,0,0.05);">
-            🌿 ${item.name}
-          </div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-            <button type="button" class="btn btn-primary" onclick="handleSorterChoice('lam')" style="background:#15803d; font-size:16px; font-weight:800; padding:16px;">
-              🌲 LÂM NGHIỆP
-            </button>
-            <button type="button" class="btn btn-primary" onclick="handleSorterChoice('thuy')" style="background:#0284c7; font-size:16px; font-weight:800; padding:16px;">
-              🐟 THỦY SẢN
-            </button>
-          </div>
-        </div>
-      `;
     }
 
-    function handleSorterChoice(group) {
-      const item = SORTER_ITEMS[sorterIndex];
-      if (item.group === group) {
-        sorterScore += 15;
-      }
-      sorterIndex++;
-      showNextSorterItem(document.getElementById("gameStageArea"));
-    }
-
-    function finishSorterGame(container) {
-      const starsAwarded = Math.max(30, sorterScore);
-      if (window.portalPet) portalPet.awardFarmPoints(starsAwarded, "Hoàn thành Phân Loại Nông Nghiệp Thần Tốc");
-      updateHeroStars();
-
-      container.innerHTML = `
-        <div class="game-win-card">
-          <div style="font-size:56px; margin-bottom:12px;">🚜</div>
-          <h2 style="font-size:22px; color:#065f46; font-weight:800; margin-bottom:6px;">PHÂN LOẠI XUẤT SẮC!</h2>
-          <div style="font-size:18px; font-weight:800; color:#d97706; margin-bottom:16px;">
-            Bạn nhận được: +${starsAwarded} ⭐ Sao Nông Nghiệp!
-          </div>
-          <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-            <button type="button" class="btn btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="background:#10b981; font-weight:800;">
-              🐾 Mở Nông Trại Chăm Sóc Bé
-            </button>
-            <button type="button" class="btn btn-outline" onclick="switchGameMode(4)">
-              🔄 Chơi Lại Ván Mới
-            </button>
-          </div>
-        </div>
-      `;
-    }
-
-    // Khởi tạo ban đầu
+    // Khởi chạy khi DOM sẵn sàng
     document.addEventListener("DOMContentLoaded", () => {
-      updateHeroStars();
       switchGameMode(1);
     });
   </script>

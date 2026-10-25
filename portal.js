@@ -2047,6 +2047,15 @@ function renderMod1QuizHtml(curLesson) {
               </div>
             </div>
           </div>
+
+          <div style="margin-top:12px; padding:10px 14px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; font-size:13px; color:#166534; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div>
+              🐾 <strong>Thưởng Nông Trại:</strong> Bạn nhận được <strong>+${Math.round(res.totalScore * 20)} ⭐ Sao Nông Nghiệp</strong> nuôi thú cưng!
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="if(window.portalPet) portalPet.openPetFarmModal()" style="font-size:12px; padding:5px 12px; background:#16a34a; font-weight:700;">
+              🐾 Mở Nông Trại Chăm Bé
+            </button>
+          </div>
         </div>
       ` : ''}
 

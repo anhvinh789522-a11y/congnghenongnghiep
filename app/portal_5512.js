@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // HỆ THỐNG QUẢN LÝ HỒ SƠ CV 5512, SOẠN GIÁO ÁN & KHO BÀI GIẢNG PPT GẮN DRIVE
 // Dành cho môn Công nghệ Nông nghiệp 10, 11, 12 (Bộ sách Kết nối tri thức)
 // Trường THPT Lộc Ninh - Sở GD&ĐT Đồng Nai
@@ -10,6 +10,7 @@ const state5512 = {
   currentPl: 1, // 1: PL1 (Tổ CM), 2: PL2 (Hoạt động GD / STEAM), 3: PL3 (GV cá nhân)
   searchQuery: '',
   termFilter: 'all', // all, hk1, hk2
+  showEquipmentTable: false,
   
   // Trạng thái cấu hình tích hợp năng lực
   integrations: {
@@ -251,19 +252,19 @@ function render5512MainContainer() {
   if (!container) return;
 
   container.innerHTML = `
-    <!-- THANH CHUYỂN 3 TIỂU MỤC CỦA PHẦN 2 -->
-    <div class="sub-nav-bar">
+    <!-- THANH CHUYỂN 3 TIỂU MỤC CỦA PHẦN 2 (DẠNG SỔ GỌN GÀNG TRÊN 1 DÒNG) -->
+    <div class="sub-nav-bar" style="margin-bottom:12px;">
       <button class="sub-nav-btn ${state5512.currentSubTab === 1 ? 'active' : ''}" onclick="switchMod2SubTab(1)">
-        <span style="font-size:16px;">📑</span>
-        <span>Hồ sơ</span>
+        <span style="font-size:15px;">📑</span>
+        <span>2.1. Hồ sơ Phụ lục 1, 2, 3 (CV 5512)</span>
       </button>
       <button class="sub-nav-btn ${state5512.currentSubTab === 2 ? 'active' : ''}" onclick="switchMod2SubTab(2)">
-        <span style="font-size:16px;">📝</span>
-        <span>Giáo án</span>
+        <span style="font-size:15px;">📝</span>
+        <span>2.2. Công cụ Soạn Giáo Án (KHBD)</span>
       </button>
       <button class="sub-nav-btn ${state5512.currentSubTab === 3 ? 'active' : ''}" onclick="switchMod2SubTab(3)">
-        <span style="font-size:16px;">🖥️</span>
-        <span>Bài giảng</span>
+        <span style="font-size:15px;">🖥️</span>
+        <span>2.3. Kho Học Liệu & PPT (77 Bài)</span>
       </button>
     </div>
 
@@ -297,6 +298,16 @@ function renderCurrentSubTab() {
 // TIỂU MỤC 2.1: HỒ SƠ 3 PHỤ LỤC CV 5512 NỘP TỔ TRƯỞNG & ĐỒNG BỘ NĂNG LỰC
 // ============================================================================
 
+// ============================================================================
+// TIỂU MỤC 2.1: HỒ SƠ 3 PHỤ LỤC CV 5512 NỘP TỔ TRƯỞNG & ĐỒNG BỘ NĂNG LỰC
+// (GIAO DIỆN DẠNG SỔ CHUYÊN MÔN ĐIỆN TỬ TỐI GIẢN - GỌN GÀNG - KHOA HỌC)
+// ============================================================================
+
+// ============================================================================
+// TIỂU MỤC 2.1: HỒ SƠ 3 PHỤ LỤC CV 5512 NỘP TỔ TRƯỞNG & ĐỒNG BỘ NĂNG LỰC
+// (GIAO DIỆN DẠNG SỔ CHUYÊN MÔN ĐIỆN TỬ TỐI GIẢN - GỌN GÀNG - KHOA HỌC)
+// ============================================================================
+
 function render5512SubModule1() {
   const container = document.getElementById("subTabContentArea");
   if (!container || typeof DATA_5512 === "undefined") return;
@@ -305,93 +316,101 @@ function render5512SubModule1() {
   const pl = state5512.currentPl;
 
   container.innerHTML = `
-    <!-- KHUNG ĐIỀU KHIỂN ĐỒNG BỘ 3 PHỤ LỤC (TOOLBAR 3 HÀNG GỌN GÀNG) -->
-    <div class="card" style="margin-bottom:14px; padding:10px 16px; border:1px solid var(--border); box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+    <!-- GIAO DIỆN SỔ CHUYÊN MÔN ĐIỆN TỬ TỐI GIẢN (CV 5512) -->
+    <div class="binder-container">
       
-      <!-- HÀNG 1: THÔNG TIN & XUẤT FILE -->
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-bottom:8px; border-bottom:1px solid #f1f5f9;">
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; color:var(--text);">
-          <span style="white-space:nowrap;">Năm học: <strong>${escapeHtml(state5512.metaConfig.schoolYear)}</strong></span>
-          <span style="color:#cbd5e1;">|</span>
-          
-          <!-- Dropdown chọn Giáo viên -->
-          <span style="display:inline-flex; align-items:center; gap:4px; background:#fff; padding:2px 8px; border-radius:6px; border:1px solid #cbd5e1; white-space:nowrap;">
-            <span style="font-weight:700; color:var(--primary-dark); white-space:nowrap;">👤 GV:</span>
-            <select id="selTeacherBanner" onchange="onTeacherSelectChange(this.value)" style="border:none; background:transparent; font-weight:700; color:#0f766e; outline:none; cursor:pointer; font-size:13px; white-space:nowrap;">
-              ${getTeacherSelectOptionsHtml()}
+      <!-- 1. THANH TOOLBAR SỔ (RIBBON TỐI GIẢN 2 HÀNG THANH LỊCH) -->
+      <div class="binder-toolbar">
+        
+        <!-- HÀNG 1: THÔNG TIN HÀNH CHÍNH & TÁC VỤ XUẤT SỔ -->
+        <div class="binder-toolbar-row1">
+          <div class="binder-meta-group">
+            <span style="font-weight:600; font-size:13px; color:#334155; white-space:nowrap;">
+              Năm học: <strong>${escapeHtml(state5512.metaConfig.schoolYear)}</strong>
+            </span>
+            <span style="color:#cbd5e1;">|</span>
+            
+            <!-- Chọn Giáo viên -->
+            <span class="binder-select-pill">
+              <span style="font-weight:700; color:#0f766e; white-space:nowrap;">👤 GV:</span>
+              <select id="selTeacherBanner" onchange="onTeacherSelectChange(this.value)">
+                ${getTeacherSelectOptionsHtml()}
+              </select>
+            </span>
+
+            <!-- Chọn Tổ trưởng -->
+            <span class="binder-select-pill">
+              <span style="font-weight:700; color:#b45309; white-space:nowrap;">⭐ TTCM:</span>
+              <select id="selHeadBanner" onchange="onHeadSelectChange(this.value)">
+                ${getHeadSelectOptionsHtml()}
+              </select>
+            </span>
+
+            <!-- Badge đồng bộ -->
+            <span class="binder-badge-sync">✓ Đã đồng bộ 3 PL</span>
+          </div>
+
+          <!-- Nhóm nút tác vụ -->
+          <div class="binder-actions-group">
+            <button class="binder-btn" onclick="openIntegrationsModal()">
+              ⚙️ Cấu hình nộp
+            </button>
+            <button class="binder-btn" onclick="sync3PhuLuc()">
+              ⚡ Đồng bộ 3 PL
+            </button>
+            <button class="binder-btn" onclick="exportPhuLucWord(${pl})">
+              📄 Xuất PL${pl} (.doc)
+            </button>
+            <button class="binder-btn binder-btn-primary" onclick="exportFull3PhuLucWord()">
+              📦 Xuất Trọn Bộ 3 PL (.doc)
+            </button>
+          </div>
+        </div>
+
+        <!-- HÀNG 2: CHỌN KHỐI LỚP & TÌM KIẾM / LỌC HỌC KỲ -->
+        <div class="binder-toolbar-row2">
+          <!-- Phân đoạn chọn Khối -->
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <span style="font-weight:700; color:#1e293b; font-size:12.5px; white-space:nowrap;">📚 Khối lớp:</span>
+            <button class="binder-btn ${g === 'cn10' ? 'binder-btn-primary' : ''}" onclick="select5512Grade('cn10')">Khối 10 (Trồng trọt)</button>
+            <button class="binder-btn ${g === 'cn11' ? 'binder-btn-primary' : ''}" onclick="select5512Grade('cn11')">Khối 11 (Chăn nuôi)</button>
+            <button class="binder-btn ${g === 'cn12' ? 'binder-btn-primary' : ''}" onclick="select5512Grade('cn12')">Khối 12 (Lâm - Thủy sản)</button>
+          </div>
+
+          <!-- Lọc kỳ & Tìm kiếm -->
+          <div style="display:flex; align-items:center; gap:6px;">
+            <select class="binder-select-pill" style="padding:4px 8px;" onchange="state5512.termFilter=this.value; render5512PlTable();">
+              <option value="all" ${state5512.termFilter==='all'?'selected':''}>Cả năm</option>
+              <option value="hk1" ${state5512.termFilter==='hk1'?'selected':''}>Học kì I</option>
+              <option value="hk2" ${state5512.termFilter==='hk2'?'selected':''}>Học kì II</option>
             </select>
-          </span>
-
-          <!-- Dropdown chọn Tổ trưởng -->
-          <span style="display:inline-flex; align-items:center; gap:4px; background:#fff; padding:2px 8px; border-radius:6px; border:1px solid #cbd5e1; white-space:nowrap;">
-            <span style="font-weight:700; color:var(--primary-dark); white-space:nowrap;">⭐ TTCM:</span>
-            <select id="selHeadBanner" onchange="onHeadSelectChange(this.value)" style="border:none; background:transparent; font-weight:700; color:#b45309; outline:none; cursor:pointer; font-size:13px; white-space:nowrap;">
-              ${getHeadSelectOptionsHtml()}
-            </select>
-          </span>
-
-          <span class="badge" style="background:#22c55e; color:#fff; font-size:11px; padding:3px 8px; border-radius:12px; font-weight:700; white-space:nowrap;">✓ Đã đồng bộ 3 PL</span>
+            <input type="text" value="${escapeHtml(state5512.searchQuery)}" placeholder="🔍 Tìm nhanh bài học..." class="binder-select-pill" style="padding:4px 10px; width:180px;" oninput="state5512.searchQuery=this.value; render5512PlTable();" />
+          </div>
         </div>
 
-        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-          <button class="btn btn-outline btn-sm" style="padding:4px 9px; font-size:12.5px; white-space:nowrap;" onclick="openIntegrationsModal()">
-            ⚙️ Cấu hình nộp
-          </button>
-          <button class="btn btn-primary btn-sm" style="padding:4px 9px; font-size:12.5px; white-space:nowrap;" onclick="sync3PhuLuc()">
-            ⚡ Đồng bộ 3 PL
-          </button>
-          <button class="btn btn-outline btn-sm" style="padding:4px 9px; font-size:12.5px; white-space:nowrap;" onclick="exportPhuLucWord(${pl})">
-            📄 Xuất PL${pl} (.doc)
-          </button>
-          <button class="btn btn-accent btn-sm" style="padding:4px 9px; font-size:12.5px; font-weight:700; white-space:nowrap;" onclick="exportFull3PhuLucWord()">
-            📦 Xuất Trọn Bộ 3 PL (.doc)
-          </button>
-        </div>
       </div>
 
-      <!-- HÀNG 2: CHỌN KHỐI & TÌM KIẾM -->
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding:8px 0; border-bottom:1px solid #f1f5f9;">
-        <!-- Chọn Khối -->
-        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-          <span style="font-weight:700; color:var(--primary-dark); font-size:13px; white-space:nowrap;">📚 Chọn Khối:</span>
-          <button class="btn btn-sm ${g === 'cn10' ? 'btn-primary' : 'btn-outline'}" style="padding:3px 10px; font-size:12.5px; white-space:nowrap;" onclick="select5512Grade('cn10')">Khối 10 (Trồng trọt)</button>
-          <button class="btn btn-sm ${g === 'cn11' ? 'btn-primary' : 'btn-outline'}" style="padding:3px 10px; font-size:12.5px; white-space:nowrap;" onclick="select5512Grade('cn11')">Khối 11 (Chăn nuôi)</button>
-          <button class="btn btn-sm ${g === 'cn12' ? 'btn-primary' : 'btn-outline'}" style="padding:3px 10px; font-size:12.5px; white-space:nowrap;" onclick="select5512Grade('cn12')">Khối 12 (Lâm - Thủy sản)</button>
-        </div>
-
-        <!-- Tìm kiếm & Lọc học kì -->
-        <div style="display:flex; align-items:center; gap:6px;">
-          <select style="padding:4px 8px; border-radius:6px; border:1px solid var(--border); font-size:12.5px;" onchange="state5512.termFilter=this.value; render5512PlTable();">
-            <option value="all">Cả năm</option>
-            <option value="hk1">Học kì I</option>
-            <option value="hk2">Học kì II</option>
-          </select>
-          <input type="text" placeholder="🔍 Tìm kiếm bài học..." style="padding:4px 10px; border-radius:6px; border:1px solid var(--border); font-size:12.5px; width:180px;" oninput="state5512.searchQuery=this.value; render5512PlTable();" />
-        </div>
-      </div>
-
-      <!-- HÀNG 3: CHUYỂN ĐỔI 3 PHỤ LỤC -->
-      <div style="display:flex; gap:6px; padding-top:8px; flex-wrap:wrap;">
-        <button class="btn btn-sm ${pl === 1 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700; font-size:12.5px; padding:4px 12px; white-space:nowrap;" onclick="select5512Pl(1)">
-          📋 Phụ lục 1: Kế hoạch Tổ chuyên môn
+      <!-- 2. TAI SỔ PHÂN TRANG (INDEX FOLDER TABS - LIỀN MẠCH VỚI TRANG GIẤY A4) -->
+      <div class="binder-folder-nav">
+        <button class="binder-folder-tab ${pl === 1 ? 'active' : ''}" onclick="select5512Pl(1)">
+          <span>📋</span> <span>Phụ lục 1: Kế hoạch Tổ chuyên môn</span>
         </button>
-        <button class="btn btn-sm ${pl === 2 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700; font-size:12.5px; padding:4px 12px; white-space:nowrap;" onclick="select5512Pl(2)">
-          🎯 Phụ lục 2: Hoạt động giáo dục
+        <button class="binder-folder-tab ${pl === 2 ? 'active' : ''}" onclick="select5512Pl(2)">
+          <span>🎯</span> <span>Phụ lục 2: Hoạt động giáo dục</span>
         </button>
-        <button class="btn btn-sm ${pl === 3 ? 'btn-primary' : 'btn-outline'}" style="font-weight:700; font-size:12.5px; padding:4px 12px; white-space:nowrap;" onclick="select5512Pl(3)">
-          👤 Phụ lục 3: Kế hoạch cá nhân GV
+        <button class="binder-folder-tab ${pl === 3 ? 'active' : ''}" onclick="select5512Pl(3)">
+          <span>👤</span> <span>Phụ lục 3: Kế hoạch cá nhân GV</span>
         </button>
       </div>
+
+      <!-- 3. TRANG GIẤY VĂN BẢN SỔ A4 (THE DOCUMENT SHEET) -->
+      <div class="binder-doc-sheet" id="plTableDisplayArea"></div>
 
     </div>
-
-    <!-- KHU VỰC HIỂN THỊ NỘI DUNG BẢNG PHỤ LỤC ĐANG CHỌN -->
-    <div id="plTableDisplayArea"></div>
   `;
 
   render5512PlTable();
 }
-
 
 function select5512Grade(grade) {
   state5512.currentGrade = grade;
@@ -401,6 +420,14 @@ function select5512Grade(grade) {
 function select5512Pl(plNum) {
   state5512.currentPl = plNum;
   render5512SubModule1();
+}
+
+function togglePl1Equipment() {
+  state5512.showEquipmentTable = !state5512.showEquipmentTable;
+  const sec = document.getElementById("pl1EquipmentSection");
+  const txt = document.getElementById("txtTogglePl1Eq");
+  if (sec) sec.style.display = state5512.showEquipmentTable ? "block" : "none";
+  if (txt) txt.textContent = state5512.showEquipmentTable ? "▲ Thu gọn" : "▼ Xem chi tiết";
 }
 
 // Render chi tiết bảng phụ lục theo PL1, PL2, PL3
@@ -434,101 +461,171 @@ function renderPl1Table(container, g) {
   const gradeName = g === "cn10" ? "10 (Công nghệ Trồng trọt)" : g === "cn11" ? "11 (Công nghệ Chăn nuôi)" : "12 (Công nghệ Lâm nghiệp - Thủy sản)";
 
   container.innerHTML = `
-    <div class="card">
-      <div style="text-align:center; margin-bottom:20px; border-bottom:2px solid var(--primary); padding-bottom:12px;">
-        <h2 style="color:var(--primary-dark); font-size:18px; margin-bottom:4px; text-transform:uppercase;">
-          PHỤ LỤC I: KHUNG KẾ HOẠCH DẠY HỌC MÔN HỌC CỦA TỔ CHUYÊN MÔN
-        </h2>
-        <div style="font-size:13px; color:var(--text-muted); font-style:italic;">
-          (Kèm theo Công văn số 5512/BGDĐT-GDTrH ngày 18 tháng 12 năm 2020 của Bộ GD&ĐT)
-        </div>
-        <div style="font-weight:700; color:var(--text); font-size:15px; margin-top:8px;">
-          MÔN CÔNG NGHỆ, KHỐI LỚP ${gradeName} • BỘ SÁCH KẾT NỐI TRI THỨC VỚI CUỘC SỐNG
-        </div>
-        <div style="font-size:13px; color:var(--text-muted);">
-          Năm học ${escapeHtml(state5512.metaConfig.schoolYear)} • ${escapeHtml(state5512.metaConfig.school)}
-        </div>
+    <!-- TIÊU ĐỀ HÀNH CHÍNH THEO NGHỊ ĐỊNH 30 / CV 5512 -->
+    <table style="width:100%; border:none; margin-bottom:14px; border-collapse:collapse;">
+      <tr>
+        <td style="width:45%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; text-transform:uppercase; font-size:13px; color:#1e293b;">${escapeHtml(state5512.metaConfig.school)}</div>
+          <div style="font-weight:700; text-transform:uppercase; color:#0f766e; font-size:13px;">${escapeHtml(state5512.metaConfig.department)}</div>
+          <div class="binder-divider-short"></div>
+        </td>
+        <td style="width:55%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; text-transform:uppercase; font-size:13px; color:#1e293b;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div style="font-weight:700; font-size:13px; color:#1e293b;">Độc lập - Tự do - Hạnh phúc</div>
+          <div class="binder-divider-short"></div>
+          <div style="font-style:italic; font-size:12px; color:#64748b; margin-top:3px;">Lộc Ninh, ngày ... tháng ... năm 2026</div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- TIÊU ĐỀ PHỤ LỤC I -->
+    <div class="binder-sheet-title">
+      <h2>PHỤ LỤC I: KHUNG KẾ HOẠCH DẠY HỌC MÔN HỌC CỦA TỔ CHUYÊN MÔN</h2>
+      <div class="sub-ref">(Kèm theo Công văn số 5512/BGDĐT-GDTrH ngày 18 tháng 12 năm 2020 của Bộ GD&ĐT)</div>
+      <div class="sub-subject">MÔN CÔNG NGHỆ, KHỐI LỚP ${gradeName} — BỘ KẾT NỐI TRI THỨC VỚI CUỘC SỐNG</div>
+      <div class="sub-year">Năm học ${escapeHtml(state5512.metaConfig.schoolYear)}</div>
+    </div>
+
+    <!-- I. ĐẶC ĐIỂM TÌNH HÌNH (STRIP TÓM TẮT KHOA HỌC + TOGGLE THIẾT BỊ) -->
+    <div style="margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+        <h3 style="color:#166534; font-size:14.5px; font-weight:700; text-transform:uppercase; margin:0;">
+          I. Đặc điểm tình hình
+        </h3>
+        <button type="button" class="binder-toggle-btn" onclick="togglePl1Equipment()">
+          <span id="txtTogglePl1Eq">${state5512.showEquipmentTable ? '▲ Thu gọn' : '▼ Xem chi tiết'}</span> Danh mục Thiết bị & Phòng bộ môn (${equipment.length} mục)
+        </button>
       </div>
 
-      <!-- I. ĐẶC ĐIỂM TÌNH HÌNH -->
-      <h3 style="color:var(--primary-dark); margin:16px 0 8px 0; font-size:15px;">I. Đặc điểm tình hình</h3>
-      <div style="background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid var(--border); font-size:13.5px; margin-bottom:14px; line-height:1.7;">
-        <div>1. Số lớp: <strong>04 lớp</strong>; Số học sinh: <strong>172 học sinh</strong>.</div>
-        <div>2. Tình hình đội ngũ: Số giáo viên bộ môn: <strong>02 giáo viên</strong> (100% đạt chuẩn Đại học trở lên, đã hoàn thành bồi dưỡng CT GDPT 2018 và Khung Năng lực số - AI).</div>
-        <div>3. Thiết bị dạy học và Phòng học bộ môn: Đáp ứng 100% bài thực hành và bài dạy có ứng dụng công nghệ thông tin.</div>
+      <div class="binder-summary-strip">
+        <div class="binder-strip-items">
+          <div class="binder-strip-item">👥 Số lớp: <strong>04 lớp</strong> (172 học sinh)</div>
+          <div class="binder-strip-item">👨‍🏫 Đội ngũ: <strong>02 giáo viên</strong> (100% đạt chuẩn, bồi dưỡng NLS & AI)</div>
+          <div class="binder-strip-item">🔬 Thiết bị & Phòng bộ môn: <strong>Đạt chuẩn 100%</strong></div>
+        </div>
+        <span style="font-size:12px; color:#64748b;">(Đã kiểm kê & đồng bộ đầu năm)</span>
       </div>
 
-      <!-- DANH MỤC THIẾT BỊ DẠY HỌC -->
-      <h4 style="font-size:14px; color:var(--primary); margin-bottom:6px;">Danh mục Thiết bị dạy học (Trích hồ sơ tổ):</h4>
-      <div style="overflow-x:auto; margin-bottom:16px;">
-        <table class="table" style="width:100%; font-size:13px;">
-          <thead>
-            <tr style="background:#f1f5f9; color:var(--primary-dark);">
-              <th style="width:50px; text-align:center;">STT</th>
-              <th>Thiết bị dạy học / Học liệu số</th>
-              <th style="width:90px; text-align:center;">Số lượng</th>
-              <th>Sử dụng cho các bài thí nghiệm / thực hành</th>
-              <th style="width:130px;">Ghi chú</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${equipment.map(e => `
+      <!-- BẢNG THIẾT BỊ DẠY HỌC & PHÒNG HỌC (THU GỌN GỌN GÀNG) -->
+      <div id="pl1EquipmentSection" style="display:${state5512.showEquipmentTable ? 'block' : 'none'}; margin-top:8px; border:1px solid #e2e8f0; border-radius:8px; padding:12px; background:#f8fafc;">
+        <div style="font-weight:700; font-size:13px; color:#0f766e; margin-bottom:6px;">1. Danh mục Thiết bị dạy học:</div>
+        <div style="overflow-x:auto; margin-bottom:14px;">
+          <table class="binder-table" style="background:#fff;">
+            <thead>
               <tr>
-                <td style="text-align:center; font-weight:700;">${e.stt}</td>
-                <td style="font-weight:600;">${escapeHtml(e.name)}</td>
-                <td style="text-align:center;">${escapeHtml(e.qty)}</td>
-                <td>${escapeHtml(e.useFor)}</td>
-                <td style="color:var(--text-muted); font-size:12px;">${escapeHtml(e.note)}</td>
+                <th style="width:45px;" class="center">STT</th>
+                <th>Thiết bị dạy học / Học liệu số</th>
+                <th style="width:80px;" class="center">Số lượng</th>
+                <th>Sử dụng cho các bài thí nghiệm / thực hành</th>
+                <th style="width:130px;">Ghi chú</th>
               </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- II. KẾ HOẠCH DẠY HỌC (PHÂN PHỐI CHƯƠNG TRÌNH) -->
-      <h3 style="color:var(--primary-dark); margin:20px 0 8px 0; font-size:15px;">II. Kế hoạch dạy học (Phân phối chương trình & Tích hợp Năng lực)</h3>
-      <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:10px;">
-        💡 Bảng đã tích hợp đồng bộ: <strong>YCCĐ chuẩn CT 2018</strong>, <strong>Khung Năng lực số (NLS)</strong> và <strong>Giáo dục Trí tuệ nhân tạo (AI) theo QĐ 2422/QĐ-BGDĐT</strong>.
-      </div>
-
-      <div style="overflow-x:auto;">
-        <table class="table" style="width:100%; font-size:13px; line-height:1.5;">
-          <thead>
-            <tr style="background:#15803d; color:#fff;">
-              <th style="width:45px; text-align:center;">STT</th>
-              <th style="min-width:210px;">Bài học / Nội dung dạy học</th>
-              <th style="width:60px; text-align:center;">Số tiết</th>
-              <th style="min-width:240px;">Yêu cầu cần đạt (YCCĐ CT 2018)</th>
-              ${state5512.integrations.nls ? '<th style="min-width:190px;">Năng lực số phát triển (NLS)</th>' : ''}
-              ${state5512.integrations.ai ? '<th style="min-width:210px;">Giáo dục AI (Khung QĐ 2422)</th>' : ''}
-              <th style="min-width:150px;">Thiết bị & Học liệu</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${filtered.map(item => {
-              const isExam = item.isExam;
-              const bgRow = isExam ? "background:#fef3c7;" : item.isSteam ? "background:#f0fdf4;" : "";
-              return `
-                <tr style="${bgRow}">
-                  <td style="text-align:center; font-weight:700;">${item.stt}</td>
-                  <td>
-                    <div style="font-weight:700; color:var(--primary-dark);">${escapeHtml(item.title)}</div>
-                    <div style="font-size:12.5px; color:#64748b; margin-top:2px;">${escapeHtml(item.chapter || '')}</div>
-                    ${item.isSteam ? '<span class="badge" style="background:#16a34a; color:#fff; font-size:11.5px; font-weight:700;">Tích hợp STEAM</span>' : ''}
-                    ${isExam ? '<span class="badge" style="background:#d97706; color:#fff; font-size:11.5px; font-weight:700;">Kiểm tra / Đánh giá</span>' : ''}
-                  </td>
-                  <td style="text-align:center; font-weight:700;">${item.periods}</td>
-                  <td style="white-space:pre-line;">${escapeHtml(item.yccd || '–')}</td>
-                  ${state5512.integrations.nls ? `<td style="color:#0f766e; font-size:12px;">${escapeHtml(item.nls || '–')}</td>` : ''}
-                  ${state5512.integrations.ai ? `<td style="color:#4338ca; font-size:12px;">${escapeHtml(item.ai || '–')}</td>` : ''}
-                  <td style="font-size:13px; color:#475569; line-height:1.55;">${escapeHtml(item.equipment || 'Laptop, Tivi, SGK')}</td>
+            </thead>
+            <tbody>
+              ${equipment.map(e => `
+                <tr>
+                  <td class="center" style="font-weight:700;">${e.stt}</td>
+                  <td style="font-weight:600;">${escapeHtml(e.name)}</td>
+                  <td class="center">${escapeHtml(e.qty)}</td>
+                  <td>${escapeHtml(e.useFor)}</td>
+                  <td style="color:#64748b; font-size:12px;">${escapeHtml(e.note)}</td>
                 </tr>
-              `;
-            }).join("")}
-          </tbody>
-        </table>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+
+        <div style="font-weight:700; font-size:13px; color:#0f766e; margin-bottom:6px;">2. Danh mục Phòng học bộ môn:</div>
+        <div style="overflow-x:auto;">
+          <table class="binder-table" style="background:#fff;">
+            <thead>
+              <tr>
+                <th style="width:45px;" class="center">STT</th>
+                <th>Tên phòng bộ môn</th>
+                <th style="width:80px;" class="center">Số lượng</th>
+                <th>Phạm vi và nội dung sử dụng</th>
+                <th style="width:130px;">Ghi chú</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rooms.map(r => `
+                <tr>
+                  <td class="center" style="font-weight:700;">${r.stt}</td>
+                  <td style="font-weight:600;">${escapeHtml(r.name)}</td>
+                  <td class="center">${escapeHtml(r.qty)}</td>
+                  <td>${escapeHtml(r.useFor)}</td>
+                  <td style="color:#64748b; font-size:12px;">${escapeHtml(r.note)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
+
+    <!-- II. KẾ HOẠCH DẠY HỌC (PHÂN PHỐI CHƯƠNG TRÌNH & TÍCH HỢP NĂNG LỰC) -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+      <h3 style="color:#166534; font-size:14.5px; font-weight:700; text-transform:uppercase; margin:0;">
+        II. Kế hoạch dạy học (${filtered.length} bài học / chủ đề)
+      </h3>
+      <span style="font-size:12px; color:#15803d; font-weight:600;">
+        💡 Đã tích hợp YCCĐ 2018 + Khung NLS + AI (QĐ 2422)
+      </span>
+    </div>
+
+    <!-- BẢNG PHÂN PHỐI CHƯƠNG TRÌNH -->
+    <div style="overflow-x:auto;">
+      <table class="binder-table">
+        <thead>
+          <tr>
+            <th style="width:45px;" class="center">STT</th>
+            <th style="min-width:210px;">Bài học / Nội dung dạy học</th>
+            <th style="width:60px;" class="center">Số tiết</th>
+            <th style="min-width:240px;">Yêu cầu cần đạt (YCCĐ CT 2018)</th>
+            ${state5512.integrations.nls ? '<th style="min-width:180px;">Năng lực số phát triển (NLS)</th>' : ''}
+            ${state5512.integrations.ai ? '<th style="min-width:200px;">Giáo dục AI (Khung QĐ 2422)</th>' : ''}
+            <th style="min-width:150px;">Thiết bị & Học liệu</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filtered.map(item => {
+            const isExam = item.isExam;
+            const bgRow = isExam ? "background:#fef3c7;" : item.isSteam ? "background:#f0fdf4;" : "";
+            return `
+              <tr style="${bgRow}">
+                <td class="center" style="font-weight:700;">${item.stt}</td>
+                <td>
+                  <div style="font-weight:700; color:#166534;">${escapeHtml(item.title)}</div>
+                  <div style="font-size:12px; color:#64748b; margin-top:2px;">${escapeHtml(item.chapter || '')}</div>
+                  ${item.isSteam ? '<span class="badge" style="background:#16a34a; color:#fff; font-size:11px; font-weight:700; margin-top:4px; display:inline-block;">STEAM</span>' : ''}
+                  ${isExam ? '<span class="badge" style="background:#d97706; color:#fff; font-size:11px; font-weight:700; margin-top:4px; display:inline-block;">Kiểm tra định kỳ</span>' : ''}
+                </td>
+                <td class="center" style="font-weight:700;">${item.periods}</td>
+                <td style="white-space:pre-line;">${escapeHtml(item.yccd || '–')}</td>
+                ${state5512.integrations.nls ? `<td style="color:#0f766e; font-size:12.5px;">${escapeHtml(item.nls || '–')}</td>` : ''}
+                ${state5512.integrations.ai ? `<td style="color:#4338ca; font-size:12.5px;">${escapeHtml(item.ai || '–')}</td>` : ''}
+                <td style="font-size:12.5px; color:#475569;">${escapeHtml(item.equipment || 'Laptop, Tivi, SGK')}</td>
+              </tr>
+            `;
+          }).join("")}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CHỮ KÝ DUYỆT SỔ CHUYÊN MÔN -->
+    <table style="width:100%; border:none; margin-top:36px; padding-top:14px; border-top:1px dashed #cbd5e1; border-collapse:collapse;">
+      <tr>
+        <td style="width:50%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; color:#0f172a; text-transform:uppercase; font-size:13px;">TỔ TRƯỞNG CHUYÊN MÔN</div>
+          <div style="font-size:12px; color:#64748b; font-style:italic; margin-bottom:50px;">(Ký và ghi rõ họ tên)</div>
+          <div style="font-weight:700; color:#166534; font-size:14px;">${escapeHtml(state5512.metaConfig.headName)}</div>
+        </td>
+        <td style="width:50%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; color:#0f172a; text-transform:uppercase; font-size:13px;">HIỆU TRƯỞNG DUYỆT</div>
+          <div style="font-size:12px; color:#64748b; font-style:italic; margin-bottom:50px;">(Ký và đóng dấu)</div>
+          <div style="font-weight:700; color:#166534; font-size:14px;">${escapeHtml(state5512.metaConfig.principalName || 'Ban Giám Hiệu')}</div>
+        </td>
+      </tr>
+    </table>
   `;
 }
 
@@ -538,105 +635,132 @@ function renderPl2Table(container, g) {
   const cdList = DATA_5512.curriculum.cn12_cd || [];
 
   container.innerHTML = `
-    <div class="card">
-      <div style="text-align:center; margin-bottom:20px; border-bottom:2px solid var(--secondary); padding-bottom:12px;">
-        <h2 style="color:var(--secondary); font-size:18px; margin-bottom:4px; text-transform:uppercase;">
-          PHỤ LỤC II: KẾ HOẠCH TỔ CHỨC CÁC HOẠT ĐỘNG GIÁO DỤC CỦA TỔ CHUYÊN MÔN
-        </h2>
-        <div style="font-size:13px; color:var(--text-muted); font-style:italic;">
-          (Kèm theo Công văn số 5512/BGDĐT-GDTrH ngày 18 tháng 12 năm 2020 của Bộ GD&ĐT)
-        </div>
-        <div style="font-weight:700; color:var(--text); font-size:15px; margin-top:8px;">
-          TÍCH HỢP CHUYÊN ĐỀ LỰA CHỌN, CÁC DỰ ÁN STEAM NÔNG NGHIỆP & BỒI DƯỠNG HỌC SINH GIỎI
-        </div>
-      </div>
+    <!-- TIÊU ĐỀ HÀNH CHÍNH THEO NGHỊ ĐỊNH 30 / CV 5512 -->
+    <table style="width:100%; border:none; margin-bottom:14px; border-collapse:collapse;">
+      <tr>
+        <td style="width:45%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; text-transform:uppercase; font-size:13px; color:#1e293b;">${escapeHtml(state5512.metaConfig.school)}</div>
+          <div style="font-weight:700; text-transform:uppercase; color:#0f766e; font-size:13px;">${escapeHtml(state5512.metaConfig.department)}</div>
+          <div class="binder-divider-short"></div>
+        </td>
+        <td style="width:55%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; text-transform:uppercase; font-size:13px; color:#1e293b;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div style="font-weight:700; font-size:13px; color:#1e293b;">Độc lập - Tự do - Hạnh phúc</div>
+          <div class="binder-divider-short"></div>
+          <div style="font-style:italic; font-size:12px; color:#64748b; margin-top:3px;">Lộc Ninh, ngày ... tháng ... năm 2026</div>
+        </td>
+      </tr>
+    </table>
 
-      <!-- 1. KẾ HOẠCH DỰ ÁN STEAM NÔNG NGHIỆP ĐÃ TÍCH HỢP -->
-      <h3 style="color:var(--primary-dark); margin:16px 0 8px 0; font-size:15px;">
-        1. Kế hoạch Dạy học Dự án STEAM Nông nghiệp Tích hợp (Chuẩn S - T - E - A - M)
-      </h3>
-      <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:10px;">
-        Gắn liền với các bài học thực hành trọng tâm của cả 3 khối, khuyến khích học sinh ứng dụng công nghệ số và giải quyết vấn đề nông nghiệp địa phương.
-      </div>
+    <!-- TIÊU ĐỀ PHỤ LỤC II -->
+    <div class="binder-sheet-title">
+      <h2>PHỤ LỤC II: KẾ HOẠCH TỔ CHỨC CÁC HOẠT ĐỘNG GIÁO DỤC CỦA TỔ CHUYÊN MÔN</h2>
+      <div class="sub-ref">(Kèm theo Công văn số 5512/BGDĐT-GDTrH ngày 18 tháng 12 năm 2020 của Bộ GD&ĐT)</div>
+      <div class="sub-subject">TÍCH HỢP CHUYÊN ĐỀ LỰA CHỌN, CÁC DỰ ÁN STEAM NÔNG NGHIỆP & BỒI DƯỠNG HỌC SINH GIỎI</div>
+      <div class="sub-year">Năm học ${escapeHtml(state5512.metaConfig.schoolYear)}</div>
+    </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr)); gap:14px; margin-bottom:24px;">
-        ${steams.map(s => `
-          <div style="background:#f8fafc; border:1.5px solid var(--border); border-radius:10px; padding:14px 16px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-              <span class="badge" style="background:#15803d; color:#fff; font-size:11px; font-weight:700;">${escapeHtml(s.grade)}</span>
-              <span style="font-size:13px; color:#475569; line-height:1.55; font-weight:600;">${escapeHtml(s.week)}</span>
-            </div>
-            <h4 style="color:var(--primary-dark); font-size:14.5px; margin-bottom:6px;">${escapeHtml(s.lesson)}</h4>
-            <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px; padding:8px 12px; margin-bottom:10px; font-size:13px; color:#065f46;">
-              🎯 <strong>Sản phẩm STEAM:</strong> ${escapeHtml(s.product)}
-            </div>
-            <div style="font-size:12.5px; line-height:1.6; display:flex; flex-direction:column; gap:4px;">
-              <div><strong style="color:#2563eb;">S (Science):</strong> ${escapeHtml(s.s)}</div>
-              <div><strong style="color:#0891b2;">T (Technology):</strong> ${escapeHtml(s.t)}</div>
-              <div><strong style="color:#d97706;">E (Engineering):</strong> ${escapeHtml(s.e)}</div>
-              <div><strong style="color:#db2777;">A (Art):</strong> ${escapeHtml(s.a)}</div>
-              <div><strong style="color:#7c3aed;">M (Math):</strong> ${escapeHtml(s.m)}</div>
-            </div>
+    <!-- 1. KẾ HOẠCH DỰ ÁN STEAM NÔNG NGHIỆP ĐÃ TÍCH HỢP -->
+    <h3 style="color:#166534; margin:16px 0 6px 0; font-size:14.5px; font-weight:700; text-transform:uppercase;">
+      1. Kế hoạch Dạy học Dự án STEAM Nông nghiệp Tích hợp (Chuẩn S - T - E - A - M)
+    </h3>
+    <div style="font-size:12.5px; color:#64748b; margin-bottom:12px;">
+      Gắn liền với các bài học thực hành trọng tâm của cả 3 khối, khuyến khích học sinh ứng dụng công nghệ số và giải quyết vấn đề nông nghiệp địa phương.
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr)); gap:14px; margin-bottom:24px;">
+      ${steams.map(s => `
+        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px 16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span class="badge" style="background:#15803d; color:#fff; font-size:11px; font-weight:700;">${escapeHtml(s.grade)}</span>
+            <span style="font-size:12.5px; color:#475569; font-weight:600;">${escapeHtml(s.week)}</span>
           </div>
-        `).join("")}
-      </div>
+          <h4 style="color:#166534; font-size:14px; margin-bottom:6px; font-weight:700;">${escapeHtml(s.lesson)}</h4>
+          <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px; padding:8px 12px; margin-bottom:10px; font-size:13px; color:#065f46;">
+            🎯 <strong>Sản phẩm STEAM:</strong> ${escapeHtml(s.product)}
+          </div>
+          <div style="font-size:12.5px; line-height:1.6; display:flex; flex-direction:column; gap:4px;">
+            <div><strong style="color:#2563eb;">S (Science):</strong> ${escapeHtml(s.s)}</div>
+            <div><strong style="color:#0891b2;">T (Technology):</strong> ${escapeHtml(s.t)}</div>
+            <div><strong style="color:#d97706;">E (Engineering):</strong> ${escapeHtml(s.e)}</div>
+            <div><strong style="color:#db2777;">A (Art):</strong> ${escapeHtml(s.a)}</div>
+            <div><strong style="color:#7c3aed;">M (Math):</strong> ${escapeHtml(s.m)}</div>
+          </div>
+        </div>
+      `).join("")}
+    </div>
 
-      <!-- 2. KẾ HOẠCH CHUYÊN ĐỀ LỰA CHỌN (KHỐI 12: 35 TIẾT) -->
-      <h3 style="color:var(--primary-dark); margin:20px 0 8px 0; font-size:15px;">
-        2. Kế hoạch Chuyên đề học tập lựa chọn (Khối 12: Chuyên đề Lâm nghiệp - Thủy sản, 35 tiết)
-      </h3>
-      <div style="overflow-x:auto; margin-bottom:24px;">
-        <table class="table" style="width:100%; font-size:13px;">
-          <thead>
-            <tr style="background:#0f766e; color:#fff;">
-              <th style="width:45px; text-align:center;">STT</th>
-              <th style="min-width:200px;">Tên Chuyên đề / Bài học</th>
-              <th style="width:60px; text-align:center;">Số tiết</th>
-              <th style="width:90px; text-align:center;">Thời điểm</th>
-              <th>Yêu cầu cần đạt</th>
-              <th>Năng lực số (NLS)</th>
-              <th>Giáo dục AI (QĐ 2422)</th>
+    <!-- 2. KẾ HOẠCH CHUYÊN ĐỀ LỰA CHỌN (KHỐI 12: 35 TIẾT) -->
+    <h3 style="color:#166534; margin:20px 0 6px 0; font-size:14.5px; font-weight:700; text-transform:uppercase;">
+      2. Kế hoạch Chuyên đề học tập lựa chọn (Khối 12: Chuyên đề Lâm nghiệp - Thủy sản, 35 tiết)
+    </h3>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+      <table class="binder-table">
+        <thead>
+          <tr>
+            <th style="width:45px;" class="center">STT</th>
+            <th style="min-width:200px;">Tên Chuyên đề / Bài học</th>
+            <th style="width:60px;" class="center">Số tiết</th>
+            <th style="width:90px;" class="center">Thời điểm</th>
+            <th>Yêu cầu cần đạt</th>
+            <th>Năng lực số (NLS)</th>
+            <th>Giáo dục AI (QĐ 2422)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${cdList.map(c => `
+            <tr>
+              <td class="center" style="font-weight:700;">${c.stt}</td>
+              <td style="font-weight:700; color:#166534;">${escapeHtml(c.title)}</td>
+              <td class="center" style="font-weight:700;">${c.periods}</td>
+              <td class="center" style="font-size:12.5px; color:#475569;">${escapeHtml(c.week)}</td>
+              <td style="font-size:12.5px;">${escapeHtml(c.yccd)}</td>
+              <td style="font-size:12.5px; color:#0f766e;">${escapeHtml(c.nls)}</td>
+              <td style="font-size:12.5px; color:#4338ca;">${escapeHtml(c.ai)}</td>
             </tr>
-          </thead>
-          <tbody>
-            ${cdList.map(c => `
-              <tr>
-                <td style="text-align:center; font-weight:700;">${c.stt}</td>
-                <td style="font-weight:700; color:var(--primary-dark);">${escapeHtml(c.title)}</td>
-                <td style="text-align:center; font-weight:700;">${c.periods}</td>
-                <td style="text-align:center; font-size:13px; color:#475569; line-height:1.55;">${escapeHtml(c.week)}</td>
-                <td style="font-size:12.5px;">${escapeHtml(c.yccd)}</td>
-                <td style="font-size:13px; color:#0f766e; line-height:1.55;">${escapeHtml(c.nls)}</td>
-                <td style="font-size:13px; color:#4338ca; line-height:1.55;">${escapeHtml(c.ai)}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
 
-      <!-- 3. KẾ HOẠCH BỒI DƯỠNG HỌC SINH GIỎI & HOẠT ĐỘNG TRẢI NGHIỆM -->
-      <h3 style="color:var(--primary-dark); margin:20px 0 8px 0; font-size:15px;">
-        3. Kế hoạch Hoạt động Trải nghiệm Ngoại khóa & Bồi dưỡng Học sinh Giỏi
-      </h3>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
-        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:14px;">
-          <h4 style="color:#b45309; font-size:14px; margin-bottom:8px;">🏆 Kế hoạch Bồi dưỡng Học sinh giỏi (HSG) Cấp Tỉnh</h4>
-          <ul style="font-size:13px; line-height:1.7; padding-left:18px; color:#92400e;">
-            <li><strong>Thời gian:</strong> Chiều thứ Năm & thứ Bảy hàng tuần (Tháng 9/2026 - Tháng 3/2027).</li>
-            <li><strong>Nội dung:</strong> Chuyên đề nâng cao Sinh thái học cây trồng, Kỹ thuật chăn nuôi VietGAP, Công nghệ gen và Thủy sản tuần hoàn RAS.</li>
-            <li><strong>Chỉ tiêu:</strong> Ít nhất 02 học sinh đạt giải Ba học sinh giỏi cấp tỉnh.</li>
-          </ul>
-        </div>
-        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:14px;">
-          <h4 style="color:#1d4ed8; font-size:14px; margin-bottom:8px;">🌾 Hoạt động Trải nghiệm & Tham quan Hướng nghiệp CNC</h4>
-          <ul style="font-size:13px; line-height:1.7; padding-left:18px; color:#1e40af;">
-            <li><strong>Thời gian:</strong> Tháng 12/2026 (Học kì I) và Tháng 4/2027 (Học kì II).</li>
-            <li><strong>Địa điểm:</strong> Trang trại Trồng dưa lưới công nghệ cao & Trại nuôi tôm thẻ chân trắng siêu thâm canh tại địa phương.</li>
-            <li><strong>Hình thức:</strong> Học sinh trải nghiệm vận hành hệ thống tưới nhỏ giọt tự động, đo pH đất/nước thực tế và viết báo cáo thu hoạch nhóm.</li>
-          </ul>
-        </div>
+    <!-- 3. KẾ HOẠCH BỒI DƯỠNG HỌC SINH GIỎI & HOẠT ĐỘNG TRẢI NGHIỆM -->
+    <h3 style="color:#166534; margin:20px 0 6px 0; font-size:14.5px; font-weight:700; text-transform:uppercase;">
+      3. Kế hoạch Hoạt động Trải nghiệm Ngoại khóa & Bồi dưỡng Học sinh Giỏi
+    </h3>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
+      <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:14px;">
+        <h4 style="color:#b45309; font-size:14px; margin-bottom:8px; font-weight:700;">🏆 Kế hoạch Bồi dưỡng Học sinh giỏi (HSG) Cấp Tỉnh</h4>
+        <ul style="font-size:13px; line-height:1.7; padding-left:18px; color:#92400e; margin:0;">
+          <li><strong>Thời gian:</strong> Chiều thứ Năm & thứ Bảy hàng tuần (Tháng 9/2026 - Tháng 3/2027).</li>
+          <li><strong>Nội dung:</strong> Chuyên đề nâng cao Sinh thái học cây trồng, Kỹ thuật chăn nuôi VietGAP, Công nghệ gen và Thủy sản tuần hoàn RAS.</li>
+          <li><strong>Chỉ tiêu:</strong> Ít nhất 02 học sinh đạt giải Ba học sinh giỏi cấp tỉnh.</li>
+        </ul>
+      </div>
+      <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:14px;">
+        <h4 style="color:#1d4ed8; font-size:14px; margin-bottom:8px; font-weight:700;">🌾 Hoạt động Trải nghiệm & Tham quan Hướng nghiệp CNC</h4>
+        <ul style="font-size:13px; line-height:1.7; padding-left:18px; color:#1e40af; margin:0;">
+          <li><strong>Thời gian:</strong> Tháng 12/2026 (Học kì I) và Tháng 4/2027 (Học kì II).</li>
+          <li><strong>Địa điểm:</strong> Trang trại Trồng dưa lưới công nghệ cao & Trại nuôi tôm thẻ chân trắng siêu thâm canh tại địa phương.</li>
+          <li><strong>Hình thức:</strong> Học sinh trải nghiệm vận hành hệ thống tưới nhỏ giọt tự động, đo pH đất/nước thực tế và viết báo cáo thu hoạch nhóm.</li>
+        </ul>
       </div>
     </div>
+
+    <!-- CHỮ KÝ DUYỆT SỔ CHUYÊN MÔN -->
+    <table style="width:100%; border:none; margin-top:36px; padding-top:14px; border-top:1px dashed #cbd5e1; border-collapse:collapse;">
+      <tr>
+        <td style="width:50%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; color:#0f172a; text-transform:uppercase; font-size:13px;">TỔ TRƯỞNG CHUYÊN MÔN</div>
+          <div style="font-size:12px; color:#64748b; font-style:italic; margin-bottom:50px;">(Ký và ghi rõ họ tên)</div>
+          <div style="font-weight:700; color:#166534; font-size:14px;">${escapeHtml(state5512.metaConfig.headName)}</div>
+        </td>
+        <td style="width:50%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; color:#0f172a; text-transform:uppercase; font-size:13px;">HIỆU TRƯỞNG DUYỆT</div>
+          <div style="font-size:12px; color:#64748b; font-style:italic; margin-bottom:50px;">(Ký và đóng dấu)</div>
+          <div style="font-weight:700; color:#166534; font-size:14px;">${escapeHtml(state5512.metaConfig.principalName || 'Ban Giám Hiệu')}</div>
+        </td>
+      </tr>
+    </table>
   `;
 }
 
@@ -656,97 +780,122 @@ function renderPl3Table(container, g) {
   const gradeName = g === "cn10" ? "Lớp 10 (Trồng trọt)" : g === "cn11" ? "Lớp 11 (Chăn nuôi)" : "Lớp 12 (Lâm - Thủy sản)";
 
   container.innerHTML = `
-    <div class="card">
-      <div style="text-align:center; margin-bottom:20px; border-bottom:2px solid var(--primary-dark); padding-bottom:12px;">
-        <h2 style="color:var(--primary-dark); font-size:18px; margin-bottom:4px; text-transform:uppercase;">
-          PHỤ LỤC III: KẾ HOẠCH GIÁO DỤC CỦA GIÁO VIÊN
-        </h2>
-        <div style="font-size:13px; color:var(--text-muted); font-style:italic;">
-          (Kèm theo Công văn số 5512/BGDĐT-GDTrH ngày 18 tháng 12 năm 2020 của Bộ GD&ĐT)
-        </div>
-        <div style="font-weight:700; color:var(--text); font-size:15px; margin-top:8px;">
-          GIÁO VIÊN: ${escapeHtml(state5512.metaConfig.teacherName).toUpperCase()} • ${escapeHtml(state5512.metaConfig.department)}
-        </div>
-        <div style="font-size:13px; color:var(--text-muted);">
-          Năm học ${escapeHtml(state5512.metaConfig.schoolYear)} • ${escapeHtml(state5512.metaConfig.school)}
-        </div>
-      </div>
+    <!-- TIÊU ĐỀ HÀNH CHÍNH THEO NGHỊ ĐỊNH 30 / CV 5512 -->
+    <table style="width:100%; border:none; margin-bottom:14px; border-collapse:collapse;">
+      <tr>
+        <td style="width:45%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; text-transform:uppercase; font-size:13px; color:#1e293b;">${escapeHtml(state5512.metaConfig.school)}</div>
+          <div style="font-weight:700; text-transform:uppercase; color:#0f766e; font-size:13px;">${escapeHtml(state5512.metaConfig.department)}</div>
+          <div class="binder-divider-short"></div>
+        </td>
+        <td style="width:55%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; text-transform:uppercase; font-size:13px; color:#1e293b;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div style="font-weight:700; font-size:13px; color:#1e293b;">Độc lập - Tự do - Hạnh phúc</div>
+          <div class="binder-divider-short"></div>
+          <div style="font-style:italic; font-size:12px; color:#64748b; margin-top:3px;">Lộc Ninh, ngày ... tháng ... năm 2026</div>
+        </td>
+      </tr>
+    </table>
 
-      <!-- I. KẾ HOẠCH DẠY HỌC CÁ NHÂN -->
-      <h3 style="color:var(--primary-dark); margin:16px 0 8px 0; font-size:15px;">
+    <!-- TIÊU ĐỀ PHỤ LỤC III -->
+    <div class="binder-sheet-title">
+      <h2>PHỤ LỤC III: KẾ HOẠCH GIÁO DỤC CỦA GIÁO VIÊN</h2>
+      <div class="sub-ref">(Kèm theo Công văn số 5512/BGDĐT-GDTrH ngày 18 tháng 12 năm 2020 của Bộ GD&ĐT)</div>
+      <div class="sub-subject">GIÁO VIÊN: ${escapeHtml(state5512.metaConfig.teacherName).toUpperCase()} • ${escapeHtml(state5512.metaConfig.department)}</div>
+      <div class="sub-year">Năm học ${escapeHtml(state5512.metaConfig.schoolYear)} • ${escapeHtml(state5512.metaConfig.school)}</div>
+    </div>
+
+    <!-- I. KẾ HOẠCH DẠY HỌC CÁ NHÂN -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+      <h3 style="color:#166534; font-size:14.5px; font-weight:700; text-transform:uppercase; margin:0;">
         I. Kế hoạch dạy học theo Tuần và Tiết phân phối (${gradeName})
       </h3>
-      <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:10px;">
-        ✅ Đã đồng bộ hoàn toàn với Phụ lục I của Tổ chuyên môn về số tiết, tiến độ tuần, thiết bị và yêu cầu năng lực.
-      </div>
-
-      <div style="overflow-x:auto; margin-bottom:24px;">
-        <table class="table" style="width:100%; font-size:13px; line-height:1.5;">
-          <thead>
-            <tr style="background:#166534; color:#fff;">
-              <th style="width:45px; text-align:center;">STT</th>
-              <th style="min-width:200px;">Bài học / Nội dung</th>
-              <th style="width:55px; text-align:center;">Số tiết</th>
-              <th style="width:110px; text-align:center;">Thời điểm (Tuần/Tiết)</th>
-              <th style="min-width:180px;">Thiết bị dạy học</th>
-              <th style="width:100px; text-align:center;">Địa điểm dạy</th>
-              ${state5512.integrations.nls ? '<th style="min-width:170px;">Năng lực số phát triển</th>' : ''}
-              ${state5512.integrations.ai ? '<th style="min-width:180px;">YCCĐ Giáo dục AI (QĐ 2422)</th>' : ''}
-            </tr>
-          </thead>
-          <tbody>
-            ${filtered.map(item => `
-              <tr style="${item.isExam ? 'background:#fef3c7;' : ''}">
-                <td style="text-align:center; font-weight:700;">${item.stt}</td>
-                <td>
-                  <strong style="color:var(--primary-dark);">${escapeHtml(item.title)}</strong>
-                  <div style="font-size:11px; color:var(--text-muted);">${escapeHtml(item.chapter || '')}</div>
-                </td>
-                <td style="text-align:center; font-weight:700;">${item.periods}</td>
-                <td style="text-align:center; font-weight:600; color:var(--primary); font-size:12.5px;">${escapeHtml(item.week || '–')}</td>
-                <td style="font-size:12px;">${escapeHtml(item.equipment || '–')}</td>
-                <td style="text-align:center; font-size:12px;">${escapeHtml(item.room || 'Lớp học')}</td>
-                ${state5512.integrations.nls ? `<td style="font-size:13px; color:#0f766e; line-height:1.55;">${escapeHtml(item.nls || '–')}</td>` : ''}
-                ${state5512.integrations.ai ? `<td style="font-size:13px; color:#4338ca; line-height:1.55;">${escapeHtml(item.ai || '–')}</td>` : ''}
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- II. KẾ HOẠCH CÁC NHIỆM VỤ KHÁC -->
-      <h3 style="color:var(--primary-dark); margin:20px 0 8px 0; font-size:15px;">
-        II. Kế hoạch các nhiệm vụ giáo dục khác trong năm học
-      </h3>
-      <div style="overflow-x:auto;">
-        <table class="table" style="width:100%; font-size:13px;">
-          <thead>
-            <tr style="background:#f1f5f9; color:var(--primary-dark);">
-              <th style="width:50px; text-align:center;">STT</th>
-              <th style="min-width:220px;">Nhiệm vụ được phân công</th>
-              <th style="width:180px;">Thời gian thực hiện</th>
-              <th>Yêu cầu / Kết quả dự kiến đạt được</th>
-              <th style="width:140px;">Ghi chú</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${(duties.otherTasks || []).map(t => `
-              <tr>
-                <td style="text-align:center; font-weight:700;">${t.stt}</td>
-                <td style="font-weight:600; color:var(--primary-dark);">${escapeHtml(t.task)}</td>
-                <td style="font-size:12.5px; color:var(--text-muted);">${escapeHtml(t.time)}</td>
-                <td style="font-size:12.5px;">${escapeHtml(t.expected)}</td>
-                <td style="font-size:13px; color:#475569; line-height:1.55;">${escapeHtml(t.note)}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
+      <span style="font-size:12px; color:#15803d; font-weight:600;">
+        ✅ Đã đồng bộ hoàn toàn với Phụ lục I của Tổ chuyên môn
+      </span>
     </div>
+
+    <div style="overflow-x:auto; margin-bottom:24px;">
+      <table class="binder-table">
+        <thead>
+          <tr>
+            <th style="width:45px;" class="center">STT</th>
+            <th style="min-width:200px;">Bài học / Nội dung</th>
+            <th style="width:55px;" class="center">Số tiết</th>
+            <th style="width:110px;" class="center">Thời điểm (Tuần/Tiết)</th>
+            <th style="min-width:180px;">Thiết bị dạy học</th>
+            <th style="width:100px;" class="center">Địa điểm dạy</th>
+            ${state5512.integrations.nls ? '<th style="min-width:170px;">Năng lực số phát triển</th>' : ''}
+            ${state5512.integrations.ai ? '<th style="min-width:180px;">YCCĐ Giáo dục AI (QĐ 2422)</th>' : ''}
+          </tr>
+        </thead>
+        <tbody>
+          ${filtered.map(item => `
+            <tr style="${item.isExam ? 'background:#fef3c7;' : ''}">
+              <td class="center" style="font-weight:700;">${item.stt}</td>
+              <td>
+                <strong style="color:#166534;">${escapeHtml(item.title)}</strong>
+                <div style="font-size:11.5px; color:#64748b; margin-top:2px;">${escapeHtml(item.chapter || '')}</div>
+              </td>
+              <td class="center" style="font-weight:700;">${item.periods}</td>
+              <td class="center" style="font-weight:600; color:#15803d; font-size:12.5px;">${escapeHtml(item.week || '–')}</td>
+              <td style="font-size:12.5px; color:#475569;">${escapeHtml(item.equipment || '–')}</td>
+              <td class="center" style="font-size:12.5px;">${escapeHtml(item.room || 'Lớp học')}</td>
+              ${state5512.integrations.nls ? `<td style="font-size:12.5px; color:#0f766e;">${escapeHtml(item.nls || '–')}</td>` : ''}
+              ${state5512.integrations.ai ? `<td style="font-size:12.5px; color:#4338ca;">${escapeHtml(item.ai || '–')}</td>` : ''}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- II. KẾ HOẠCH CÁC NHIỆM VỤ KHÁC -->
+    <h3 style="color:#166534; margin:20px 0 8px 0; font-size:14.5px; font-weight:700; text-transform:uppercase;">
+      II. Kế hoạch các nhiệm vụ giáo dục khác trong năm học
+    </h3>
+    <div style="overflow-x:auto;">
+      <table class="binder-table">
+        <thead>
+          <tr>
+            <th style="width:50px;" class="center">STT</th>
+            <th style="min-width:220px;">Nhiệm vụ được phân công</th>
+            <th style="width:180px;">Thời gian thực hiện</th>
+            <th>Yêu cầu / Kết quả dự kiến đạt được</th>
+            <th style="width:140px;">Ghi chú</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${(duties.otherTasks || []).map(t => `
+            <tr>
+              <td class="center" style="font-weight:700;">${t.stt}</td>
+              <td style="font-weight:600; color:#166534;">${escapeHtml(t.task)}</td>
+              <td style="font-size:12.5px; color:#64748b;">${escapeHtml(t.time)}</td>
+              <td style="font-size:12.5px;">${escapeHtml(t.expected)}</td>
+              <td style="font-size:12.5px; color:#475569;">${escapeHtml(t.note)}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CHỮ KÝ DUYỆT SỔ CHUYÊN MÔN -->
+    <table style="width:100%; border:none; margin-top:36px; padding-top:14px; border-top:1px dashed #cbd5e1; border-collapse:collapse;">
+      <tr>
+        <td style="width:50%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; color:#0f172a; text-transform:uppercase; font-size:13px;">TỔ TRƯỞNG CHUYÊN MÔN DUYỆT</div>
+          <div style="font-size:12px; color:#64748b; font-style:italic; margin-bottom:50px;">(Ký và ghi rõ họ tên)</div>
+          <div style="font-weight:700; color:#166534; font-size:14px;">${escapeHtml(state5512.metaConfig.headName)}</div>
+        </td>
+        <td style="width:50%; text-align:center; border:none; vertical-align:top; padding:0 10px;">
+          <div style="font-weight:700; color:#0f172a; text-transform:uppercase; font-size:13px;">GIÁO VIÊN THỰC HIỆN</div>
+          <div style="font-size:12px; color:#64748b; font-style:italic; margin-bottom:50px;">(Ký và ghi rõ họ tên)</div>
+          <div style="font-weight:700; color:#166534; font-size:14px;">${escapeHtml(state5512.metaConfig.teacherName)}</div>
+        </td>
+      </tr>
+    </table>
   `;
 }
 
-// Đồng bộ 3 Phụ lục
 function sync3PhuLuc() {
   save5512Data();
   render5512PlTable();
@@ -2099,6 +2248,11 @@ function updateModalTimerDisplay() {
 // ============================================================================
 
 // 1. Xuất từng Phụ lục
+// ============================================================================
+// CÁC HÀM XUẤT FILE WORD (.DOC) CHUẨN QUY CÁCH CV 5512 (DẠNG SỔ GỌN GÀNG)
+// ============================================================================
+
+// 1. Xuất từng Phụ lục
 function exportPhuLucWord(plNum) {
   const g = state5512.currentGrade;
   const cfg = state5512.metaConfig;
@@ -2107,7 +2261,11 @@ function exportPhuLucWord(plNum) {
                   plNum === 2 ? "PHỤ LỤC II - KẾ HOẠCH HOẠT ĐỘNG GIÁO DỤC" :
                   "PHỤ LỤC III - KẾ HOẠCH GIÁO DỤC CÁ NHÂN GIÁO VIÊN";
 
-  const tableArea = document.getElementById("plTableDisplayArea")?.innerHTML || "";
+  let tableArea = document.getElementById("plTableDisplayArea")?.innerHTML || "";
+  // Luôn mở danh mục thiết bị khi xuất Word
+  tableArea = tableArea.replace(/id="pl1EquipmentSection" style="display:\s*none;?"/gi, 'id="pl1EquipmentSection" style="display:block;"');
+  // Loại bỏ các nút bấm giao diện web khỏi file Word
+  tableArea = tableArea.replace(/<button[^>]*>[\s\S]*?<\/button>/gi, "");
 
   const docHtml = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
@@ -2119,49 +2277,20 @@ function exportPhuLucWord(plNum) {
         table { border-collapse: collapse; width: 100%; margin-top: 10px; }
         th, td { border: 1px solid #000; padding: 6px 8px; vertical-align: top; }
         th { background-color: #f2f2f2; font-weight: bold; text-align: center; }
-        .header-tbl { border: none !important; margin-bottom: 20px; }
-        .header-tbl td { border: none !important; padding: 2px 0; }
         .text-center { text-align: center; }
         .text-bold { font-weight: bold; }
-        .title { font-size: 15pt; font-weight: bold; text-align: center; margin: 15px 0 5px 0; text-transform: uppercase; }
-        .subtitle { font-size: 12pt; font-style: italic; text-align: center; margin-bottom: 15px; }
+        .binder-sheet-title h2 { font-size: 15pt; font-weight: bold; text-align: center; margin: 15px 0 5px 0; text-transform: uppercase; }
+        .binder-sheet-title .sub-ref { font-size: 11pt; font-style: italic; text-align: center; margin-bottom: 5px; }
+        .binder-sheet-title .sub-subject { font-size: 13pt; font-weight: bold; text-align: center; margin-bottom: 3px; }
+        .binder-sheet-title .sub-year { font-size: 11pt; font-style: italic; text-align: center; margin-bottom: 15px; }
+        .binder-divider-short { width: 80px; height: 1px; background: #000; margin: 4px auto 0; }
+        .badge { font-weight: bold; }
       </style>
     </head>
     <body>
       <div class="WordSection1">
-      <table class="header-tbl" style="width:100%;">
-        <tr>
-          <td style="width:45%; text-align:center;">
-            <strong>${escapeHtml(cfg.school.toUpperCase())}</strong><br/>
-            <strong>${escapeHtml(cfg.department.toUpperCase())}</strong><br/>
-            --------------------
-          </td>
-          <td style="width:55%; text-align:center;">
-            <strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><br/>
-            <strong>Độc lập - Tự do - Hạnh phúc</strong><br/>
-            --------------------
-          </td>
-        </tr>
-      </table>
-
-      ${tableArea}
-
-      <table class="header-tbl" style="width:100%; margin-top:40px;">
-        <tr>
-          <td style="width:50%; text-align:center;">
-            <strong>TỔ TRƯỞNG CHUYÊN MÔN</strong><br/>
-            <em>(Ký và ghi rõ họ tên)</em><br/><br/><br/><br/>
-            <strong>${escapeHtml(cfg.headName)}</strong>
-          </td>
-          <td style="width:50%; text-align:center;">
-            <em>${escapeHtml(cfg.province)}, ngày 20 tháng 8 năm 2026</em><br/>
-            <strong>GIÁO VIÊN BỘ MÔN</strong><br/>
-            <em>(Ký và ghi rõ họ tên)</em><br/><br/><br/><br/>
-            <strong>${escapeHtml(cfg.teacherName)}</strong>
-          </td>
-        </tr>
-      </table>
-          </div>
+        ${tableArea}
+      </div>
     </body>
     </html>
   `;
@@ -2175,14 +2304,20 @@ function exportFull3PhuLucWord() {
   const cfg = state5512.metaConfig;
   const gradeLabel = g === "cn10" ? "Khối 10 (Công nghệ Trồng trọt)" : g === "cn11" ? "Khối 11 (Công nghệ Chăn nuôi)" : "Khối 12 (Lâm - Thủy sản)";
 
-  // Tạm render 3 phụ lục để lấy HTML
   const dummy = document.createElement("div");
+  const savedShowEq = state5512.showEquipmentTable;
+  state5512.showEquipmentTable = true;
+  
   renderPl1Table(dummy, g);
-  const pl1Html = dummy.innerHTML;
+  let pl1Html = dummy.innerHTML.replace(/<button[^>]*>[\s\S]*?<\/button>/gi, "");
+  
   renderPl2Table(dummy, g);
-  const pl2Html = dummy.innerHTML;
+  let pl2Html = dummy.innerHTML.replace(/<button[^>]*>[\s\S]*?<\/button>/gi, "");
+  
   renderPl3Table(dummy, g);
-  const pl3Html = dummy.innerHTML;
+  let pl3Html = dummy.innerHTML.replace(/<button[^>]*>[\s\S]*?<\/button>/gi, "");
+  
+  state5512.showEquipmentTable = savedShowEq;
 
   const docHtml = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
@@ -2194,31 +2329,35 @@ function exportFull3PhuLucWord() {
         table { border-collapse: collapse; width: 100%; margin-top: 10px; }
         th, td { border: 1px solid #000; padding: 6px 8px; vertical-align: top; }
         th { background-color: #f2f2f2; font-weight: bold; text-align: center; }
-        .header-tbl { border: none !important; margin-bottom: 20px; }
-        .header-tbl td { border: none !important; padding: 2px 0; }
         .page-break { page-break-before: always; }
+        .binder-sheet-title h2 { font-size: 15pt; font-weight: bold; text-align: center; margin: 15px 0 5px 0; text-transform: uppercase; }
+        .binder-sheet-title .sub-ref { font-size: 11pt; font-style: italic; text-align: center; margin-bottom: 5px; }
+        .binder-sheet-title .sub-subject { font-size: 13pt; font-weight: bold; text-align: center; margin-bottom: 3px; }
+        .binder-sheet-title .sub-year { font-size: 11pt; font-style: italic; text-align: center; margin-bottom: 15px; }
+        .binder-divider-short { width: 80px; height: 1px; background: #000; margin: 4px auto 0; }
+        .badge { font-weight: bold; }
       </style>
     </head>
     <body>
       <!-- TRANG BÌA HỒ SƠ -->
-      <div style="text-align:center; padding-top:100px; padding-bottom:120px;">
+      <div style="text-align:center; padding-top:80px; padding-bottom:100px;">
         <div style="font-size:14pt; font-weight:bold;">SỞ GIÁO DỤC VÀ ĐÀO TẠO ${escapeHtml(cfg.province.toUpperCase())}</div>
         <div style="font-size:16pt; font-weight:bold;">${escapeHtml(cfg.school.toUpperCase())}</div>
         <div style="font-size:13pt; margin-top:10px;">${escapeHtml(cfg.department.toUpperCase())}</div>
         <div style="margin:40px auto; width:150px; border-bottom:2px solid #000;"></div>
         
-        <h1 style="font-size:24pt; font-weight:bold; margin-top:60px; line-height:1.4;">
+        <h1 style="font-size:22pt; font-weight:bold; margin-top:60px; line-height:1.4;">
           HỒ SƠ KẾ HOẠCH DẠY HỌC & GIÁO DỤC<br/>
           (TRỌN BỘ PHỤ LỤC 1, 2, 3 THEO CÔNG VĂN 5512/BGDĐT-GDTrH)
         </h1>
         <div style="font-size:15pt; font-weight:bold; margin-top:20px; color:#15803d;">
           MÔN CÔNG NGHỆ NÔNG NGHIỆP — ${gradeLabel.toUpperCase()}
         </div>
-        <div style="font-size:13pt; font-style:italic; margin-top:10px;">
+        <div style="font-size:12.5pt; font-style:italic; margin-top:10px;">
           (Tích hợp Khung Năng lực số Bộ GD&ĐT & Khung Giáo dục AI theo QĐ 2422/QĐ-BGDĐT)
         </div>
 
-        <div style="margin-top:120px; font-size:14pt; line-height:2;">
+        <div style="margin-top:100px; font-size:13.5pt; line-height:2;">
           <strong>Giáo viên thực hiện:</strong> ${escapeHtml(cfg.teacherName)}<br/>
           <strong>Tổ trưởng chuyên môn:</strong> ${escapeHtml(cfg.headName)}<br/>
           <strong>Năm học:</strong> ${escapeHtml(cfg.schoolYear)}
@@ -2236,37 +2375,13 @@ function exportFull3PhuLucWord() {
       <!-- PHỤ LỤC 3 -->
       <div class="page-break"></div>
       ${pl3Html}
-
-      <!-- CHỮ KÝ PHÊ DUYỆT -->
-      <table class="header-tbl" style="width:100%; margin-top:50px;">
-        <tr>
-          <td style="width:33%; text-align:center;">
-            <strong>GIÁO VIÊN BỘ MÔN</strong><br/>
-            <em>(Ký và ghi rõ họ tên)</em><br/><br/><br/><br/>
-            <strong>${escapeHtml(cfg.teacherName)}</strong>
-          </td>
-          <td style="width:33%; text-align:center;">
-            <strong>TỔ TRƯỞNG CHUYÊN MÔN</strong><br/>
-            <em>(Ký và ghi rõ họ tên)</em><br/><br/><br/><br/>
-            <strong>${escapeHtml(cfg.headName)}</strong>
-          </td>
-          <td style="width:34%; text-align:center;">
-            <em>${escapeHtml(cfg.province)}, ngày 25 tháng 8 năm 2026</em><br/>
-            <strong>HIỆU TRƯỞNG DUYỆT</strong><br/>
-            <em>(Ký, đóng dấu và ghi rõ họ tên)</em><br/><br/><br/><br/>
-            <strong>${escapeHtml(cfg.principalName)}</strong>
-          </td>
-        </tr>
-      </table>
-          </div>
     </body>
     </html>
   `;
 
-  downloadDocFile(docHtml, `TRON_BO_3_PHU_LUC_5512_${g.toUpperCase()}_THPT_LOC_NINH.doc`);
+  downloadDocFile(docHtml, `TRON_BO_3_PHU_LUC_5512_${g.toUpperCase()}_THPT_LocNinh.doc`);
 }
 
-// 3. Xuất Giáo Án (Kế hoạch bài dạy) Chuẩn 5512
 function exportLessonPlanWord() {
   const ed = state5512.editor;
   const cfg = state5512.metaConfig;
