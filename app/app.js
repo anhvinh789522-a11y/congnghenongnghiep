@@ -1045,37 +1045,58 @@ function distributeIntegerByWeights(totalCount, weights) {
   return floored;
 }
 
-function autoGenerateMatrix() {
+// ============================================================================
+// Há»† THá»NG Tá»° Äá»˜NG CÃ‚N Báº°NG MA TRáº¬N CHUáº¨N ÄÃšNG 10.0 ÄIá»‚M (100% - CHUáº¨N CV 7991)
+// ============================================================================
+
+function autoBalanceMatrixTo10Points(showToast = true) {
   const selectedUnits = state.units.filter(u => u.selected);
-  if (selectedUnits.length === 0) return;
+  if (selectedUnits.length === 0) {
+    if (showToast) alert("âš ï¸ Vui lÃ²ng chá»n Ã­t nháº¥t 1 bÃ i há»c á»Ÿ BÆ°á»›c 1 trÆ°á»›c khi cÃ¢n báº±ng ma tráº­n!");
+    return;
+  }
 
-  const weights = selectedUnits.map(u => Number(u.periods) || 1);
+  // 1. Chuáº©n hÃ³a cáº¥u hÃ¬nh PartConfig theo khung chuáº©n má»±c CV 7991 (Tá»•ng Ä‘Ãºng 10.0 Ä‘iá»ƒm, 100%)
   const pc = state.partConfig;
+  pc.mcq.enabled = true;
+  pc.mcq.pointsPerQ = 0.25;
+  pc.mcq.counts = { biet: 12, hieu: 4, vandung: 0 }; // 16 cÃ¢u * 0.25 = 4.0 Ä‘iá»ƒm (40%)
 
-  const mcqBietArr = distributeIntegerByWeights(pc.mcq.enabled ? pc.mcq.counts.biet : 0, weights);
-  const mcqHieuArr = distributeIntegerByWeights(pc.mcq.enabled ? pc.mcq.counts.hieu : 0, weights);
-  const mcqVdArr = distributeIntegerByWeights(pc.mcq.enabled ? pc.mcq.counts.vandung : 0, weights);
+  pc.tf.enabled = true;
+  pc.tf.numQuestions = 3; // 3 cÃ¢u lá»›n
+  pc.tf.pointsPerQuestion = 1.0;
+  pc.tf.counts = { biet: 3, hieu: 3, vandung: 6 }; // 12 Ã½ lá»‡nh há»i * 0.25 = 3.0 Ä‘iá»ƒm (30%)
 
-  const tfBietArr = distributeIntegerByWeights(pc.tf.enabled ? pc.tf.counts.biet : 0, weights);
-  const tfHieuArr = distributeIntegerByWeights(pc.tf.enabled ? pc.tf.counts.hieu : 0, weights);
-  const tfVdArr = distributeIntegerByWeights(pc.tf.enabled ? pc.tf.counts.vandung : 0, weights);
+  pc.short.enabled = false;
+  pc.short.counts = { biet: 0, hieu: 0, vandung: 0 };
 
-  const shortBietArr = distributeIntegerByWeights(pc.short.enabled ? pc.short.counts.biet : 0, weights);
-  const shortHieuArr = distributeIntegerByWeights(pc.short.enabled ? pc.short.counts.hieu : 0, weights);
-  const shortVdArr = distributeIntegerByWeights(pc.short.enabled ? pc.short.counts.vandung : 0, weights);
+  pc.essay.enabled = true;
+  pc.essay.questions = [
+    { id: "tl1", label: "CÃ¢u 1 (Tá»± luáº­n)", level: "vandung", points: 1.5 },
+    { id: "tl2", label: "CÃ¢u 2 (Tá»± luáº­n)", level: "vandung", points: 1.5 }
+  ]; // 2 cÃ¢u tá»± luáº­n = 3.0 Ä‘iá»ƒm (30%)
+  // Tá»”NG Cá»˜NG: 4.0 + 3.0 + 3.0 = ÄÃšNG 10.0 ÄIá»‚M (100%)
+
+  // 2. PhÃ¢n bá»• cÃ¢u há»i nguyÃªn váº¹n theo sá»‘ tiáº¿t thá»±c táº¿ cá»§a tá»«ng bÃ i há»c
+  const weights = selectedUnits.map(u => Number(u.periods) || 1);
+  const mcqBietArr = distributeIntegerByWeights(12, weights);
+  const mcqHieuArr = distributeIntegerByWeights(4, weights);
+  const tfBietArr = distributeIntegerByWeights(3, weights);
+  const tfHieuArr = distributeIntegerByWeights(3, weights);
+  const tfVdArr = distributeIntegerByWeights(6, weights);
 
   state.matrixRows = {};
   selectedUnits.forEach((u, idx) => {
     state.matrixRows[u.id] = {
       mcq_biet: mcqBietArr[idx],
       mcq_hieu: mcqHieuArr[idx],
-      mcq_vandung: mcqVdArr[idx],
+      mcq_vandung: 0,
       tf_biet: tfBietArr[idx],
       tf_hieu: tfHieuArr[idx],
       tf_vandung: tfVdArr[idx],
-      short_biet: shortBietArr[idx],
-      short_hieu: shortHieuArr[idx],
-      short_vandung: shortVdArr[idx],
+      short_biet: 0,
+      short_hieu: 0,
+      short_vandung: 0,
       essay_biet: 0,
       essay_hieu: 0,
       essay_vandung: 0,
@@ -1085,36 +1106,64 @@ function autoGenerateMatrix() {
     };
   });
 
-  // Phân bổ các câu Tự luận vào các bài học có trọng số cao
-  if (pc.essay.enabled && pc.essay.questions.length > 0) {
-    pc.essay.questions.forEach((eq, qIdx) => {
-      const targetUnit = selectedUnits[(selectedUnits.length - 1 - qIdx + selectedUnits.length * 10) % selectedUnits.length];
-      const row = state.matrixRows[targetUnit.id];
-      row[`essay_${eq.level}`] += 1;
-      row[`essay_points_${eq.level}`] = round2(row[`essay_points_${eq.level}`] + (Number(eq.points) || 0));
-    });
+  // 3. PhÃ¢n bá»• Ä‘Ãºng 2 cÃ¢u tá»± luáº­n (má»—i cÃ¢u 1.5Ä‘) vÃ o cÃ¡c bÃ i há»c trá»ng tÃ¢m cuá»‘i
+  if (selectedUnits.length === 1) {
+    const row = state.matrixRows[selectedUnits[0].id];
+    row.essay_vandung = 2;
+    row.essay_points_vandung = 3.0;
+  } else {
+    const u1 = selectedUnits[selectedUnits.length - 2];
+    const u2 = selectedUnits[selectedUnits.length - 1];
+    state.matrixRows[u1.id].essay_vandung = 1;
+    state.matrixRows[u1.id].essay_points_vandung = 1.5;
+    state.matrixRows[u2.id].essay_vandung = 1;
+    state.matrixRows[u2.id].essay_points_vandung = 1.5;
+  }
+
+  // 4. Äá»“ng bá»™ & váº½ láº¡i cÃ¡c báº£ng
+  renderMatrixTable();
+  if (typeof renderSpecificationTable === "function") renderSpecificationTable();
+  if (typeof renderStep2Config === "function") renderStep2Config();
+
+  if (showToast) {
+    alert("âœ… ÄÃƒ Tá»° Äá»˜NG CÃ‚N Báº°NG MA TRáº¬N CHUáº¨N XÃC 10.0 ÄIá»‚M (100%)!\n\nâ€¢ Tráº¯c nghiá»‡m (Pháº§n I): 16 cÃ¢u = 4.00Ä‘\nâ€¢ ÄÃºng - Sai (Pháº§n II): 3 cÃ¢u (12 Ã½) = 3.00Ä‘\nâ€¢ Tá»± luáº­n (Pháº§n IV): 2 cÃ¢u = 3.00Ä‘\nâ€¢ Tá»•ng Ä‘iá»ƒm: ÄÃšNG 10.00 / 10.0Ä‘ (Äiá»ƒm tá»«ng dÃ²ng chuáº©n sá»‘ trÃ²n Ä‘áº¹p).");
   }
 }
 
-function getRowPointCalculation(row) {
-  const pc = state.partConfig;
-  const mcqP = pc.mcq.enabled ? (row.mcq_biet + row.mcq_hieu + row.mcq_vandung) * pc.mcq.pointsPerQ : 0;
-
-  const totalTfStmts = pc.tf.enabled ? (pc.tf.counts.biet + pc.tf.counts.hieu + pc.tf.counts.vandung) : 0;
-  const tfAvgPerStmt = totalTfStmts > 0 ? ((pc.tf.numQuestions * pc.tf.pointsPerQuestion) / totalTfStmts) : 0.25;
-  const tfP = pc.tf.enabled ? (row.tf_biet + row.tf_hieu + row.tf_vandung) * tfAvgPerStmt : 0;
-
-  const shortP = pc.short.enabled ? (row.short_biet + row.short_hieu + row.short_vandung) * pc.short.pointsPerQ : 0;
-  const essayP = pc.essay.enabled ? (row.essay_points_biet + row.essay_points_hieu + row.essay_points_vandung) : 0;
-
-  const totalPoints = round2(mcqP + tfP + shortP + essayP);
-  const totalItems = (row.mcq_biet + row.mcq_hieu + row.mcq_vandung) +
-                     (row.tf_biet + row.tf_hieu + row.tf_vandung) +
-                     (row.short_biet + row.short_hieu + row.short_vandung) +
-                     (row.essay_biet + row.essay_hieu + row.essay_vandung);
-  return { totalPoints, totalItems };
+function autoGenerateMatrix() {
+  autoBalanceMatrixTo10Points(false);
 }
 
+function getRowPointCalculation(row) {
+  if (!row) return { totalPoints: 0, totalItems: 0 };
+  const pc = state.partConfig || {};
+
+  // MCQ: má»—i cÃ¢u Ä‘Ãºng chuáº©n 0.25Ä‘
+  const mcqCount = (Number(row.mcq_biet) || 0) + (Number(row.mcq_hieu) || 0) + (Number(row.mcq_vandung) || 0);
+  const mcqP = (pc.mcq && pc.mcq.enabled !== false) ? mcqCount * (Number(pc.mcq.pointsPerQ) || 0.25) : 0;
+
+  // ÄÃºng - Sai: má»—i Ã½ lá»‡nh há»i chuáº©n CV 7991 lÃ  0.25Ä‘ (4 Ã½ = 1 cÃ¢u lá»›n = 1.0Ä‘)
+  const tfCount = (Number(row.tf_biet) || 0) + (Number(row.tf_hieu) || 0) + (Number(row.tf_vandung) || 0);
+  const tfP = (pc.tf && pc.tf.enabled !== false) ? tfCount * 0.25 : 0;
+
+  // Tráº£ lá»i ngáº¯n: má»—i cÃ¢u chuáº©n 0.25Ä‘
+  const shortCount = (Number(row.short_biet) || 0) + (Number(row.short_hieu) || 0) + (Number(row.short_vandung) || 0);
+  const shortP = (pc.short && pc.short.enabled) ? shortCount * (Number(pc.short.pointsPerQ) || 0.25) : 0;
+
+  // Tá»± luáº­n: Ä‘iá»ƒm thá»±c táº¿ cá»§a cÃ¢u tá»± luáº­n á»Ÿ bÃ i há»c nÃ y (bá»™i sá»‘ 0.5Ä‘ / 1.0Ä‘)
+  const essayPoints = (Number(row.essay_points_biet) || 0) +
+                      (Number(row.essay_points_hieu) || 0) +
+                      (Number(row.essay_points_vandung) || 0);
+  const essayP = (pc.essay && pc.essay.enabled !== false) ? essayPoints : 0;
+
+  const totalPoints = round2(mcqP + tfP + shortP + essayP);
+  const totalItems = mcqCount + tfCount + shortCount +
+                     (Number(row.essay_biet) || 0) +
+                     (Number(row.essay_hieu) || 0) +
+                     (Number(row.essay_vandung) || 0);
+
+  return { totalPoints, totalItems };
+}
 // ============================================================================
 // CẤU HÌNH BỐ CỤC KHỔ GIẤY, ĐỘ RỘNG CỘT & PHÔNG CHỮ IN ẤN (CHUẨN CV 7991 & NĐ 30)
 // ============================================================================
@@ -1215,6 +1264,26 @@ function renderMatrixTable() {
   if (!tbody || !tfoot) return;
 
   const selectedUnits = state.units.filter(u => u.selected);
+  if (selectedUnits.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="17" class="text-center" style="padding:24px; color:#64748b;">ChÆ°a cÃ³ bÃ i há»c nÃ o Ä‘Æ°á»£c chá»n á»Ÿ BÆ°á»›c 1. Vui lÃ²ng quay láº¡i BÆ°á»›c 1 Ä‘á»ƒ chá»n bÃ i.</td></tr>`;
+    tfoot.innerHTML = "";
+    return;
+  }
+
+  // Tá»± Ä‘á»™ng khá»Ÿi táº¡o náº¿u chÆ°a cÃ³ dá»¯ liá»‡u ma tráº­n
+  let needInit = false;
+  if (!state.matrixRows) {
+    state.matrixRows = {};
+    needInit = true;
+  } else {
+    selectedUnits.forEach(u => {
+      if (!state.matrixRows[u.id]) needInit = true;
+    });
+  }
+  if (needInit) {
+    autoBalanceMatrixTo10Points(false);
+  }
+
   const sums = {
     mcq_biet: 0, mcq_hieu: 0, mcq_vandung: 0,
     tf_biet: 0, tf_hieu: 0, tf_vandung: 0,
@@ -1225,100 +1294,162 @@ function renderMatrixTable() {
   };
 
   tbody.innerHTML = selectedUnits.map((u, idx) => {
-    if (!state.matrixRows[u.id]) autoGenerateMatrix();
-    const r = state.matrixRows[u.id];
+    const r = state.matrixRows[u.id] || {};
     const rowCalc = getRowPointCalculation(r);
 
     Object.keys(sums).forEach(k => {
-      if (r[k] !== undefined) sums[k] = round2(sums[k] + r[k]);
+      if (r[k] !== undefined) sums[k] = round2(sums[k] + (Number(r[k]) || 0));
     });
     sums.totalItems += rowCalc.totalItems;
     sums.totalPoints = round2(sums.totalPoints + rowCalc.totalPoints);
 
     const colW = state.printLayout?.lessonColWidth || 280;
+    const rowPct = round1(rowCalc.totalPoints * 10);
+
     return `
       <tr>
-        <td class="text-center">${idx + 1}</td>
+        <td class="text-center" style="font-weight:600;">${idx + 1}</td>
         <td style="min-width:${colW}px; line-height:1.35; padding:6px 8px;">
-          <div style="font-size:11px; color:#64748b; margin-bottom:2px;">${escapeHtml(u.chapter)} • ${u.periods} tiết</div>
+          <div style="font-size:11px; color:#64748b; margin-bottom:2px;">${escapeHtml(u.chapter)} â€¢ ${u.periods} tiáº¿t</div>
           <strong style="font-size:13px; color:#1e293b;">${escapeHtml(u.lesson)}</strong>
         </td>
-        <!-- MCQ -->
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_biet}" onchange="updateMatrixCell('${u.id}', 'mcq_biet', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_hieu}" onchange="updateMatrixCell('${u.id}', 'mcq_hieu', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_vandung}" onchange="updateMatrixCell('${u.id}', 'mcq_vandung', this.value)" /></td>
-        <!-- TF -->
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_biet}" onchange="updateMatrixCell('${u.id}', 'tf_biet', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_hieu}" onchange="updateMatrixCell('${u.id}', 'tf_hieu', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_vandung}" onchange="updateMatrixCell('${u.id}', 'tf_vandung', this.value)" /></td>
-        <!-- Short -->
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_biet}" onchange="updateMatrixCell('${u.id}', 'short_biet', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_hieu}" onchange="updateMatrixCell('${u.id}', 'short_hieu', this.value)" /></td>
-        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_vandung}" onchange="updateMatrixCell('${u.id}', 'short_vandung', this.value)" /></td>
-        <!-- Essay -->
+        <!-- I. MCQ (0.25Ä‘ / cÃ¢u) -->
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_biet || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_biet', this.value)" title="MCQ Biáº¿t (0.25Ä‘)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_hieu', this.value)" title="MCQ Hiá»ƒu (0.25Ä‘)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.mcq_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'mcq_vandung', this.value)" title="MCQ Váº­n dá»¥ng (0.25Ä‘)" /></td>
+        <!-- II. ÄÃºng - Sai (0.25Ä‘ / Ã½) -->
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_biet || 0}" onchange="updateMatrixCell('${u.id}', 'tf_biet', this.value)" title="ÄÃºng/Sai - Ã Biáº¿t (0.25Ä‘)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'tf_hieu', this.value)" title="ÄÃºng/Sai - Ã Hiá»ƒu (0.25Ä‘)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.tf_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'tf_vandung', this.value)" title="ÄÃºng/Sai - Ã Váº­n dá»¥ng (0.25Ä‘)" /></td>
+        <!-- III. Tráº£ lá»i ngáº¯n (0.25Ä‘ / cÃ¢u) -->
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_biet || 0}" onchange="updateMatrixCell('${u.id}', 'short_biet', this.value)" title="Tráº£ lá»i ngáº¯n Biáº¿t (0.25Ä‘)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'short_hieu', this.value)" title="Tráº£ lá»i ngáº¯n Hiá»ƒu (0.25Ä‘)" /></td>
+        <td class="text-center"><input type="number" class="compact-num" min="0" value="${r.short_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'short_vandung', this.value)" title="Tráº£ lá»i ngáº¯n Váº­n dá»¥ng (0.25Ä‘)" /></td>
+        <!-- IV. Tá»± luáº­n -->
         <td class="text-center">
-          <input type="number" class="compact-num" min="0" value="${r.essay_biet}" onchange="updateMatrixCell('${u.id}', 'essay_biet', this.value)" title="Số câu TL Biết" />
-          ${r.essay_biet > 0 ? `<div style="font-size:10px;color:#1d4ed8;font-weight:700;">${r.essay_points_biet}đ</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_biet || 0}" onchange="updateMatrixCell('${u.id}', 'essay_biet', this.value)" title="Sá»‘ cÃ¢u TL Biáº¿t" />
+          ${r.essay_biet > 0 ? `<div style="font-size:10.5px;color:#1d4ed8;font-weight:700;">${r.essay_points_biet || 1.5}Ä‘</div>` : ''}
         </td>
         <td class="text-center">
-          <input type="number" class="compact-num" min="0" value="${r.essay_hieu}" onchange="updateMatrixCell('${u.id}', 'essay_hieu', this.value)" title="Số câu TL Hiểu" />
-          ${r.essay_hieu > 0 ? `<div style="font-size:10px;color:#b45309;font-weight:700;">${r.essay_points_hieu}đ</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_hieu || 0}" onchange="updateMatrixCell('${u.id}', 'essay_hieu', this.value)" title="Sá»‘ cÃ¢u TL Hiá»ƒu" />
+          ${r.essay_hieu > 0 ? `<div style="font-size:10.5px;color:#b45309;font-weight:700;">${r.essay_points_hieu || 1.5}Ä‘</div>` : ''}
         </td>
         <td class="text-center">
-          <input type="number" class="compact-num" min="0" value="${r.essay_vandung}" onchange="updateMatrixCell('${u.id}', 'essay_vandung', this.value)" title="Số câu TL Vận dụng" />
-          ${r.essay_vandung > 0 ? `<div style="font-size:10px;color:#be185d;font-weight:700;">${r.essay_points_vandung}đ</div>` : ''}
+          <input type="number" class="compact-num" min="0" value="${r.essay_vandung || 0}" onchange="updateMatrixCell('${u.id}', 'essay_vandung', this.value)" title="Sá»‘ cÃ¢u TL Váº­n dá»¥ng" />
+          ${r.essay_vandung > 0 ? `<div style="font-size:10.5px;color:#be185d;font-weight:700;">${r.essay_points_vandung || 1.5}Ä‘</div>` : ''}
         </td>
+        <!-- Cá»™t Tá»•ng sá»‘ cÃ¢u, Äiá»ƒm & % cá»§a bÃ i há»c -->
         <td class="text-center"><strong>${rowCalc.totalItems}</strong></td>
-        <td class="text-center"><strong>${rowCalc.totalPoints.toFixed(2)}đ</strong></td>
-        <td class="text-center"><strong>${(rowCalc.totalPoints * 10).toFixed(0)}%</strong></td>
+        <td class="text-center"><strong style="color:#0f766e; font-size:13.5px;">${rowCalc.totalPoints.toFixed(2)}Ä‘</strong></td>
+        <td class="text-center"><strong>${rowPct}%</strong></td>
       </tr>
     `;
   }).join("");
 
-  const pc = state.partConfig;
-  const totalTfStmts = sums.tf_biet + sums.tf_hieu + sums.tf_vandung;
-  const tfPointAvg = totalTfStmts > 0 ? ((pc.tf.numQuestions * pc.tf.pointsPerQuestion) / totalTfStmts) : 0.25;
+  // Äiá»ƒm cÃ¡c cáº¥p Ä‘á»™ tÆ° duy theo chuáº©n CV 7991:
+  const bietPoints = round2(sums.mcq_biet * 0.25 + sums.tf_biet * 0.25 + sums.short_biet * 0.25 + sums.essay_points_biet);
+  const hieuPoints = round2(sums.mcq_hieu * 0.25 + sums.tf_hieu * 0.25 + sums.short_hieu * 0.25 + sums.essay_points_hieu);
+  const vdPoints = round2(sums.mcq_vandung * 0.25 + sums.tf_vandung * 0.25 + sums.short_vandung * 0.25 + sums.essay_points_vandung);
+  const grandTotal = round2(bietPoints + hieuPoints + vdPoints);
 
-  const bietPoints = round2(sums.mcq_biet * pc.mcq.pointsPerQ + sums.tf_biet * tfPointAvg + sums.short_biet * pc.short.pointsPerQ + sums.essay_points_biet);
-  const hieuPoints = round2(sums.mcq_hieu * pc.mcq.pointsPerQ + sums.tf_hieu * tfPointAvg + sums.short_hieu * pc.short.pointsPerQ + sums.essay_points_hieu);
-  const vdPoints = round2(sums.mcq_vandung * pc.mcq.pointsPerQ + sums.tf_vandung * tfPointAvg + sums.short_vandung * pc.short.pointsPerQ + sums.essay_points_vandung);
+  const bietPct = Math.round((bietPoints / 10) * 100);
+  const hieuPct = Math.round((hieuPoints / 10) * 100);
+  const vdPct = Math.round((vdPoints / 10) * 100);
+  const totalPct = Math.round((grandTotal / 10) * 100);
+
+  const isPerfect10 = Math.abs(grandTotal - 10.0) < 0.01;
 
   tfoot.innerHTML = `
     <tr class="summary-row">
-      <td colspan="2" class="text-right">TỔNG CỘNG</td>
-      <td class="text-center">${sums.mcq_biet}</td>
-      <td class="text-center">${sums.mcq_hieu}</td>
-      <td class="text-center">${sums.mcq_vandung}</td>
-      <td class="text-center">${sums.tf_biet}</td>
-      <td class="text-center">${sums.tf_hieu}</td>
-      <td class="text-center">${sums.tf_vandung}</td>
-      <td class="text-center">${sums.short_biet}</td>
-      <td class="text-center">${sums.short_hieu}</td>
-      <td class="text-center">${sums.short_vandung}</td>
-      <td class="text-center">${sums.essay_biet}</td>
-      <td class="text-center">${sums.essay_hieu}</td>
-      <td class="text-center">${sums.essay_vandung}</td>
-      <td class="text-center">${sums.totalItems}</td>
-      <td class="text-center">${sums.totalPoints.toFixed(2)}đ</td>
-      <td class="text-center">${(sums.totalPoints * 10).toFixed(0)}%</td>
+      <td colspan="2" class="text-right" style="font-weight:800; font-size:13px;">Tá»”NG Cá»˜NG</td>
+      <td class="text-center" style="font-weight:700;">${sums.mcq_biet}</td>
+      <td class="text-center" style="font-weight:700;">${sums.mcq_hieu}</td>
+      <td class="text-center" style="font-weight:700;">${sums.mcq_vandung}</td>
+      <td class="text-center" style="font-weight:700;">${sums.tf_biet}</td>
+      <td class="text-center" style="font-weight:700;">${sums.tf_hieu}</td>
+      <td class="text-center" style="font-weight:700;">${sums.tf_vandung}</td>
+      <td class="text-center" style="font-weight:700;">${sums.short_biet}</td>
+      <td class="text-center" style="font-weight:700;">${sums.short_hieu}</td>
+      <td class="text-center" style="font-weight:700;">${sums.short_vandung}</td>
+      <td class="text-center" style="font-weight:700;">${sums.essay_biet}</td>
+      <td class="text-center" style="font-weight:700;">${sums.essay_hieu}</td>
+      <td class="text-center" style="font-weight:700;">${sums.essay_vandung}</td>
+      <td class="text-center" style="font-weight:800; font-size:13px;">${sums.totalItems}</td>
+      <td class="text-center" style="font-weight:800; font-size:14px; color:${isPerfect10 ? '#15803d' : '#b91c1c'};">${grandTotal.toFixed(2)}Ä‘</td>
+      <td class="text-center" style="font-weight:800; font-size:13px; color:${isPerfect10 ? '#15803d' : '#b91c1c'};">${totalPct}%</td>
     </tr>
     <tr>
-      <td colspan="2" class="text-right"><strong>TỈ LỆ TƯ DUY</strong></td>
+      <td colspan="2" class="text-right" style="font-weight:700;">Tá»ˆ Lá»† TÆ¯ DUY</td>
       <td colspan="12" class="text-center">
-        <span class="badge badge-biet" style="font-size:12px;padding:3px 10px;">Biết: ${bietPoints.toFixed(2)}đ (${(bietPoints * 10).toFixed(0)}%)</span>
+        <span class="badge badge-biet" style="font-size:12px;padding:4px 10px;">Biáº¿t: ${bietPoints.toFixed(2)}Ä‘ (${bietPct}%)</span>
         &nbsp;
-        <span class="badge badge-hieu" style="font-size:12px;padding:3px 10px;">Hiểu: ${hieuPoints.toFixed(2)}đ (${(hieuPoints * 10).toFixed(0)}%)</span>
+        <span class="badge badge-hieu" style="font-size:12px;padding:4px 10px;">Hiá»ƒu: ${hieuPoints.toFixed(2)}Ä‘ (${hieuPct}%)</span>
         &nbsp;
-        <span class="badge badge-vandung" style="font-size:12px;padding:3px 10px;">Vận dụng: ${vdPoints.toFixed(2)}đ (${(vdPoints * 10).toFixed(0)}%)</span>
+        <span class="badge badge-vandung" style="font-size:12px;padding:4px 10px;">Váº­n dá»¥ng: ${vdPoints.toFixed(2)}Ä‘ (${vdPct}%)</span>
       </td>
-      <td colspan="3" class="text-center"><strong style="color:var(--primary-dark);font-size:14px;">${sums.totalPoints.toFixed(2)} / 10đ</strong></td>
+      <td colspan="3" class="text-center">
+        <strong style="color:${isPerfect10 ? '#15803d' : '#b91c1c'}; font-size:14.5px;">${grandTotal.toFixed(2)} / 10.0Ä‘</strong>
+      </td>
     </tr>
   `;
+
+  // Cáº­p nháº­t Banner tráº¡ng thÃ¡i kiá»ƒm soÃ¡t Ä‘iá»ƒm sá»‘ ma tráº­n (ná»•i báº­t, chá»‘ng lá»™n xá»™n)
+  const banner = document.getElementById("matrixBalanceStatusBanner");
+  if (banner) {
+    if (isPerfect10) {
+      banner.innerHTML = `
+        <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:18px;">âœ…</span>
+            <div>
+              <strong style="color:#15803d; font-size:13.5px;">MA TRáº¬N ÄÃƒ CÃ‚N Báº°NG CHUáº¨N XÃC: 10.0 / 10.0 ÄIá»‚M (100%)</strong>
+              <div style="font-size:11.5px; color:#166534; margin-top:2px;">
+                CÆ¡ cáº¥u: 16 cÃ¢u Tráº¯c nghiá»‡m (4.0Ä‘) â€¢ 3 cÃ¢u ÄÃºng/Sai (3.0Ä‘) â€¢ 2 cÃ¢u Tá»± luáº­n (3.0Ä‘) â€¢ Tá»‰ lá»‡: Biáº¿t ${bietPct}% : Hiá»ƒu ${hieuPct}% : Váº­n dá»¥ng ${vdPct}%
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="autoBalanceMatrixTo10Points(true)" style="font-weight:600;" title="PhÃ¢n bá»• láº¡i Ä‘á»u theo sá»‘ tiáº¿t tá»«ng bÃ i">
+            ðŸ”„ CÃ¢n báº±ng láº¡i theo sá»‘ tiáº¿t
+          </button>
+        </div>
+      `;
+    } else {
+      const diff = round2(grandTotal - 10.0);
+      const diffStr = diff > 0 ? `+${diff.toFixed(2)}Ä‘` : `${diff.toFixed(2)}Ä‘`;
+      banner.innerHTML = `
+        <div style="background:#fef2f2; border:2px solid #ef4444; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; box-shadow:0 2px 8px rgba(239,68,68,0.12);">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:22px;">âš ï¸</span>
+            <div>
+              <strong style="color:#b91c1c; font-size:13.5px;">MA TRáº¬N CHÆ¯A CÃ‚N Báº°NG: Tá»”NG ${grandTotal.toFixed(2)}Ä‘ / 10.0Ä‘ (${totalPct}% â€¢ Lá»‡ch ${diffStr})</strong>
+              <div style="font-size:11.5px; color:#991b1b; margin-top:2px;">
+                Äiá»ƒm sá»‘ Ä‘ang bá»‹ lá»‡ch khá»i chuáº©n 10.0Ä‘. Báº¥m nÃºt bÃªn cáº¡nh Ä‘á»ƒ há»‡ thá»‘ng <strong>tá»± Ä‘á»™ng chá»‰nh sá»­a láº¡i chuáº©n 10.0Ä‘ ngay láº­p tá»©c</strong>.
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="autoBalanceMatrixTo10Points(true)" style="background:#16a34a; font-weight:700; font-size:13px; padding:7px 16px; border:none; box-shadow:0 2px 6px rgba(22,163,74,0.3);">
+            âš¡ Tá»° Äá»˜NG CÃ‚N Báº°NG 10.0Ä NGAY
+          </button>
+        </div>
+      `;
+    }
+  }
 }
 
 function updateMatrixCell(unitId, key, val) {
+  if (!state.matrixRows || !state.matrixRows[unitId]) return;
   const num = key.includes("points") ? Math.max(0, Number(val) || 0) : Math.max(0, Math.round(Number(val) || 0));
   state.matrixRows[unitId][key] = num;
+
+  if (key.startsWith("essay_") && !key.includes("points")) {
+    const pKey = key.replace("essay_", "essay_points_");
+    if (num === 0) {
+      state.matrixRows[unitId][pKey] = 0;
+    } else if (!state.matrixRows[unitId][pKey] || state.matrixRows[unitId][pKey] === 0) {
+      state.matrixRows[unitId][pKey] = round2(num * 1.5);
+    }
+  }
+
   syncStep2FromMatrix();
   renderMatrixTable();
 }
@@ -1333,15 +1464,16 @@ function syncStep2FromMatrix() {
   selectedUnits.forEach(u => {
     const r = state.matrixRows[u.id];
     if (!r) return;
-    Object.keys(sums).forEach(k => sums[k] += r[k]);
+    Object.keys(sums).forEach(k => sums[k] += (Number(r[k]) || 0));
   });
   state.partConfig.mcq.counts = { biet: sums.mcq_biet, hieu: sums.mcq_hieu, vandung: sums.mcq_vandung };
   state.partConfig.tf.counts = { biet: sums.tf_biet, hieu: sums.tf_hieu, vandung: sums.tf_vandung };
+  const totalTf = sums.tf_biet + sums.tf_hieu + sums.tf_vandung;
+  state.partConfig.tf.numQuestions = Math.max(1, Math.round(totalTf / 4));
   state.partConfig.short.counts = { biet: sums.short_biet, hieu: sums.short_hieu, vandung: sums.short_vandung };
 }
 
-// ============================================================================
-// BƯỚC 4: TẠO BẢN ĐẶC TẢ ĐỀ KIỂM TRA (MẪU PHỤ LỤC 2 - CV 7991)
+
 // ============================================================================
 
 function renderSpecificationTable() {
@@ -2564,12 +2696,10 @@ function buildCleanMatrixHtmlForWord() {
   }).join("");
 
   const pc = state.partConfig;
-  const totalTfStmts = sums.tf_biet + sums.tf_hieu + sums.tf_vandung;
-  const tfPointAvg = totalTfStmts > 0 ? ((pc.tf.numQuestions * pc.tf.pointsPerQuestion) / totalTfStmts) : 0.25;
-
-  const bietPoints = round2(sums.mcq_biet * pc.mcq.pointsPerQ + sums.tf_biet * tfPointAvg + sums.short_biet * pc.short.pointsPerQ + sums.essay_points_biet);
-  const hieuPoints = round2(sums.mcq_hieu * pc.mcq.pointsPerQ + sums.tf_hieu * tfPointAvg + sums.short_hieu * pc.short.pointsPerQ + sums.essay_points_hieu);
-  const vdPoints = round2(sums.mcq_vandung * pc.mcq.pointsPerQ + sums.tf_vandung * tfPointAvg + sums.short_vandung * pc.short.pointsPerQ + sums.essay_points_vandung);
+    const bietPoints = round2(sums.mcq_biet * 0.25 + sums.tf_biet * 0.25 + sums.short_biet * 0.25 + sums.essay_points_biet);
+  const hieuPoints = round2(sums.mcq_hieu * 0.25 + sums.tf_hieu * 0.25 + sums.short_hieu * 0.25 + sums.essay_points_hieu);
+  const vdPoints = round2(sums.mcq_vandung * 0.25 + sums.tf_vandung * 0.25 + sums.short_vandung * 0.25 + sums.essay_points_vandung);
+  const grandTotal = round2(bietPoints + hieuPoints + vdPoints);
 
   return `
     <table style="width:100%; border-collapse:collapse; table-layout:fixed; font-family:'Times New Roman',serif; margin:8pt 0;">
