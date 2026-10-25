@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -483,13 +483,17 @@
       <!-- ================================================================== -->
       <section class="step-panel" id="stepPanel2">
         <div class="card" style="padding:14px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
             <strong style="font-size:15px; color:var(--primary-dark);">⚖️ Bước 2: Phân bổ Điểm & Số câu (Chuẩn 10,0 điểm)</strong>
             <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('cv7991_70_30')">⚡ Mẫu 70% TN - 30% TL (40:30:30)</button>
-              <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('cv7991_4parts')">⚡ Mẫu Đủ 4 Phần (MCQ+Đ/S+TLN+TL)</button>
-              <button class="btn btn-outline btn-sm" onclick="applyStructurePreset('tn100_thpt')">⚡ Mẫu 100% TN (28 câu)</button>
+              <button id="btnPreset_mau_1" class="btn btn-primary btn-sm" onclick="applyStructurePreset('mau_1_uutien')">⭐ Mẫu 1 (Ưu tiên): 80% TN - 20% TL (4:4:2)</button>
+              <button id="btnPreset_mau_2" class="btn btn-outline btn-sm" onclick="applyStructurePreset('mau_2_bo_433')">📋 Mẫu 2: Theo Bộ (4:3:3)</button>
+              <button id="btnPreset_mau_3" class="btn btn-outline btn-sm" onclick="applyStructurePreset('mau_3_tn100')">💯 Mẫu 3: 100% Trắc nghiệm</button>
+              <button id="btnPreset_mau_4" class="btn btn-outline btn-sm" onclick="applyStructurePreset('mau_4_tuychinh')">⚙️ Mẫu 4: Tùy chỉnh</button>
             </div>
+          </div>
+          <div id="structurePresetDesc" style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:6px 10px; font-size:12px; color:#166534; margin-bottom:10px;">
+            ⭐ <strong>Mẫu 1 (Ưu tiên):</strong> 16 câu TN (12 Biết, 4 Hiểu) = 4,0đ • 4 câu Đúng/Sai (mỗi câu 1 Biết, 1 Hiểu, 2 Vận dụng) = 4,0đ • Tự luận 2 câu (mỗi câu 1,0đ) = 2,0đ • Xóa Phần 3. Tổng: <strong>10,0 điểm</strong> (80% TN : 20% TL).
           </div>
 
           <!-- 3 Ô CON SỐ GIÁ TRỊ -->

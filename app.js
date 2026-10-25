@@ -21,6 +21,7 @@ const state = {
   },
   units: [],
   // Bước 2: Người ra đề toàn quyền tùy chỉnh số câu, số điểm mỗi câu, số điểm mỗi phần, cấp độ tư duy
+  activeStructurePreset: "mau_1_uutien",
   partConfig: {
     mcq: {
       enabled: true,
@@ -33,9 +34,10 @@ const state = {
       title: "PHẦN II. Trắc nghiệm Đúng - Sai (Mỗi câu 4 ý a, b, c, d)",
       scoringMode: "progressive", // 'progressive' (0.1 - 0.25 - 0.5 - 1.0) or 'equal'
       pointsPerQuestion: 1.0, // Điểm tối đa 1 câu lớn (4 ý)
-      numQuestions: 3, // 3 câu lớn = 12 ý hỏi
-      counts: { biet: 3, hieu: 3, vandung: 6 }, // Phân bổ theo số ý hỏi (tổng = numQuestions * 4)
+      numQuestions: 4, // 4 câu lớn = 16 ý hỏi (1 Biết, 1 Hiểu, 2 Vận dụng mỗi câu)
+      counts: { biet: 4, hieu: 4, vandung: 8 }, // 4 câu x 1.0đ = 4.0 điểm
       statementLevels: [
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
         { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
         { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
         { a: "biet", b: "hieu", c: "vandung", d: "vandung" }
@@ -50,10 +52,10 @@ const state = {
     essay: {
       enabled: true,
       title: "PHẦN IV. Tự luận",
-      // Cho phép cấu hình từng câu tự luận với số điểm và cấp độ tư duy riêng
+      // Mẫu 1 ưu tiên: Tự luận 2 câu x 1.0đ = 2.0 điểm
       questions: [
-        { id: "tl1", label: "Câu 1 (Tự luận)", level: "vandung", points: 1.5 },
-        { id: "tl2", label: "Câu 2 (Tự luận)", level: "vandung", points: 1.5 }
+        { id: "tl1", label: "Câu 1 (Tự luận)", level: "vandung", points: 1.0 },
+        { id: "tl2", label: "Câu 2 (Tự luận)", level: "vandung", points: 1.0 }
       ]
     }
   },
@@ -115,9 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (codeEl) codeEl.value = state.meta.examCode;
 
   loadPresetCurriculum("cn10_trongtrot_gk1");
-  ensureTfStatementLevels();
-  renderStep2Config();
-  autoGenerateMatrix();
+  applyStructurePreset("mau_1_uutien");
   renderMatrixTable();
   renderSpecificationTable();
   generateExamFromMatrix(false);
@@ -834,9 +834,22 @@ function renderStep2Config() {
     </tr>
 
     <!-- Dạng thức 3: Trả lời ngắn -->
-    <tr style="${pc.short.enabled ? '' : 'opacity:0.5;'}">
+    ${!pc.short.enabled ? `
+    <tr style="background:#f8fafc; color:#64748b; font-size:12px;">
       <td class="text-center">
-        <input type="checkbox" ${pc.short.enabled ? "checked" : ""} onchange="togglePart('short', this.checked)" style="width:17px;height:17px;" />
+        <input type="checkbox" onchange="togglePart('short', this.checked)" style="width:16px;height:16px;" title="Bật lại Phần III" />
+      </td>
+      <td colspan="5" style="padding:6px 10px;">
+        <span style="color:#dc2626; font-weight:600;">✕ Phần III (Trả lời ngắn): Đã xóa theo cấu trúc đề</span>
+        <button class="btn btn-outline btn-sm" style="margin-left:10px; padding:1px 6px; font-size:11px;" onclick="togglePart('short', true)">+ Bật lại nếu cần</button>
+      </td>
+      <td class="text-center">0 câu</td>
+      <td class="text-center"><strong style="color:#64748b;">0.00 đ</strong></td>
+    </tr>
+    ` : `
+    <tr>
+      <td class="text-center">
+        <input type="checkbox" checked onchange="togglePart('short', this.checked)" style="width:17px;height:17px;" />
       </td>
       <td><strong>III. TN Trả lời ngắn (Điền số / Từ khóa)</strong></td>
       <td class="text-center">
@@ -854,6 +867,7 @@ function renderStep2Config() {
       <td class="text-center"><strong>${calc.short.count} câu</strong></td>
       <td class="text-center"><strong style="font-size:14.5px;color:var(--primary-dark);">${calc.short.totalPoints.toFixed(2)} đ</strong></td>
     </tr>
+    `}
 
     <!-- Dạng thức 4: Tự luận -->
     <tr style="${pc.essay.enabled ? '' : 'opacity:0.5;'}">
@@ -884,6 +898,7 @@ function renderStep2Config() {
       <td class="text-center"><strong style="font-size:14.5px;color:var(--primary-dark);">${calc.essay.totalPoints.toFixed(2)} đ</strong></td>
     </tr>
   `;
+  updatePresetButtonStyles();
 }
 
 function togglePart(partKey, enabled) {
@@ -918,7 +933,7 @@ function ensureTfStatementLevels() {
   if (!Array.isArray(state.partConfig.tf.statementLevels)) {
     state.partConfig.tf.statementLevels = [];
   }
-  const n = state.partConfig.tf.numQuestions || 3;
+  const n = state.partConfig.tf.numQuestions || 4;
   while (state.partConfig.tf.statementLevels.length < n) {
     state.partConfig.tf.statementLevels.push({ a: "biet", b: "hieu", c: "vandung", d: "vandung" });
   }
@@ -987,40 +1002,150 @@ function removeEssayConfigItem(idx) {
   autoGenerateMatrix();
 }
 
-function applyStructurePreset(presetType) {
-  if (presetType === "cv7991_70_30") {
-    // 70% TN (4đ MCQ + 3đ Đúng/Sai) + 30% TL (3đ) | Tỉ lệ 40 : 30 : 30
-    state.partConfig.mcq = { enabled: true, title: state.partConfig.mcq.title, pointsPerQ: 0.25, counts: { biet: 12, hieu: 4, vandung: 0 } };
-    state.partConfig.tf = { enabled: true, title: state.partConfig.tf.title, scoringMode: "progressive", pointsPerQuestion: 1.0, numQuestions: 3, counts: { biet: 4, hieu: 8, vandung: 0 } };
-    state.partConfig.short = { enabled: false, title: state.partConfig.short.title, pointsPerQ: 0.25, counts: { biet: 0, hieu: 0, vandung: 0 } };
-    state.partConfig.essay = {
-      enabled: true,
-      title: state.partConfig.essay.title,
-      questions: [
-        { id: "tl1", label: "Câu 1", level: "vandung", points: 1.5 },
-        { id: "tl2", label: "Câu 2", level: "vandung", points: 1.5 }
-      ]
-    };
-  } else if (presetType === "cv7991_4parts") {
-    // Đầy đủ cả 4 dạng thức: 3đ MCQ (12 câu) + 2đ Đ/S (2 câu) + 2đ Trả lời ngắn (4 câu x 0.5đ) + 3đ Tự luận (2 câu)
-    state.partConfig.mcq = { enabled: true, title: state.partConfig.mcq.title, pointsPerQ: 0.25, counts: { biet: 10, hieu: 2, vandung: 0 } };
-    state.partConfig.tf = { enabled: true, title: state.partConfig.tf.title, scoringMode: "progressive", pointsPerQuestion: 1.0, numQuestions: 2, counts: { biet: 4, hieu: 4, vandung: 0 } };
-    state.partConfig.short = { enabled: true, title: state.partConfig.short.title, pointsPerQ: 0.5, counts: { biet: 1, hieu: 3, vandung: 0 } };
-    state.partConfig.essay = {
-      enabled: true,
-      title: state.partConfig.essay.title,
-      questions: [
-        { id: "tl1", label: "Câu 1", level: "vandung", points: 1.5 },
-        { id: "tl2", label: "Câu 2", level: "vandung", points: 1.5 }
-      ]
-    };
-  } else if (presetType === "tn100_thpt") {
-    // 100% Trắc nghiệm theo định dạng Tốt nghiệp THPT (24 câu MCQ = 6đ + 4 câu Đ/S = 4đ)
-    state.partConfig.mcq = { enabled: true, title: state.partConfig.mcq.title, pointsPerQ: 0.25, counts: { biet: 14, hieu: 6, vandung: 4 } };
-    state.partConfig.tf = { enabled: true, title: state.partConfig.tf.title, scoringMode: "progressive", pointsPerQuestion: 1.0, numQuestions: 4, counts: { biet: 4, hieu: 6, vandung: 6 } };
-    state.partConfig.short = { enabled: false, title: state.partConfig.short.title, pointsPerQ: 0.25, counts: { biet: 0, hieu: 0, vandung: 0 } };
-    state.partConfig.essay = { enabled: false, title: state.partConfig.essay.title, questions: [] };
+function updatePresetButtonStyles() {
+  const active = state.activeStructurePreset || "mau_1_uutien";
+  const btn1 = document.getElementById("btnPreset_mau_1");
+  const btn2 = document.getElementById("btnPreset_mau_2");
+  const btn3 = document.getElementById("btnPreset_mau_3");
+  const btn4 = document.getElementById("btnPreset_mau_4");
+
+  if (btn1) btn1.className = active === "mau_1_uutien" ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm";
+  if (btn2) btn2.className = active === "mau_2_bo_433" ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm";
+  if (btn3) btn3.className = active === "mau_3_tn100" ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm";
+  if (btn4) btn4.className = active === "mau_4_tuychinh" ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm";
+
+  const descEl = document.getElementById("structurePresetDesc");
+  if (descEl) {
+    if (active === "mau_1_uutien") {
+      descEl.innerHTML = `⭐ <strong>Mẫu 1 (Ưu tiên):</strong> 16 câu TN (12 Biết, 4 Hiểu) = 4,0đ • 4 câu Đúng/Sai (mỗi câu 1 Biết, 1 Hiểu, 2 Vận dụng) = 4,0đ • Tự luận 2 câu (mỗi câu 1,0đ) = 2,0đ • Xóa Phần 3. Tổng: <strong>10,0 điểm</strong> (80% TN : 20% TL).`;
+    } else if (active === "mau_2_bo_433") {
+      descEl.innerHTML = `📋 <strong>Mẫu 2 (Theo Bộ 4:3:3):</strong> 16 câu TN = 4,0đ • 3 câu Đúng/Sai = 3,0đ • Tự luận 2 câu (mỗi câu 1,5đ) = 3,0đ • Xóa Phần 3. Tổng: <strong>10,0 điểm</strong> (70% TN : 30% TL).`;
+    } else if (active === "mau_3_tn100") {
+      descEl.innerHTML = `💯 <strong>Mẫu 3 (100% Trắc nghiệm):</strong> 24 câu TN (6,0đ) + 4 câu Đúng/Sai (4,0đ) • Không có Tự luận. Tổng: <strong>10,0 điểm</strong>.`;
+    } else {
+      descEl.innerHTML = `⚙️ <strong>Mẫu 4 (Tùy chỉnh tự do):</strong> Toàn quyền chỉnh sửa số câu, số điểm, bật/tắt phần thi theo yêu cầu riêng của đơn vị.`;
+    }
   }
+}
+
+function applyStructurePreset(presetType) {
+  if (presetType === "mau_1_uutien" || presetType === "cv7991_80_20") {
+    // =========================================================================
+    // MẪU 1 ƯU TIÊN: 16 CÂU TN (12B - 4H) + 4 CÂU Đ/S (MỖI CÂU 1B, 1H, 2VD) + 2 CÂU TL (2.0Đ)
+    // =========================================================================
+    state.partConfig.mcq = {
+      enabled: true,
+      title: "PHẦN I. Trắc nghiệm nhiều phương án lựa chọn",
+      pointsPerQ: 0.25,
+      counts: { biet: 12, hieu: 4, vandung: 0 }
+    };
+    state.partConfig.tf = {
+      enabled: true,
+      title: "PHẦN II. Trắc nghiệm Đúng - Sai (Mỗi câu 4 ý a, b, c, d)",
+      scoringMode: "progressive",
+      pointsPerQuestion: 1.0,
+      numQuestions: 4,
+      counts: { biet: 4, hieu: 4, vandung: 8 },
+      statementLevels: [
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" }
+      ]
+    };
+    state.partConfig.short = {
+      enabled: false,
+      title: "PHẦN III. Trắc nghiệm trả lời ngắn",
+      pointsPerQ: 0.25,
+      counts: { biet: 0, hieu: 0, vandung: 0 }
+    };
+    state.partConfig.essay = {
+      enabled: true,
+      title: "PHẦN IV. Tự luận",
+      questions: [
+        { id: "tl1", label: "Câu 1 (Tự luận)", level: "vandung", points: 1.0 },
+        { id: "tl2", label: "Câu 2 (Tự luận)", level: "vandung", points: 1.0 }
+      ]
+    };
+    state.activeStructurePreset = "mau_1_uutien";
+  } else if (presetType === "mau_2_bo_433" || presetType === "cv7991_70_30") {
+    // =========================================================================
+    // MẪU 2: THEO BỘ (4 : 3 : 3) (16 TN + 3 Đ/S + 2 TL = 10.0Đ)
+    // =========================================================================
+    state.partConfig.mcq = {
+      enabled: true,
+      title: "PHẦN I. Trắc nghiệm nhiều phương án lựa chọn",
+      pointsPerQ: 0.25,
+      counts: { biet: 12, hieu: 4, vandung: 0 }
+    };
+    state.partConfig.tf = {
+      enabled: true,
+      title: "PHẦN II. Trắc nghiệm Đúng - Sai (Mỗi câu 4 ý a, b, c, d)",
+      scoringMode: "progressive",
+      pointsPerQuestion: 1.0,
+      numQuestions: 3,
+      counts: { biet: 3, hieu: 3, vandung: 6 },
+      statementLevels: [
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" }
+      ]
+    };
+    state.partConfig.short = {
+      enabled: false,
+      title: "PHẦN III. Trắc nghiệm trả lời ngắn",
+      pointsPerQ: 0.25,
+      counts: { biet: 0, hieu: 0, vandung: 0 }
+    };
+    state.partConfig.essay = {
+      enabled: true,
+      title: "PHẦN IV. Tự luận",
+      questions: [
+        { id: "tl1", label: "Câu 1 (Tự luận)", level: "vandung", points: 1.5 },
+        { id: "tl2", label: "Câu 2 (Tự luận)", level: "vandung", points: 1.5 }
+      ]
+    };
+    state.activeStructurePreset = "mau_2_bo_433";
+  } else if (presetType === "mau_3_tn100" || presetType === "tn100_thpt") {
+    // =========================================================================
+    // MẪU 3: 100% TRẮC NGHIỆM (24 CÂU MCQ = 6Đ + 4 CÂU Đ/S = 4Đ = 10.0Đ)
+    // =========================================================================
+    state.partConfig.mcq = {
+      enabled: true,
+      title: "PHẦN I. Trắc nghiệm nhiều phương án lựa chọn",
+      pointsPerQ: 0.25,
+      counts: { biet: 12, hieu: 8, vandung: 4 }
+    };
+    state.partConfig.tf = {
+      enabled: true,
+      title: "PHẦN II. Trắc nghiệm Đúng - Sai (Mỗi câu 4 ý a, b, c, d)",
+      scoringMode: "progressive",
+      pointsPerQuestion: 1.0,
+      numQuestions: 4,
+      counts: { biet: 4, hieu: 4, vandung: 8 },
+      statementLevels: [
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" },
+        { a: "biet", b: "hieu", c: "vandung", d: "vandung" }
+      ]
+    };
+    state.partConfig.short = {
+      enabled: false,
+      title: "PHẦN III. Trắc nghiệm trả lời ngắn",
+      pointsPerQ: 0.25,
+      counts: { biet: 0, hieu: 0, vandung: 0 }
+    };
+    state.partConfig.essay = {
+      enabled: false,
+      title: "PHẦN IV. Tự luận",
+      questions: []
+    };
+    state.activeStructurePreset = "mau_3_tn100";
+  } else if (presetType === "mau_4_tuychinh") {
+    state.activeStructurePreset = "mau_4_tuychinh";
+  }
+  updatePresetButtonStyles();
   renderStep2Config();
   ensureTfStatementLevels();
   autoGenerateMatrix();
@@ -1052,51 +1177,49 @@ function distributeIntegerByWeights(totalCount, weights) {
 function autoBalanceMatrixTo10Points(showToast = true) {
   const selectedUnits = state.units.filter(u => u.selected);
   if (selectedUnits.length === 0) {
-    if (showToast) alert("âš ï¸ Vui lÃ²ng chá»n Ã­t nháº¥t 1 bÃ i há»c á»Ÿ BÆ°á»›c 1 trÆ°á»›c khi cÃ¢n báº±ng ma tráº­n!");
+    if (showToast) alert("⚠️ Vui lòng chọn ít nhất 1 bài học ở Bước 1 trước khi cân bằng ma trận!");
     return;
   }
 
-  // 1. Chuáº©n hÃ³a cáº¥u hÃ¬nh PartConfig theo khung chuáº©n má»±c CV 7991 (Tá»•ng Ä‘Ãºng 10.0 Ä‘iá»ƒm, 100%)
   const pc = state.partConfig;
-  pc.mcq.enabled = true;
-  pc.mcq.pointsPerQ = 0.25;
-  pc.mcq.counts = { biet: 12, hieu: 4, vandung: 0 }; // 16 cÃ¢u * 0.25 = 4.0 Ä‘iá»ƒm (40%)
-
-  pc.tf.enabled = true;
-  pc.tf.numQuestions = 3; // 3 cÃ¢u lá»›n
-  pc.tf.pointsPerQuestion = 1.0;
-  pc.tf.counts = { biet: 3, hieu: 3, vandung: 6 }; // 12 Ã½ lá»‡nh há»i * 0.25 = 3.0 Ä‘iá»ƒm (30%)
-
-  pc.short.enabled = false;
-  pc.short.counts = { biet: 0, hieu: 0, vandung: 0 };
-
-  pc.essay.enabled = true;
-  pc.essay.questions = [
-    { id: "tl1", label: "CÃ¢u 1 (Tá»± luáº­n)", level: "vandung", points: 1.5 },
-    { id: "tl2", label: "CÃ¢u 2 (Tá»± luáº­n)", level: "vandung", points: 1.5 }
-  ]; // 2 cÃ¢u tá»± luáº­n = 3.0 Ä‘iá»ƒm (30%)
-  // Tá»”NG Cá»˜NG: 4.0 + 3.0 + 3.0 = ÄÃšNG 10.0 ÄIá»‚M (100%)
-
-  // 2. PhÃ¢n bá»• cÃ¢u há»i nguyÃªn váº¹n theo sá»‘ tiáº¿t thá»±c táº¿ cá»§a tá»«ng bÃ i há»c
   const weights = selectedUnits.map(u => Number(u.periods) || 1);
-  const mcqBietArr = distributeIntegerByWeights(12, weights);
-  const mcqHieuArr = distributeIntegerByWeights(4, weights);
-  const tfBietArr = distributeIntegerByWeights(3, weights);
-  const tfHieuArr = distributeIntegerByWeights(3, weights);
-  const tfVdArr = distributeIntegerByWeights(6, weights);
+
+  // 1. Phân bổ MCQ (0.25đ / câu)
+  const mcqBiet = (pc.mcq.enabled && pc.mcq.counts) ? (Number(pc.mcq.counts.biet) || 0) : 0;
+  const mcqHieu = (pc.mcq.enabled && pc.mcq.counts) ? (Number(pc.mcq.counts.hieu) || 0) : 0;
+  const mcqVd = (pc.mcq.enabled && pc.mcq.counts) ? (Number(pc.mcq.counts.vandung) || 0) : 0;
+  const mcqBietArr = distributeIntegerByWeights(mcqBiet, weights);
+  const mcqHieuArr = distributeIntegerByWeights(mcqHieu, weights);
+  const mcqVdArr = distributeIntegerByWeights(mcqVd, weights);
+
+  // 2. Phân bổ Đúng / Sai (0.25đ / ý hỏi)
+  const tfBiet = (pc.tf.enabled && pc.tf.counts) ? (Number(pc.tf.counts.biet) || 0) : 0;
+  const tfHieu = (pc.tf.enabled && pc.tf.counts) ? (Number(pc.tf.counts.hieu) || 0) : 0;
+  const tfVd = (pc.tf.enabled && pc.tf.counts) ? (Number(pc.tf.counts.vandung) || 0) : 0;
+  const tfBietArr = distributeIntegerByWeights(tfBiet, weights);
+  const tfHieuArr = distributeIntegerByWeights(tfHieu, weights);
+  const tfVdArr = distributeIntegerByWeights(tfVd, weights);
+
+  // 3. Phân bổ Trả lời ngắn (0.25đ / câu nếu có)
+  const shortBiet = (pc.short.enabled && pc.short.counts) ? (Number(pc.short.counts.biet) || 0) : 0;
+  const shortHieu = (pc.short.enabled && pc.short.counts) ? (Number(pc.short.counts.hieu) || 0) : 0;
+  const shortVd = (pc.short.enabled && pc.short.counts) ? (Number(pc.short.counts.vandung) || 0) : 0;
+  const shortBietArr = distributeIntegerByWeights(shortBiet, weights);
+  const shortHieuArr = distributeIntegerByWeights(shortHieu, weights);
+  const shortVdArr = distributeIntegerByWeights(shortVd, weights);
 
   state.matrixRows = {};
   selectedUnits.forEach((u, idx) => {
     state.matrixRows[u.id] = {
       mcq_biet: mcqBietArr[idx],
       mcq_hieu: mcqHieuArr[idx],
-      mcq_vandung: 0,
+      mcq_vandung: mcqVdArr[idx],
       tf_biet: tfBietArr[idx],
       tf_hieu: tfHieuArr[idx],
       tf_vandung: tfVdArr[idx],
-      short_biet: 0,
-      short_hieu: 0,
-      short_vandung: 0,
+      short_biet: shortBietArr[idx],
+      short_hieu: shortHieuArr[idx],
+      short_vandung: shortVdArr[idx],
       essay_biet: 0,
       essay_hieu: 0,
       essay_vandung: 0,
@@ -1106,30 +1229,46 @@ function autoBalanceMatrixTo10Points(showToast = true) {
     };
   });
 
-  // 3. PhÃ¢n bá»• Ä‘Ãºng 2 cÃ¢u tá»± luáº­n (má»—i cÃ¢u 1.5Ä‘) vÃ o cÃ¡c bÃ i há»c trá»ng tÃ¢m cuá»‘i
-  if (selectedUnits.length === 1) {
-    const row = state.matrixRows[selectedUnits[0].id];
-    row.essay_vandung = 2;
-    row.essay_points_vandung = 3.0;
-  } else {
-    const u1 = selectedUnits[selectedUnits.length - 2];
-    const u2 = selectedUnits[selectedUnits.length - 1];
-    state.matrixRows[u1.id].essay_vandung = 1;
-    state.matrixRows[u1.id].essay_points_vandung = 1.5;
-    state.matrixRows[u2.id].essay_vandung = 1;
-    state.matrixRows[u2.id].essay_points_vandung = 1.5;
+  // 4. Phân bổ Tự luận (Điểm chính xác từng câu: 1.0đ hoặc 1.5đ)
+  if (pc.essay.enabled && Array.isArray(pc.essay.questions) && pc.essay.questions.length > 0) {
+    const questions = pc.essay.questions;
+    questions.forEach((q, qIdx) => {
+      const targetUnitIdx = selectedUnits.length === 1 
+        ? 0 
+        : (selectedUnits.length - 1 - (qIdx % selectedUnits.length));
+      const targetUnit = selectedUnits[targetUnitIdx];
+      const row = state.matrixRows[targetUnit.id];
+      const lvl = q.level || "vandung";
+      const pts = Number(q.points) || 1.0;
+      if (lvl === "biet") {
+        row.essay_biet = (row.essay_biet || 0) + 1;
+        row.essay_points_biet = round2((row.essay_points_biet || 0) + pts);
+      } else if (lvl === "hieu") {
+        row.essay_hieu = (row.essay_hieu || 0) + 1;
+        row.essay_points_hieu = round2((row.essay_points_hieu || 0) + pts);
+      } else {
+        row.essay_vandung = (row.essay_vandung || 0) + 1;
+        row.essay_points_vandung = round2((row.essay_points_vandung || 0) + pts);
+      }
+    });
   }
 
-  // 4. Äá»“ng bá»™ & váº½ láº¡i cÃ¡c báº£ng
+  // 5. Đồng bộ & vẽ lại các bảng
   renderMatrixTable();
   if (typeof renderSpecificationTable === "function") renderSpecificationTable();
   if (typeof renderStep2Config === "function") renderStep2Config();
+  if (typeof updateMatrixBalanceStatusBanner === "function") updateMatrixBalanceStatusBanner();
 
   if (showToast) {
-    alert("âœ… ÄÃƒ Tá»° Äá»˜NG CÃ‚N Báº°NG MA TRáº¬N CHUáº¨N XÃC 10.0 ÄIá»‚M (100%)!\n\nâ€¢ Tráº¯c nghiá»‡m (Pháº§n I): 16 cÃ¢u = 4.00Ä‘\nâ€¢ ÄÃºng - Sai (Pháº§n II): 3 cÃ¢u (12 Ã½) = 3.00Ä‘\nâ€¢ Tá»± luáº­n (Pháº§n IV): 2 cÃ¢u = 3.00Ä‘\nâ€¢ Tá»•ng Ä‘iá»ƒm: ÄÃšNG 10.00 / 10.0Ä‘ (Äiá»ƒm tá»«ng dÃ²ng chuáº©n sá»‘ trÃ²n Ä‘áº¹p).");
+    const calc = getPartCalculations();
+    alert(`✅ ĐÃ TỰ ĐỘNG CÂN BẰNG MA TRẬN CHUẨN XÁC ${calc.grandTotalPoints.toFixed(2)} / 10.0 ĐIỂM (100%)!\n\n` +
+          `• Trắc nghiệm Nhiều LC (Phần I): ${calc.mcq.count} câu = ${calc.mcq.totalPoints.toFixed(2)}đ\n` +
+          `• Đúng - Sai (Phần II): ${calc.tf.qCount} câu (${calc.tf.stmtCount} ý) = ${calc.tf.totalPoints.toFixed(2)}đ\n` +
+          (pc.short.enabled ? `• Trả lời ngắn (Phần III): ${calc.short.count} câu = ${calc.short.totalPoints.toFixed(2)}đ\n` : `• Trả lời ngắn (Phần III): Đã xóa (0đ)\n`) +
+          (pc.essay.enabled ? `• Tự luận (Phần IV): ${calc.essay.count} câu = ${calc.essay.totalPoints.toFixed(2)}đ\n` : `• Tự luận (Phần IV): 0đ\n`) +
+          `• Tổng điểm: Đúng 10.00 / 10.0đ.`);
   }
 }
-
 function autoGenerateMatrix() {
   autoBalanceMatrixTo10Points(false);
 }
